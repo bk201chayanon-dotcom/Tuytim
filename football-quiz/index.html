@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ชื่อนี้ใครเตะ</title>
+<meta name="description" content="เกมใบ้ชื่อนักเตะแบบวางโทรศัพท์บนหน้าผาก 3 หมวด บอลโลก พรีเมียร์ลีก และลีกทั่วโลก ตอบให้ได้มากที่สุดใน 100 วินาที">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Noto+Sans+Thai:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ============ ฉากที่ 1 · หน้าปก ============ -->
+  <section class="screen on" id="home">
+
+    <div class="cover">
+      <div class="circle" aria-hidden="true"></div>
+      <div class="glare" aria-hidden="true"></div>
+      <p class="eyebrow">ใบ้ชื่อนักเตะ · วางบนหน้าผาก</p>
+      <h1>ชื่อนี้ใครเตะ</h1>
+      <div class="strip" aria-hidden="true">
+        <span>WORLD CUP</span>
+        <span>PREMIER LEAGUE</span>
+        <span>WORLD LEAGUES</span>
+      </div>
+      <p class="tagline">
+        ชื่อนักเตะโผล่บนจอ คนถือไม่เห็น เพื่อนใบ้เองล้วน ๆ — ทายให้ได้มากที่สุดก่อนหมดเวลา
+      </p>
+    </div>
+
+    <div class="rules">
+      <h2>กติกา</h2>
+      <ol>
+        <li><span>คนตอบ <b>วางโทรศัพท์ไว้บนหน้าผาก</b> หันจอออกให้เพื่อน ๆ เห็น ตัวเองห้ามชะโงกดู</span></li>
+        <li><span>เพื่อนที่เห็นจอ <b>ช่วยกันใบ้เอง</b> จอไม่บอกอะไรนอกจากชื่อ ห้ามพูดชื่อบนจอหรือส่วนหนึ่งของชื่อ</span></li>
+        <li><span>ตอบถูก เพื่อนกด <b>ถูกต้อง</b> · ใบ้ไม่ออกหรือคิดไม่ทัน กด <b>ข้าม</b></span></li>
+        <li><span>เล่นรัวไปเรื่อย ๆ จนหมดเวลา <b>100 วินาที</b> ได้กี่ชื่อคือคะแนน</span></li>
+        <li><span>เปลี่ยนคนทายแล้วเล่นต่อได้เลย <b>ชื่อที่เคยขึ้นจอไปแล้วจะไม่กลับมาอีก</b></span></li>
+      </ol>
+    </div>
+
+    <div class="picker">
+      <h2>เลือกหมวด</h2>
+      <div class="decks" id="deckList"></div>
+
+      <div class="options">
+        <div class="opt">
+          <span class="opt-label" id="lbTime">เวลา</span>
+          <div class="seg" id="segTime" role="group" aria-labelledby="lbTime"></div>
+        </div>
+        <div class="opt">
+          <span class="opt-label" id="lbSound">เสียง</span>
+          <div class="seg" id="segSound" role="group" aria-labelledby="lbSound">
+            <button type="button" data-sound="1">เปิด</button>
+            <button type="button" data-sound="0">ปิด</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="start" id="btnStart" type="button">
+      เริ่มเกม
+      <small id="startSub">100 วินาที</small>
+    </button>
+
+    <p class="best" id="bestLine"></p>
+
+    <p class="progress">
+      <span id="progText"></span>
+      <button class="link" id="btnReset" type="button" hidden>ล้างประวัติหมวดนี้</button>
+    </p>
+
+    <p class="foot">
+      ชื่อนักเตะ <span id="poolCount"></span> ชื่อ จาก 3 หมวด ·
+      ไม่มีคำใบ้บนจอ วัดกันที่ความรู้ของคนใบ้ล้วน ๆ · เล่นได้ทั้งออฟไลน์ ไม่ต้องต่อเน็ต
+    </p>
+  </section>
+
+  <!-- ============ ฉากที่ 2 · เตรียมตัว ============ -->
+  <section class="screen" id="ready">
+    <div class="circle" aria-hidden="true"></div>
+    <p class="ready-say">วางโทรศัพท์บนหน้าผาก หันจอออกหาเพื่อน</p>
+    <div class="count" id="countNum">3</div>
+    <p class="ready-sub">เพื่อน ๆ เตรียมใบ้ได้เลย</p>
+  </section>
+
+  <!-- ============ ฉากที่ 3 · เล่น ============ -->
+  <section class="screen" id="play">
+    <div class="flash" id="flash" aria-hidden="true"></div>
+    <div class="net" id="net" aria-hidden="true"></div>
+
+    <div class="pitch">
+      <div class="mow" aria-hidden="true"></div>
+      <div class="circle" aria-hidden="true"></div>
+      <div class="glare" aria-hidden="true"></div>
+      <div class="gauge" id="gauge"><span id="gaugeFill"></span></div>
+      <div class="tab"><span class="tn" id="tab"></span></div>
+      <div class="clock" id="clock">100</div>
+      <p class="name" id="name" aria-live="polite"></p>
+      <div class="tally">
+        <span class="ok">ถูก <b id="tallyOk">0</b></span>
+        <span class="sk">ข้าม <b id="tallySkip">0</b></span>
+      </div>
+      <p class="rotate">↻ หมุนจอแนวนอน</p>
+    </div>
+
+    <div class="pads">
+      <button class="pad pad-skip" id="btnSkip" type="button">
+        ข้าม
+        <small>← ซ้าย</small>
+      </button>
+      <button class="pad pad-ok" id="btnOk" type="button">
+        ถูกต้อง
+        <small>ขวา →</small>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ ฉากที่ 4 · สรุปผล ============ -->
+  <section class="screen" id="over">
+    <div class="score-card">
+      <div class="circle" aria-hidden="true"></div>
+      <div class="glare" aria-hidden="true"></div>
+      <p class="eyebrow" id="overDeck"></p>
+      <div class="score-num" id="finalScore">0<sub>คะแนน</sub></div>
+      <p class="verdict" id="verdict"></p>
+      <p id="verdictSub"></p>
+    </div>
+
+    <div class="recap" id="recap"></div>
+
+    <div class="again">
+      <button class="start" id="btnAgain" type="button">
+        เล่นอีกครั้ง
+        <small>ชื่อใหม่ทั้งหมด</small>
+      </button>
+      <button class="ghost" id="btnHome" type="button">เปลี่ยนหมวด</button>
+    </div>
+  </section>
+
+</div>
+
+<script src="assets/js/questions.js"></script>
+<script src="assets/js/game.js"></script>
+</body>
+</html>
