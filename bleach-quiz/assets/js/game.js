@@ -16,7 +16,7 @@
 
   /* ---------------- ค่าที่ผู้เล่นตั้งไว้ ---------------- */
 
-  const defaults = { deck: ALL, time: 100, sound: true, best: {} };
+  const defaults = { deck: ALL, time: 100, sound: true, best: {}, seen: [] };
   let cfg = load();
 
   function load() {
@@ -29,6 +29,23 @@
 
   function save() {
     try { localStorage.setItem(STORE, JSON.stringify(cfg)); } catch (e) { /* ไม่เป็นไร */ }
+  }
+
+  /* ---------------- ประวัติคำที่เคยเจอ ----------------
+   * คำที่เคยขึ้นจอแล้ว ไม่ว่าจะตอบถูกหรือกดข้าม จะไม่ถูกสุ่มมาอีก
+   * จนกว่าจะเจอครบทุกคำในหมวดนั้น แล้วจึงเริ่มนับรอบใหม่
+   * เก็บเป็นตัวคำตอบ ไม่ใช่ดัชนี ย้ายลำดับในคลังคำถามได้โดยประวัติไม่เพี้ยน
+   */
+
+  const seen = new Set(Array.isArray(cfg.seen) ? cfg.seen : []);
+
+  function persistSeen() {
+    cfg.seen = Array.from(seen);
+    save();
+  }
+
+  function forget(items) {
+    items.forEach(it => seen.delete(it.a));
   }
 
   /* ---------------- คลังคำถาม ---------------- */
@@ -179,11 +196,28 @@
     $('bestLine').innerHTML = b
       ? `สถิติสูงสุดของหมวดนี้ที่ ${cfg.time} วินาที — <b>${b} คะแนน</b>`
       : 'ยังไม่มีสถิติของหมวดนี้ — ตั้งไว้เลย';
+    paintProgress();
+  }
+
+  function paintProgress() {
+    const all = poolOf(cfg.deck);
+    const left = all.filter(it => !seen.has(it.a)).length;
+    const done = all.length - left;
+    $('progText').innerHTML = done
+      ? `ยังไม่เคยเจอ <b>${left}</b> จาก ${all.length} ข้อ · รอบต่อไปจะได้คำใหม่ทั้งหมด`
+      : `ยังไม่เคยเจอสักข้อในหมวดนี้ — ทั้ง ${all.length} ข้อยังใหม่หมด`;
+    $('btnReset').hidden = !done;
   }
 
   /* ---------------- สถานะระหว่างเล่น ---------------- */
 
-  const state = { pool: [], i: 0, ok: 0, skip: 0, log: [], endAt: 0, raf: 0, lastTick: -1, locked: false };
+  const state = {
+    all: [],        /* คำทั้งหมดของหมวดที่เลือก */
+    pool: [],       /* คิวที่สับแล้วของรอบนี้ */
+    used: new Set(),/* คำที่ขึ้นจอไปแล้วในรอบนี้ */
+    cycled: false,  /* รอบนี้เจอครบหมวดจนต้องเริ่มนับใหม่หรือยัง */
+    i: 0, ok: 0, skip: 0, log: [], endAt: 0, raf: 0, lastTick: -1, locked: false
+  };
 
   function lenClass(text) {
     const n = text.length;
@@ -244,6 +278,8 @@
     const it = state.pool[state.i];
     if (!it) return;
 
+    seen.add(it.a);
+    state.used.add(it.a);
     state.log.push({ a: it.a, hit: correct });
     if (correct) { state.ok++; sfx.ok(); buzz(30); }
     else { state.skip++; sfx.skip(); buzz(15); }
@@ -254,8 +290,14 @@
 
     state.i++;
     if (state.i >= state.pool.length) {
-      /* คำถามหมดก่อนเวลา — สับใหม่แล้วเล่นต่อ ไม่ตัดจบกลางคัน */
-      state.pool = shuffle(poolOf(cfg.deck));
+      /* คำที่ยังไม่เคยเจอหมดกลางรอบ — เริ่มนับรอบใหม่ แต่ยังต้องไม่ซ้ำ
+         กับคำที่เพิ่งขึ้นจอไปในรอบนี้ */
+      forget(state.all);
+      state.used.forEach(word => seen.add(word));
+      state.cycled = true;
+      let next = state.all.filter(x => !state.used.has(x.a));
+      if (!next.length) next = state.all.slice();   /* หมวดเล็กจนเล่นครบในรอบเดียว */
+      state.pool = shuffle(next);
       state.i = 0;
     }
     paintCard();
@@ -285,7 +327,18 @@
   /* ---------------- เริ่มเกม ---------------- */
 
   function begin() {
-    state.pool = shuffle(poolOf(cfg.deck));
+    const all = poolOf(cfg.deck);
+    let fresh = all.filter(it => !seen.has(it.a));
+    state.cycled = false;
+    if (!fresh.length) {
+      /* เจอครบทุกคำในหมวดนี้แล้ว — ล้างประวัติของหมวดนี้แล้วเริ่มนับรอบใหม่ */
+      forget(all);
+      fresh = all.slice();
+      state.cycled = true;
+    }
+    state.all = all;
+    state.pool = shuffle(fresh);
+    state.used = new Set();
     state.i = 0;
     state.ok = 0;
     state.skip = 0;
@@ -334,6 +387,7 @@
     state.locked = true;
     cancelAnimationFrame(state.raf);
     releaseAwake();
+    persistSeen();
     sfx.end();
     buzz([60, 60, 120]);
 
@@ -346,10 +400,13 @@
     $('overDeck').textContent = deckName(cfg.deck) + ' · ' + cfg.time + ' วินาที';
     $('finalScore').innerHTML = score + '<sub>คะแนน</sub>';
     $('verdict').textContent = rank(score, cfg.time);
-    $('verdictSub').textContent = record && score > 0
+    const note = record && score > 0
       ? 'สถิติใหม่ของหมวดนี้ · เดิม ' + prev + ' คะแนน'
       : 'ผ่านไป ' + state.log.length + ' ข้อ · ข้าม ' + state.skip + ' ข้อ' +
         (prev ? ' · สถิติสูงสุด ' + prev : '');
+    $('verdictSub').textContent = state.cycled
+      ? note + ' · เจอครบทุกคำในหมวดนี้แล้ว เริ่มนับรอบใหม่'
+      : note;
 
     const rows = state.log.map(r =>
       `<div class="row ${r.hit ? 'hit' : 'miss'}">
@@ -380,6 +437,12 @@
   $('btnStart').addEventListener('click', begin);
   $('btnAgain').addEventListener('click', begin);
   $('btnHome').addEventListener('click', () => { show('home'); paintBest(); });
+
+  $('btnReset').addEventListener('click', () => {
+    forget(poolOf(cfg.deck));
+    persistSeen();
+    paintProgress();
+  });
   $('btnOk').addEventListener('click', () => answer(true));
   $('btnSkip').addEventListener('click', () => answer(false));
 

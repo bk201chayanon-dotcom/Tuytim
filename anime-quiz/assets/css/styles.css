@@ -354,6 +354,32 @@ h1 {
 
 .best b { color: var(--ink); }
 
+.progress {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: .1rem .6rem;
+  margin: -.6rem 0 0;
+  font-size: var(--step-1);
+  color: var(--ink-3);
+  text-align: center;
+}
+
+.progress b { color: var(--ink); }
+
+.link {
+  padding: 0;
+  font-size: inherit;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+.link:hover { color: var(--op); }
+
 .foot {
   font-size: var(--step-1);
   color: var(--ink-3);

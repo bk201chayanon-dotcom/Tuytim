@@ -16,7 +16,7 @@
 
   /* ---------------- ค่าที่ผู้เล่นตั้งไว้ ---------------- */
 
-  const defaults = { deck: ALL, time: 100, sound: true, best: {} };
+  const defaults = { deck: ALL, time: 100, sound: true, best: {}, seen: [] };
   let cfg = load();
 
   function load() {
@@ -29,6 +29,23 @@
 
   function save() {
     try { localStorage.setItem(STORE, JSON.stringify(cfg)); } catch (e) { /* ไม่เป็นไร */ }
+  }
+
+  /* ---------------- ประวัติชื่อที่เคยเจอ ----------------
+   * ชื่อที่เคยขึ้นจอแล้ว ไม่ว่าจะตอบถูกหรือกดข้าม จะไม่ถูกสุ่มมาอีก
+   * จนกว่าจะเจอครบทุกชื่อในชุดนั้น แล้วจึงเริ่มนับรอบใหม่
+   * เก็บเป็นรายชื่อ ไม่ใช่ดัชนี ย้ายลำดับในคลังคำถามได้โดยประวัติไม่เพี้ยน
+   */
+
+  const seen = new Set(Array.isArray(cfg.seen) ? cfg.seen : []);
+
+  function persistSeen() {
+    cfg.seen = Array.from(seen);
+    save();
+  }
+
+  function forget(items) {
+    items.forEach(it => seen.delete(it.a));
   }
 
   /* ---------------- คลังชื่อ ---------------- */
@@ -183,11 +200,28 @@
     $('bestLine').innerHTML = b
       ? `สถิติสูงสุดของชุดนี้ที่ ${cfg.time} วินาที — <b>${b} คะแนน</b>`
       : 'ยังไม่มีสถิติของชุดนี้ — ตั้งไว้เลย';
+    paintProgress();
+  }
+
+  function paintProgress() {
+    const all = poolOf(cfg.deck);
+    const left = all.filter(it => !seen.has(it.a)).length;
+    const done = all.length - left;
+    $('progText').innerHTML = done
+      ? `ยังไม่เคยเจอ <b>${left}</b> จาก ${all.length} ชื่อ · รอบต่อไปจะได้ชื่อใหม่ทั้งหมด`
+      : `ยังไม่เคยเจอสักชื่อในชุดนี้ — ทั้ง ${all.length} ชื่อยังใหม่หมด`;
+    $('btnReset').hidden = !done;
   }
 
   /* ---------------- สถานะระหว่างเล่น ---------------- */
 
-  const state = { pool: [], i: 0, ok: 0, skip: 0, log: [], endAt: 0, raf: 0, lastTick: -1, locked: false };
+  const state = {
+    all: [],        /* ชื่อทั้งหมดของชุดที่เลือก */
+    pool: [],       /* คิวที่สับแล้วของรอบนี้ */
+    used: new Set(),/* ชื่อที่ขึ้นจอไปแล้วในรอบนี้ */
+    cycled: false,  /* รอบนี้เจอครบชุดจนต้องเริ่มนับใหม่หรือยัง */
+    i: 0, ok: 0, skip: 0, log: [], endAt: 0, raf: 0, lastTick: -1, locked: false
+  };
 
   function lenClass(text) {
     const n = text.length;
@@ -249,6 +283,8 @@
     const it = state.pool[state.i];
     if (!it) return;
 
+    seen.add(it.a);
+    state.used.add(it.a);
     state.log.push({ a: it.a, deck: it.deck, hue: it.hue, hit: correct });
     if (correct) { state.ok++; sfx.ok(); buzz(30); }
     else { state.skip++; sfx.skip(); buzz(15); }
@@ -259,8 +295,14 @@
 
     state.i++;
     if (state.i >= state.pool.length) {
-      /* ชื่อหมดก่อนเวลา — สับใหม่แล้วเล่นต่อ ไม่ตัดจบกลางคัน */
-      state.pool = shuffle(poolOf(cfg.deck));
+      /* ชื่อที่ยังไม่เคยเจอหมดกลางรอบ — เริ่มนับรอบใหม่ แต่ยังต้องไม่ซ้ำ
+         กับชื่อที่เพิ่งขึ้นจอไปในรอบนี้ */
+      forget(state.all);
+      state.used.forEach(name => seen.add(name));
+      state.cycled = true;
+      let next = state.all.filter(x => !state.used.has(x.a));
+      if (!next.length) next = state.all.slice();   /* ชุดเล็กจนเล่นครบในรอบเดียว */
+      state.pool = shuffle(next);
       state.i = 0;
     }
     paintCard();
@@ -289,7 +331,18 @@
   /* ---------------- เริ่มเกม ---------------- */
 
   function begin() {
-    state.pool = shuffle(poolOf(cfg.deck));
+    const all = poolOf(cfg.deck);
+    let fresh = all.filter(it => !seen.has(it.a));
+    state.cycled = false;
+    if (!fresh.length) {
+      /* เจอครบทุกชื่อในชุดนี้แล้ว — ล้างประวัติของชุดนี้แล้วเริ่มนับรอบใหม่ */
+      forget(all);
+      fresh = all.slice();
+      state.cycled = true;
+    }
+    state.all = all;
+    state.pool = shuffle(fresh);
+    state.used = new Set();
     state.i = 0;
     state.ok = 0;
     state.skip = 0;
@@ -338,6 +391,7 @@
     state.locked = true;
     cancelAnimationFrame(state.raf);
     releaseAwake();
+    persistSeen();
     sfx.end();
     buzz([60, 60, 120]);
 
@@ -350,10 +404,13 @@
     $('overDeck').textContent = deckName(cfg.deck) + ' · ' + cfg.time + ' วินาที';
     $('finalScore').innerHTML = score + '<sub>คะแนน</sub>';
     $('verdict').textContent = rank(score, cfg.time);
-    $('verdictSub').textContent = record && score > 0
+    const note = record && score > 0
       ? 'สถิติใหม่ของชุดนี้ · เดิม ' + prev + ' คะแนน'
       : 'ผ่านไป ' + state.log.length + ' ชื่อ · ข้าม ' + state.skip + ' ชื่อ' +
         (prev ? ' · สถิติสูงสุด ' + prev : '');
+    $('verdictSub').textContent = state.cycled
+      ? note + ' · เจอครบทุกชื่อในชุดนี้แล้ว เริ่มนับรอบใหม่'
+      : note;
 
     const rows = state.log.map(r =>
       `<div class="row ${r.hit ? 'hit' : 'miss'}" data-hue="${r.hue}">
@@ -385,6 +442,12 @@
   $('btnStart').addEventListener('click', begin);
   $('btnAgain').addEventListener('click', begin);
   $('btnHome').addEventListener('click', () => { show('home'); paintBest(); });
+
+  $('btnReset').addEventListener('click', () => {
+    forget(poolOf(cfg.deck));
+    persistSeen();
+    paintProgress();
+  });
   $('btnOk').addEventListener('click', () => answer(true));
   $('btnSkip').addEventListener('click', () => answer(false));
 
