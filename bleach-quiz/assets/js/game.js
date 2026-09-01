@@ -16,7 +16,7 @@
 
   /* ---------------- ค่าที่ผู้เล่นตั้งไว้ ---------------- */
 
-  const defaults = { deck: ALL, time: 100, hint: true, sound: true, best: {} };
+  const defaults = { deck: ALL, time: 100, sound: true, best: {} };
   let cfg = load();
 
   function load() {
@@ -33,13 +33,13 @@
 
   /* ---------------- คลังคำถาม ---------------- */
 
-  const ALL_ITEMS = DECKS.flatMap(d => d.items.map(it => ({ a: it[0], h: it[1], deck: d.name })));
+  const ALL_ITEMS = DECKS.flatMap(d => d.items.map(a => ({ a: a, deck: d.name })));
 
   function poolOf(deckId) {
     if (deckId === ALL) return ALL_ITEMS.slice();
     const d = DECK_INDEX[deckId];
     if (!d) return ALL_ITEMS.slice();
-    return d.items.map(it => ({ a: it[0], h: it[1], deck: d.name }));
+    return d.items.map(a => ({ a: a, deck: d.name }));
   }
 
   function deckName(deckId) {
@@ -208,9 +208,6 @@
       w.appendChild(span);
     });
     $('cat').textContent = it.deck;
-    const hint = $('hint');
-    hint.textContent = it.h;
-    hint.classList.toggle('off', !cfg.hint);
     fit();
   }
 
@@ -410,7 +407,6 @@
 
   paintDecks();
   paintTimes();
-  paintToggle('segHint', 'hint', 'hint');
   paintToggle('segSound', 'sound', 'sound');
   paintBest();
   $('poolCount').textContent = ALL_ITEMS.length;

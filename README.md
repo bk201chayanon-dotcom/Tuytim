@@ -94,3 +94,4 @@ Division of Medicine, Faculty of Medicine, Naresuan University
 
 - [`bleach-quiz/`](bleach-quiz/) — **BLEACH เทพมรณะ: เกมทายคำวางบนหน้าผาก**
   เกมแฟนพันธุ์แท้สำหรับเล่นกันเป็นกลุ่ม จับเวลา 100 วินาที คำถาม 165 ข้อ
+  จอโชว์แค่คำตอบ ไม่มีคำใบ้ — คนใบ้ต้องใช้ความรู้ตัวเอง
