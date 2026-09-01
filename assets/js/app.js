@@ -499,15 +499,51 @@
     toast('ล้างความคืบหน้าเรียบร้อย');
   }
 
-  function exportProgress() {
-    const blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
+  /* บางโฮสต์ (เช่นหน้าเว็บที่ถูกฝังในแซนด์บ็อกซ์) ไม่อนุญาตให้หน้าเว็บ
+     สั่งดาวน์โหลดเอง แต่มี API ให้ยื่นไฟล์ผ่านตัวโฮสต์แทน — ลองทางนั้นก่อน
+     แล้วค่อยถอยมาใช้ลิงก์ดาวน์โหลดปกติของเบราว์เซอร์ */
+
+  let downloader;   // undefined = ยังไม่ได้ถาม, null = ไม่มีให้ใช้
+
+  async function hostDownloader() {
+    if (downloader !== undefined) return downloader;
+    downloader = null;
+    if (window.claude && typeof window.claude.use === 'function') {
+      try { downloader = await window.claude.use('downloads'); }
+      catch (e) { downloader = null; }
+    }
+    return downloader;
+  }
+
+  function browserDownload(filename, text) {
+    const url = URL.createObjectURL(new Blob([text], { type: 'application/json' }));
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'anki-cad-progress.json';
+    a.download = filename;
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    toast('ดาวน์โหลดไฟล์ความคืบหน้าแล้ว');
+  }
+
+  async function exportProgress() {
+    const filename = 'anki-cad-progress.json';
+    const text = JSON.stringify(db, null, 2);
+    const host = await hostDownloader();
+
+    if (!host) {
+      browserDownload(filename, text);
+      toast('ดาวน์โหลดไฟล์ความคืบหน้าแล้ว');
+      return;
+    }
+
+    try {
+      await host.save({ filename, data: text });
+      toast('บันทึกไฟล์ความคืบหน้าแล้ว');
+    } catch (err) {
+      const code = err && err.code;
+      if (code === 'declined') return;                       // ผู้ใช้กดยกเลิกเอง
+      if (code === 'rate_limited') toast('มีหน้าต่างบันทึกค้างอยู่ ลองใหม่อีกครั้ง');
+      else toast('บันทึกไฟล์ไม่สำเร็จในหน้านี้');
+    }
   }
 
   function importProgress(file) {
