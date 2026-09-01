@@ -40,7 +40,7 @@
     progress: {},                     // id -> สถานะ SRS
     log: [],                          // [{t, id, grade}]
     newPerDay: 15,
-    theme: 'dark',
+    theme: 'auto',          // auto = ตามระบบ, หรือ 'light' / 'dark' เมื่อผู้ใช้เลือกเอง
     daily: { date: '', newDone: 0 }
   });
 
@@ -163,6 +163,38 @@
 
   /* ---------- หน้าหลัก ---------- */
 
+  /* ---------- เส้นคลื่นหัวใจ (ใช้เป็นทั้งภาพหัวเรื่องและแถบความคืบหน้า) ---------- */
+
+  const BEAT_W = 90;   // ความกว้างของหนึ่งจังหวะการเต้น
+  const TRACE_H = 36;  // ความสูงของ viewBox; เส้นฐานอยู่ที่ y = 20
+
+  /** ต่อจังหวะ PQRST ซ้ำ ๆ ให้ยาวพอกับความกว้างที่ต้องการ */
+  function beats(n) {
+    let d = 'M0,20';
+    for (let i = 0; i < n; i++) {
+      d += 'h20 q5,-6 5,0 h6'   // เส้นฐาน + P wave
+         + 'l3,4 l4,-16 l4,20'  // QRS complex
+         + 'l3,-8 h8'           // กลับสู่เส้นฐาน
+         + 'q7,-7 12,0';        // T wave
+    }
+    return d + 'h20';
+  }
+
+  /**
+   * คืน SVG เส้นคลื่น — pct คือสัดส่วนที่ระบายด้วยสีหลัก (0–1)
+   * ถ้าไม่ส่ง pct มา จะวาดเส้นเต็มพร้อมอนิเมชันไล่จากซ้ายไปขวา
+   */
+  function traceSVG(count, pct) {
+    const d = beats(count);
+    const w = count * BEAT_W + 20;
+    const len = w * 1.25;                       // ประมาณความยาวเส้นให้พอใช้กับ dash
+    const live = pct === undefined
+      ? `<path class="live" d="${d}" style="--len:${len};stroke-dasharray:${len};"/>`
+      : `<path class="live" d="${d}" style="stroke-dasharray:${len};stroke-dashoffset:${len * (1 - pct)};"/>`;
+    return `<svg class="trace" viewBox="0 0 ${w} ${TRACE_H}" preserveAspectRatio="none" aria-hidden="true">
+      <path class="base" d="${d}"/>${live}</svg>`;
+  }
+
   /** จำนวนการ์ดใหม่ที่ยังเหลือให้เรียนได้ในวันนี้ */
   function newBudget() {
     rollDaily();
@@ -194,9 +226,9 @@
             <p>${esc(d.desc)} · ${d.cards.length} การ์ด</p>
           </div>
           <div class="counts">
-            <span class="pill ${n ? 'new' : 'zero'}" title="การ์ดใหม่วันนี้">${n}</span>
-            <span class="pill ${c.learn ? 'learn' : 'zero'}" title="กำลังเรียน">${c.learn}</span>
-            <span class="pill ${c.review ? 'review' : 'zero'}" title="ถึงกำหนดทบทวน">${c.review}</span>
+            <span class="${n ? 'c-new' : 'c-zero'}" title="การ์ดใหม่วันนี้">${n}</span>
+            <span class="${c.learn ? 'c-learn' : 'c-zero'}" title="กำลังเรียน">${c.learn}</span>
+            <span class="${c.review ? 'c-review' : 'c-zero'}" title="ถึงกำหนดทบทวน">${c.review}</span>
           </div>
           <button class="btn" data-study="${d.id}" ${ready ? '' : 'disabled'}>
             ${ready ? 'ทบทวน' : 'เรียบร้อย'}
@@ -243,7 +275,7 @@
     const s = stateOf(card.id);
     const b = s.state === 'new' ? 'new'
             : (s.state === 'review' ? 'review' : 'learn');
-    const label = { new: 'ใหม่', learn: 'กำลังเรียน', review: 'ทบทวน' }[b];
+    const label = { new: 'การ์ดใหม่', learn: 'กำลังเรียน', review: 'ถึงกำหนด' }[b];
 
     const done = session.total - session.queue.length - 1;
     const pct = session.total ? (done / session.total) * 100 : 0;
@@ -251,20 +283,20 @@
     $('#studyView').innerHTML = `
       <div class="study-head">
         <span class="name">${esc(card.deckName)}</span>
-        <span class="pill ${b}">${label}</span>
-        <div class="queue">
-          <span class="pill">${session.queue.length + 1} เหลือ</span>
+        <span class="state s-${b}">${label}</span>
+        <div class="right">
+          <span>เหลือ ${session.queue.length + 1}</span>
           <button class="btn ghost" id="quitBtn">ออก</button>
         </div>
       </div>
-      <div class="progress"><i style="width:${pct}%"></i></div>
+      <div class="progress">${traceSVG(6, pct / 100)}</div>
       <div class="card">
         <div class="front" id="frontEl">${frontHTML(card)}</div>
         <div id="backWrap"></div>
       </div>
       <div class="answer-area" id="answerArea">
         <button class="show-btn" id="showBtn">
-          แสดงคำตอบ<small>กด Space หรือ Enter</small>
+          แสดงคำตอบ<span class="hint">Space หรือ Enter</span>
         </button>
       </div>`;
 
@@ -281,7 +313,7 @@
       $('#frontEl').innerHTML = renderCloze(card.cloze, true);
     } else {
       $('#backWrap').innerHTML = `
-        <div class="divider"></div>
+        <hr class="divider">
         <div class="back">${backHTML(card)}</div>`;
     }
     if (card.note) {
@@ -334,7 +366,7 @@
     session.current = null;
     $('#studyView').innerHTML = `
       <div class="done">
-        <div class="big">🎉</div>
+        ${traceSVG(3)}
         <h2>จบรอบทบทวนแล้ว</h2>
         <p>
           ตอบไป ${session.answered} การ์ดในรอบนี้
@@ -368,14 +400,14 @@
     $('#cardRows').innerHTML = rows.map(c => {
       const s = stateOf(c.id);
       const b = s.state === 'new' ? 'new' : (s.state === 'review' ? 'review' : 'learn');
-      const label = { new: 'ใหม่', learn: 'เรียน', review: 'ทบทวน' }[b];
+      const label = { new: 'NEW', learn: 'LEARN', review: 'REV' }[b];
       const due = s.state === 'new' ? '—'
         : (s.due <= now ? 'ถึงกำหนด' : relTime(s.due - now));
       const front = c.cloze ? renderCloze(c.cloze, true) : c.q;
       const back  = c.cloze ? '' : c.a;
       return `
         <div class="row" data-id="${c.id}">
-          <span class="tag ${b}">${label}</span>
+          <span class="tag t-${b}">${label}</span>
           <div class="q">
             ${front}
             ${back ? `<div class="a">${back}</div>` : ''}
@@ -438,7 +470,7 @@
     const names = ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'];
     $('#forecast').innerHTML = buckets.map((n, i) => {
       const d = new Date(start.getTime() + i * SRS.DAY);
-      return `<div class="bar">
+      return `<div class="bar${i === 0 ? ' today' : ''}">
         <b>${n || ''}</b>
         <i style="height:${(n / max) * 100}%"></i>
         <span>${i === 0 ? 'วันนี้' : names[d.getDay()]}</span>
@@ -459,8 +491,9 @@
 
   function resetProgress() {
     if (!confirm('ล้างความคืบหน้าทั้งหมด? การกระทำนี้ย้อนกลับไม่ได้')) return;
+    const keepTheme = db.theme;
     db = defaults();
-    db.theme = document.documentElement.dataset.theme;
+    db.theme = keepTheme;
     save();
     renderHome(); renderSettings();
     toast('ล้างความคืบหน้าเรียบร้อย');
@@ -497,13 +530,24 @@
 
   /* ---------- ธีมและการนำทาง ---------- */
 
+  const systemDark = () =>
+    window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  /** ธีมมี 3 สถานะ: ตามระบบ (ไม่ประทับ attribute), สว่าง, มืด */
   function applyTheme(t) {
-    document.documentElement.dataset.theme = t;
-    $('#themeBtn').textContent = t === 'dark' ? '☀️' : '🌙';
+    const root = document.documentElement;
+    if (t === 'light' || t === 'dark') root.dataset.theme = t;
+    else delete root.dataset.theme;
+
+    const dark = t === 'dark' || (t === 'auto' && systemDark());
+    const btn = $('#themeBtn');
+    btn.textContent = dark ? '☀' : '☾';
+    btn.title = dark ? 'เปลี่ยนเป็นธีมสว่าง' : 'เปลี่ยนเป็นธีมมืด';
   }
 
   function toggleTheme() {
-    db.theme = db.theme === 'dark' ? 'light' : 'dark';
+    const dark = db.theme === 'dark' || (db.theme === 'auto' && systemDark());
+    db.theme = dark ? 'light' : 'dark';
     applyTheme(db.theme);
     save();
   }
@@ -548,6 +592,8 @@
     applyTheme(db.theme);
     rollDaily();
 
+    $('#heroTrace').innerHTML = traceSVG(9);
+
     $('#deckFilter').innerHTML = '<option value="">ทุกสำรับ</option>' +
       DECKS.map(d => `<option value="${d.id}">${esc(d.name)}</option>`).join('');
 
@@ -571,6 +617,7 @@
       toast('บันทึกแล้ว');
     };
     $('#resetBtn').onclick = resetProgress;
+    $('#importBtn').onclick = () => $('#importInput').click();
     $('#exportBtn').onclick = exportProgress;
     $('#importInput').onchange = e => {
       if (e.target.files[0]) importProgress(e.target.files[0]);
