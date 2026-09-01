@@ -1,0 +1,733 @@
+/* ------------------------------------------------------------------
+ * BLEACH เทพมรณะ — เกมทายคำวางบนหน้าผาก
+ *
+ * ธีมเดียว: กลางคืนของชินิงามิ — พื้นหมึกดำ ตัวอักษรสีกระดูก
+ * และสีส้มเรอิอัตสึของซังเก็ตสึเป็นสีเน้นเพียงสีเดียว
+ * ทุกสีถูกทาไว้ชัดเจน หน้าจึงอ่านได้เหมือนกันไม่ว่าโฮสต์จะสว่างหรือมืด
+ * ------------------------------------------------------------------ */
+
+:root {
+  /* พื้นหมึก — ดำอมน้ำเงินเย็น ไม่ใช่ดำสนิท */
+  --ink:        #0A0A0C;
+  --ink-2:      #131319;
+  --ink-3:      #1D1D25;
+  /* กระดาษกระดูก */
+  --bone:       #F3EFE4;
+  --bone-dim:   #C8C2B4;
+  --ash:        #7C776D;   /* เทาอมอุ่น เอนเข้าหาสีเน้น */
+  /* เรอิอัตสึของซังเก็ตสึ */
+  --rei:        #FF6A1F;
+  --rei-soft:   #FF9A5C;
+  --rei-deep:   #A83A06;
+  /* ฮอลโลว์ — หินเย็นสำหรับปุ่มข้าม */
+  --hollow:     #2A3038;
+  --hollow-2:   #3B434E;
+  /* เลือด — ใช้เฉพาะตอนเวลาใกล้หมด */
+  --blood:      #D0212F;
+
+  --edge:       rgba(243, 239, 228, .16);
+  --edge-soft:  rgba(243, 239, 228, .08);
+
+  --display: 'Kanit', 'IBM Plex Sans Thai', system-ui, sans-serif;
+  --body:    'IBM Plex Sans Thai', 'Kanit', system-ui, sans-serif;
+  --mono:    'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+
+  --step-1: .78rem;
+  --step0:  .95rem;
+  --step1:  1.12rem;
+  --step2:  1.5rem;
+  --step3:  2.1rem;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--body);
+  font-size: var(--step0);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--rei);
+  outline-offset: 3px;
+}
+
+/* ================================================================
+   โครงหน้าจอ — ครั้งละหนึ่งฉาก
+   ================================================================ */
+
+.screen { display: none; }
+.screen.on { display: flex; }
+
+#app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================================================================
+   ฉากที่ 1 — หน้าปก
+   ================================================================ */
+
+#home {
+  flex-direction: column;
+  gap: 2.25rem;
+  width: 100%;
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 3rem) clamp(1.1rem, 4vw, 2rem) 3rem;
+}
+
+.title-card {
+  position: relative;
+  border: 1px solid var(--edge);
+  padding: clamp(1.4rem, 5vw, 2.4rem) clamp(1.2rem, 4vw, 2.2rem);
+  overflow: hidden;
+}
+
+/* รอยฟันเสี้ยวพระจันทร์จาง ๆ หลังหัวเรื่อง */
+.title-card::before {
+  content: '';
+  position: absolute;
+  inset: -40% -10%;
+  background: radial-gradient(circle at 152% 50%,
+              transparent 0 62%,
+              var(--rei-deep) 62.4% 62.95%,
+              transparent 63.25% 100%);
+  opacity: .85;
+  pointer-events: none;
+}
+
+.kanji-mark {
+  position: absolute;
+  top: -.05em;
+  right: .08em;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(5rem, 17vw, 8.5rem);
+  line-height: 1;
+  color: var(--bone);
+  opacity: .038;
+  pointer-events: none;
+  user-select: none;
+}
+
+.eyebrow {
+  position: relative;
+  font-weight: 600;
+  font-size: var(--step-1);
+  letter-spacing: .08em;
+  color: var(--rei);
+}
+
+h1 {
+  position: relative;
+  margin: .35rem 0 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 11vw, 4.4rem);
+  line-height: 1.02;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+
+h1 .en {
+  display: block;
+  font-size: .38em;
+  font-weight: 500;
+  letter-spacing: .42em;
+  color: var(--ash);
+  margin-bottom: .3em;
+}
+
+.tagline {
+  position: relative;
+  margin: .9rem 0 0;
+  max-width: 34ch;
+  color: var(--bone-dim);
+}
+
+/* ---- กติกา ---- */
+
+.rules {
+  border-left: 2px solid var(--rei);
+  padding-left: 1.1rem;
+}
+
+.rules h2,
+.picker h2 {
+  margin: 0 0 .9rem;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--step2);
+  letter-spacing: -.01em;
+}
+
+.rules ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: .7rem;
+  counter-reset: rule;
+}
+
+.rules li {
+  display: grid;
+  grid-template-columns: 1.9rem 1fr;
+  gap: .2rem;
+  align-items: baseline;
+  color: var(--bone-dim);
+  counter-increment: rule;
+}
+
+.rules li::before {
+  content: counter(rule, decimal-leading-zero);
+  font-family: var(--mono);
+  font-size: var(--step-1);
+  color: var(--rei);
+}
+
+.rules b { color: var(--bone); font-weight: 600; }
+
+/* ---- เลือกหมวด ---- */
+
+.picker { display: grid; gap: .9rem; }
+
+.decks {
+  display: grid;
+  gap: .6rem;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+
+.deck {
+  position: relative;
+  display: grid;
+  gap: .12rem;
+  text-align: left;
+  padding: .95rem 1.05rem;
+  background: var(--ink-2);
+  border: 1px solid var(--edge-soft);
+  transition: background .16s, border-color .16s, transform .16s;
+  overflow: hidden;
+}
+
+.deck.wide { grid-column: 1 / -1; }
+
+.deck:hover { background: var(--ink-3); border-color: var(--edge); }
+.deck:active { transform: translateY(1px); }
+
+.deck[aria-pressed="true"] {
+  background: var(--ink-3);
+  border-color: var(--rei);
+}
+
+.deck[aria-pressed="true"]::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--rei);
+}
+
+.deck .dk {
+  position: absolute;
+  right: .45rem;
+  bottom: -.34em;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 2.9rem;
+  line-height: 1;
+  color: var(--bone);
+  opacity: .05;
+  pointer-events: none;
+}
+
+.deck .dn {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--step1);
+}
+
+.deck .db { font-size: var(--step-1); color: var(--ash); }
+
+.deck .dc {
+  font-size: var(--step-1);
+  font-variant-numeric: tabular-nums;
+  color: var(--rei);
+}
+
+/* ---- ตัวเลือกแถวเล็ก ---- */
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.4rem 2rem;
+  padding-top: .3rem;
+}
+
+.opt { display: grid; gap: .45rem; }
+
+.opt-label {
+  font-weight: 600;
+  font-size: var(--step-1);
+  letter-spacing: .06em;
+  color: var(--ash);
+}
+
+.seg { display: flex; border: 1px solid var(--edge); }
+
+.seg button {
+  padding: .42rem .95rem;
+  font-size: var(--step-1);
+  font-variant-numeric: tabular-nums;
+  color: var(--bone-dim);
+  border-right: 1px solid var(--edge);
+  transition: background .14s, color .14s;
+}
+
+.seg button:last-child { border-right: 0; }
+.seg button:hover { background: var(--ink-2); color: var(--bone); }
+
+.seg button[aria-pressed="true"] {
+  background: var(--rei);
+  color: #14100C;
+  font-weight: 600;
+}
+
+/* ---- ปุ่มเริ่ม ---- */
+
+.start {
+  position: relative;
+  padding: 1.15rem 1.5rem;
+  background: var(--rei);
+  color: #14100C;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: var(--step2);
+  letter-spacing: .01em;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 1.15rem) 100%, 0 100%);
+  transition: filter .16s, transform .16s;
+}
+
+.start:hover { filter: brightness(1.1); }
+.start:active { transform: translateY(1px); }
+
+.start small {
+  display: block;
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: var(--step-1);
+  opacity: .72;
+}
+
+.best {
+  font-size: var(--step-1);
+  color: var(--ash);
+  text-align: center;
+}
+
+.best b { color: var(--rei); }
+
+.foot {
+  font-size: var(--step-1);
+  color: var(--ash);
+  border-top: 1px solid var(--edge-soft);
+  padding-top: 1rem;
+}
+
+/* ================================================================
+   ฉากที่ 2 — นับถอยหลังก่อนเริ่ม
+   ================================================================ */
+
+#ready {
+  height: 100dvh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.ready-say {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(1.15rem, 4.5vw, 1.9rem);
+  max-width: 22ch;
+  text-wrap: balance;
+}
+
+.ready-sub { color: var(--ash); max-width: 30ch; }
+
+.count {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(6rem, 30vmin, 15rem);
+  line-height: .9;
+  color: var(--rei);
+  animation: pulse .9s ease-out;
+}
+
+@keyframes pulse {
+  from { transform: scale(.62); opacity: 0; }
+  60%  { opacity: 1; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* ================================================================
+   ฉากที่ 3 — เล่นจริง
+   ================================================================ */
+
+#play {
+  position: relative;
+  height: 100dvh;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* --- แถบเรอิอัตสึ + ตัวเลข --- */
+
+.hud {
+  position: relative;
+  z-index: 3;
+  flex: 0 0 auto;
+  padding: .55rem clamp(.8rem, 3vw, 1.6rem) 0;
+}
+
+.gauge {
+  height: 6px;
+  background: var(--ink-3);
+  overflow: hidden;
+}
+
+.gauge span {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--rei);
+  transform-origin: left center;
+  transition: background .3s;
+}
+
+.gauge.low span { background: var(--blood); }
+
+.hud-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: .35rem;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.clock {
+  font-size: clamp(1.3rem, 4.5vh, 2rem);
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+
+.clock.low { color: var(--blood); }
+
+.tally {
+  display: flex;
+  gap: 1.1rem;
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: var(--step-1);
+}
+
+.tally b { font-family: var(--mono); font-weight: 600; }
+.tally .ok { color: var(--rei); }
+.tally .sk { color: var(--ash); }
+
+/* --- คำที่ต้องทาย --- */
+
+.stage {
+  position: relative;
+  z-index: 2;
+  flex: 1 1 auto;
+  display: grid;
+  place-items: center;
+  padding: clamp(.5rem, 2vh, 1.5rem) clamp(1rem, 5vw, 3rem);
+  text-align: center;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.card {
+  display: grid;
+  gap: clamp(.4rem, 1.6vmin, .8rem);
+  max-width: min(100%, 34ch);
+}
+
+.cat {
+  font-weight: 600;
+  font-size: clamp(.7rem, 2.1vmin, .95rem);
+  letter-spacing: .08em;
+  color: var(--rei);
+}
+
+.word {
+  font-family: var(--display);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -.015em;
+  font-size: clamp(2.1rem, 9vw + 2.5vh, 6.5rem);
+}
+
+/* ชื่อทับศัพท์ยาว ๆ ต้องไม่ถูกตัดกลางคำ จึงห่อทีละคำไว้ */
+.word .tok { display: inline-block; white-space: nowrap; }
+
+.word.len-m { font-size: clamp(1.7rem, 6.6vw + 2vh, 5rem); }
+.word.len-l { font-size: clamp(1.4rem, 4.6vw + 1.6vh, 3.6rem); }
+.word.len-x { font-size: clamp(1.15rem, 3.4vw + 1.4vh, 2.7rem); }
+
+.hint {
+  font-size: clamp(.85rem, 2.4vmin, 1.15rem);
+  line-height: 1.45;
+  color: var(--ash);
+  max-width: 40ch;
+  margin: 0 auto;
+  text-wrap: balance;
+}
+
+.hint.off { display: none; }
+
+/* --- สองปุ่มใหญ่ --- */
+
+.pads {
+  position: relative;
+  z-index: 3;
+  flex: 0 0 auto;
+  display: flex;
+  height: clamp(5.5rem, 26vh, 9rem);
+}
+
+.pad {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: .15rem;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.3rem, 5.5vmin, 2.3rem);
+  transition: filter .12s;
+  touch-action: manipulation;
+}
+
+.pad small {
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: var(--step-1);
+  opacity: .62;
+}
+
+.pad-skip {
+  background: var(--hollow);
+  color: var(--bone-dim);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 2.4rem) 100%, 0 100%);
+  padding-right: 2.4rem;
+}
+
+.pad-ok {
+  background: var(--rei);
+  color: #14100C;
+  margin-left: -2.4rem;
+  clip-path: polygon(2.4rem 0, 100% 0, 100% 100%, 0 100%);
+  padding-left: 2.4rem;
+}
+
+.pad:hover { filter: brightness(1.12); }
+.pad:active { filter: brightness(.9); }
+
+/* --- แฟลชเต็มจอตอนตัดสิน --- */
+
+.flash {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.flash.fire {
+  animation: flash .34s ease-out;
+}
+
+.flash.ok  { background: var(--rei); }
+.flash.sk  { background: var(--hollow-2); }
+
+@keyframes flash {
+  from { opacity: .85; }
+  to   { opacity: 0; }
+}
+
+/* --- เก็ตสึกะ เท็นโช: รอยฟันพระจันทร์เสี้ยวตอนตอบถูก --- */
+
+.slash {
+  position: absolute;
+  inset: -30% -60%;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at 128% 50%,
+              transparent 0 55%,
+              var(--bone) 55.4% 57%,
+              var(--rei-soft) 57.2% 62%,
+              transparent 62.4% 100%);
+}
+
+.slash.fire { animation: slash .42s cubic-bezier(.2, .7, .3, 1); }
+
+@keyframes slash {
+  from { opacity: 0; transform: translateX(34%) scaleX(1.3); }
+  22%  { opacity: 1; }
+  to   { opacity: 0; transform: translateX(-58%) scaleX(.9); }
+}
+
+/* --- ป้ายเตือนให้หมุนจอ --- */
+
+.rotate {
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  bottom: calc(clamp(5.5rem, 26vh, 9rem) + .6rem);
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: var(--step-1);
+  color: var(--ash);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+@media (orientation: landscape) { .rotate { display: none; } }
+
+/* ================================================================
+   ฉากที่ 4 — สรุปผล
+   ================================================================ */
+
+#over {
+  flex-direction: column;
+  gap: 1.6rem;
+  width: 100%;
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 3rem) clamp(1.1rem, 4vw, 2rem) 3rem;
+}
+
+.score-card {
+  position: relative;
+  border: 1px solid var(--edge);
+  padding: clamp(1.3rem, 5vw, 2.2rem);
+  overflow: hidden;
+}
+
+.score-num {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(4.5rem, 22vw, 9rem);
+  line-height: .88;
+  color: var(--rei);
+  font-variant-numeric: tabular-nums;
+}
+
+.score-num sub {
+  font-family: var(--body);
+  font-size: .17em;
+  font-weight: 500;
+  letter-spacing: .04em;
+  color: var(--ash);
+  vertical-align: baseline;
+  margin-left: .6em;
+  bottom: 0;
+}
+
+.verdict {
+  margin: .5rem 0 0;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--step2);
+  text-wrap: balance;
+}
+
+.verdict + p { margin: .3rem 0 0; color: var(--ash); }
+
+.recap { display: grid; gap: 0; border-top: 1px solid var(--edge-soft); }
+
+.recap h2 {
+  margin: 1.4rem 0 .3rem;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--step1);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1.6rem 1fr;
+  gap: .6rem;
+  align-items: baseline;
+  padding: .5rem 0;
+  border-bottom: 1px solid var(--edge-soft);
+}
+
+.row .mk { font-family: var(--mono); font-size: var(--step-1); }
+.row.hit .mk { color: var(--rei); }
+.row.miss .mk { color: var(--ash); }
+.row.miss .tx { color: var(--bone-dim); }
+.row .tx { font-family: var(--display); font-weight: 500; }
+
+.again { display: flex; flex-wrap: wrap; gap: .7rem; }
+
+.again .start { flex: 1 1 14rem; }
+
+.ghost {
+  flex: 0 1 auto;
+  padding: 1.15rem 1.5rem;
+  border: 1px solid var(--edge);
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--step1);
+  color: var(--bone-dim);
+  transition: border-color .16s, color .16s;
+}
+
+.ghost:hover { border-color: var(--rei); color: var(--bone); }
+
+/* ================================================================
+   ลดการเคลื่อนไหวตามค่าระบบ
+   ================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* จอเตี้ยแนวนอน: บีบส่วนหัวให้เหลือที่ให้คำตอบมากที่สุด */
+@media (orientation: landscape) and (max-height: 30rem) {
+  .hud { padding-top: .35rem; }
+  .hud-row { padding-top: .2rem; }
+  .clock { font-size: 1.25rem; }
+  .cat { font-size: .68rem; }
+  .hint { font-size: .82rem; max-width: 46ch; }
+  .pads { height: clamp(3.6rem, 24vh, 5.2rem); }
+}

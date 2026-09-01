@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>เก็ตสึกะ เท็นโช — เกมทายคำ BLEACH</title>
+<meta name="description" content="เกมแฟนพันธุ์แท้ BLEACH เทพมรณะ แบบวางโทรศัพท์บนหน้าผาก ให้เพื่อนใบ้ ตอบให้ได้มากที่สุดใน 100 วินาที">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Kanit:wght@500;600;700;800&display=swap">
+<style>
+/* ------------------------------------------------------------------
+ * BLEACH เทพมรณะ — เกมทายคำวางบนหน้าผาก
+ *
+ * ธีมเดียว: กลางคืนของชินิงามิ — พื้นหมึกดำ ตัวอักษรสีกระดูก
+ * และสีส้มเรอิอัตสึของซังเก็ตสึเป็นสีเน้นเพียงสีเดียว
+ * ทุกสีถูกทาไว้ชัดเจน หน้าจึงอ่านได้เหมือนกันไม่ว่าโฮสต์จะสว่างหรือมืด
+ * ------------------------------------------------------------------ */
+
+:root {
+  /* พื้นหมึก — ดำอมน้ำเงินเย็น ไม่ใช่ดำสนิท */
+  --ink:        #0A0A0C;
+  --ink-2:      #131319;
+  --ink-3:      #1D1D25;
+  /* กระดาษกระดูก */
+  --bone:       #F3EFE4;
+  --bone-dim:   #C8C2B4;
+  --ash:        #7C776D;   /* เทาอมอุ่น เอนเข้าหาสีเน้น */
+  /* เรอิอัตสึของซังเก็ตสึ */
+  --rei:        #FF6A1F;
+  --rei-soft:   #FF9A5C;
+  --rei-deep:   #A83A06;
+  /* ฮอลโลว์ — หินเย็นสำหรับปุ่มข้าม */
+  --hollow:     #2A3038;
+  --hollow-2:   #3B434E;
+  /* เลือด — ใช้เฉพาะตอนเวลาใกล้หมด */
+  --blood:      #D0212F;
+
+  --edge:       rgba(243, 239, 228, .16);
+  --edge-soft:  rgba(243, 239, 228, .08);
+
+  --display: 'Kanit', 'IBM Plex Sans Thai', system-ui, sans-serif;
+  --body:    'IBM Plex Sans Thai', 'Kanit', system-ui, sans-serif;
+  --mono:    'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+
+  --step-1: .78rem;
+  --step0:  .95rem;
+  --step1:  1.12rem;
+  --step2:  1.5rem;
+  --step3:  2.1rem;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--body);
+  font-size: var(--step0);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--rei);
+  outline-offset: 3px;
+}
+
+/* ================================================================
+   โครงหน้าจอ — ครั้งละหนึ่งฉาก
+   ================================================================ */
+
+.screen { display: none; }
+.screen.on { display: flex; }
+
+#app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================================================================
+   ฉากที่ 1 — หน้าปก
+   ================================================================ */
+
+#home {
+  flex-direction: column;
+  gap: 2.25rem;
+  width: 100%;
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 3rem) clamp(1.1rem, 4vw, 2rem) 3rem;
+}
+
+.title-card {
+  position: relative;
+  border: 1px solid var(--edge);
+  padding: clamp(1.4rem, 5vw, 2.4rem) clamp(1.2rem, 4vw, 2.2rem);
+  overflow: hidden;
+}
+
+/* รอยฟันเสี้ยวพระจันทร์จาง ๆ หลังหัวเรื่อง */
+.title-card::before {
+  content: '';
+  position: absolute;
+  inset: -40% -10%;
+  background: radial-gradient(circle at 152% 50%,
+              transparent 0 62%,
+              var(--rei-deep) 62.4% 62.95%,
+              transparent 63.25% 100%);
+  opacity: .85;
+  pointer-events: none;
+}
+
+.kanji-mark {
+  position: absolute;
+  top: -.05em;
+  right: .08em;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(5rem, 17vw, 8.5rem);
+  line-height: 1;
+  color: var(--bone);
+  opacity: .038;
+  pointer-events: none;
+  user-select: none;
+}
+
+.eyebrow {
+  position: relative;
+  font-weight: 600;
+  font-size: var(--step-1);
+  letter-spacing: .08em;
+  color: var(--rei);
+}
+
+h1 {
+  position: relative;
+  margin: .35rem 0 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 11vw, 4.4rem);
+  line-height: 1.02;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+
+h1 .en {
+  display: block;
+  font-size: .38em;
+  font-weight: 500;
+  letter-spacing: .42em;
+  color: var(--ash);
+  margin-bottom: .3em;
+}
+
+.tagline {
+  position: relative;
+  margin: .9rem 0 0;
+  max-width: 34ch;
+  color: var(--bone-dim);
+}
+
+/* ---- กติกา ---- */
+
+.rules {
+  border-left: 2px solid var(--rei);
+  padding-left: 1.1rem;
+}
+
+.rules h2,
+.picker h2 {
+  margin: 0 0 .9rem;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--step2);
+  letter-spacing: -.01em;
+}
+
+.rules ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: .7rem;
+  counter-reset: rule;
+}
+
+.rules li {
+  display: grid;
+  grid-template-columns: 1.9rem 1fr;
+  gap: .2rem;
+  align-items: baseline;
+  color: var(--bone-dim);
+  counter-increment: rule;
+}
+
+.rules li::before {
+  content: counter(rule, decimal-leading-zero);
+  font-family: var(--mono);
+  font-size: var(--step-1);
+  color: var(--rei);
+}
+
+.rules b { color: var(--bone); font-weight: 600; }
+
+/* ---- เลือกหมวด ---- */
+
+.picker { display: grid; gap: .9rem; }
+
+.decks {
+  display: grid;
+  gap: .6rem;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+
+.deck {
+  position: relative;
+  display: grid;
+  gap: .12rem;
+  text-align: left;
+  padding: .95rem 1.05rem;
+  background: var(--ink-2);
+  border: 1px solid var(--edge-soft);
+  transition: background .16s, border-color .16s, transform .16s;
+  overflow: hidden;
+}
+
+.deck.wide { grid-column: 1 / -1; }
+
+.deck:hover { background: var(--ink-3); border-color: var(--edge); }
+.deck:active { transform: translateY(1px); }
+
+.deck[aria-pressed="true"] {
+  background: var(--ink-3);
+  border-color: var(--rei);
+}
+
+.deck[aria-pressed="true"]::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--rei);
+}
+
+.deck .dk {
+  position: absolute;
+  right: .45rem;
+  bottom: -.34em;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 2.9rem;
+  line-height: 1;
+  color: var(--bone);
+  opacity: .05;
+  pointer-events: none;
+}
+
+.deck .dn {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--step1);
+}
+
+.deck .db { font-size: var(--step-1); color: var(--ash); }
+
+.deck .dc {
+  font-size: var(--step-1);
+  font-variant-numeric: tabular-nums;
+  color: var(--rei);
+}
+
+/* ---- ตัวเลือกแถวเล็ก ---- */
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.4rem 2rem;
+  padding-top: .3rem;
+}
+
+.opt { display: grid; gap: .45rem; }
+
+.opt-label {
+  font-weight: 600;
+  font-size: var(--step-1);
+  letter-spacing: .06em;
+  color: var(--ash);
+}
+
+.seg { display: flex; border: 1px solid var(--edge); }
+
+.seg button {
+  padding: .42rem .95rem;
+  font-size: var(--step-1);
+  font-variant-numeric: tabular-nums;
+  color: var(--bone-dim);
+  border-right: 1px solid var(--edge);
+  transition: background .14s, color .14s;
+}
+
+.seg button:last-child { border-right: 0; }
+.seg button:hover { background: var(--ink-2); color: var(--bone); }
+
+.seg button[aria-pressed="true"] {
+  background: var(--rei);
+  color: #14100C;
+  font-weight: 600;
+}
+
+/* ---- ปุ่มเริ่ม ---- */
+
+.start {
+  position: relative;
+  padding: 1.15rem 1.5rem;
+  background: var(--rei);
+  color: #14100C;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: var(--step2);
+  letter-spacing: .01em;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 1.15rem) 100%, 0 100%);
+  transition: filter .16s, transform .16s;
+}
+
+.start:hover { filter: brightness(1.1); }
+.start:active { transform: translateY(1px); }
+
+.start small {
+  display: block;
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: var(--step-1);
+  opacity: .72;
+}
+
+.best {
+  font-size: var(--step-1);
+  color: var(--ash);
+  text-align: center;
+}
+
+.best b { color: var(--rei); }
+
+.foot {
+  font-size: var(--step-1);
+  color: var(--ash);
+  border-top: 1px solid var(--edge-soft);
+  padding-top: 1rem;
+}
+
+/* ================================================================
+   ฉากที่ 2 — นับถอยหลังก่อนเริ่ม
+   ================================================================ */
+
+#ready {
+  height: 100dvh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.ready-say {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(1.15rem, 4.5vw, 1.9rem);
+  max-width: 22ch;
+  text-wrap: balance;
+}
+
+.ready-sub { color: var(--ash); max-width: 30ch; }
+
+.count {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(6rem, 30vmin, 15rem);
+  line-height: .9;
+  color: var(--rei);
+  animation: pulse .9s ease-out;
+}
+
+@keyframes pulse {
+  from { transform: scale(.62); opacity: 0; }
+  60%  { opacity: 1; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* ================================================================
+   ฉากที่ 3 — เล่นจริง
+   ================================================================ */
+
+#play {
+  position: relative;
+  height: 100dvh;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* --- แถบเรอิอัตสึ + ตัวเลข --- */
+
+.hud {
+  position: relative;
+  z-index: 3;
+  flex: 0 0 auto;
+  padding: .55rem clamp(.8rem, 3vw, 1.6rem) 0;
+}
+
+.gauge {
+  height: 6px;
+  background: var(--ink-3);
+  overflow: hidden;
+}
+
+.gauge span {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--rei);
+  transform-origin: left center;
+  transition: background .3s;
+}
+
+.gauge.low span { background: var(--blood); }
+
+.hud-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: .35rem;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.clock {
+  font-size: clamp(1.3rem, 4.5vh, 2rem);
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+
+.clock.low { color: var(--blood); }
+
+.tally {
+  display: flex;
+  gap: 1.1rem;
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: var(--step-1);
+}
+
+.tally b { font-family: var(--mono); font-weight: 600; }
+.tally .ok { color: var(--rei); }
+.tally .sk { color: var(--ash); }
+
+/* --- คำที่ต้องทาย --- */
+
+.stage {
+  position: relative;
+  z-index: 2;
+  flex: 1 1 auto;
+  display: grid;
+  place-items: center;
+  padding: clamp(.5rem, 2vh, 1.5rem) clamp(1rem, 5vw, 3rem);
+  text-align: center;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.card {
+  display: grid;
+  gap: clamp(.4rem, 1.6vmin, .8rem);
+  max-width: min(100%, 34ch);
+}
+
+.cat {
+  font-weight: 600;
+  font-size: clamp(.7rem, 2.1vmin, .95rem);
+  letter-spacing: .08em;
+  color: var(--rei);
+}
+
+.word {
+  font-family: var(--display);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -.015em;
+  font-size: clamp(2.1rem, 9vw + 2.5vh, 6.5rem);
+}
+
+/* ชื่อทับศัพท์ยาว ๆ ต้องไม่ถูกตัดกลางคำ จึงห่อทีละคำไว้ */
+.word .tok { display: inline-block; white-space: nowrap; }
+
+.word.len-m { font-size: clamp(1.7rem, 6.6vw + 2vh, 5rem); }
+.word.len-l { font-size: clamp(1.4rem, 4.6vw + 1.6vh, 3.6rem); }
+.word.len-x { font-size: clamp(1.15rem, 3.4vw + 1.4vh, 2.7rem); }
+
+.hint {
+  font-size: clamp(.85rem, 2.4vmin, 1.15rem);
+  line-height: 1.45;
+  color: var(--ash);
+  max-width: 40ch;
+  margin: 0 auto;
+  text-wrap: balance;
+}
+
+.hint.off { display: none; }
+
+/* --- สองปุ่มใหญ่ --- */
+
+.pads {
+  position: relative;
+  z-index: 3;
+  flex: 0 0 auto;
+  display: flex;
+  height: clamp(5.5rem, 26vh, 9rem);
+}
+
+.pad {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: .15rem;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.3rem, 5.5vmin, 2.3rem);
+  transition: filter .12s;
+  touch-action: manipulation;
+}
+
+.pad small {
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: var(--step-1);
+  opacity: .62;
+}
+
+.pad-skip {
+  background: var(--hollow);
+  color: var(--bone-dim);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 2.4rem) 100%, 0 100%);
+  padding-right: 2.4rem;
+}
+
+.pad-ok {
+  background: var(--rei);
+  color: #14100C;
+  margin-left: -2.4rem;
+  clip-path: polygon(2.4rem 0, 100% 0, 100% 100%, 0 100%);
+  padding-left: 2.4rem;
+}
+
+.pad:hover { filter: brightness(1.12); }
+.pad:active { filter: brightness(.9); }
+
+/* --- แฟลชเต็มจอตอนตัดสิน --- */
+
+.flash {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.flash.fire {
+  animation: flash .34s ease-out;
+}
+
+.flash.ok  { background: var(--rei); }
+.flash.sk  { background: var(--hollow-2); }
+
+@keyframes flash {
+  from { opacity: .85; }
+  to   { opacity: 0; }
+}
+
+/* --- เก็ตสึกะ เท็นโช: รอยฟันพระจันทร์เสี้ยวตอนตอบถูก --- */
+
+.slash {
+  position: absolute;
+  inset: -30% -60%;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at 128% 50%,
+              transparent 0 55%,
+              var(--bone) 55.4% 57%,
+              var(--rei-soft) 57.2% 62%,
+              transparent 62.4% 100%);
+}
+
+.slash.fire { animation: slash .42s cubic-bezier(.2, .7, .3, 1); }
+
+@keyframes slash {
+  from { opacity: 0; transform: translateX(34%) scaleX(1.3); }
+  22%  { opacity: 1; }
+  to   { opacity: 0; transform: translateX(-58%) scaleX(.9); }
+}
+
+/* --- ป้ายเตือนให้หมุนจอ --- */
+
+.rotate {
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  bottom: calc(clamp(5.5rem, 26vh, 9rem) + .6rem);
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: var(--step-1);
+  color: var(--ash);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+@media (orientation: landscape) { .rotate { display: none; } }
+
+/* ================================================================
+   ฉากที่ 4 — สรุปผล
+   ================================================================ */
+
+#over {
+  flex-direction: column;
+  gap: 1.6rem;
+  width: 100%;
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 3rem) clamp(1.1rem, 4vw, 2rem) 3rem;
+}
+
+.score-card {
+  position: relative;
+  border: 1px solid var(--edge);
+  padding: clamp(1.3rem, 5vw, 2.2rem);
+  overflow: hidden;
+}
+
+.score-num {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(4.5rem, 22vw, 9rem);
+  line-height: .88;
+  color: var(--rei);
+  font-variant-numeric: tabular-nums;
+}
+
+.score-num sub {
+  font-family: var(--body);
+  font-size: .17em;
+  font-weight: 500;
+  letter-spacing: .04em;
+  color: var(--ash);
+  vertical-align: baseline;
+  margin-left: .6em;
+  bottom: 0;
+}
+
+.verdict {
+  margin: .5rem 0 0;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--step2);
+  text-wrap: balance;
+}
+
+.verdict + p { margin: .3rem 0 0; color: var(--ash); }
+
+.recap { display: grid; gap: 0; border-top: 1px solid var(--edge-soft); }
+
+.recap h2 {
+  margin: 1.4rem 0 .3rem;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--step1);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1.6rem 1fr;
+  gap: .6rem;
+  align-items: baseline;
+  padding: .5rem 0;
+  border-bottom: 1px solid var(--edge-soft);
+}
+
+.row .mk { font-family: var(--mono); font-size: var(--step-1); }
+.row.hit .mk { color: var(--rei); }
+.row.miss .mk { color: var(--ash); }
+.row.miss .tx { color: var(--bone-dim); }
+.row .tx { font-family: var(--display); font-weight: 500; }
+
+.again { display: flex; flex-wrap: wrap; gap: .7rem; }
+
+.again .start { flex: 1 1 14rem; }
+
+.ghost {
+  flex: 0 1 auto;
+  padding: 1.15rem 1.5rem;
+  border: 1px solid var(--edge);
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--step1);
+  color: var(--bone-dim);
+  transition: border-color .16s, color .16s;
+}
+
+.ghost:hover { border-color: var(--rei); color: var(--bone); }
+
+/* ================================================================
+   ลดการเคลื่อนไหวตามค่าระบบ
+   ================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* จอเตี้ยแนวนอน: บีบส่วนหัวให้เหลือที่ให้คำตอบมากที่สุด */
+@media (orientation: landscape) and (max-height: 30rem) {
+  .hud { padding-top: .35rem; }
+  .hud-row { padding-top: .2rem; }
+  .clock { font-size: 1.25rem; }
+  .cat { font-size: .68rem; }
+  .hint { font-size: .82rem; max-width: 46ch; }
+  .pads { height: clamp(3.6rem, 24vh, 5.2rem); }
+}
+
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ============ ฉากที่ 1 · หน้าปก ============ -->
+  <section class="screen on" id="home">
+
+    <div class="title-card">
+      <span class="kanji-mark" aria-hidden="true">死神</span>
+      <p class="eyebrow">แฟนพันธุ์แท้ · วางบนหน้าผาก</p>
+      <h1><span class="en">BLEACH</span>เทพมรณะ</h1>
+      <p class="tagline">
+        ชื่อโผล่บนจอ คนถือไม่เห็น เพื่อนใบ้ให้ — ตอบให้ได้มากที่สุดก่อนเรอิอัตสึจะหมด
+      </p>
+    </div>
+
+    <div class="rules">
+      <h2>กติกา</h2>
+      <ol>
+        <li><span>คนตอบ <b>วางโทรศัพท์ไว้บนหน้าผาก</b> หันจอออกให้เพื่อน ๆ เห็น ตัวเองห้ามชะโงกดู</span></li>
+        <li><span>เพื่อนที่เห็นจอ <b>ช่วยกันใบ้</b> ห้ามพูดคำที่อยู่บนจอหรือคำแปลตรง ๆ</span></li>
+        <li><span>ตอบถูก เพื่อนกด <b>ถูกต้อง</b> · ใบ้ไม่ออกหรือคิดไม่ทัน กด <b>ข้าม</b></span></li>
+        <li><span>เล่นรัวไปเรื่อย ๆ จนหมดเวลา <b>100 วินาที</b> ได้กี่ข้อคือคะแนน</span></li>
+        <li><span>กดจากคีย์บอร์ดก็ได้ — <b>ลูกศรขวา</b> คือถูก <b>ลูกศรซ้าย</b> คือข้าม</span></li>
+      </ol>
+    </div>
+
+    <div class="picker">
+      <h2>เลือกหมวด</h2>
+      <div class="decks" id="deckList"></div>
+
+      <div class="options">
+        <div class="opt">
+          <span class="opt-label" id="lbTime">เวลา</span>
+          <div class="seg" id="segTime" role="group" aria-labelledby="lbTime"></div>
+        </div>
+        <div class="opt">
+          <span class="opt-label" id="lbHint">คำใบ้ใต้คำตอบ</span>
+          <div class="seg" id="segHint" role="group" aria-labelledby="lbHint">
+            <button type="button" data-hint="1">เปิด</button>
+            <button type="button" data-hint="0">ปิด</button>
+          </div>
+        </div>
+        <div class="opt">
+          <span class="opt-label" id="lbSound">เสียง</span>
+          <div class="seg" id="segSound" role="group" aria-labelledby="lbSound">
+            <button type="button" data-sound="1">เปิด</button>
+            <button type="button" data-sound="0">ปิด</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="start" id="btnStart" type="button">
+      เริ่มเกม
+      <small id="startSub">100 วินาที</small>
+    </button>
+
+    <p class="best" id="bestLine"></p>
+
+    <p class="foot">
+      คำถาม <span id="poolCount"></span> ข้อ ครอบคลุมตั้งแต่อาร์คโซลโซไซตี้จนถึงสงครามเลือดพันปี ·
+      เล่นได้ทั้งออฟไลน์ ไม่ต้องต่อเน็ต
+    </p>
+  </section>
+
+  <!-- ============ ฉากที่ 2 · เตรียมตัว ============ -->
+  <section class="screen" id="ready">
+    <p class="ready-say" id="readySay">วางโทรศัพท์บนหน้าผาก หันจอออกหาเพื่อน</p>
+    <div class="count" id="countNum">3</div>
+    <p class="ready-sub">เพื่อน ๆ เตรียมใบ้ได้เลย</p>
+  </section>
+
+  <!-- ============ ฉากที่ 3 · เล่น ============ -->
+  <section class="screen" id="play">
+    <div class="flash" id="flash" aria-hidden="true"></div>
+    <div class="slash" id="slash" aria-hidden="true"></div>
+
+    <div class="hud">
+      <div class="gauge" id="gauge"><span id="gaugeFill"></span></div>
+      <div class="hud-row">
+        <div class="clock" id="clock">100</div>
+        <div class="tally">
+          <span class="ok">ถูก <b id="tallyOk">0</b></span>
+          <span class="sk">ข้าม <b id="tallySkip">0</b></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="card">
+        <p class="cat" id="cat"></p>
+        <p class="word" id="word" aria-live="polite"></p>
+        <p class="hint" id="hint"></p>
+      </div>
+    </div>
+
+    <p class="rotate">หมุนจอเป็นแนวนอนจะอ่านง่ายกว่า</p>
+
+    <div class="pads">
+      <button class="pad pad-skip" id="btnSkip" type="button">
+        ข้าม
+        <small>← ซ้าย</small>
+      </button>
+      <button class="pad pad-ok" id="btnOk" type="button">
+        ถูกต้อง
+        <small>ขวา →</small>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ ฉากที่ 4 · สรุปผล ============ -->
+  <section class="screen" id="over">
+    <div class="score-card">
+      <span class="kanji-mark" aria-hidden="true">終</span>
+      <p class="eyebrow" id="overDeck"></p>
+      <div class="score-num" id="finalScore">0<sub>คะแนน</sub></div>
+      <p class="verdict" id="verdict"></p>
+      <p id="verdictSub"></p>
+    </div>
+
+    <div class="recap" id="recap"></div>
+
+    <div class="again">
+      <button class="start" id="btnAgain" type="button">
+        เล่นอีกครั้ง
+        <small>หมวดเดิม</small>
+      </button>
+      <button class="ghost" id="btnHome" type="button">เปลี่ยนหมวด</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ------------------------------------------------------------------
+ * questions.js — คลังคำถามเกมแฟนพันธุ์แท้ BLEACH เทพมรณะ
+ *
+ * แต่ละข้อคือ [คำตอบ, คำใบ้สั้น]
+ *   คำตอบ = คำที่โชว์บนจอ (คนถือโทรศัพท์ไม่เห็น เพราะอยู่บนหน้าผาก)
+ *   คำใบ้  = บรรทัดเล็กใต้คำตอบ ไว้ช่วยเพื่อนที่ไม่ได้อ่านครบทุกเล่ม
+ * ------------------------------------------------------------------ */
+
+const DECKS = [
+  {
+    id: 'chars',
+    name: 'ชินิงามิ & พวกพ้อง',
+    kanji: '神',
+    blurb: 'อิจิโกะ รูเกีย โกเทย์ 13 และคนรอบตัว',
+    items: [
+      ['คุโรซากิ อิจิโกะ', 'พระเอก ผมสีส้ม แบกดาบใหญ่กว่าตัว'],
+      ['คุจิกิ รูเกีย', 'ชินิงามิที่แบ่งพลังให้พระเอกในตอนแรก'],
+      ['คุจิกิ เบียคุยะ', 'หัวหน้าหน่วย 6 ผ้าคลุมผมขาว พี่ชายบุญธรรมของรูเกีย'],
+      ['อาบาไร เร็นจิ', 'รองหัวหน้าหน่วย 6 ผมแดงมัดสูง มีรอยสักบนหน้าผาก'],
+      ['อิโนอุเอะ โอริฮิเมะ', 'สาวผมส้ม พลังปฏิเสธเหตุการณ์ กิ๊บดอกไม้หกกลีบ'],
+      ['อิชิดะ อุริว', 'ควินซี่คนสุดท้าย ใส่แว่น เย็บผ้าเก่ง'],
+      ['ยาสึโทระ ซาโด้', 'เพื่อนร่างยักษ์ของอิจิโกะ ทุกคนเรียกว่า "ชาด"'],
+      ['อุราฮาระ คิสุเกะ', 'เจ้าของร้านขายของ หมวกลายทางเขียวขาว ถือไม้เท้า'],
+      ['ชิโฮอิน โยรุอิจิ', 'อดีตหัวหน้าหน่วย 2 แปลงร่างเป็นแมวดำได้'],
+      ['ยามาโมโตะ เก็นริวไซ', 'ปู่หนวดยาว ผู้บัญชาการสูงสุดของโกเทย์ 13'],
+      ['ไอเซ็น โซสุเกะ', 'อดีตหัวหน้าหน่วย 5 ใส่แว่น แล้วหักหลังทุกคน'],
+      ['อิจิมารุ กิน', 'หัวหน้าหน่วย 3 หลับตายิ้มตลอดเวลา ผมเงิน'],
+      ['โทเซ็น คาเนเมะ', 'หัวหน้าหน่วย 9 ตาบอด พูดเรื่องความยุติธรรม'],
+      ['ฮิตสึกายะ โทชิโร่', 'หัวหน้าหน่วยร่างเด็ก ผมขาว ใช้พลังน้ำแข็ง'],
+      ['มัตสึโมโตะ รังกิคุ', 'รองหัวหน้าหน่วย 10 สาวหุ่นดี ชอบหนีงานไปกินเหล้า'],
+      ['ซาราคิ เค็มปาจิ', 'หัวหน้าหน่วย 11 ผมแหลม ผ้าปิดตา บ้าการต่อสู้'],
+      ['คุซาจิชิ ยาจิรุ', 'เด็กหญิงผมชมพูที่นั่งอยู่บนบ่าหัวหน้าหน่วย 11'],
+      ['คุโรสึจิ มายูริ', 'หัวหน้าหน่วย 12 นักวิทยาศาสตร์หน้าขาว บ้าทดลอง'],
+      ['คุโรสึจิ เนมุ', 'รองหัวหน้าหน่วย 12 ที่ถูกสร้างขึ้นมา'],
+      ['อุนโนฮานะ เร็ตสึ', 'หัวหน้าหน่วย 4 สายรักษา แต่จริง ๆ คือเค็นปาจิคนแรก'],
+      ['คมามุระ ซาจิน', 'หัวหน้าหน่วยร่างยักษ์ หน้าเป็นหมาป่า'],
+      ['เคียวรากุ ชุนซุย', 'หัวหน้าหน่วย 8 เสื้อคลุมลายดอก หมวกฟาง เจ้าชู้'],
+      ['อุคิทาเกะ จูชิโร่', 'หัวหน้าหน่วย 13 ผมขาวยาว สุขภาพไม่ดี'],
+      ['โซอิฟง', 'หัวหน้าหน่วย 2 ตัวเล็ก บูชาโยรุอิจิมาก'],
+      ['มาดารามเมะ อิคคาคุ', 'หัวโล้นเงาวับจากหน่วย 11 ชอบร่ายรำโชคดี'],
+      ['อายาเซกาว่า ยูมิจิกะ', 'หนุ่มหน่วย 11 ที่หมกมุ่นกับความสวยงาม ขนตายาว'],
+      ['ฮินาโมริ โมโมะ', 'รองหัวหน้าหน่วย 5 เพื่อนสมัยเด็กของฮิตสึกายะ'],
+      ['คิระ อิซุรุ', 'รองหัวหน้าหน่วย 3 ผมบังตาข้างเดียว หน้าเศร้า'],
+      ['ฮิซากิ ชูเฮย์', 'รองหัวหน้าหน่วย 9 มีรอยสัก 69 บนแก้ม'],
+      ['คุโรซากิ อิซชิน', 'พ่อของพระเอก ชอบกระโดดถีบลูกตอนเช้า'],
+      ['คุโรซากิ มาซากิ', 'แม่ของพระเอก ตายตอนอิจิโกะยังเด็ก'],
+      ['ยูซุ กับ คาริน', 'น้องสาวฝาแฝดของอิจิโกะ'],
+      ['คน', 'วิญญาณดัดแปลงที่สิงอยู่ในตุ๊กตาสิงโต ปากไว'],
+      ['ยามาดะ ฮานาทาโร่', 'หนุ่มขี้กลัวจากหน่วย 4 ที่ช่วยอิจิโกะในเซเรเทย์'],
+      ['คุจิกิ ฮิซานะ', 'พี่สาวแท้ ๆ ของรูเกีย และภรรยาผู้ล่วงลับของเบียคุยะ'],
+      ['ชิบะ ไคเอ็น', 'อดีตรองหัวหน้าหน่วย 13 ที่รูเกียต้องลงมือฆ่าเอง'],
+      ['ชิบะ กันจู', 'หนุ่มปากร้ายที่ขี่หมูป่าเข้าเซเรเทย์'],
+      ['ชิบะ คูคาคุ', 'สาวแขนเดียว ผู้เชี่ยวชาญดอกไม้ไฟ'],
+      ['อาริซาว่า ทัตสึกิ', 'เพื่อนสาวนักคาราเต้ที่ชนะอิจิโกะมาตลอด'],
+      ['อาซาโนะ เคโงะ', 'เพื่อนร่วมห้องจอมกวน เสียงดัง ไร้พลัง'],
+      ['ดอน คาโนจิ', 'นักล่าผีทางทีวี ท่าประจำคือตะโกน "โบสท์!"'],
+      ['ฮิราโกะ ชินจิ', 'หัวหน้ากลุ่มไวเซิร์ด ผมบ๊อบ ฟันยิงเยิ่น'],
+      ['ซารุงากิ ฮิโยริ', 'สาวไวเซิร์ดผมเปีย ชอบถอดรองเท้าตบหน้าคน'],
+      ['อิชิดะ เรียวเค็น', 'พ่อของอุริว เป็นผู้อำนวยการโรงพยาบาล'],
+      ['กินโจ คุโก้', 'ตัวแทนชินิงามิคนแรก หัวหน้าเอ็กซ์คิวชั่น']
+    ]
+  },
+  {
+    id: 'blade',
+    name: 'ซันปักโต & ท่าไม้ตาย',
+    kanji: '刀',
+    blurb: 'ชื่อดาบ บันไค คาถาคิโด ท่าประจำตัว',
+    items: [
+      ['ซังเก็ตสึ', 'ชื่อดาบของอิจิโกะ แปลว่า "พระจันทร์เชือด"'],
+      ['เก็ตสึกะ เท็นโช', 'ท่าฟันคลื่นพลังรูปพระจันทร์เสี้ยวของอิจิโกะ'],
+      ['เท็นซะ ซังเก็ตสึ', 'บันไคของอิจิโกะ ดาบดำเรียวเล็ก ชุดดำรัดรูป'],
+      ['โซเดะ โนะ ชิรายูกิ', 'ดาบรูเกีย ได้ชื่อว่าเป็นดาบที่สวยที่สุดในโซลโซไซตี้'],
+      ['ซัม โนะ ไม ชิราฟุเนะ', 'ท่ารำที่สามของรูเกีย เยือกแข็งทุกอย่างรอบตัว'],
+      ['ฮัคคะ โนะ โทงาเมะ', 'บันไคของรูเกีย ทำให้ทั้งตัวขาวโพลน'],
+      ['เซ็มบงซากุระ', 'ดาบเบียคุยะที่แตกเป็นกลีบซากุระนับพัน'],
+      ['เซ็มบงซากุระ ไคเก็ตสึ', 'บันไคของเบียคุยะ ดาบผุดขึ้นจากพื้นสองแถว'],
+      ['ซาบิมารุ', 'ดาบเร็นจิที่ยืดเป็นปล้อง ๆ เหมือนงู'],
+      ['ฮิฮิโอ ซาบิมารุ', 'บันไคของเร็นจิ งูยักษ์หัวลิงบาบูน'],
+      ['ริวจิน จักกะ', 'ซันปักโตไฟที่แรงที่สุดในโซลโซไซตี้ ของยามาโมโตะ'],
+      ['เฮียวรินมารุ', 'ดาบมังกรน้ำแข็งของฮิตสึกายะ'],
+      ['ไดกุเร็น เฮียวรินมารุ', 'บันไคที่ทำให้ฮิตสึกายะมีปีกน้ำแข็งและดอกไม้น้ำแข็งลอย'],
+      ['ไฮเนโกะ', 'ดาบของรังกิคุ ที่แตกเป็นผงขี้เถ้า'],
+      ['โทบิอุเมะ', 'ดาบของฮินาโมริ มีหนามและยิงลูกไฟ'],
+      ['ชินโซ', 'ดาบของกิน ที่ยืดออกไปแทงระยะไกล'],
+      ['คามิชินิ โนะ ยาริ', 'บันไคของกิน ยาวสิบสามกิโลเมตร'],
+      ['เคียวคะ ซุยเก็ตสึ', 'ดาบสะกดจิตสมบูรณ์ของไอเซ็น เห็นครั้งเดียวก็จบ'],
+      ['เบนิฮิเมะ', 'ดาบของอุราฮาระ ซ่อนอยู่ในไม้เท้า "เจ้าหญิงแดง"'],
+      ['อาชิโซกิ จิโซ', 'ดาบของมายูริ ปล่อยพิษจากใบมีดสามง่าม'],
+      ['โฮซึกิมารุ', 'ดาบสามท่อนของอิคคาคุ ที่แอบซ่อนบันไคไว้'],
+      ['รูริอิโระ คุจาคุ', 'ดาบเถาวัลย์ดูดพลังของยูมิจิกะ "นกยูงคราม"'],
+      ['วาบิสึเกะ', 'ดาบของคิระ ที่ทำให้ของหนักขึ้นสองเท่าทุกครั้งที่โดน'],
+      ['คาเซชินิ', 'ดาบเคียวคู่ต่อโซ่ของฮิซากิ'],
+      ['ซุซุมุชิ', 'ดาบของโทเซ็น ที่ตัดทั้งเสียง ภาพ และกลิ่น'],
+      ['คัตเซ็น เคียวโคทสึ', 'ดาบคู่ของเคียวรากุ ที่ใช้กติกาการละเล่นเป็นอาวุธ'],
+      ['โซเงียว โนะ โคโตวาริ', 'ดาบคู่ต่อเชือกของอุคิทาเกะ สะท้อนพลังคืน'],
+      ['ซุซุเมบาจิ', 'ดาบของโซอิฟง ต่อยจุดเดิมสองครั้งแล้วตาย'],
+      ['มินาสึกิ', 'บันไครูปกระเบนยักษ์ที่ใช้รักษาคนของอุนโนฮานะ'],
+      ['บันไค', 'การปลดปล่อยขั้นสูงสุดของซันปักโต ใช้เวลาฝึกสิบปี'],
+      ['ชิไค', 'การปลดปล่อยขั้นแรก ต้องเรียกชื่อดาบออกมา'],
+      ['คิโด', 'วิชาเวทมนตร์ของชินิงามิ ต้องท่องคาถา'],
+      ['ฮาโด', 'คิโดสายโจมตี เช่น โซคัตสึย'],
+      ['บาคุโดะ', 'คิโดสายพันธนาการและป้องกัน'],
+      ['โซคัตสึย', 'ฮาโดที่ 33 ลำแสงสีฟ้า ท่าที่รูเกียใช้บ่อย'],
+      ['ริกุโจโคโร่', 'บาคุโดที่ 61 แสงหกแฉกตรึงกลางลำตัว'],
+      ['ชุมโป', 'วิชาย่องเร็วของชินิงามิ'],
+      ['ฮาคุดะ', 'วิชาต่อสู้มือเปล่าของชินิงามิ ที่โซอิฟงกับโยรุอิจิถนัด'],
+      ['อาซาอุจิ', 'ดาบเปล่าที่ยังไม่มีชื่อ ก่อนจะกลายเป็นซันปักโตของแต่ละคน'],
+      ['จินเซย์', 'ท่าที่เรียกดาบกลับมาเป็นดาบเปล่าอีกครั้ง (จินเซย์ ซังเก็ตสึ)']
+    ]
+  },
+  {
+    id: 'enemy',
+    name: 'อารันคาร์ & ควินซี่',
+    kanji: '面',
+    blurb: 'เอสปาด้า ชูเทิร์นริทเทอร์ และศัตรูตัวเอ้',
+    items: [
+      ['อุลกิออร่า ซิฟเฟอร์', 'เอสปาด้าอันดับ 4 หน้าซีด รอยน้ำตาสีเขียว'],
+      ['กริมโจว์ แจ็กเกอร์แจ็ค', 'เอสปาด้าอันดับ 6 ผมฟ้า ร่างปลดปล่อยเป็นเสือดาว'],
+      ['โคโยเต้ สตาร์ค', 'เอสปาด้าอันดับ 1 ขี้เกียจ ใช้ปืนคู่ คู่หูชื่อลิลลี่เนตต์'],
+      ['บารากัน หลุยส์เซนบาร์น', 'เอสปาด้าอันดับ 2 ร่างโครงกระดูก ราชาองค์เก่าของฮิวเอโค มุนโด'],
+      ['ทีอา ฮาริเบล', 'เอสปาด้าอันดับ 3 หญิงผิวเข้ม ร่างปลดปล่อยเป็นฉลาม'],
+      ['โนอิโตร่า กิลก้า', 'เอสปาด้าอันดับ 5 ตัวสูงผอม ร่างปลดปล่อยมีหกแขน'],
+      ['ซอมมาริ รูโรซ์', 'เอสปาด้าอันดับ 7 มีตาเต็มหัว ร่างเป็นลิง'],
+      ['ซาเอลอาโปโล กรานซ์', 'เอสปาด้าอันดับ 8 ผมชมพู นักวิทยาศาสตร์คู่ปรับของอุริว'],
+      ['อาโรนีเอโร่ อารูรูเอรี', 'เอสปาด้าอันดับ 9 หัวสองหัวในโหลแก้ว แปลงเป็นไคเอ็น'],
+      ['ยัมมี่ ริยัลโก', 'เอสปาด้าตัวใหญ่ที่สุด ที่จริงคืออันดับ 0'],
+      ['เนลิเอล ตู โอเดอร์ชวังค์', 'อดีตเอสปาด้า 3 ที่หดเป็นเด็กหน้ากากกะโหลก'],
+      ['วันเดอร์ไวซ์ มาร์เจล่า', 'อารันคาร์ตัวเล็กไร้เดียงสา ที่กลืนบันไคของฮิตสึกายะ'],
+      ['เอสปาด้า', 'สิบอารันคาร์ที่แข็งแกร่งที่สุดของไอเซ็น'],
+      ['เรซุเรกซิออน', 'การปลดปล่อยร่างจริงของอารันคาร์'],
+      ['เซโร่', 'ลำแสงพลังที่ฮอลโลว์ยิงออกจากปากหรือมือ'],
+      ['บาลา', 'กระสุนพลัง เร็วกว่าเซโร่ยี่สิบเท่าแต่แรงน้อยกว่า'],
+      ['โซนิโด', 'วิชาเคลื่อนที่ความเร็วสูงของอารันคาร์'],
+      ['ฮิเอร์โร่', 'ผิวหนังเหล็กของอารันคาร์ ที่ดาบธรรมดาฟันไม่เข้า'],
+      ['การ์กันต้า', 'รอยแยกมิติสีดำที่เปิดไปฮิวเอโค มุนโด'],
+      ['เมนอส แกรนด์', 'ฮอลโลว์หลายตัวรวมร่างจนสูงเท่าตึก'],
+      ['เกเรียน', 'เมนอสขั้นแรก ตัวใหญ่แต่ไร้สติปัญญา'],
+      ['อัดจูคัส', 'เมนอสขั้นกลาง ที่ต้องกินพวกเดียวกันเพื่อไม่ให้ถอยกลับ'],
+      ['วาสโตโลรเด', 'เมนอสขั้นสูงสุด ตัวเล็กแต่แรงเกินหัวหน้าหน่วย'],
+      ['ยาห์เว', 'จักรพรรดิควินซี่ ผู้เป็นบิดาของควินซี่ทุกคน'],
+      ['ยูแกรม ฮาชวาลท์', 'มือขวาผมทองของยาห์เว ตัวอักษร B คือสมดุล'],
+      ['แบซซ์-บี', 'ควินซี่ผมโมฮอว์กแดง พลังไฟ เพื่อนเก่าของฮาชวาลท์'],
+      ['แคนดิส แคทนิปป์', 'ควินซี่สาวผมเขียว พลังสายฟ้า'],
+      ['ลิลเล่ บาร์โร่', 'ควินซี่มือปืนตัวอักษร X ยิงทะลุทุกอย่าง'],
+      ['เกเริร์ด วาลคีรี', 'ควินซี่ร่างยักษ์ ตัวอักษร M ยิ่งบาดเจ็บยิ่งแข็งแกร่ง'],
+      ['เพอร์นิด้า พาร์นคฮาส', 'ควินซี่ที่มีรูปร่างเป็นมือซ้ายยักษ์'],
+      ['อัสกิน นาคค์ เลอ วาร์', 'ควินซี่ที่ควบคุมปริมาณถึงตายของทุกสิ่ง'],
+      ['ควิลจ์ โอปี้', 'ควินซี่ผู้กลืนกิน ตัวอักษร J ที่ขังทุกคนไว้ในตัว'],
+      ['วันเดนไรช์', 'อาณาจักรควินซี่ที่ซ่อนตัวมาพันปี'],
+      ['ชูเทิร์นริทเทอร์', 'อัศวินดาวของยาห์เว แต่ละคนมีตัวอักษรประจำตัว'],
+      ['ฟอลชตองดิก', 'ร่างสมบูรณ์ของควินซี่ มีปีกและวงแสง'],
+      ['บลูท', 'เทคนิคควินซี่ที่ไหลพลังเข้าเส้นเลือดเพื่อโจมตีและป้องกัน'],
+      ['อิชิดะ โซเค็น', 'ปู่ของอุริว ควินซี่ที่ชินิงามิไม่ยอมไปช่วย'],
+      ['ทสึกิชิมะ ชูคุโร่', 'ฟูลบริงเกอร์ที่แทรกตัวเองเข้าไปในอดีตของคนอื่น'],
+      ['ริรุกะ โดโคคุ', 'สาวฟูลบริงเกอร์ที่ดูดคนเข้าไปในตุ๊กตา'],
+      ['โลลี่ กับ เมโนลี่', 'สองอารันคาร์สาวที่รังแกโอริฮิเมะในลาส โนเชส']
+    ]
+  },
+  {
+    id: 'world',
+    name: 'ศัพท์ & สถานที่',
+    kanji: '界',
+    blurb: 'โลกของเรื่อง คำเฉพาะ และเกร็ดนอกเรื่อง',
+    items: [
+      ['ชินิงามิ', 'ยมทูตชุดดำ ผู้ส่งวิญญาณและปราบฮอลโลว์'],
+      ['ฮอลโลว์', 'วิญญาณที่กลายเป็นปีศาจ มีรูตรงกลางอก'],
+      ['โซลโซไซตี้', 'โลกหลังความตายที่วิญญาณไปอยู่'],
+      ['เซเรเทย์', 'เมืองกำแพงขาวชั้นในที่ชินิงามิอาศัย'],
+      ['รูคงไก', 'ย่านนอกกำแพง แบ่งเป็น 80 เขต ยิ่งเลขมากยิ่งอันตราย'],
+      ['ฮิวเอโค มุนโด', 'โลกทะเลทรายสีขาว กลางคืนตลอดกาล'],
+      ['ลาส โนเชส', 'ปราสาทสีขาวหลังใหญ่ของไอเซ็น'],
+      ['คาราคุระ', 'เมืองที่อิจิโกะอาศัยอยู่ มีพลังวิญญาณหนาแน่นผิดปกติ'],
+      ['โกเทย์ 13', 'กองกำลังชินิงามิทั้งสิบสามหน่วย'],
+      ['หน่วยศูนย์', 'องครักษ์ราชาวิญญาณ ที่อยู่เหนือหัวหน้าหน่วยทั้งหมด'],
+      ['ราชาวิญญาณ', 'ผู้ค้ำจุนสมดุลของสามโลก ถูกตรึงไว้ไม่มีแขนขา'],
+      ['เซ็นทรัล 46', 'ศาลสูงสุด 46 คน ที่ตัดสินโทษประหารรูเกีย'],
+      ['โซเคียวคุ', 'หอกประหารที่กลายร่างเป็นหงส์เพลิง'],
+      ['โฮเงียวคุ', 'ลูกแก้วที่ลบเส้นแบ่งระหว่างชินิงามิกับฮอลโลว์'],
+      ['เรอิอัตสึ', 'พลังวิญญาณที่แผ่ออกมาจนคนอ่อนแอยืนไม่ไหว'],
+      ['คงโซ', 'พิธีเอาด้ามดาบแตะหน้าผากเพื่อส่งวิญญาณ'],
+      ['เซนไคมง', 'ประตูบานเลื่อนสีขาวที่เปิดไปโซลโซไซตี้'],
+      ['ชิฮาคุโช', 'ชุดกิโมโนสีดำประจำตัวชินิงามิ'],
+      ['ฮาโอริ', 'เสื้อคลุมขาวแขนกุด สัญลักษณ์ของหัวหน้าหน่วย'],
+      ['ไวเซิร์ด', 'ชินิงามิที่ได้พลังฮอลโลว์ กลุ่มของฮิราโกะ ชินจิ'],
+      ['อารันคาร์', 'ฮอลโลว์ที่ถอดหน้ากากแล้วได้พลังชินิงามิ'],
+      ['ควินซี่', 'นักธนูวิญญาณที่ทำลายฮอลโลว์ทิ้งแทนที่จะส่งไป'],
+      ['ฟูลบริง', 'พลังดึงวิญญาณที่อยู่ในสิ่งของออกมาใช้'],
+      ['เอ็กซ์คิวชั่น', 'กลุ่มฟูลบริงเกอร์ที่หลอกใช้อิจิโกะ'],
+      ['เรียวกะ', 'คำที่ชินิงามิใช้เรียกผู้บุกรุกจากโลกมนุษย์'],
+      ['โรงเรียนชินโอ', 'สถาบันฝึกชินิงามิ ที่เร็นจิกับรูเกียเคยเรียน'],
+      ['ร้านอุราฮาระ', 'ร้านขายของชำที่มีห้องฝึกกว้างมหาศาลอยู่ใต้ดิน'],
+      ['เกจิกาบุตุ', 'วิญญาณดัดแปลงต้องห้าม ที่โซลโซไซตี้สั่งทำลายทิ้ง'],
+      ['ฮอลโลว์ฟิเคชั่น', 'อาการที่ชินิงามิถูกพลังฮอลโลว์กลืน'],
+      ['หน้ากากฮอลโลว์', 'สิ่งที่อิจิโกะดึงมาปิดหน้าเพื่อเพิ่มพลังชั่วคราว'],
+      ['มุเก็น', 'คุกใต้ดินชั้นล่างสุดที่ใช้ขังไอเซ็นไว้'],
+      ['คุโบะ ไทเตะ', 'ผู้เขียนการ์ตูนเรื่องนี้'],
+      ['โชเน็นจัมป์', 'นิตยสารรายสัปดาห์ที่ลงตีพิมพ์เรื่องนี้'],
+      ['สงครามเลือดพันปี', 'อาร์คสุดท้ายของเรื่อง ที่ควินซี่บุกโซลโซไซตี้'],
+      ['หน่วย 11', 'หน่วยสายบู๊ที่ห้ามใช้คิโดเด็ดขาด'],
+      ['หน่วย 4', 'หน่วยรักษาพยาบาลและทำความสะอาดของโกเทย์ 13'],
+      ['ฮิเรนเคียคุ', 'วิชาเคลื่อนที่เร็วของควินซี่ เหยียบพลังวิญญาณใต้เท้า'],
+      ['ซันปักโต', 'ดาบวิญญาณที่เป็นเหมือนคู่ชีวิตของชินิงามิแต่ละคน'],
+      ['โลกภายใน', 'เมืองตึกตะแคงข้างในใจอิจิโกะ ที่คุยกับซังเก็ตสึได้'],
+      ['ฮอลโลว์อิจิโกะ', 'ร่างขาวในใจอิจิโกะ ที่เสียงแหลมและอยากยึดร่าง']
+    ]
+  }
+];
+
+const DECK_INDEX = Object.fromEntries(DECKS.map(d => [d.id, d]));
+
+</script>
+<script>
+/* ------------------------------------------------------------------
+ * game.js — วงจรของเกม: เลือกหมวด → นับถอยหลัง → เล่น → สรุปผล
+ *
+ * ทุกอย่างทำงานในเบราว์เซอร์ ไม่มีการเรียกเซิร์ฟเวอร์
+ * ค่าที่ตั้งไว้และคะแนนสูงสุดเก็บใน localStorage แบบกันพังไว้แล้ว
+ * ------------------------------------------------------------------ */
+
+(function () {
+  'use strict';
+
+  const $ = id => document.getElementById(id);
+
+  const TIMES = [60, 100, 150];
+  const ALL = 'all';
+  const STORE = 'bleach-quiz.v1';
+
+  /* ---------------- ค่าที่ผู้เล่นตั้งไว้ ---------------- */
+
+  const defaults = { deck: ALL, time: 100, hint: true, sound: true, best: {} };
+  let cfg = load();
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORE);
+      if (raw) return Object.assign({}, defaults, JSON.parse(raw));
+    } catch (e) { /* โหมดส่วนตัวหรือปิดการเก็บข้อมูล — ใช้ค่าเริ่มต้นไป */ }
+    return Object.assign({}, defaults);
+  }
+
+  function save() {
+    try { localStorage.setItem(STORE, JSON.stringify(cfg)); } catch (e) { /* ไม่เป็นไร */ }
+  }
+
+  /* ---------------- คลังคำถาม ---------------- */
+
+  const ALL_ITEMS = DECKS.flatMap(d => d.items.map(it => ({ a: it[0], h: it[1], deck: d.name })));
+
+  function poolOf(deckId) {
+    if (deckId === ALL) return ALL_ITEMS.slice();
+    const d = DECK_INDEX[deckId];
+    if (!d) return ALL_ITEMS.slice();
+    return d.items.map(it => ({ a: it[0], h: it[1], deck: d.name }));
+  }
+
+  function deckName(deckId) {
+    return deckId === ALL ? 'รวมทุกหมวด' : (DECK_INDEX[deckId] || {}).name || 'รวมทุกหมวด';
+  }
+
+  function shuffle(list) {
+    for (let i = list.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [list[i], list[j]] = [list[j], list[i]];
+    }
+    return list;
+  }
+
+  /* ---------------- เสียง (สังเคราะห์สด ไม่ต้องโหลดไฟล์) ---------------- */
+
+  let actx = null;
+
+  function audio() {
+    if (!cfg.sound) return null;
+    try {
+      if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+      if (actx.state === 'suspended') actx.resume();
+      return actx;
+    } catch (e) { return null; }
+  }
+
+  function tone(freq, dur, type, gain, slideTo) {
+    const ac = audio();
+    if (!ac) return;
+    const t = ac.currentTime;
+    const osc = ac.createOscillator();
+    const amp = ac.createGain();
+    osc.type = type || 'triangle';
+    osc.frequency.setValueAtTime(freq, t);
+    if (slideTo) osc.frequency.exponentialRampToValueAtTime(slideTo, t + dur);
+    amp.gain.setValueAtTime(0.0001, t);
+    amp.gain.exponentialRampToValueAtTime(gain || 0.18, t + 0.012);
+    amp.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    osc.connect(amp).connect(ac.destination);
+    osc.start(t);
+    osc.stop(t + dur + 0.02);
+  }
+
+  const sfx = {
+    ok()    { tone(680, 0.09, 'triangle', 0.2); setTimeout(() => tone(1020, 0.13, 'triangle', 0.18), 70); },
+    skip()  { tone(190, 0.13, 'square', 0.12); },
+    tick()  { tone(1400, 0.035, 'sine', 0.1); },
+    go()    { tone(520, 0.12, 'triangle', 0.16); },
+    start() { tone(880, 0.22, 'triangle', 0.2); },
+    end()   { tone(320, 0.85, 'sawtooth', 0.16, 90); }
+  };
+
+  function buzz(ms) {
+    try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* ไม่รองรับ */ }
+  }
+
+  /* ---------------- ไม่ให้จอดับระหว่างเล่น ---------------- */
+
+  let wake = null;
+
+  async function keepAwake() {
+    try {
+      if ('wakeLock' in navigator) wake = await navigator.wakeLock.request('screen');
+    } catch (e) { /* บางเบราว์เซอร์ไม่ให้ — ปล่อยผ่าน */ }
+  }
+
+  function releaseAwake() {
+    try { if (wake) { wake.release(); wake = null; } } catch (e) { /* ไม่เป็นไร */ }
+  }
+
+  /* ---------------- สลับฉาก ---------------- */
+
+  const screens = ['home', 'ready', 'play', 'over'];
+
+  function show(name) {
+    screens.forEach(s => $(s).classList.toggle('on', s === name));
+    /* สองฉากนี้กินเต็มจอพอดี ห้ามให้เลื่อนหน้าไปมาระหว่างกดปุ่ม */
+    document.body.style.overflow = (name === 'play' || name === 'ready') ? 'hidden' : '';
+    if (name === 'home' || name === 'over') window.scrollTo(0, 0);
+  }
+
+  /* ---------------- หน้าปก ---------------- */
+
+  function paintDecks() {
+    const list = $('deckList');
+    const cards = [{ id: ALL, name: 'รวมทุกหมวด', kanji: '全', blurb: 'สุ่มจากทุกหมวดปนกัน', n: ALL_ITEMS.length }]
+      .concat(DECKS.map(d => ({ id: d.id, name: d.name, kanji: d.kanji, blurb: d.blurb, n: d.items.length })));
+
+    list.innerHTML = cards.map(c => `
+      <button class="deck${c.id === ALL ? ' wide' : ''}" type="button" data-deck="${c.id}" aria-pressed="${c.id === cfg.deck}">
+        <span class="dk" aria-hidden="true">${c.kanji}</span>
+        <span class="dn">${c.name}</span>
+        <span class="db">${c.blurb}</span>
+        <span class="dc">${c.n} ข้อ</span>
+      </button>`).join('');
+
+    list.querySelectorAll('.deck').forEach(b => {
+      b.addEventListener('click', () => {
+        cfg.deck = b.dataset.deck;
+        save();
+        paintDecks();
+        paintBest();
+      });
+    });
+  }
+
+  function paintTimes() {
+    const seg = $('segTime');
+    seg.innerHTML = TIMES.map(t =>
+      `<button type="button" data-time="${t}" aria-pressed="${t === cfg.time}">${t} วิ</button>`).join('');
+    seg.querySelectorAll('button').forEach(b => {
+      b.addEventListener('click', () => {
+        cfg.time = Number(b.dataset.time);
+        save();
+        paintTimes();
+        paintBest();
+        $('startSub').textContent = cfg.time + ' วินาที';
+      });
+    });
+    $('startSub').textContent = cfg.time + ' วินาที';
+  }
+
+  function paintToggle(segId, key, attr) {
+    const seg = $(segId);
+    seg.querySelectorAll('button').forEach(b => {
+      const val = b.dataset[attr] === '1';
+      b.setAttribute('aria-pressed', String(val === cfg[key]));
+      b.onclick = () => { cfg[key] = val; save(); paintToggle(segId, key, attr); };
+    });
+  }
+
+  function bestKey() { return cfg.deck + ':' + cfg.time; }
+
+  function paintBest() {
+    const b = cfg.best[bestKey()];
+    $('bestLine').innerHTML = b
+      ? `สถิติสูงสุดของหมวดนี้ที่ ${cfg.time} วินาที — <b>${b} คะแนน</b>`
+      : 'ยังไม่มีสถิติของหมวดนี้ — ตั้งไว้เลย';
+  }
+
+  /* ---------------- สถานะระหว่างเล่น ---------------- */
+
+  const state = { pool: [], i: 0, ok: 0, skip: 0, log: [], endAt: 0, raf: 0, lastTick: -1, locked: false };
+
+  function lenClass(text) {
+    const n = text.length;
+    if (n <= 9) return '';
+    if (n <= 15) return 'len-m';
+    if (n <= 24) return 'len-l';
+    return 'len-x';
+  }
+
+  function paintCard() {
+    const it = state.pool[state.i];
+    if (!it) { finish(); return; }
+    const w = $('word');
+    w.className = 'word ' + lenClass(it.a);
+    /* ห่อทีละคำ เพื่อไม่ให้เบราว์เซอร์ตัดชื่อทับศัพท์กลางคำ */
+    w.textContent = '';
+    it.a.split(' ').forEach((tok, i) => {
+      if (i) w.appendChild(document.createTextNode(' '));
+      const span = document.createElement('span');
+      span.className = 'tok';
+      span.textContent = tok;
+      w.appendChild(span);
+    });
+    $('cat').textContent = it.deck;
+    const hint = $('hint');
+    hint.textContent = it.h;
+    hint.classList.toggle('off', !cfg.hint);
+    fit();
+  }
+
+  /* คำบางคำยาวกว่าที่จอเตี้ย ๆ จะรับไหว — ย่อลงจนพอดีก่อนโชว์ */
+  function fit() {
+    const stage = document.querySelector('.stage');
+    const card = document.querySelector('.card');
+    const w = $('word');
+    w.style.fontSize = '';
+    const pad = parseFloat(getComputedStyle(stage).paddingTop) +
+                parseFloat(getComputedStyle(stage).paddingBottom);
+    const room = stage.clientHeight - pad;
+    if (room <= 0) return;
+    for (let i = 0; i < 24 && card.getBoundingClientRect().height > room; i++) {
+      w.style.fontSize = (parseFloat(getComputedStyle(w).fontSize) * 0.92) + 'px';
+    }
+  }
+
+  function flash(kind) {
+    const f = $('flash');
+    f.className = 'flash ' + kind;
+    void f.offsetWidth;              /* บังคับให้เบราว์เซอร์เริ่มอนิเมชันใหม่ */
+    f.classList.add('fire');
+    if (kind === 'ok') {
+      const s = $('slash');
+      s.classList.remove('fire');
+      void s.offsetWidth;
+      s.classList.add('fire');
+    }
+  }
+
+  function answer(correct) {
+    if (state.locked) return;
+    const it = state.pool[state.i];
+    if (!it) return;
+
+    state.log.push({ a: it.a, hit: correct });
+    if (correct) { state.ok++; sfx.ok(); buzz(30); }
+    else { state.skip++; sfx.skip(); buzz(15); }
+
+    $('tallyOk').textContent = state.ok;
+    $('tallySkip').textContent = state.skip;
+    flash(correct ? 'ok' : 'sk');
+
+    state.i++;
+    if (state.i >= state.pool.length) {
+      /* คำถามหมดก่อนเวลา — สับใหม่แล้วเล่นต่อ ไม่ตัดจบกลางคัน */
+      state.pool = shuffle(poolOf(cfg.deck));
+      state.i = 0;
+    }
+    paintCard();
+  }
+
+  /* ---------------- นาฬิกา ---------------- */
+
+  function loop() {
+    const left = Math.max(0, state.endAt - Date.now());
+    const secs = Math.ceil(left / 1000);
+    const frac = left / (cfg.time * 1000);
+
+    $('gaugeFill').style.transform = 'scaleX(' + frac + ')';
+    if (secs !== state.lastTick) {
+      state.lastTick = secs;
+      $('clock').textContent = secs;
+      const low = secs <= 10;
+      $('clock').classList.toggle('low', low);
+      $('gauge').classList.toggle('low', low);
+      if (low && secs > 0) sfx.tick();
+    }
+
+    if (left <= 0) { finish(); return; }
+    state.raf = requestAnimationFrame(loop);
+  }
+
+  /* ---------------- เริ่มเกม ---------------- */
+
+  function begin() {
+    state.pool = shuffle(poolOf(cfg.deck));
+    state.i = 0;
+    state.ok = 0;
+    state.skip = 0;
+    state.log = [];
+    state.lastTick = -1;
+    state.locked = false;
+
+    $('tallyOk').textContent = '0';
+    $('tallySkip').textContent = '0';
+    $('clock').textContent = cfg.time;
+    $('clock').classList.remove('low');
+    $('gauge').classList.remove('low');
+    $('gaugeFill').style.transform = 'scaleX(1)';
+
+    show('ready');
+    keepAwake();
+
+    let n = 3;
+    $('countNum').textContent = n;
+    sfx.go();
+
+    const beat = setInterval(() => {
+      n--;
+      if (n > 0) {
+        const el = $('countNum');
+        el.textContent = n;
+        el.style.animation = 'none';
+        void el.offsetWidth;
+        el.style.animation = '';
+        sfx.go();
+        return;
+      }
+      clearInterval(beat);
+      sfx.start();
+      paintCard();
+      show('play');
+      state.endAt = Date.now() + cfg.time * 1000;
+      state.raf = requestAnimationFrame(loop);
+    }, 1000);
+  }
+
+  /* ---------------- จบเกม ---------------- */
+
+  function finish() {
+    if (state.locked) return;
+    state.locked = true;
+    cancelAnimationFrame(state.raf);
+    releaseAwake();
+    sfx.end();
+    buzz([60, 60, 120]);
+
+    const score = state.ok;
+    const key = bestKey();
+    const prev = cfg.best[key] || 0;
+    const record = score > prev;
+    if (record) { cfg.best[key] = score; save(); }
+
+    $('overDeck').textContent = deckName(cfg.deck) + ' · ' + cfg.time + ' วินาที';
+    $('finalScore').innerHTML = score + '<sub>คะแนน</sub>';
+    $('verdict').textContent = rank(score, cfg.time);
+    $('verdictSub').textContent = record && score > 0
+      ? 'สถิติใหม่ของหมวดนี้ · เดิม ' + prev + ' คะแนน'
+      : 'ผ่านไป ' + state.log.length + ' ข้อ · ข้าม ' + state.skip + ' ข้อ' +
+        (prev ? ' · สถิติสูงสุด ' + prev : '');
+
+    const rows = state.log.map(r =>
+      `<div class="row ${r.hit ? 'hit' : 'miss'}">
+         <span class="mk">${r.hit ? '✓' : '—'}</span>
+         <span class="tx">${r.a}</span>
+       </div>`).join('');
+
+    $('recap').innerHTML = state.log.length
+      ? '<h2>ข้อที่ผ่านไป</h2>' + rows
+      : '<h2>ยังไม่ได้ตอบสักข้อ</h2>';
+
+    show('over');
+  }
+
+  function rank(score, time) {
+    const rate = score / (time / 60);          /* คะแนนต่อหนึ่งนาที */
+    if (score === 0) return 'รอบนี้เรอิอัตสึหมดก่อน';
+    if (rate < 4)  return 'ยังอยู่ชั้นรูคงไก';
+    if (rate < 8)  return 'สอบผ่านโรงเรียนชินโอแล้ว';
+    if (rate < 12) return 'ระดับรองหัวหน้าหน่วย';
+    if (rate < 17) return 'ปลดบันไคได้แล้ว';
+    if (rate < 22) return 'ระดับหัวหน้าหน่วยเต็มตัว';
+    return 'นี่มันหน่วยศูนย์ชัด ๆ';
+  }
+
+  /* ---------------- ปุ่มและคีย์ลัด ---------------- */
+
+  $('btnStart').addEventListener('click', begin);
+  $('btnAgain').addEventListener('click', begin);
+  $('btnHome').addEventListener('click', () => { show('home'); paintBest(); });
+  $('btnOk').addEventListener('click', () => answer(true));
+  $('btnSkip').addEventListener('click', () => answer(false));
+
+  document.addEventListener('keydown', e => {
+    if ($('play').classList.contains('on')) {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') { e.preventDefault(); answer(true); }
+      else if (e.key === 'ArrowLeft' || e.key === 'Backspace') { e.preventDefault(); answer(false); }
+      else if (e.key === 'Escape') { finish(); }
+    } else if ($('home').classList.contains('on') || $('over').classList.contains('on')) {
+      if (e.key === 'Enter') { e.preventDefault(); begin(); }
+    }
+  });
+
+  /* หมุนจอหรือย่อหน้าต่างระหว่างเล่น ให้คำนวณขนาดตัวอักษรใหม่ */
+  window.addEventListener('resize', () => {
+    if ($('play').classList.contains('on')) fit();
+  });
+
+  /* คืนจอไม่ให้ดับ เมื่อผู้เล่นสลับกลับมาที่แท็บนี้ */
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && $('play').classList.contains('on')) keepAwake();
+  });
+
+  /* ---------------- เปิดหน้าครั้งแรก ---------------- */
+
+  paintDecks();
+  paintTimes();
+  paintToggle('segHint', 'hint', 'hint');
+  paintToggle('segSound', 'sound', 'sound');
+  paintBest();
+  $('poolCount').textContent = ALL_ITEMS.length;
+})();
+
+</script>
+</body>
+</html>
