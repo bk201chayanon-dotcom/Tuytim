@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anki CAD — ทบทวน Coronary Artery Disease</title>
+<meta name="description" content="เว็บไซต์แฟลชการ์ดแบบ Anki สำหรับทบทวนเนื้อหา Coronary Artery Disease ด้วยระบบ spaced repetition">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🫀</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <button class="brand" id="brand">
+    <span class="logo">🫀</span>
+    <span>Anki CAD<small>Coronary artery disease · ทบทวนด้วย spaced repetition</small></span>
+  </button>
+  <nav class="nav">
+    <button data-go="home" class="on">หน้าหลัก</button>
+    <button data-go="browse">การ์ดทั้งหมด</button>
+    <button data-go="stats">สถิติ</button>
+    <button data-go="settings">ตั้งค่า</button>
+  </nav>
+  <button class="icon-btn" id="themeBtn" title="สลับธีมสว่าง/มืด">☀️</button>
+</header>
+
+<main>
+
+  <!-- ============ หน้าหลัก ============ -->
+  <section class="view on" id="homeView">
+    <h1>สำรับการ์ด</h1>
+    <p class="subtitle">
+      เลือกสำรับเพื่อเริ่มทบทวน ระบบจะจัดตารางให้เองตามอัลกอริทึม SM-2
+      แบบเดียวกับ Anki — การ์ดที่ตอบยากจะกลับมาถี่ขึ้น การ์ดที่จำได้จะทิ้งช่วงนานขึ้นเรื่อย ๆ
+    </p>
+
+    <div class="stat-row" id="homeStats"></div>
+
+    <button class="btn" id="studyAll" style="width:100%;padding:14px;margin-bottom:22px;">ทบทวนทุกสำรับ</button>
+
+    <div class="decks" id="deckList"></div>
+  </section>
+
+  <!-- ============ หน้าทบทวน ============ -->
+  <section class="view" id="studyView"></section>
+
+  <!-- ============ หน้าเรียกดูการ์ด ============ -->
+  <section class="view" id="browseView">
+    <h1>การ์ดทั้งหมด</h1>
+    <p class="subtitle">คลิกที่การ์ดเพื่อดูคำตอบ · <span id="cardCount"></span></p>
+    <div class="tools">
+      <input type="search" id="searchInput" placeholder="ค้นหาคำถามหรือคำตอบ…">
+      <select id="deckFilter"></select>
+    </div>
+    <div class="rows" id="cardRows"></div>
+  </section>
+
+  <!-- ============ หน้าสถิติ ============ -->
+  <section class="view" id="statsView">
+    <h1>สถิติการเรียน</h1>
+    <p class="subtitle" id="queueBreakdown"></p>
+    <div class="stat-row" id="statCards"></div>
+    <h2>การ์ดที่จะถึงกำหนดใน 14 วันข้างหน้า</h2>
+    <div class="chart">
+      <div class="bars" id="forecast"></div>
+    </div>
+  </section>
+
+  <!-- ============ หน้าตั้งค่า ============ -->
+  <section class="view" id="settingsView">
+    <h1>ตั้งค่า</h1>
+    <p class="subtitle">ความคืบหน้าถูกเก็บไว้ในเบราว์เซอร์เครื่องนี้เท่านั้น (localStorage)</p>
+
+    <div class="settings-row">
+      <div class="txt">
+        <b>การ์ดใหม่ต่อวัน</b>
+        <p id="todayNew"></p>
+      </div>
+      <input type="number" id="newPerDay" min="0" max="200" step="5">
+    </div>
+
+    <div class="settings-row">
+      <div class="txt">
+        <b>สำรองข้อมูล</b>
+        <p>ดาวน์โหลดหรือกู้คืนความคืบหน้าเป็นไฟล์ JSON</p>
+      </div>
+      <button class="btn ghost" id="exportBtn">ส่งออก</button>
+      <label class="btn ghost" style="cursor:pointer;">
+        นำเข้า
+        <input type="file" id="importInput" accept="application/json" hidden>
+      </label>
+    </div>
+
+    <div class="settings-row">
+      <div class="txt">
+        <b>ล้างความคืบหน้า</b>
+        <p>กลับไปเริ่มต้นใหม่ทั้งหมด ย้อนกลับไม่ได้</p>
+      </div>
+      <button class="btn danger" id="resetBtn">ล้างข้อมูล</button>
+    </div>
+
+    <h2>แป้นพิมพ์ลัดขณะทบทวน</h2>
+    <div class="settings-row"><div class="txt"><b>Space / Enter</b><p>แสดงคำตอบ แล้วกดอีกครั้งเพื่อตอบว่า "ได้"</p></div></div>
+    <div class="settings-row"><div class="txt"><b>1 · 2 · 3 · 4</b><p>ลืม · ยาก · ได้ · ง่าย</p></div></div>
+
+    <h2>ที่มาของเนื้อหา</h2>
+    <div class="settings-row">
+      <div class="txt">
+        <b>Coronary artery disease</b>
+        <p>Pongpun Jittham M.D. — Division of Medicine, Faculty of Medicine, Naresuan University<br>
+        เนื้อหาสรุปเพื่อการทบทวนเท่านั้น ไม่ใช้แทนคำแนะนำทางการแพทย์หรือแนวเวชปฏิบัติฉบับเต็ม</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="assets/js/decks.js"></script>
+<script src="assets/js/srs.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
