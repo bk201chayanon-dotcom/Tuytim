@@ -1,0 +1,1579 @@
+<title>ชื่อนี้ใครเอ่ย</title>
+<meta name="description" content="เกมใบ้ชื่อตัวละครอนิเมะแบบวางโทรศัพท์บนหน้าผาก 4 หมวด วันพีช ฮันเตอร์ x ฮันเตอร์ นารูโตะ โจโจ้ ตอบให้ได้มากที่สุดใน 100 วินาที">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=K2D:wght@600;700;800&family=Sarabun:wght@400;500;600&display=swap">
+<style>
+/* ------------------------------------------------------------------
+ * ชื่อนี้ใครเอ่ย — เกมใบ้ชื่อตัวละครวางบนหน้าผาก
+ *
+ * ธีมเดียว: หน้ากระดาษมังงะ — กระดาษหนังสือพิมพ์อมเหลือง หมึกดำหนา
+ * เส้นสกรีนโทน และเส้นสปีดไลน์ตอนตอบถูก
+ * แต่ละเรื่องมีสีประจำของตัวเอง ใช้กับแท็บชื่อเรื่องและแถบเวลาเท่านั้น
+ * ปุ่มกดคงสีหมึกกับกระดาษไว้เสมอ จะได้ไม่สับสนว่าปุ่มไหนคือปุ่มไหน
+ * ทุกสีถูกทาไว้ชัดเจน หน้าจึงอ่านได้เหมือนกันไม่ว่าโฮสต์จะสว่างหรือมืด
+ * ------------------------------------------------------------------ */
+
+:root {
+  --paper:    #F7F3E9;   /* กระดาษหนังสือพิมพ์ อมเหลืองนิด ๆ */
+  --paper-2:  #ECE6D7;   /* พาเนลที่ลงสกรีนโทน */
+  --paper-3:  #DFD8C6;
+  --ink:      #15130F;   /* หมึกดำอมอุ่น ไม่ใช่ดำสนิท */
+  --ink-2:    #4C463C;
+  --ink-3:    #857D6F;
+
+  /* สีประจำเรื่อง */
+  --op:   #C92F27;
+  --hxh:  #157048;
+  --nrt:  #C55E04;
+  --jjba: #67328A;
+
+  --series: var(--ink);  /* ทับด้วยสีของเรื่องที่กำลังเล่นอยู่ */
+
+  --display: 'K2D', 'Sarabun', system-ui, sans-serif;
+  --body:    'Sarabun', 'K2D', system-ui, sans-serif;
+
+  --line: 3px;
+
+  --step-1: .8rem;
+  --step0:  .96rem;
+  --step1:  1.14rem;
+  --step2:  1.55rem;
+}
+
+[data-hue="op"]   { --series: var(--op); }
+[data-hue="hxh"]  { --series: var(--hxh); }
+[data-hue="nrt"]  { --series: var(--nrt); }
+[data-hue="jjba"] { --series: var(--jjba); }
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: var(--step0);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: var(--line) solid var(--series);
+  outline-offset: 3px;
+}
+
+/* สกรีนโทน — จุดฮาล์ฟโทนแบบที่ใช้ลงเงาในมังงะ */
+.tone {
+  background-image: radial-gradient(var(--ink) 1.05px, transparent 1.15px);
+  background-size: 6px 6px;
+  opacity: .16;
+}
+
+/* ================================================================
+   โครงหน้าจอ — ครั้งละหนึ่งฉาก
+   ================================================================ */
+
+.screen { display: none; }
+.screen.on { display: flex; }
+
+#app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================================================================
+   ฉากที่ 1 — หน้าปก
+   ================================================================ */
+
+#home {
+  flex-direction: column;
+  gap: 1.9rem;
+  width: 100%;
+  max-width: 47rem;
+  margin: 0 auto;
+  padding: clamp(1.2rem, 4vw, 2.6rem) clamp(1rem, 4vw, 2rem) 3rem;
+}
+
+.cover {
+  position: relative;
+  border: var(--line) solid var(--ink);
+  background: var(--paper-2);
+  padding: clamp(1.3rem, 5vw, 2.2rem);
+  overflow: hidden;
+}
+
+.cover .tone {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.burst {
+  position: absolute;
+  inset: -55%;
+  pointer-events: none;
+  opacity: .1;
+  background: repeating-conic-gradient(from 0deg at 50% 50%,
+              var(--ink) 0deg 1.1deg, transparent 1.1deg 5deg);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0 22%, #000 58%);
+          mask-image: radial-gradient(circle at 50% 50%, transparent 0 22%, #000 58%);
+}
+
+.eyebrow {
+  position: relative;
+  display: inline-block;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  font-size: var(--step-1);
+  letter-spacing: .04em;
+  padding: .18em .7em;
+}
+
+h1 {
+  position: relative;
+  margin: .6rem 0 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 12vw, 4.6rem);
+  line-height: 1;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+}
+
+.strip {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  margin-top: .9rem;
+}
+
+.strip span {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(.62rem, 2.2vw, .78rem);
+  letter-spacing: .08em;
+  color: var(--paper);
+  background: var(--ink);
+  padding: .2em .55em;
+}
+
+.strip span:nth-child(1) { background: var(--op); }
+.strip span:nth-child(2) { background: var(--hxh); }
+.strip span:nth-child(3) { background: var(--nrt); }
+.strip span:nth-child(4) { background: var(--jjba); }
+
+.tagline {
+  position: relative;
+  margin: 1rem 0 0;
+  max-width: 36ch;
+  color: var(--ink-2);
+}
+
+/* ---- กติกา ---- */
+
+.rules h2,
+.picker h2 {
+  margin: 0 0 .9rem;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: var(--step2);
+  letter-spacing: -.01em;
+}
+
+.rules ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: .65rem;
+  counter-reset: rule;
+}
+
+.rules li {
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  gap: .35rem;
+  align-items: baseline;
+  color: var(--ink-2);
+  counter-increment: rule;
+}
+
+.rules li::before {
+  content: counter(rule);
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: var(--step1);
+  line-height: 1;
+  color: var(--paper);
+  background: var(--ink);
+  width: 1.35rem;
+  height: 1.35rem;
+  display: grid;
+  place-items: center;
+}
+
+.rules b { color: var(--ink); font-weight: 600; }
+
+/* ---- เลือกหมวด ---- */
+
+.picker { display: grid; gap: .9rem; }
+
+.decks {
+  display: grid;
+  gap: .55rem;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+
+.deck {
+  position: relative;
+  display: grid;
+  gap: .1rem;
+  text-align: left;
+  padding: .8rem .95rem .9rem;
+  background: var(--paper);
+  border: var(--line) solid var(--ink);
+  transition: background .14s, transform .14s;
+}
+
+.deck.wide { grid-column: 1 / -1; }
+
+.deck::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 7px;
+  background: var(--series);
+}
+
+.deck:hover { background: var(--paper-2); }
+.deck:active { transform: translateY(1px); }
+
+.deck[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.deck .den {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: var(--step-1);
+  letter-spacing: .1em;
+  color: var(--series);
+  padding-top: .35rem;
+}
+
+.deck[aria-pressed="true"] .den { color: var(--paper); }
+
+.deck .dn {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: var(--step1);
+}
+
+.deck .db { font-size: var(--step-1); color: var(--ink-3); }
+.deck[aria-pressed="true"] .db { color: var(--paper-3); }
+
+.deck .dc {
+  font-size: var(--step-1);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- ตัวเลือกแถวเล็ก ---- */
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem 1.8rem;
+  padding-top: .2rem;
+}
+
+.opt { display: grid; gap: .4rem; }
+
+.opt-label {
+  font-weight: 600;
+  font-size: var(--step-1);
+  color: var(--ink-3);
+}
+
+.seg { display: flex; border: var(--line) solid var(--ink); }
+
+.seg button {
+  padding: .4rem .9rem;
+  font-size: var(--step-1);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  border-right: var(--line) solid var(--ink);
+  transition: background .12s, color .12s;
+}
+
+.seg button:last-child { border-right: 0; }
+.seg button:hover { background: var(--paper-2); }
+
+.seg button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ---- ปุ่มเริ่ม ---- */
+
+.start {
+  position: relative;
+  padding: 1.05rem 1.4rem;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: var(--step2);
+  transition: transform .14s;
+}
+
+.start:active { transform: translateY(2px); }
+
+.start small {
+  display: block;
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: var(--step-1);
+  opacity: .7;
+}
+
+.best {
+  font-size: var(--step-1);
+  color: var(--ink-3);
+  text-align: center;
+}
+
+.best b { color: var(--ink); }
+
+.foot {
+  font-size: var(--step-1);
+  color: var(--ink-3);
+  border-top: var(--line) solid var(--ink);
+  padding-top: .9rem;
+}
+
+/* ================================================================
+   ฉากที่ 2 — นับถอยหลังก่อนเริ่ม
+   ================================================================ */
+
+#ready {
+  position: relative;
+  height: 100dvh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .8rem;
+  text-align: center;
+  padding: 1.5rem;
+  overflow: hidden;
+}
+
+#ready .burst { opacity: .12; }
+
+.ready-say {
+  position: relative;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.15rem, 4.5vw, 1.9rem);
+  max-width: 22ch;
+  text-wrap: balance;
+}
+
+.ready-sub { position: relative; color: var(--ink-3); max-width: 30ch; }
+
+.count {
+  position: relative;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(6rem, 30vmin, 15rem);
+  line-height: .9;
+  animation: pop .9s cubic-bezier(.2, .9, .3, 1);
+}
+
+@keyframes pop {
+  from { transform: scale(1.7); opacity: 0; }
+  45%  { opacity: 1; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* ================================================================
+   ฉากที่ 3 — เล่นจริง
+   ================================================================ */
+
+#play {
+  position: relative;
+  height: 100dvh;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px;
+  overflow: hidden;
+}
+
+/* --- พาเนลบน: แท็บชื่อเรื่อง เวลา และคะแนน --- */
+
+.panel {
+  position: relative;
+  border: var(--line) solid var(--ink);
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.stage {
+  flex: 1 1 auto;
+  display: grid;
+  place-items: center;
+  padding: clamp(2.6rem, 8vh, 3.4rem) clamp(.9rem, 4vw, 2.5rem) clamp(.6rem, 3vh, 1.4rem);
+  text-align: center;
+  min-height: 0;
+}
+
+.stage .tone {
+  position: absolute;
+  inset: auto -10% -30% -10%;
+  height: 55%;
+  pointer-events: none;
+  opacity: .1;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 55%);
+          mask-image: linear-gradient(to bottom, transparent, #000 55%);
+}
+
+.tab {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  align-items: baseline;
+  gap: .45rem;
+  background: var(--series);
+  color: var(--paper);
+  padding: .22rem .8rem .3rem;
+  max-width: 62%;
+}
+
+.tab .tn {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(.78rem, 2.3vmin, 1rem);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.clock {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--display);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(1.15rem, 4vh, 1.8rem);
+  line-height: 1;
+  padding: .3rem .6rem .35rem;
+  min-width: 3.2ch;
+  text-align: center;
+}
+
+.clock.low { background: var(--op); }
+
+.gauge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  height: 100%;
+  pointer-events: none;
+}
+
+.gauge span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 5px;
+  width: 100%;
+  background: var(--series);
+  transform-origin: left center;
+}
+
+.gauge.low span { background: var(--op); }
+
+.tally {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(.72rem, 2.2vmin, .92rem);
+  font-variant-numeric: tabular-nums;
+}
+
+.tally span {
+  padding: .18rem .6rem .22rem;
+  border-top: var(--line) solid var(--ink);
+  border-right: var(--line) solid var(--ink);
+}
+
+.tally .ok { background: var(--ink); color: var(--paper); }
+.tally .sk { background: var(--paper-2); color: var(--ink-2); }
+
+.name {
+  position: relative;
+  font-family: var(--display);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -.02em;
+  max-width: min(100%, 30ch);
+  font-size: clamp(2.4rem, 10vw + 3vh, 7.5rem);
+}
+
+/* ชื่อทับศัพท์ยาว ๆ ต้องไม่ถูกตัดกลางคำ จึงห่อทีละคำไว้ */
+.name .tok { display: inline-block; white-space: nowrap; }
+
+.name.len-m { font-size: clamp(1.9rem, 7.4vw + 2.4vh, 5.8rem); }
+.name.len-l { font-size: clamp(1.6rem, 6vw + 2.2vh, 4.8rem); }
+.name.len-x { font-size: clamp(1.3rem, 4.7vw + 1.9vh, 3.9rem); }
+
+/* --- สองพาเนลล่าง คั่นด้วยร่องขาวเฉียงแบบช่องมังงะ --- */
+
+.pads {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 6px;
+  height: clamp(5.2rem, 25vh, 8.5rem);
+}
+
+.pad {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: .1rem;
+  border: var(--line) solid var(--ink);
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.35rem, 5.5vmin, 2.4rem);
+  transition: transform .1s;
+  touch-action: manipulation;
+}
+
+.pad small {
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: var(--step-1);
+  opacity: .62;
+}
+
+.pad-skip {
+  background: var(--paper-2);
+  color: var(--ink-2);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 2.2rem) 100%, 0 100%);
+  padding-right: 2.2rem;
+}
+
+.pad-ok {
+  background: var(--ink);
+  color: var(--paper);
+  clip-path: polygon(2.2rem 0, 100% 0, 100% 100%, 0 100%);
+  padding-left: 2.2rem;
+}
+
+.pad:active { transform: translateY(2px); }
+
+/* --- เฟรมกระแทกตอนตัดสิน --- */
+
+.flash {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.flash.ok { background: var(--ink); }
+.flash.sk { background: var(--paper-3); }
+
+.flash.fire { animation: impact .26s ease-out; }
+
+@keyframes impact {
+  from { opacity: .94; }
+  70%  { opacity: .5; }
+  to   { opacity: 0; }
+}
+
+/* เส้นสปีดไลน์พุ่งเข้ากลางจอตอนตอบถูก */
+.speed {
+  position: absolute;
+  inset: -25%;
+  z-index: 7;
+  pointer-events: none;
+  opacity: 0;
+  background: repeating-conic-gradient(from 0deg at 50% 50%,
+              var(--paper) 0deg .5deg, transparent .5deg 2.4deg);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0 17%, #000 46%);
+          mask-image: radial-gradient(circle at 50% 50%, transparent 0 17%, #000 46%);
+}
+
+.speed.fire { animation: zoom .28s ease-out; }
+
+@keyframes zoom {
+  from { opacity: 1; transform: scale(1.45) rotate(-3deg); }
+  to   { opacity: 0; transform: scale(1) rotate(0deg); }
+}
+
+/* --- ป้ายเตือนให้หมุนจอ --- */
+
+.rotate {
+  position: absolute;
+  z-index: 3;
+  right: .55rem;
+  bottom: .25rem;      /* มุมขวาล่าง — ฝั่งซ้ายล่างเป็นที่ของแถบคะแนน */
+  margin: 0;
+  font-size: var(--step-1);
+  color: var(--ink-3);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+@media (orientation: landscape) { .rotate { display: none; } }
+
+/* ================================================================
+   ฉากที่ 4 — สรุปผล
+   ================================================================ */
+
+#over {
+  flex-direction: column;
+  gap: 1.4rem;
+  width: 100%;
+  max-width: 47rem;
+  margin: 0 auto;
+  padding: clamp(1.2rem, 4vw, 2.6rem) clamp(1rem, 4vw, 2rem) 3rem;
+}
+
+.score-card {
+  position: relative;
+  border: var(--line) solid var(--ink);
+  background: var(--paper-2);
+  padding: clamp(1.2rem, 5vw, 2rem);
+  overflow: hidden;
+}
+
+.score-card .burst { opacity: .12; }
+
+.score-num {
+  position: relative;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(4.5rem, 22vw, 9rem);
+  line-height: .9;
+  font-variant-numeric: tabular-nums;
+}
+
+.score-num sub {
+  font-family: var(--body);
+  font-size: .16em;
+  font-weight: 600;
+  color: var(--ink-3);
+  vertical-align: baseline;
+  margin-left: .5em;
+  bottom: 0;
+}
+
+.verdict {
+  position: relative;
+  margin: .4rem 0 0;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: var(--step2);
+  text-wrap: balance;
+}
+
+.verdict + p { position: relative; margin: .25rem 0 0; color: var(--ink-3); }
+
+.recap { display: grid; gap: 0; }
+
+.recap h2 {
+  margin: .6rem 0 .3rem;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: var(--step1);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr auto;
+  gap: .6rem;
+  align-items: baseline;
+  padding: .45rem 0;
+  border-bottom: 1px solid var(--paper-3);
+}
+
+.row .mk { font-family: var(--display); font-weight: 800; }
+.row.hit .mk { color: var(--ink); }
+.row.miss .mk { color: var(--ink-3); }
+.row.miss .tx { color: var(--ink-3); }
+.row .tx { font-family: var(--display); font-weight: 600; }
+
+.row .sr {
+  font-size: var(--step-1);
+  font-weight: 600;
+  color: var(--paper);
+  background: var(--series);
+  padding: .05em .5em .1em;
+}
+
+.again { display: flex; flex-wrap: wrap; gap: .6rem; }
+.again .start { flex: 1 1 14rem; }
+
+.ghost {
+  flex: 0 1 auto;
+  padding: 1.05rem 1.4rem;
+  border: var(--line) solid var(--ink);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: var(--step1);
+  transition: background .14s;
+}
+
+.ghost:hover { background: var(--paper-2); }
+
+/* ================================================================
+   ลดการเคลื่อนไหวตามค่าระบบ
+   ================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* จอเตี้ยแนวนอน: บีบส่วนหัวให้เหลือที่ให้ชื่อมากที่สุด */
+@media (orientation: landscape) and (max-height: 30rem) {
+  .stage { padding-top: 2.3rem; }
+  .pads { height: clamp(3.8rem, 26vh, 5.4rem); }
+}
+
+</style>
+
+
+<div id="app">
+
+  <!-- ============ ฉากที่ 1 · หน้าปก ============ -->
+  <section class="screen on" id="home">
+
+    <div class="cover">
+      <div class="burst" aria-hidden="true"></div>
+      <div class="tone" aria-hidden="true"></div>
+      <p class="eyebrow">ใบ้ชื่อตัวละคร · วางบนหน้าผาก</p>
+      <h1>ชื่อนี้ใครเอ่ย</h1>
+      <div class="strip" aria-hidden="true">
+        <span>ONE PIECE</span>
+        <span>HUNTER × HUNTER</span>
+        <span>NARUTO</span>
+        <span>JOJO</span>
+      </div>
+      <p class="tagline">
+        ชื่อตัวละครโผล่บนจอ คนถือไม่เห็น เพื่อนใบ้เองล้วน ๆ — ทายให้ได้มากที่สุดก่อนหมดเวลา
+      </p>
+    </div>
+
+    <div class="rules">
+      <h2>กติกา</h2>
+      <ol>
+        <li><span>คนตอบ <b>วางโทรศัพท์ไว้บนหน้าผาก</b> หันจอออกให้เพื่อน ๆ เห็น ตัวเองห้ามชะโงกดู</span></li>
+        <li><span>เพื่อนที่เห็นจอ <b>ช่วยกันใบ้เอง</b> จอไม่บอกอะไรนอกจากชื่อ ห้ามพูดชื่อบนจอหรือส่วนหนึ่งของชื่อ</span></li>
+        <li><span>ตอบถูก เพื่อนกด <b>ถูกต้อง</b> · ใบ้ไม่ออกหรือคิดไม่ทัน กด <b>ข้าม</b></span></li>
+        <li><span>เล่นรัวไปเรื่อย ๆ จนหมดเวลา <b>100 วินาที</b> ได้กี่ชื่อคือคะแนน</span></li>
+        <li><span>กดจากคีย์บอร์ดก็ได้ — <b>ลูกศรขวา</b> คือถูก <b>ลูกศรซ้าย</b> คือข้าม</span></li>
+      </ol>
+    </div>
+
+    <div class="picker">
+      <h2>เลือกเรื่อง</h2>
+      <div class="decks" id="deckList"></div>
+
+      <div class="options">
+        <div class="opt">
+          <span class="opt-label" id="lbTime">เวลา</span>
+          <div class="seg" id="segTime" role="group" aria-labelledby="lbTime"></div>
+        </div>
+        <div class="opt">
+          <span class="opt-label" id="lbSound">เสียง</span>
+          <div class="seg" id="segSound" role="group" aria-labelledby="lbSound">
+            <button type="button" data-sound="1">เปิด</button>
+            <button type="button" data-sound="0">ปิด</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="start" id="btnStart" type="button">
+      เริ่มเกม
+      <small id="startSub">100 วินาที</small>
+    </button>
+
+    <p class="best" id="bestLine"></p>
+
+    <p class="foot">
+      ชื่อตัวละคร <span id="poolCount"></span> ชื่อ จาก 4 เรื่อง ·
+      ไม่มีคำใบ้บนจอ วัดกันที่ความรู้ของคนใบ้ล้วน ๆ · เล่นได้ทั้งออฟไลน์ ไม่ต้องต่อเน็ต
+    </p>
+  </section>
+
+  <!-- ============ ฉากที่ 2 · เตรียมตัว ============ -->
+  <section class="screen" id="ready">
+    <div class="burst" aria-hidden="true"></div>
+    <p class="ready-say">วางโทรศัพท์บนหน้าผาก หันจอออกหาเพื่อน</p>
+    <div class="count" id="countNum">3</div>
+    <p class="ready-sub">เพื่อน ๆ เตรียมใบ้ได้เลย</p>
+  </section>
+
+  <!-- ============ ฉากที่ 3 · เล่น ============ -->
+  <section class="screen" id="play">
+    <div class="flash" id="flash" aria-hidden="true"></div>
+    <div class="speed" id="speed" aria-hidden="true"></div>
+
+    <div class="panel stage">
+      <div class="tone" aria-hidden="true"></div>
+      <div class="gauge" id="gauge"><span id="gaugeFill"></span></div>
+      <div class="tab"><span class="tn" id="tab"></span></div>
+      <div class="clock" id="clock">100</div>
+      <p class="name" id="name" aria-live="polite"></p>
+      <div class="tally">
+        <span class="ok">ถูก <b id="tallyOk">0</b></span>
+        <span class="sk">ข้าม <b id="tallySkip">0</b></span>
+      </div>
+      <p class="rotate">↻ หมุนจอแนวนอน</p>
+    </div>
+
+    <div class="pads">
+      <button class="pad pad-skip" id="btnSkip" type="button">
+        ข้าม
+        <small>← ซ้าย</small>
+      </button>
+      <button class="pad pad-ok" id="btnOk" type="button">
+        ถูกต้อง
+        <small>ขวา →</small>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ ฉากที่ 4 · สรุปผล ============ -->
+  <section class="screen" id="over">
+    <div class="score-card">
+      <div class="burst" aria-hidden="true"></div>
+      <p class="eyebrow" id="overDeck"></p>
+      <div class="score-num" id="finalScore">0<sub>คะแนน</sub></div>
+      <p class="verdict" id="verdict"></p>
+      <p id="verdictSub"></p>
+    </div>
+
+    <div class="recap" id="recap"></div>
+
+    <div class="again">
+      <button class="start" id="btnAgain" type="button">
+        เล่นอีกครั้ง
+        <small>ชุดเดิม</small>
+      </button>
+      <button class="ghost" id="btnHome" type="button">เปลี่ยนเรื่อง</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ------------------------------------------------------------------
+ * questions.js — คลังชื่อตัวละครสำหรับเกมใบ้ชื่อ 4 เรื่อง
+ *
+ * แต่ละข้อคือชื่อตัวละครล้วน ๆ ที่โชว์บนจอ
+ * (คนถือโทรศัพท์ไม่เห็น เพราะจออยู่บนหน้าผาก)
+ * ไม่มีคำใบ้พิมพ์ไว้โดยตั้งใจ — เพื่อนที่เห็นจอต้องใบ้ด้วยความรู้ตัวเอง
+ * ------------------------------------------------------------------ */
+
+const DECKS = [
+  {
+    id: 'onepiece',
+    name: 'วันพีช',
+    en: 'ONE PIECE',
+    hue: 'op',
+    blurb: 'กลุ่มหมวกฟาง ชิจิบุไค สี่จักรพรรดิ และกองทัพเรือ',
+    items: [
+      'มังกี้ ดี. ลูฟี่',
+      'โรโรโนอา โซโล',
+      'นามิ',
+      'อุซป',
+      'ซันจิ',
+      'โทนี่ โทนี่ ช็อปเปอร์',
+      'นิโค โรบิน',
+      'แฟรงกี้',
+      'บรู๊ค',
+      'จินเบ',
+      'โปรตุกัส ดี. เอส',
+      'ซาโบ',
+      'ชังคส์',
+      'มังกี้ ดี. การ์ป',
+      'มังกี้ ดี. ดรากอน',
+      'โกล ดี. โรเจอร์',
+      'ซิลเวอร์ส เรลีย์',
+      'เอ็ดเวิร์ด นิวเกต',
+      'มาร์โค',
+      'มาร์แชล ดี. ทีช',
+      'ไคโด',
+      'ชาร์ล็อต ลินลิน',
+      'ชาร์ล็อต คาตาคุริ',
+      'ทราฟัลการ์ ลอว์',
+      'ยูสตาส คิด',
+      'โบอา แฮนค็อก',
+      'จูราคูล มิฮอว์ก',
+      'ดอนกิโฮเต้ โดฟลามิงโก',
+      'เซอร์ โครโคไดล์',
+      'เกคโค โมเรีย',
+      'บาร์โทโลมิว คุมะ',
+      'บักกี้',
+      'อาร์ลอง',
+      'ก็อดเอเนล',
+      'โคซึกิ โอเด็น',
+      'คินเอม่อน',
+      'ยามาโตะ',
+      'อินุอาราชิ',
+      'คิง',
+      'ควีน',
+      'เซนโกกุ',
+      'คุซัน',
+      'ซาคาซึกิ',
+      'โบรุซาลิโน',
+      'อิชโช',
+      'สโมกเกอร์',
+      'ทาชิงิ',
+      'โคบี้',
+      'เนเฟอร์ตารี วิวี่',
+      'ชิราโฮชิ',
+      'เพรินโอนา',
+      'จูเวลรี่ โบนนี่'
+    ]
+  },
+  {
+    id: 'hxh',
+    name: 'ฮันเตอร์ x ฮันเตอร์',
+    en: 'HUNTER × HUNTER',
+    hue: 'hxh',
+    blurb: 'นักล่า ตระกูลโซลดิค เก็นเออิเรียวดัน และมดปีศาจ',
+    items: [
+      'กอน ฟรีคส์',
+      'คิรัวร์ โซลดิค',
+      'คุราปิก้า',
+      'เลออริโอ',
+      'ฮิโซกะ',
+      'อิลูมิ โซลดิค',
+      'มิลลูกิ โซลดิค',
+      'คัลลุโตะ โซลดิค',
+      'อัลลูก้า โซลดิค',
+      'ซิลวา โซลดิค',
+      'เซโนะ โซลดิค',
+      'คิคุโย',
+      'จิน ฟรีคส์',
+      'ไคต์',
+      'บิสกิต ครูเกอร์',
+      'ไอแซค เน็ตเตโร่',
+      'โมเรล มัคคาร์นาซี',
+      'โนฟ',
+      'ชูท',
+      'พาล์ม สิเบเรีย',
+      'คุโรโระ ลูซิลเฟอร์',
+      'อูวโวกิน',
+      'โนบุนางะ',
+      'ฟิงค์ส',
+      'เฟย์ตัน',
+      'มาชิ',
+      'ชาลนาร์ค',
+      'โบโนเลนอฟ',
+      'โคลโตปี',
+      'ฟรานคลิน',
+      'พักโนดะ',
+      'ชิซึกุ',
+      'เมลูเอ็ม',
+      'เนเฟอร์พิทู',
+      'ชอว์ปุฟ',
+      'โมเรา ยองปิ',
+      'โคมูงิ',
+      'เวลฟิน',
+      'อิคารุโกะ',
+      'เลออล',
+      'ฮันโซ',
+      'ทอมป้า',
+      'โปกุล',
+      'ราซอร์',
+      'เก็นธุรุ',
+      'เมนจิ',
+      'บุฮาร่า'
+    ]
+  },
+  {
+    id: 'naruto',
+    name: 'นารูโตะ',
+    en: 'NARUTO',
+    hue: 'nrt',
+    blurb: 'ทีม 7 อาคาสึกิ ตระกูลใหญ่ และเหล่าคาเงะ',
+    items: [
+      'อุซึมากิ นารูโตะ',
+      'อุจิวะ ซาสึเกะ',
+      'ฮารุโนะ ซากุระ',
+      'ฮาตาเกะ คาคาชิ',
+      'อุจิวะ อิทาจิ',
+      'อุจิวะ มาดาระ',
+      'อุจิวะ โอบิโตะ',
+      'อุจิวะ ชิสุย',
+      'เซนจู ฮาชิรามะ',
+      'เซนจู โทบิรามะ',
+      'จิไรยะ',
+      'สึนาเดะ',
+      'โอโรจิมารุ',
+      'ซารุโทบิ ฮิรุเซ็น',
+      'นามิคาเซะ มินาโตะ',
+      'อุซึมากิ คุชินะ',
+      'เท็นโซ ยามาโตะ',
+      'ซาอิ',
+      'ร็อค ลี',
+      'ฮิวงะ เนจิ',
+      'เท็นเท็น',
+      'ไมโตะ ไก',
+      'นาระ ชิคามารุ',
+      'อากิมิจิ โจจิ',
+      'ยามานากะ อิโนะ',
+      'ยูฮิ คุเรไน',
+      'ซารุโทบิ อาสึมะ',
+      'อินุซึกะ คิบะ',
+      'อาบุราเมะ ชิโนะ',
+      'ฮิวงะ ฮินาตะ',
+      'ฮิวงะ ฮิอาชิ',
+      'กาอาระ',
+      'เทมาริ',
+      'คันคุโร่',
+      'นางาโตะ',
+      'ยาฮิโกะ',
+      'คอนัน',
+      'โฮชิงากิ คิซาเมะ',
+      'ซาโซริ',
+      'เดย์ดาระ',
+      'ฮิดัง',
+      'คาคุสึ',
+      'เซ็ตสึ',
+      'ยาคุชิ คาบูโตะ',
+      'ชิมูระ ดันโซ',
+      'คิลเลอร์บี',
+      'โอนโอกิ',
+      'เทรุมิ เมย์',
+      'โมโมจิ ซาบุซะ',
+      'ฮาคุ',
+      'คุรามะ',
+      'คางุยะ โอสึสึกิ',
+      'อุซึมากิ โบรุโตะ',
+      'อุจิวะ ซาราดะ',
+      'มิสึกิ'
+    ]
+  },
+  {
+    id: 'jojo',
+    name: 'โจโจ้',
+    en: "JOJO'S BIZARRE ADVENTURE",
+    hue: 'jjba',
+    blurb: 'สายเลือดโจสตาร์ ตั้งแต่ภาค 1 ถึงภาค 7',
+    items: [
+      'โจนาธาน โจสตาร์',
+      'ดิโอ บรันโด',
+      'วิล เอ. เซปเปลี',
+      'โรเบิร์ต อี. โอ. สปีดวากอน',
+      'โจเซฟ โจสตาร์',
+      'ซีซาร์ เซปเปลี',
+      'ลิซ่า ลิซ่า',
+      'รูดอล ฟอน สตรอเฮม',
+      'คาร์ส',
+      'วามู',
+      'เอซิดิซิ',
+      'ซานตาน่า',
+      'คูโจ โจทาโร่',
+      'โมฮัมเหม็ด อับดุล',
+      'โนริอากิ คาเคียวอิน',
+      'ฌ็อง ปิแอร์ โปลนาเรฟ',
+      'อิกกี้',
+      'ฮอลฮอร์ส',
+      'วานิลลา ไอซ์',
+      'เอ็นยา',
+      'ฮิงาชิคาตะ โจสุเกะ',
+      'นิโจมูระ โอคุยาสึ',
+      'ฮิโรเสะ โคอิจิ',
+      'คิชิเบะ โรฮัง',
+      'ยามากิชิ ยูกาโกะ',
+      'คิระ โยชิคาเงะ',
+      'จอร์โน โจวานน่า',
+      'บรูโน่ บุคคาราตี',
+      'ลีโอเน่ อับบัคคิโอ',
+      'กุยโด มิสตา',
+      'นารันชา กีร์กา',
+      'พันนาคอตต้า ฟูโก้',
+      'ทริช อูนา',
+      'ดิอาโวโล',
+      'ริซอตโต้ เนโร่',
+      'คูโจ โจลีน',
+      'เออร์ไมส์ คอสเตลโล',
+      'เวเธอร์ รีพอร์ต',
+      'นาร์ซิโซ อนาซุย',
+      'เอ็มโพริโอ อัลนีโญ่',
+      'เอ็นริโก้ ปุชชี',
+      'โจนี่ โจสตาร์',
+      'จีโร ซีซาร์',
+      'ฟันนี วาเลนไทน์',
+      'ดิเอโก บรันโด',
+      'ฮอท แพนส์',
+      'ลูซี่ สตีล',
+      'โฮลี่ คูโจ'
+    ]
+  }
+];
+
+const DECK_INDEX = Object.fromEntries(DECKS.map(d => [d.id, d]));
+
+</script>
+<script>
+/* ------------------------------------------------------------------
+ * game.js — วงจรของเกม: เลือกเรื่อง → นับถอยหลัง → เล่น → สรุปผล
+ *
+ * ทุกอย่างทำงานในเบราว์เซอร์ ไม่มีการเรียกเซิร์ฟเวอร์
+ * ค่าที่ตั้งไว้และคะแนนสูงสุดเก็บใน localStorage แบบกันพังไว้แล้ว
+ * ------------------------------------------------------------------ */
+
+(function () {
+  'use strict';
+
+  const $ = id => document.getElementById(id);
+
+  const TIMES = [60, 100, 150];
+  const ALL = 'all';
+  const STORE = 'anime-name-quiz.v1';
+
+  /* ---------------- ค่าที่ผู้เล่นตั้งไว้ ---------------- */
+
+  const defaults = { deck: ALL, time: 100, sound: true, best: {} };
+  let cfg = load();
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORE);
+      if (raw) return Object.assign({}, defaults, JSON.parse(raw));
+    } catch (e) { /* โหมดส่วนตัวหรือปิดการเก็บข้อมูล — ใช้ค่าเริ่มต้นไป */ }
+    return Object.assign({}, defaults);
+  }
+
+  function save() {
+    try { localStorage.setItem(STORE, JSON.stringify(cfg)); } catch (e) { /* ไม่เป็นไร */ }
+  }
+
+  /* ---------------- คลังชื่อ ---------------- */
+
+  function itemsOf(d) {
+    return d.items.map(name => ({ a: name, deck: d.name, hue: d.hue }));
+  }
+
+  const ALL_ITEMS = DECKS.flatMap(itemsOf);
+
+  function poolOf(deckId) {
+    const d = DECK_INDEX[deckId];
+    return d ? itemsOf(d) : ALL_ITEMS.slice();
+  }
+
+  function deckName(deckId) {
+    return deckId === ALL ? 'รวมทั้ง 4 เรื่อง' : (DECK_INDEX[deckId] || {}).name || 'รวมทั้ง 4 เรื่อง';
+  }
+
+  function shuffle(list) {
+    for (let i = list.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [list[i], list[j]] = [list[j], list[i]];
+    }
+    return list;
+  }
+
+  /* ---------------- เสียง (สังเคราะห์สด ไม่ต้องโหลดไฟล์) ---------------- */
+
+  let actx = null;
+
+  function audio() {
+    if (!cfg.sound) return null;
+    try {
+      if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+      if (actx.state === 'suspended') actx.resume();
+      return actx;
+    } catch (e) { return null; }
+  }
+
+  function tone(freq, dur, type, gain, slideTo) {
+    const ac = audio();
+    if (!ac) return;
+    const t = ac.currentTime;
+    const osc = ac.createOscillator();
+    const amp = ac.createGain();
+    osc.type = type || 'triangle';
+    osc.frequency.setValueAtTime(freq, t);
+    if (slideTo) osc.frequency.exponentialRampToValueAtTime(slideTo, t + dur);
+    amp.gain.setValueAtTime(0.0001, t);
+    amp.gain.exponentialRampToValueAtTime(gain || 0.18, t + 0.012);
+    amp.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    osc.connect(amp).connect(ac.destination);
+    osc.start(t);
+    osc.stop(t + dur + 0.02);
+  }
+
+  const sfx = {
+    ok()    { tone(560, 0.07, 'square', 0.14); setTimeout(() => tone(940, 0.14, 'triangle', 0.18), 60); },
+    skip()  { tone(150, 0.14, 'sine', 0.16); },
+    tick()  { tone(1500, 0.03, 'sine', 0.09); },
+    go()    { tone(480, 0.11, 'square', 0.12); },
+    start() { tone(900, 0.2, 'square', 0.16); },
+    end()   { tone(300, 0.8, 'sawtooth', 0.15, 80); }
+  };
+
+  function buzz(ms) {
+    try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* ไม่รองรับ */ }
+  }
+
+  /* ---------------- ไม่ให้จอดับระหว่างเล่น ---------------- */
+
+  let wake = null;
+
+  async function keepAwake() {
+    try {
+      if ('wakeLock' in navigator) wake = await navigator.wakeLock.request('screen');
+    } catch (e) { /* บางเบราว์เซอร์ไม่ให้ — ปล่อยผ่าน */ }
+  }
+
+  function releaseAwake() {
+    try { if (wake) { wake.release(); wake = null; } } catch (e) { /* ไม่เป็นไร */ }
+  }
+
+  /* ---------------- สลับฉาก ---------------- */
+
+  const screens = ['home', 'ready', 'play', 'over'];
+
+  function show(name) {
+    screens.forEach(s => $(s).classList.toggle('on', s === name));
+    /* สองฉากนี้กินเต็มจอพอดี ห้ามให้เลื่อนหน้าไปมาระหว่างกดปุ่ม */
+    document.body.style.overflow = (name === 'play' || name === 'ready') ? 'hidden' : '';
+    if (name === 'home' || name === 'over') window.scrollTo(0, 0);
+  }
+
+  /* ---------------- หน้าปก ---------------- */
+
+  function paintDecks() {
+    const list = $('deckList');
+    const cards = [{ id: ALL, name: 'รวมทั้ง 4 เรื่อง', en: 'ALL SERIES', hue: '',
+                     blurb: 'สุ่มปนกันทุกเรื่อง', n: ALL_ITEMS.length }]
+      .concat(DECKS.map(d => ({ id: d.id, name: d.name, en: d.en, hue: d.hue,
+                                blurb: d.blurb, n: d.items.length })));
+
+    list.innerHTML = cards.map(c => `
+      <button class="deck${c.id === ALL ? ' wide' : ''}" type="button"
+              data-deck="${c.id}" data-hue="${c.hue}" aria-pressed="${c.id === cfg.deck}">
+        <span class="den">${c.en}</span>
+        <span class="dn">${c.name}</span>
+        <span class="db">${c.blurb}</span>
+        <span class="dc">${c.n} ชื่อ</span>
+      </button>`).join('');
+
+    list.querySelectorAll('.deck').forEach(b => {
+      b.addEventListener('click', () => {
+        cfg.deck = b.dataset.deck;
+        save();
+        paintDecks();
+        paintBest();
+      });
+    });
+  }
+
+  function paintTimes() {
+    const seg = $('segTime');
+    seg.innerHTML = TIMES.map(t =>
+      `<button type="button" data-time="${t}" aria-pressed="${t === cfg.time}">${t} วิ</button>`).join('');
+    seg.querySelectorAll('button').forEach(b => {
+      b.addEventListener('click', () => {
+        cfg.time = Number(b.dataset.time);
+        save();
+        paintTimes();
+        paintBest();
+      });
+    });
+    $('startSub').textContent = cfg.time + ' วินาที';
+  }
+
+  function paintToggle(segId, key, attr) {
+    const seg = $(segId);
+    seg.querySelectorAll('button').forEach(b => {
+      const val = b.dataset[attr] === '1';
+      b.setAttribute('aria-pressed', String(val === cfg[key]));
+      b.onclick = () => { cfg[key] = val; save(); paintToggle(segId, key, attr); };
+    });
+  }
+
+  function bestKey() { return cfg.deck + ':' + cfg.time; }
+
+  function paintBest() {
+    const b = cfg.best[bestKey()];
+    $('bestLine').innerHTML = b
+      ? `สถิติสูงสุดของชุดนี้ที่ ${cfg.time} วินาที — <b>${b} คะแนน</b>`
+      : 'ยังไม่มีสถิติของชุดนี้ — ตั้งไว้เลย';
+  }
+
+  /* ---------------- สถานะระหว่างเล่น ---------------- */
+
+  const state = { pool: [], i: 0, ok: 0, skip: 0, log: [], endAt: 0, raf: 0, lastTick: -1, locked: false };
+
+  function lenClass(text) {
+    const n = text.length;
+    if (n <= 9) return '';
+    if (n <= 15) return 'len-m';
+    if (n <= 24) return 'len-l';
+    return 'len-x';
+  }
+
+  function paintCard() {
+    const it = state.pool[state.i];
+    if (!it) { finish(); return; }
+
+    $('play').dataset.hue = it.hue;
+    $('tab').textContent = it.deck;
+
+    const el = $('name');
+    el.className = 'name ' + lenClass(it.a);
+    /* ห่อทีละคำ เพื่อไม่ให้เบราว์เซอร์ตัดชื่อทับศัพท์กลางคำ */
+    el.textContent = '';
+    it.a.split(' ').forEach((tok, i) => {
+      if (i) el.appendChild(document.createTextNode(' '));
+      const span = document.createElement('span');
+      span.className = 'tok';
+      span.textContent = tok;
+      el.appendChild(span);
+    });
+    fit();
+  }
+
+  /* ชื่อบางชื่อยาวกว่าที่จอเตี้ย ๆ จะรับไหว — ย่อลงจนพอดีก่อนโชว์ */
+  function fit() {
+    const stage = document.querySelector('.stage');
+    const el = $('name');
+    el.style.fontSize = '';
+    const cs = getComputedStyle(stage);
+    const room = stage.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    if (room <= 0) return;
+    for (let i = 0; i < 24 && el.getBoundingClientRect().height > room; i++) {
+      el.style.fontSize = (parseFloat(getComputedStyle(el).fontSize) * 0.92) + 'px';
+    }
+  }
+
+  function impact(kind) {
+    const f = $('flash');
+    f.className = 'flash ' + kind;
+    void f.offsetWidth;              /* บังคับให้เบราว์เซอร์เริ่มอนิเมชันใหม่ */
+    f.classList.add('fire');
+    if (kind === 'ok') {
+      const s = $('speed');
+      s.classList.remove('fire');
+      void s.offsetWidth;
+      s.classList.add('fire');
+    }
+  }
+
+  function answer(correct) {
+    if (state.locked) return;
+    const it = state.pool[state.i];
+    if (!it) return;
+
+    state.log.push({ a: it.a, deck: it.deck, hue: it.hue, hit: correct });
+    if (correct) { state.ok++; sfx.ok(); buzz(30); }
+    else { state.skip++; sfx.skip(); buzz(15); }
+
+    $('tallyOk').textContent = state.ok;
+    $('tallySkip').textContent = state.skip;
+    impact(correct ? 'ok' : 'sk');
+
+    state.i++;
+    if (state.i >= state.pool.length) {
+      /* ชื่อหมดก่อนเวลา — สับใหม่แล้วเล่นต่อ ไม่ตัดจบกลางคัน */
+      state.pool = shuffle(poolOf(cfg.deck));
+      state.i = 0;
+    }
+    paintCard();
+  }
+
+  /* ---------------- นาฬิกา ---------------- */
+
+  function loop() {
+    const left = Math.max(0, state.endAt - Date.now());
+    const secs = Math.ceil(left / 1000);
+
+    $('gaugeFill').style.transform = 'scaleX(' + (left / (cfg.time * 1000)) + ')';
+    if (secs !== state.lastTick) {
+      state.lastTick = secs;
+      $('clock').textContent = secs;
+      const low = secs <= 10;
+      $('clock').classList.toggle('low', low);
+      $('gauge').classList.toggle('low', low);
+      if (low && secs > 0) sfx.tick();
+    }
+
+    if (left <= 0) { finish(); return; }
+    state.raf = requestAnimationFrame(loop);
+  }
+
+  /* ---------------- เริ่มเกม ---------------- */
+
+  function begin() {
+    state.pool = shuffle(poolOf(cfg.deck));
+    state.i = 0;
+    state.ok = 0;
+    state.skip = 0;
+    state.log = [];
+    state.lastTick = -1;
+    state.locked = false;
+
+    $('tallyOk').textContent = '0';
+    $('tallySkip').textContent = '0';
+    $('clock').textContent = cfg.time;
+    $('clock').classList.remove('low');
+    $('gauge').classList.remove('low');
+    $('gaugeFill').style.transform = 'scaleX(1)';
+
+    show('ready');
+    keepAwake();
+
+    let n = 3;
+    $('countNum').textContent = n;
+    sfx.go();
+
+    const beat = setInterval(() => {
+      n--;
+      if (n > 0) {
+        const el = $('countNum');
+        el.textContent = n;
+        el.style.animation = 'none';
+        void el.offsetWidth;
+        el.style.animation = '';
+        sfx.go();
+        return;
+      }
+      clearInterval(beat);
+      sfx.start();
+      show('play');
+      paintCard();
+      state.endAt = Date.now() + cfg.time * 1000;
+      state.raf = requestAnimationFrame(loop);
+    }, 1000);
+  }
+
+  /* ---------------- จบเกม ---------------- */
+
+  function finish() {
+    if (state.locked) return;
+    state.locked = true;
+    cancelAnimationFrame(state.raf);
+    releaseAwake();
+    sfx.end();
+    buzz([60, 60, 120]);
+
+    const score = state.ok;
+    const key = bestKey();
+    const prev = cfg.best[key] || 0;
+    const record = score > prev;
+    if (record) { cfg.best[key] = score; save(); }
+
+    $('overDeck').textContent = deckName(cfg.deck) + ' · ' + cfg.time + ' วินาที';
+    $('finalScore').innerHTML = score + '<sub>คะแนน</sub>';
+    $('verdict').textContent = rank(score, cfg.time);
+    $('verdictSub').textContent = record && score > 0
+      ? 'สถิติใหม่ของชุดนี้ · เดิม ' + prev + ' คะแนน'
+      : 'ผ่านไป ' + state.log.length + ' ชื่อ · ข้าม ' + state.skip + ' ชื่อ' +
+        (prev ? ' · สถิติสูงสุด ' + prev : '');
+
+    const rows = state.log.map(r =>
+      `<div class="row ${r.hit ? 'hit' : 'miss'}" data-hue="${r.hue}">
+         <span class="mk">${r.hit ? '✓' : '—'}</span>
+         <span class="tx">${r.a}</span>
+         <span class="sr">${r.deck}</span>
+       </div>`).join('');
+
+    $('recap').innerHTML = state.log.length
+      ? '<h2>ชื่อที่ผ่านไป</h2>' + rows
+      : '<h2>ยังไม่ได้ตอบสักชื่อ</h2>';
+
+    show('over');
+  }
+
+  function rank(score, time) {
+    const rate = score / (time / 60);          /* คะแนนต่อหนึ่งนาที */
+    if (score === 0) return 'รอบนี้หมดเวลาก่อน';
+    if (rate < 4)  return 'ยังเป็นตัวประกอบฉากหลัง';
+    if (rate < 8)  return 'สอบเข้ารุ่นใหม่ผ่านแล้ว';
+    if (rate < 12) return 'ตัวหลักประจำทีม';
+    if (rate < 17) return 'ระดับหัวหน้าทีม';
+    if (rate < 22) return 'ตัวท็อปของเรื่อง';
+    return 'นี่มันบอสท้ายเรื่องชัด ๆ';
+  }
+
+  /* ---------------- ปุ่มและคีย์ลัด ---------------- */
+
+  $('btnStart').addEventListener('click', begin);
+  $('btnAgain').addEventListener('click', begin);
+  $('btnHome').addEventListener('click', () => { show('home'); paintBest(); });
+  $('btnOk').addEventListener('click', () => answer(true));
+  $('btnSkip').addEventListener('click', () => answer(false));
+
+  document.addEventListener('keydown', e => {
+    if ($('play').classList.contains('on')) {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') { e.preventDefault(); answer(true); }
+      else if (e.key === 'ArrowLeft' || e.key === 'Backspace') { e.preventDefault(); answer(false); }
+      else if (e.key === 'Escape') { finish(); }
+    } else if ($('home').classList.contains('on') || $('over').classList.contains('on')) {
+      if (e.key === 'Enter') { e.preventDefault(); begin(); }
+    }
+  });
+
+  /* หมุนจอหรือย่อหน้าต่างระหว่างเล่น ให้คำนวณขนาดตัวอักษรใหม่ */
+  window.addEventListener('resize', () => {
+    if ($('play').classList.contains('on')) fit();
+  });
+
+  /* คืนจอไม่ให้ดับ เมื่อผู้เล่นสลับกลับมาที่แท็บนี้ */
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && $('play').classList.contains('on')) keepAwake();
+  });
+
+  /* ---------------- เปิดหน้าครั้งแรก ---------------- */
+
+  paintDecks();
+  paintTimes();
+  paintToggle('segSound', 'sound', 'sound');
+  paintBest();
+  $('poolCount').textContent = ALL_ITEMS.length;
+})();
+
+</script>
