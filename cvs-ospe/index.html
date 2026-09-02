@@ -1,0 +1,4137 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>CVS Pathology OSPE Recall</title>
+<style>
+:root{
+  --bg:#0f1720; --panel:#17212c; --panel2:#1e2a37; --border:#2b3948;
+  --text:#e8eef4; --muted:#8fa3b5; --accent:#4fb3ff; --accent2:#2e86de;
+  --good:#33c17a; --warn:#e8b93a; --bad:#e05a5a; --ess:#e8b93a; --imp:#4fb3ff;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --sans:'IBM Plex Sans Thai','Noto Sans Thai',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--sans);}
+body{min-height:100vh;padding-bottom:70px;}
+h1,h2,h3{font-weight:600;margin:.2em 0;}
+a{color:var(--accent);}
+button{font-family:inherit;cursor:pointer;}
+input,textarea,select{font-family:inherit;}
+.hidden{display:none !important;}
+
+header.topbar{position:sticky;top:0;z-index:20;background:var(--panel);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:8px;padding:8px 12px;flex-wrap:wrap;}
+header.topbar .brand{font-weight:700;font-size:1.05rem;margin-right:8px;white-space:nowrap;}
+nav.tabs{display:flex;gap:4px;flex-wrap:wrap;}
+nav.tabs button{background:transparent;border:1px solid var(--border);color:var(--muted);
+  padding:6px 12px;border-radius:8px;font-size:.85rem;}
+nav.tabs button.active{background:var(--accent2);color:#fff;border-color:var(--accent2);}
+nav.tabs button:hover{border-color:var(--accent);}
+
+main{max-width:920px;margin:0 auto;padding:16px;}
+.view{display:none;}
+.view.active{display:block;}
+
+.card-box{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px;}
+.muted{color:var(--muted);}
+.small{font-size:.82rem;}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.row.between{justify-content:space-between;}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.72rem;border:1px solid var(--border);color:var(--muted);}
+.pill.hy{border-color:var(--warn);color:var(--warn);}
+.pill.review{border-color:var(--bad);color:var(--bad);}
+.pill.approved{border-color:var(--good);color:var(--good);}
+.pill.pending{border-color:var(--muted);color:var(--muted);}
+.pill.rejected{border-color:var(--bad);color:var(--bad);}
+
+/* Study view */
+#studyImgWrap{width:100%;background:#000;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:zoom-in;max-height:60vh;}
+#studyImgWrap img{max-width:100%;max-height:60vh;display:block;touch-action:pinch-zoom;}
+.progress-bar{height:6px;border-radius:3px;background:var(--panel2);overflow:hidden;margin:10px 0;}
+.progress-bar > div{height:100%;background:var(--accent2);width:0%;transition:width .2s;}
+.stage-label{font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
+textarea, input[type=text]{width:100%;background:var(--panel2);border:1px solid var(--border);color:var(--text);
+  border-radius:8px;padding:10px;font-size:1rem;resize:vertical;}
+textarea:focus,input:focus,select:focus{outline:2px solid var(--accent);}
+.btn{background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:9px 16px;border-radius:9px;font-size:.92rem;}
+.btn:hover{border-color:var(--accent);}
+.btn.primary{background:var(--accent2);border-color:var(--accent2);color:#fff;}
+.btn.good{background:var(--good);border-color:var(--good);color:#062;}
+.btn.danger{background:var(--bad);border-color:var(--bad);color:#fff;}
+.btn:disabled{opacity:.4;cursor:not-allowed;}
+.grade-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px;}
+.grade-row button{display:flex;flex-direction:column;gap:2px;padding:10px 4px;}
+.grade-row button b{font-size:1rem;}
+.grade-row button span{font-size:.7rem;opacity:.8;}
+.grade-again{background:#4a2323;border-color:#7a3838;}
+.grade-hard{background:#4a3a1e;border-color:#7a6030;}
+.grade-good{background:#1e4a2e;border-color:#337a4f;}
+.grade-easy{background:#1e3a4a;border-color:#33637a;}
+
+.feedback{border-radius:10px;padding:12px;margin-top:10px;}
+.feedback.correct{background:rgba(51,193,122,.12);border:1px solid var(--good);}
+.feedback.warn{background:rgba(232,185,58,.12);border:1px solid var(--warn);}
+.feedback.wrong{background:rgba(224,90,90,.12);border:1px solid var(--bad);}
+.diff-wrong{color:var(--bad);text-decoration:line-through;}
+.diff-correct{color:var(--good);font-weight:600;}
+.feat-list{list-style:none;padding:0;margin:6px 0;}
+.feat-list li{padding:4px 0;border-bottom:1px dashed var(--border);}
+.feat-list li.ok{color:var(--good);}
+.feat-list li.miss{color:var(--bad);}
+.feat-list .imp-tag{font-size:.68rem;color:var(--muted);margin-left:6px;}
+
+/* Manage / browse */
+.card-list-item{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:var(--panel2);}
+.card-list-item img{width:64px;height:64px;object-fit:cover;border-radius:6px;background:#000;}
+.card-list-item .info{flex:1;min-width:0;}
+.card-list-item .info b{display:block;}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.filters select,.filters input{background:var(--panel2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:6px 8px;}
+
+/* Review grid */
+.review-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;}
+.review-cell{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:10px;}
+.review-cell img{width:100%;height:150px;object-fit:contain;background:#000;border-radius:6px;cursor:pointer;}
+.review-cell .meta{font-size:.75rem;color:var(--muted);margin:4px 0;}
+.review-actions{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;}
+.review-actions button{flex:1;padding:5px;font-size:.75rem;}
+
+/* Forms */
+.form-grid{display:grid;gap:10px;}
+.form-grid label{font-size:.8rem;color:var(--muted);display:block;margin-bottom:3px;}
+.feat-editor-row{display:flex;gap:6px;margin-bottom:6px;}
+.feat-editor-row input[type=text]{flex:1;}
+.feat-editor-row select{background:var(--panel2);border:1px solid var(--border);color:var(--text);border-radius:8px;}
+.chip-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
+.chip{background:var(--panel2);border:1px solid var(--border);border-radius:999px;padding:3px 10px;font-size:.8rem;display:flex;gap:6px;align-items:center;}
+.chip button{background:none;border:none;color:var(--bad);padding:0;font-size:.9rem;}
+
+/* Lightbox */
+#lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:none;align-items:center;justify-content:center;overflow:hidden;touch-action:none;}
+#lightbox.active{display:flex;}
+#lightbox img{max-width:100%;max-height:100%;transform-origin:0 0;will-change:transform;}
+#lightbox .close-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.15);border:none;color:#fff;
+  width:38px;height:38px;border-radius:50%;font-size:1.2rem;z-index:2;}
+
+/* Exam */
+#examTimer{font-family:var(--mono);font-size:1.6rem;text-align:center;}
+#examTimer.low{color:var(--bad);}
+
+footer.hint{position:fixed;bottom:0;left:0;right:0;background:var(--panel);border-top:1px solid var(--border);
+  padding:6px 12px;font-size:.72rem;color:var(--muted);text-align:center;}
+
+.toast{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);background:var(--panel2);border:1px solid var(--accent);
+  color:var(--text);padding:8px 16px;border-radius:20px;font-size:.85rem;z-index:200;opacity:0;transition:opacity .3s;pointer-events:none;}
+.toast.show{opacity:1;}
+
+table.stat-table{width:100%;border-collapse:collapse;font-size:.85rem;}
+table.stat-table td,table.stat-table th{border-bottom:1px solid var(--border);padding:6px;text-align:left;}
+@media (max-width:600px){
+  .grade-row{grid-template-columns:repeat(2,1fr);}
+  header.topbar .brand{width:100%;}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">🫀 CVS Pathology OSPE</div>
+  <nav class="tabs" id="mainTabs">
+    <button data-view="study" class="active">ทบทวน</button>
+    <button data-view="exam">Exam Mode</button>
+    <button data-view="browse">จัดการการ์ด</button>
+    <button data-view="review">Review</button>
+    <button data-view="io">Import/Export</button>
+    <button data-view="stats">สถิติ</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ============ STUDY VIEW ============ -->
+  <section class="view active" id="view-study">
+    <div class="filters">
+      <select id="studyTopicFilter"><option value="">ทุกหัวข้อ (topic)</option></select>
+      <select id="studyTypeFilter">
+        <option value="">gross + micro</option>
+        <option value="gross">gross เท่านั้น</option>
+        <option value="micro">micro เท่านั้น</option>
+      </select>
+      <label class="small"><input type="checkbox" id="studyHYOnly"> High-yield เท่านั้น</label>
+      <button class="btn" id="studyRefreshBtn">รีเฟรชคิว</button>
+    </div>
+
+    <div id="studyEmpty" class="card-box hidden">
+      <p>ยังไม่มีการ์ดให้ทบทวน — อาจเป็นเพราะยังไม่ได้ approve การ์ดใน Review หรือทบทวนหมดแล้วสำหรับวันนี้ 🎉</p>
+      <button class="btn primary" id="goReviewBtn">ไปหน้า Review</button>
+    </div>
+
+    <div id="studyArea" class="hidden">
+      <div class="row between small muted">
+        <span id="studyQueueInfo"></span>
+        <span id="studyDueInfo"></span>
+      </div>
+      <div class="progress-bar"><div id="studyProgressBar"></div></div>
+
+      <div class="card-box">
+        <div id="studyImgWrap"><img id="studyImg" alt="specimen"></div>
+      </div>
+
+      <div class="card-box" id="stageDiagnosis">
+        <div class="stage-label">1. คำถาม: การวินิจฉัยคืออะไร?</div>
+        <textarea id="diagnosisInput" rows="1" placeholder="พิมพ์คำวินิจฉัย แล้วกด Enter"></textarea>
+        <div class="row" style="margin-top:8px;">
+          <button class="btn primary" id="checkDiagnosisBtn">ตรวจคำตอบ (Enter)</button>
+        </div>
+        <div id="diagnosisFeedback"></div>
+      </div>
+
+      <div class="card-box hidden" id="stageFeatures">
+        <div class="stage-label">2. Key features (บรรทัดละ 1 อัน หรือคั่นด้วย comma)</div>
+        <textarea id="featuresInput" rows="3" placeholder="เช่น fibrous cap, lipid core"></textarea>
+        <div class="row" style="margin-top:8px;">
+          <button class="btn primary" id="checkFeaturesBtn">ตรวจคำตอบ (Enter)</button>
+        </div>
+        <div id="featuresFeedback"></div>
+      </div>
+
+      <div class="card-box hidden" id="stageReveal">
+        <div id="revealEtio"></div>
+        <div id="revealPatho"></div>
+        <div id="revealSource" class="small muted" style="margin-top:8px;"></div>
+        <div class="grade-row">
+          <button class="btn grade-again" data-grade="again"><b>1 ลืม</b><span id="dueAgain"></span></button>
+          <button class="btn grade-hard" data-grade="hard"><b>2 ยาก</b><span id="dueHard"></span></button>
+          <button class="btn grade-good" data-grade="good"><b>3 ได้</b><span id="dueGood"></span></button>
+          <button class="btn grade-easy" data-grade="easy"><b>4 ง่าย</b><span id="dueEasy"></span></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EXAM VIEW ============ -->
+  <section class="view" id="view-exam">
+    <div class="card-box" id="examSetup">
+      <h3>Exam Simulation</h3>
+      <p class="muted small">จับเวลา 60 วินาที/ข้อ ตอบทั้งวินิจฉัยและ key features ในเวลาเดียวกัน หมดเวลาแล้วเลื่อนข้อถัดไปอัตโนมัติ ไม่มีผลต่อ SRS</p>
+      <div class="filters">
+        <select id="examTopicFilter"><option value="">ทุกหัวข้อ</option></select>
+        <select id="examTypeFilter">
+          <option value="">gross + micro</option>
+          <option value="gross">gross เท่านั้น</option>
+          <option value="micro">micro เท่านั้น</option>
+        </select>
+      </div>
+      <button class="btn primary" id="startExamBtn">เริ่มสอบ</button>
+    </div>
+
+    <div class="hidden" id="examRunning">
+      <div class="row between">
+        <span id="examProgress" class="small muted"></span>
+        <span id="examTimer">60</span>
+      </div>
+      <div class="progress-bar"><div id="examProgressBar"></div></div>
+      <div class="card-box">
+        <div id="examImgWrap" style="width:100%;background:#000;border-radius:10px;display:flex;justify-content:center;">
+          <img id="examImg" style="max-width:100%;max-height:55vh;">
+        </div>
+      </div>
+      <div class="card-box">
+        <label class="small muted">การวินิจฉัย</label>
+        <textarea id="examDiagnosisInput" rows="1"></textarea>
+        <label class="small muted" style="margin-top:8px;display:block;">Key features</label>
+        <textarea id="examFeaturesInput" rows="2"></textarea>
+        <div class="row" style="margin-top:8px;">
+          <button class="btn primary" id="examSubmitBtn">ส่งคำตอบ / ข้อถัดไป (Enter)</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="hidden card-box" id="examReport">
+      <h3>ผลสอบ</h3>
+      <div id="examReportBody"></div>
+      <button class="btn" id="examRestartBtn">กลับหน้าตั้งค่า</button>
+    </div>
+  </section>
+
+  <!-- ============ BROWSE / MANAGE VIEW ============ -->
+  <section class="view" id="view-browse">
+    <div class="row between">
+      <h3>จัดการการ์ด (<span id="browseCount">0</span>)</h3>
+      <button class="btn primary" id="newCardBtn">+ เพิ่มการ์ดใหม่</button>
+    </div>
+    <div class="filters">
+      <input type="text" id="browseSearch" placeholder="ค้นหา diagnosis...">
+      <select id="browseTopicFilter"><option value="">ทุกหัวข้อ</option></select>
+      <select id="browseTypeFilter">
+        <option value="">ทุกประเภท</option>
+        <option value="gross">gross</option>
+        <option value="micro">micro</option>
+        <option value="diagram">diagram</option>
+        <option value="table">table</option>
+      </select>
+    </div>
+    <div id="browseList"></div>
+  </section>
+
+  <!-- ============ CARD EDITOR (modal-like section) ============ -->
+  <section class="view" id="view-editor">
+    <div class="card-box">
+      <h3 id="editorTitle">แก้ไขการ์ด</h3>
+      <div class="form-grid">
+        <div>
+          <label>Card type</label>
+          <select id="f_cardType">
+            <option value="gross">gross</option>
+            <option value="micro">micro</option>
+            <option value="diagram">diagram</option>
+            <option value="table">table</option>
+          </select>
+        </div>
+        <div>
+          <label>รูปภาพ</label>
+          <div class="row">
+            <input type="text" id="f_image" placeholder="images/cvs/xxx.png หรือปล่อยว่างแล้วอัปโหลด">
+            <input type="file" id="f_imageFile" accept="image/*">
+          </div>
+          <img id="f_imagePreview" style="max-width:200px;max-height:150px;margin-top:6px;border-radius:6px;display:none;background:#000;">
+        </div>
+        <div>
+          <label>Diagnosis / หัวข้อ</label>
+          <input type="text" id="f_diagnosis">
+        </div>
+        <div>
+          <label>Accepted answers (คั่นด้วย comma — คำตอบที่ยอมรับทั้งหมด รวมชื่อเต็ม/ย่อ/พ้อง)</label>
+          <input type="text" id="f_accepted" placeholder="เช่น LVH, Left ventricular hypertrophy">
+        </div>
+        <div>
+          <label>Key features</label>
+          <div id="f_featuresList"></div>
+          <div class="feat-editor-row">
+            <input type="text" id="f_newFeatureText" placeholder="พิมพ์ feature ใหม่">
+            <select id="f_newFeatureImportance">
+              <option value="essential">essential</option>
+              <option value="important">important</option>
+            </select>
+            <button class="btn" id="f_addFeatureBtn">เพิ่ม</button>
+          </div>
+        </div>
+        <div>
+          <label>Etiology</label>
+          <textarea id="f_etiology" rows="2"></textarea>
+        </div>
+        <div>
+          <label>Pathology</label>
+          <textarea id="f_pathology" rows="2"></textarea>
+        </div>
+        <div>
+          <label>Topic</label>
+          <select id="f_topic">
+            <option value="atherosclerosis">atherosclerosis</option>
+            <option value="valvular">valvular</option>
+            <option value="myocardial">myocardial</option>
+            <option value="tumour">tumour</option>
+            <option value="pericardial">pericardial</option>
+            <option value="vascular">vascular</option>
+          </select>
+        </div>
+        <div class="row">
+          <label class="small"><input type="checkbox" id="f_highYield"> High yield</label>
+          <label class="small"><input type="checkbox" id="f_answerVisible"> รูปนี้ยังมีคำตอบ/ป้ายกำกับติดอยู่ (answerVisible)</label>
+          <label class="small"><input type="checkbox" id="f_reviewNeeded"> ต้องตรวจสอบเพิ่มเติม (reviewNeeded)</label>
+        </div>
+        <div class="row">
+          <button class="btn primary" id="saveCardBtn">บันทึก</button>
+          <button class="btn danger" id="deleteCardBtn">ลบการ์ดนี้</button>
+          <button class="btn" id="cancelEditBtn">ยกเลิก</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REVIEW VIEW ============ -->
+  <section class="view" id="view-review">
+    <div class="row between">
+      <h3>Review การ์ดทั้งหมด (<span id="reviewCount">0</span>)</h3>
+      <div class="row">
+        <select id="reviewStatusFilter">
+          <option value="">ทุกสถานะ</option>
+          <option value="pending">pending</option>
+          <option value="approved">approved</option>
+          <option value="rejected">rejected</option>
+        </select>
+        <button class="btn primary" id="approveAllBtn">Approve ทั้งหมดที่เหลือ</button>
+      </div>
+    </div>
+    <p class="small muted">การ์ดจะไม่ปรากฏในโหมดทบทวน/สอบจนกว่าจะ approve ที่นี่ก่อน คลิกรูปเพื่อสลับดูรูปต้นฉบับ/รูปที่ครอปแล้ว</p>
+    <div class="review-grid" id="reviewGrid"></div>
+  </section>
+
+  <!-- ============ IMPORT / EXPORT VIEW ============ -->
+  <section class="view" id="view-io">
+    <div class="card-box">
+      <h3>Export</h3>
+      <p class="small muted">ไฟล์ export จะฝังรูปภาพเป็น base64 ในตัว JSON เดียว เพื่อให้เพื่อนเปิดใช้ต่อได้ครบโดยไม่ต้องมีไฟล์รูปแยก</p>
+      <button class="btn primary" id="exportBtn">Export เป็นไฟล์ JSON</button>
+      <span id="exportStatus" class="small muted"></span>
+    </div>
+    <div class="card-box">
+      <h3>Import</h3>
+      <p class="small muted">นำเข้าไฟล์ JSON ที่ export จากแอปนี้ (การ์ด id ซ้ำจะถูกเขียนทับ)</p>
+      <input type="file" id="importFile" accept="application/json">
+      <div id="importStatus" class="small muted" style="margin-top:6px;"></div>
+    </div>
+    <div class="card-box">
+      <h3 style="color:var(--bad);">รีเซ็ตข้อมูล</h3>
+      <p class="small muted">ล้างความคืบหน้า SRS และการ์ดทั้งหมด แล้วโหลดชุดการ์ดตั้งต้นใหม่</p>
+      <button class="btn danger" id="resetBtn">รีเซ็ตทั้งหมด</button>
+    </div>
+  </section>
+
+  <!-- ============ STATS VIEW ============ -->
+  <section class="view" id="view-stats">
+    <div class="card-box">
+      <h3>สรุปภาพรวม</h3>
+      <table class="stat-table" id="statsTable"></table>
+    </div>
+    <div class="card-box">
+      <h3>แยกตามหัวข้อ</h3>
+      <table class="stat-table" id="statsTopicTable"></table>
+    </div>
+  </section>
+
+</main>
+
+<div id="lightbox">
+  <button class="close-btn" id="lightboxClose">✕</button>
+  <img id="lightboxImg">
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer class="hint">Enter = ส่ง/ไปต่อ · 1-4 = ให้คะแนนตอนทบทวน · ข้อมูลถูกเก็บใน IndexedDB ในเครื่องนี้เท่านั้น</footer>
+
+<script type="application/json" id="cards-seed">[
+  {
+    "id": "CVS-001",
+    "cardType": "gross",
+    "image": "images/cvs/page-04-02.png",
+    "originalImage": "images/cvs/page-04-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 4
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Fatty streak",
+      "acceptedAnswers": [
+        "Fatty streak",
+        "Fatty streaks"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Flat, yellow lesion",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-002",
+    "cardType": "gross",
+    "image": "images/cvs/page-04-01.png",
+    "originalImage": "images/cvs/page-04-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 4
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Fibrous plaque",
+      "acceptedAnswers": [
+        "Fibrous plaque",
+        "Fibrous plaques"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Raised, firm, yellow-white plaque",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-003",
+    "cardType": "gross",
+    "image": "images/cvs/page-08-01.png",
+    "originalImage": "images/cvs/page-08-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 8
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Fibrous plaque",
+      "acceptedAnswers": [
+        "Fibrous plaque",
+        "Fibrous plaques"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Raised, firm, yellow-white plaque",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-004",
+    "cardType": "gross",
+    "image": "images/cvs/page-09-01-cropped.png",
+    "originalImage": "images/cvs/page-09-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 9
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Complicated plaque",
+      "acceptedAnswers": [
+        "Complicated plaque",
+        "Complicated plaques"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Ulceration/hemorrhage within plaque",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-005",
+    "cardType": "gross",
+    "image": "images/cvs/page-09-02-cropped.png",
+    "originalImage": "images/cvs/page-09-02.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 9
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Complicated plaque",
+      "acceptedAnswers": [
+        "Complicated plaque",
+        "Complicated plaques"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Ulceration/hemorrhage within plaque",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-006",
+    "cardType": "gross",
+    "image": "images/cvs/page-10-01.png",
+    "originalImage": "images/cvs/page-10-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 10
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Complicated plaque",
+      "acceptedAnswers": [
+        "Complicated plaque",
+        "Complicated plaques"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Ulceration/hemorrhage within plaque",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-007",
+    "cardType": "gross",
+    "image": "images/cvs/page-10-02.png",
+    "originalImage": "images/cvs/page-10-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 10
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Complicated plaque",
+      "acceptedAnswers": [
+        "Complicated plaque",
+        "Complicated plaques"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Extensive ulceration with hemorrhage/thrombus",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-008",
+    "cardType": "gross",
+    "image": "images/cvs/page-11-01.png",
+    "originalImage": "images/cvs/page-11-01.png",
+    "answerVisible": false,
+    "reviewNeeded": true,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 11
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Atherosclerosis",
+      "acceptedAnswers": [
+        "Atherosclerosis",
+        "Complicated plaque",
+        "Atherosclerotic plaque"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Irregular yellow-tan atheromatous plaques",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-009",
+    "cardType": "micro",
+    "image": "images/cvs/page-05-01-cropped.png",
+    "originalImage": "images/cvs/page-05-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 5
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Atherosclerosis",
+      "acceptedAnswers": [
+        "Atherosclerosis",
+        "Atherosclerotic plaque"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Fibrous cap",
+        "importance": "essential"
+      },
+      {
+        "text": "Lipid core",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-010",
+    "cardType": "micro",
+    "image": "images/cvs/page-05-02-cropped.png",
+    "originalImage": "images/cvs/page-05-02.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 5
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Atherosclerosis",
+      "acceptedAnswers": [
+        "Atherosclerosis",
+        "Atherosclerotic plaque"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Foamy macrophages",
+        "importance": "essential"
+      },
+      {
+        "text": "Fibrosis",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-011",
+    "cardType": "micro",
+    "image": "images/cvs/page-05-03-cropped.png",
+    "originalImage": "images/cvs/page-05-03.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 5
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Atherosclerosis",
+      "acceptedAnswers": [
+        "Atherosclerosis",
+        "Atherosclerotic plaque"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Cholesterol crystals",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-012",
+    "cardType": "micro",
+    "image": "images/cvs/page-07-01-cropped.png",
+    "originalImage": "images/cvs/page-07-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 7
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Atherosclerosis",
+      "acceptedAnswers": [
+        "Atherosclerosis",
+        "Atherosclerotic plaque"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Fibrous cap overlying plaque",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-013",
+    "cardType": "micro",
+    "image": "images/cvs/page-12-01.png",
+    "originalImage": "images/cvs/page-12-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 12
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Monckeberg medial calcific sclerosis",
+      "acceptedAnswers": [
+        "Monckeberg medial calcific sclerosis",
+        "Monckeberg's sclerosis",
+        "Medial calcific sclerosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Calcification of tunica media",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-014",
+    "cardType": "micro",
+    "image": "images/cvs/page-13-01-cropped.png",
+    "originalImage": "images/cvs/page-13-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 13
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Hyaline arteriolosclerosis",
+      "acceptedAnswers": [
+        "Hyaline arteriolosclerosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Hyaline thickening of arteriolar wall",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Benign hypertension, Diabetes mellitus",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-015",
+    "cardType": "micro",
+    "image": "images/cvs/page-13-02.png",
+    "originalImage": "images/cvs/page-13-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 13
+    },
+    "topic": "vascular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Hyperplastic arteriolosclerosis",
+      "acceptedAnswers": [
+        "Hyperplastic arteriolosclerosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Onion skin appearance",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Malignant hypertension",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-016",
+    "cardType": "micro",
+    "image": "images/cvs/page-13-03.png",
+    "originalImage": "images/cvs/page-13-03.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 13
+    },
+    "topic": "vascular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Hyperplastic arteriolosclerosis",
+      "acceptedAnswers": [
+        "Hyperplastic arteriolosclerosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Onion skin appearance",
+        "importance": "essential"
+      },
+      {
+        "text": "Fibrinoid necrosis",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Malignant hypertension",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-017",
+    "cardType": "micro",
+    "image": "images/cvs/page-14-01-hyalinosis-cropped.png",
+    "originalImage": "images/cvs/page-14-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 14
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Vascular change in malignant hypertension",
+      "acceptedAnswers": [
+        "Vascular change in malignant hypertension",
+        "Malignant hypertension",
+        "Malignant nephrosclerosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Hyalinosis of arteriole",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-018",
+    "cardType": "micro",
+    "image": "images/cvs/page-14-01-fibrinoid-cropped.png",
+    "originalImage": "images/cvs/page-14-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 14
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Vascular change in malignant hypertension",
+      "acceptedAnswers": [
+        "Vascular change in malignant hypertension",
+        "Malignant hypertension",
+        "Malignant nephrosclerosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Fibrinoid necrosis of arteriole",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-019",
+    "cardType": "micro",
+    "image": "images/cvs/page-14-02.png",
+    "originalImage": "images/cvs/page-14-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 14
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Vascular change in malignant hypertension",
+      "acceptedAnswers": [
+        "Vascular change in malignant hypertension",
+        "Malignant hypertension",
+        "Malignant nephrosclerosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Intimal proliferation, mucoid thickening",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-020",
+    "cardType": "gross",
+    "image": "images/cvs/page-16-01.png",
+    "originalImage": "images/cvs/page-16-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 16
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Aortic aneurysm with dissection",
+      "acceptedAnswers": [
+        "Aortic aneurysm with dissection",
+        "Aortic dissection"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Intramural hematoma, false lumen",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-021",
+    "cardType": "gross",
+    "image": "images/cvs/page-17-01.png",
+    "originalImage": "images/cvs/page-17-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 17
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Aortic dissection",
+      "acceptedAnswers": [
+        "Aortic dissection"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "False lumen / intramural hemorrhage",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-022",
+    "cardType": "gross",
+    "image": "images/cvs/page-17-02.png",
+    "originalImage": "images/cvs/page-17-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 17
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Aortic dissection",
+      "acceptedAnswers": [
+        "Aortic dissection"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "False lumen / intramural hemorrhage",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-023",
+    "cardType": "gross",
+    "image": "images/cvs/page-21-01.png",
+    "originalImage": "images/cvs/page-21-01.png",
+    "answerVisible": false,
+    "reviewNeeded": true,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 21
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Acute myocardial infarction",
+      "acceptedAnswers": [
+        "Acute myocardial infarction",
+        "Acute MI"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Pale, yellow area of necrosis",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-024",
+    "cardType": "gross",
+    "image": "images/cvs/page-22-01.png",
+    "originalImage": "images/cvs/page-22-01.png",
+    "answerVisible": false,
+    "reviewNeeded": true,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 22
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Reperfusion injury",
+      "acceptedAnswers": [
+        "Reperfusion injury",
+        "Hemorrhagic infarction"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Hemorrhagic transformation of infarct",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-025",
+    "cardType": "gross",
+    "image": "images/cvs/page-23-01.png",
+    "originalImage": "images/cvs/page-23-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 23
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Recent transmural MI",
+      "acceptedAnswers": [
+        "Recent transmural MI",
+        "Recent transmural myocardial infarction"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Transmural pale/yellow necrosis",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-026",
+    "cardType": "gross",
+    "image": "images/cvs/page-24-01.png",
+    "originalImage": "images/cvs/page-24-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 24
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Old myocardial infarction",
+      "acceptedAnswers": [
+        "Old myocardial infarction",
+        "Old MI"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "White, fibrous scar",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-027",
+    "cardType": "micro",
+    "image": "images/cvs/page-25-01.png",
+    "originalImage": "images/cvs/page-25-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 25
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Wavy fiber",
+      "acceptedAnswers": [
+        "Wavy fiber",
+        "Wavy fibers"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Thin, wavy myocytes",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-028",
+    "cardType": "micro",
+    "image": "images/cvs/page-25-02.png",
+    "originalImage": "images/cvs/page-25-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 25
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Contraction band",
+      "acceptedAnswers": [
+        "Contraction band",
+        "Contraction band necrosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Dark transverse hypercontraction bands",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-029",
+    "cardType": "micro",
+    "image": "images/cvs/page-26-01.png",
+    "originalImage": "images/cvs/page-26-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 26
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Myocardial infarction, 1 day",
+      "acceptedAnswers": [
+        "Myocardial infarction, 1 day",
+        "MI 1 day"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Early coagulative necrosis",
+        "importance": "essential"
+      },
+      {
+        "text": "Wavy fibers",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-030",
+    "cardType": "micro",
+    "image": "images/cvs/page-26-02.png",
+    "originalImage": "images/cvs/page-26-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 26
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Myocardial infarction, 3-4 days",
+      "acceptedAnswers": [
+        "Myocardial infarction, 3-4 days",
+        "MI 3-4 days"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Neutrophilic infiltrate",
+        "importance": "essential"
+      },
+      {
+        "text": "Loss of nuclei/striations",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-031",
+    "cardType": "micro",
+    "image": "images/cvs/page-26-03.png",
+    "originalImage": "images/cvs/page-26-03.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 26
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Myocardial infarction, 7-10 days",
+      "acceptedAnswers": [
+        "Myocardial infarction, 7-10 days",
+        "MI 7-10 days"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Macrophages with phagocytosis",
+        "importance": "essential"
+      },
+      {
+        "text": "Early granulation tissue",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-032",
+    "cardType": "micro",
+    "image": "images/cvs/page-26-04.png",
+    "originalImage": "images/cvs/page-26-04.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 26
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Myocardial infarction, 2-3 weeks",
+      "acceptedAnswers": [
+        "Myocardial infarction, 2-3 weeks",
+        "MI 2-3 weeks"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Granulation tissue",
+        "importance": "essential"
+      },
+      {
+        "text": "Increased collagen, decreased cellularity",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-033",
+    "cardType": "gross",
+    "image": "images/cvs/page-28-01.png",
+    "originalImage": "images/cvs/page-28-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 28
+    },
+    "topic": "myocardial",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Left ventricular hypertrophy",
+      "acceptedAnswers": [
+        "LVH",
+        "Left ventricular hypertrophy"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Free LV wall thickness ≥ 1.5 cm",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Hypertension",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-034",
+    "cardType": "micro",
+    "image": "images/cvs/page-29-01.png",
+    "originalImage": "images/cvs/page-29-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 29
+    },
+    "topic": "myocardial",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Left ventricular hypertrophy",
+      "acceptedAnswers": [
+        "LVH",
+        "Left ventricular hypertrophy"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Enlarged myocyte nuclei (>3x normal)",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Hypertension",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-035",
+    "cardType": "gross",
+    "image": "images/cvs/page-30-01.png",
+    "originalImage": "images/cvs/page-30-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 30
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Hypertrophic cardiomyopathy",
+      "acceptedAnswers": [
+        "Hypertrophic cardiomyopathy",
+        "HCM"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Marked LV hypertrophy",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Genetic; Friedreich ataxia, storage disease, infants of diabetic mothers",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-036",
+    "cardType": "micro",
+    "image": "images/cvs/page-31-01.png",
+    "originalImage": "images/cvs/page-31-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 31
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Hypertrophic cardiomyopathy",
+      "acceptedAnswers": [
+        "Hypertrophic cardiomyopathy",
+        "HCM"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Myocyte disarray",
+        "importance": "essential"
+      },
+      {
+        "text": "Interstitial fibrosis",
+        "importance": "important"
+      }
+    ],
+    "etiology": "Genetic",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-037",
+    "cardType": "gross",
+    "image": "images/cvs/page-32-01-cropped.png",
+    "originalImage": "images/cvs/page-32-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 32
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Dilated cardiomyopathy",
+      "acceptedAnswers": [
+        "Dilated cardiomyopathy",
+        "DCM"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Four-chamber dilatation and hypertrophy",
+        "importance": "essential"
+      },
+      {
+        "text": "Mural thrombus",
+        "importance": "important"
+      }
+    ],
+    "etiology": "Idiopathic, alcoholic, genetic, myocarditis, hemochromatosis, chronic anemia, doxorubicin",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-038",
+    "cardType": "micro",
+    "image": "images/cvs/page-35-01.png",
+    "originalImage": "images/cvs/page-35-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 35
+    },
+    "topic": "myocardial",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Lymphocytic (viral) myocarditis",
+      "acceptedAnswers": [
+        "Lymphocytic (viral) myocarditis",
+        "Viral myocarditis",
+        "Lymphocytic myocarditis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Lymphocytic infiltrate between myocytes",
+        "importance": "essential"
+      },
+      {
+        "text": "Myocyte necrosis",
+        "importance": "important"
+      }
+    ],
+    "etiology": "Coxsackievirus A and B, influenza, HIV, CMV (viral); also Chlamydiae, Rickettsiae, bacteria, fungi, protozoa, helminths, immune-mediated, sarcoidosis, giant cell myocarditis",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-039",
+    "cardType": "gross",
+    "image": "images/cvs/page-38-01.png",
+    "originalImage": "images/cvs/page-38-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 38
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Rheumatic heart disease",
+      "acceptedAnswers": [
+        "Rheumatic heart disease",
+        "Acute rheumatic valvulitis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Small vegetations along valve closure line",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "Fibrinoid necrosis, precipitation of fibrin at erosive site",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-040",
+    "cardType": "gross",
+    "image": "images/cvs/page-39-01.png",
+    "originalImage": "images/cvs/page-39-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 39
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Chronic rheumatic heart disease",
+      "acceptedAnswers": [
+        "Chronic rheumatic heart disease"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Fish mouth mitral valve",
+        "importance": "essential"
+      },
+      {
+        "text": "Leaflet thickening",
+        "importance": "essential"
+      },
+      {
+        "text": "Commissural fusion and shortening",
+        "importance": "essential"
+      },
+      {
+        "text": "Thickening, fusion of chordae tendineae",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-041",
+    "cardType": "micro",
+    "image": "images/cvs/page-40-01.png",
+    "originalImage": "images/cvs/page-40-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 40
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Aschoff body",
+      "acceptedAnswers": [
+        "Aschoff body",
+        "Aschoff nodule"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Macrophages",
+        "importance": "essential"
+      },
+      {
+        "text": "T cells",
+        "importance": "important"
+      },
+      {
+        "text": "Swollen collagen",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "Seen in rheumatic myocarditis",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-042",
+    "cardType": "micro",
+    "image": "images/cvs/page-40-02.png",
+    "originalImage": "images/cvs/page-40-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 40
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Anitschkow cells",
+      "acceptedAnswers": [
+        "Anitschkow cells",
+        "Anitschkow myocytes",
+        "caterpillar cells"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Modified macrophage, wavy nucleus",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-043",
+    "cardType": "gross",
+    "image": "images/cvs/page-41-01.png",
+    "originalImage": "images/cvs/page-41-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 41
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Infective endocarditis",
+      "acceptedAnswers": [
+        "Infective endocarditis",
+        "Bacterial endocarditis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Large, irregular vegetations",
+        "importance": "essential"
+      },
+      {
+        "text": "Extension to chordae tendineae",
+        "importance": "important"
+      },
+      {
+        "text": "Destroyed/perforated valve",
+        "importance": "important"
+      }
+    ],
+    "etiology": "S. viridans, S. aureus, HACEK group",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-044",
+    "cardType": "gross",
+    "image": "images/cvs/page-42-01-cropped.png",
+    "originalImage": "images/cvs/page-42-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 42
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Infective endocarditis",
+      "acceptedAnswers": [
+        "Infective endocarditis",
+        "Bacterial endocarditis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Large, friable vegetations on valve",
+        "importance": "essential"
+      },
+      {
+        "text": "Cuspal destruction/ring abscess",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-045",
+    "cardType": "micro",
+    "image": "images/cvs/page-43-01-cropped.png",
+    "originalImage": "images/cvs/page-43-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 43
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Infective endocarditis",
+      "acceptedAnswers": [
+        "Infective endocarditis",
+        "Bacterial endocarditis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Fibrin material",
+        "importance": "essential"
+      },
+      {
+        "text": "Neutrophil infiltration",
+        "importance": "essential"
+      },
+      {
+        "text": "Foamy macrophage",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-046",
+    "cardType": "gross",
+    "image": "images/cvs/page-45-01.png",
+    "originalImage": "images/cvs/page-45-01.png",
+    "answerVisible": false,
+    "reviewNeeded": true,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 45
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Mitral stenosis",
+      "acceptedAnswers": [
+        "Mitral stenosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Thickened, calcified leaflets",
+        "importance": "essential"
+      },
+      {
+        "text": "Commissural fusion",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-047",
+    "cardType": "gross",
+    "image": "images/cvs/page-46-01.png",
+    "originalImage": "images/cvs/page-46-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 46
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Aortic stenosis",
+      "acceptedAnswers": [
+        "Aortic stenosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Calcified, thickened valve",
+        "importance": "essential"
+      },
+      {
+        "text": "Commissural fusion",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-048",
+    "cardType": "gross",
+    "image": "images/cvs/page-46-02.png",
+    "originalImage": "images/cvs/page-46-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 46
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Aortic stenosis",
+      "acceptedAnswers": [
+        "Aortic stenosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Calcified, thickened valve",
+        "importance": "essential"
+      },
+      {
+        "text": "Commissural fusion",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-049",
+    "cardType": "gross",
+    "image": "images/cvs/page-47-01.png",
+    "originalImage": "images/cvs/page-47-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 47
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Bicuspid aortic stenosis",
+      "acceptedAnswers": [
+        "Bicuspid aortic stenosis",
+        "Bicuspid aortic valve"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Two cusps instead of three",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Congenital",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-050",
+    "cardType": "gross",
+    "image": "images/cvs/page-48-01.png",
+    "originalImage": "images/cvs/page-48-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 48
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Bioprosthetic valve",
+      "acceptedAnswers": [
+        "Bioprosthetic valve",
+        "Biological valve",
+        "Tissue valve"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Bovine pericardium construction",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-051",
+    "cardType": "gross",
+    "image": "images/cvs/page-48-02.png",
+    "originalImage": "images/cvs/page-48-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 48
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Bioprosthetic valve",
+      "acceptedAnswers": [
+        "Bioprosthetic valve",
+        "Biological valve",
+        "Tissue valve"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Bovine pericardium construction",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-052",
+    "cardType": "gross",
+    "image": "images/cvs/page-48-03.png",
+    "originalImage": "images/cvs/page-48-03.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 48
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Bioprosthetic valve",
+      "acceptedAnswers": [
+        "Bioprosthetic valve",
+        "Biological valve",
+        "Tissue valve"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Bovine pericardium construction",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-053",
+    "cardType": "gross",
+    "image": "images/cvs/page-48-04.png",
+    "originalImage": "images/cvs/page-48-04.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 48
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Bioprosthetic valve",
+      "acceptedAnswers": [
+        "Bioprosthetic valve",
+        "Biological valve",
+        "Tissue valve"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Bovine pericardium construction",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-054",
+    "cardType": "gross",
+    "image": "images/cvs/page-48-05-mechanical-cropped.png",
+    "originalImage": "images/cvs/page-48-05.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 48
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Mechanical prosthetic valve",
+      "acceptedAnswers": [
+        "Mechanical valve",
+        "Mechanical prosthetic valve"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Rigid bileaflet/ball-cage design",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-055",
+    "cardType": "gross",
+    "image": "images/cvs/page-48-05-tissue-cropped.png",
+    "originalImage": "images/cvs/page-48-05.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 48
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Bioprosthetic valve",
+      "acceptedAnswers": [
+        "Bioprosthetic valve",
+        "Biological valve",
+        "Tissue valve"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Bovine pericardium construction",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-056",
+    "cardType": "gross",
+    "image": "images/cvs/page-49-02.png",
+    "originalImage": "images/cvs/page-49-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 49
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Cardiac pacemaker",
+      "acceptedAnswers": [
+        "Cardiac pacemaker",
+        "Pacemaker"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Battery-powered device with leads",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "Small, battery-powered medical device placed under the skin to control abnormal or slow heart rhythms",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-057",
+    "cardType": "gross",
+    "image": "images/cvs/page-49-03.png",
+    "originalImage": "images/cvs/page-49-03.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 49
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Cardiac pacemaker",
+      "acceptedAnswers": [
+        "Cardiac pacemaker",
+        "Pacemaker"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Battery-powered device with leads",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-058",
+    "cardType": "gross",
+    "image": "images/cvs/page-50-01.png",
+    "originalImage": "images/cvs/page-50-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 50
+    },
+    "topic": "tumour",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Cardiac myxoma",
+      "acceptedAnswers": [
+        "Cardiac myxoma",
+        "Atrial myxoma"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Soft, gelatinous mass",
+        "importance": "essential"
+      },
+      {
+        "text": "Atrial location",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "Soft gelatinous mass, mostly in atrium",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-059",
+    "cardType": "micro",
+    "image": "images/cvs/page-51-01.png",
+    "originalImage": "images/cvs/page-51-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 51
+    },
+    "topic": "tumour",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Cardiac myxoma",
+      "acceptedAnswers": [
+        "Cardiac myxoma",
+        "Atrial myxoma"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Stellate cells in mucopolysaccharide background",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-060",
+    "cardType": "gross",
+    "image": "images/cvs/page-53-01.png",
+    "originalImage": "images/cvs/page-53-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 53
+    },
+    "topic": "pericardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Fibrinous pericarditis",
+      "acceptedAnswers": [
+        "Fibrinous pericarditis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Fibrinous exudate over epicardial surface",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Post-infarct (Dressler syndrome), uremia, SLE, radiation",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-061",
+    "cardType": "gross",
+    "image": "images/cvs/page-53-02.png",
+    "originalImage": "images/cvs/page-53-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 53
+    },
+    "topic": "pericardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Fibrinous pericarditis",
+      "acceptedAnswers": [
+        "Fibrinous pericarditis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Fibrinous exudate over epicardial surface",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Post-infarct (Dressler syndrome), uremia, SLE, radiation",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-062",
+    "cardType": "gross",
+    "image": "images/cvs/page-54-01.png",
+    "originalImage": "images/cvs/page-54-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 54
+    },
+    "topic": "pericardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Hemorrhagic pericarditis",
+      "acceptedAnswers": [
+        "Hemorrhagic pericarditis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Blood-tinged pericardial exudate",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Malignant, bleeding disorder, TB, post surgery",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-063",
+    "cardType": "gross",
+    "image": "images/cvs/page-54-02.png",
+    "originalImage": "images/cvs/page-54-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 54
+    },
+    "topic": "pericardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Purulent pericarditis",
+      "acceptedAnswers": [
+        "Purulent pericarditis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Purulent (pus-like) pericardial exudate",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Infection",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-064",
+    "cardType": "micro",
+    "image": "images/cvs/page-56-01.png",
+    "originalImage": "images/cvs/page-56-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 56
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Capillary hemangioma",
+      "acceptedAnswers": [
+        "Capillary hemangioma"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Packed capillaries with RBC-filled spaces",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-065",
+    "cardType": "micro",
+    "image": "images/cvs/page-56-02-cropped.png",
+    "originalImage": "images/cvs/page-56-02.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 56
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Capillary hemangioma",
+      "acceptedAnswers": [
+        "Capillary hemangioma"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Intradermal proliferation of capillaries",
+        "importance": "essential"
+      },
+      {
+        "text": "Endothelial cells without atypia",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-066",
+    "cardType": "micro",
+    "image": "images/cvs/page-57-01-cropped.png",
+    "originalImage": "images/cvs/page-57-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 57
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Cavernous hemangioma",
+      "acceptedAnswers": [
+        "Cavernous hemangioma"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Large, cystically dilated vessels",
+        "importance": "essential"
+      },
+      {
+        "text": "Honeycomb pattern",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-067",
+    "cardType": "micro",
+    "image": "images/cvs/page-58-01-cropped.png",
+    "originalImage": "images/cvs/page-58-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 58
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Cavernous hemangioma",
+      "acceptedAnswers": [
+        "Cavernous hemangioma"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Large, dilated vascular spaces",
+        "importance": "essential"
+      },
+      {
+        "text": "Thin fibrous septa",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-068",
+    "cardType": "micro",
+    "image": "images/cvs/page-59-01.png",
+    "originalImage": "images/cvs/page-59-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 59
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Angiosarcoma",
+      "acceptedAnswers": [
+        "Angiosarcoma"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Irregular, anastomosing vascular channels",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-069",
+    "cardType": "micro",
+    "image": "images/cvs/page-60-01-cropped.png",
+    "originalImage": "images/cvs/page-60-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 60
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Angiosarcoma",
+      "acceptedAnswers": [
+        "Angiosarcoma"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Endothelial cells with marked atypia",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-070",
+    "cardType": "micro",
+    "image": "images/cvs/page-61-01.png",
+    "originalImage": "images/cvs/page-61-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 61
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Polyarteritis nodosa",
+      "acceptedAnswers": [
+        "Polyarteritis nodosa",
+        "PAN"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Segmental necrotizing inflammation",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-071",
+    "cardType": "micro",
+    "image": "images/cvs/page-62-01.png",
+    "originalImage": "images/cvs/page-62-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 62
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Polyarteritis nodosa",
+      "acceptedAnswers": [
+        "Polyarteritis nodosa",
+        "PAN"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Fibrinoid necrosis",
+        "importance": "essential"
+      },
+      {
+        "text": "Neutrophil infiltration",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-072",
+    "cardType": "micro",
+    "image": "images/cvs/page-63-01-cropped.png",
+    "originalImage": "images/cvs/page-63-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 63
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Polyarteritis nodosa",
+      "acceptedAnswers": [
+        "Polyarteritis nodosa",
+        "PAN"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Fibrinoid necrosis of medium-size artery",
+        "importance": "essential"
+      },
+      {
+        "text": "PMN infiltration",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-D01",
+    "cardType": "diagram",
+    "image": "images/cvs/page-06-01.png",
+    "originalImage": "images/cvs/page-06-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 6
+    },
+    "topic": "atherosclerosis",
+    "highYield": false,
+    "title": "Structure of normal artery wall and atherosclerotic plaque",
+    "notes": "Labeled diagram: tunica intima/media/adventitia, endothelium, smooth muscle, foamy macrophages, atherosclerotic plaque."
+  },
+  {
+    "id": "CVS-D02",
+    "cardType": "diagram",
+    "image": "images/cvs/page-33-01.png",
+    "originalImage": "images/cvs/page-33-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 33
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "title": "Gross morphology: concentric vs eccentric (dilated) cardiac hypertrophy",
+    "notes": "Comparison diagram: normal heart vs concentric hypertrophy vs dilated heart."
+  },
+  {
+    "id": "CVS-D03",
+    "cardType": "diagram",
+    "image": "images/cvs/page-37-01.png",
+    "originalImage": "images/cvs/page-37-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 37
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "title": "Pathogenesis of rheumatic heart disease",
+    "notes": "Schematic: sore throat -> immune response -> acute rheumatic heart disease (vegetations, Aschoff body myocarditis, fibrinous pericarditis)."
+  },
+  {
+    "id": "CVS-T01",
+    "cardType": "table",
+    "image": "images/cvs/page-44-01.png",
+    "originalImage": "images/cvs/page-44-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 44
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "title": "Types of vegetations in different forms of endocarditis",
+    "notes": "Comparison table: rheumatic fever, infective endocarditis, non-bacterial thrombotic endocarditis (NBTE), Libman-Sacks endocarditis (LSE)."
+  },
+  {
+    "id": "CVS-D04",
+    "cardType": "diagram",
+    "image": "images/cvs/page-49-01.png",
+    "originalImage": "images/cvs/page-49-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 49
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "title": "Cardiac pacemaker anatomy",
+    "notes": "Diagram of pacemaker leads placed into right atrium and right ventricle."
+  }
+]</script>
+
+<script>
+(function(){
+"use strict";
+
+/* =========================================================
+   CONFIG
+========================================================= */
+const DB_NAME = "cvsOspeDB";
+const DB_VERSION = 1;
+const STORE = "cards";
+const EXAM_SECONDS = 60;
+const TOPICS = ["atherosclerosis","valvular","myocardial","tumour","pericardial","vascular"];
+
+/* =========================================================
+   IndexedDB helpers
+========================================================= */
+let dbPromise = null;
+function openDB(){
+  if(dbPromise) return dbPromise;
+  dbPromise = new Promise((resolve,reject)=>{
+    const req = indexedDB.open(DB_NAME, DB_VERSION);
+    req.onupgradeneeded = (e)=>{
+      const db = e.target.result;
+      if(!db.objectStoreNames.contains(STORE)){
+        db.createObjectStore(STORE, {keyPath:"id"});
+      }
+    };
+    req.onsuccess = ()=> resolve(req.result);
+    req.onerror = ()=> reject(req.error);
+  });
+  return dbPromise;
+}
+async function idbGetAll(){
+  const db = await openDB();
+  return new Promise((resolve,reject)=>{
+    const tx = db.transaction(STORE,"readonly");
+    const req = tx.objectStore(STORE).getAll();
+    req.onsuccess = ()=> resolve(req.result);
+    req.onerror = ()=> reject(req.error);
+  });
+}
+async function idbPut(card){
+  const db = await openDB();
+  return new Promise((resolve,reject)=>{
+    const tx = db.transaction(STORE,"readwrite");
+    tx.objectStore(STORE).put(card);
+    tx.oncomplete = ()=> resolve();
+    tx.onerror = ()=> reject(tx.error);
+  });
+}
+async function idbBulkPut(cards){
+  const db = await openDB();
+  return new Promise((resolve,reject)=>{
+    const tx = db.transaction(STORE,"readwrite");
+    const store = tx.objectStore(STORE);
+    cards.forEach(c=> store.put(c));
+    tx.oncomplete = ()=> resolve();
+    tx.onerror = ()=> reject(tx.error);
+  });
+}
+async function idbDelete(id){
+  const db = await openDB();
+  return new Promise((resolve,reject)=>{
+    const tx = db.transaction(STORE,"readwrite");
+    tx.objectStore(STORE).delete(id);
+    tx.oncomplete = ()=> resolve();
+    tx.onerror = ()=> reject(tx.error);
+  });
+}
+async function idbClear(){
+  const db = await openDB();
+  return new Promise((resolve,reject)=>{
+    const tx = db.transaction(STORE,"readwrite");
+    tx.objectStore(STORE).clear();
+    tx.oncomplete = ()=> resolve();
+    tx.onerror = ()=> reject(tx.error);
+  });
+}
+
+/* =========================================================
+   Seed data
+========================================================= */
+function loadSeed(){
+  const raw = document.getElementById("cards-seed").textContent;
+  const arr = JSON.parse(raw);
+  return arr.map(c=>{
+    c.reviewStatus = "pending";
+    return c;
+  });
+}
+
+let ALL_CARDS = []; // in-memory cache, mirrors IDB
+
+async function initData(){
+  let existing = await idbGetAll();
+  if(existing.length === 0){
+    const seed = loadSeed();
+    await idbBulkPut(seed);
+    existing = seed;
+  }
+  ALL_CARDS = existing;
+}
+
+function cardById(id){ return ALL_CARDS.find(c=>c.id===id); }
+
+/* =========================================================
+   Text normalization / Levenshtein / matching
+========================================================= */
+function normalize(s){
+  return (s||"").toLowerCase().trim().replace(/\s+/g," ");
+}
+function levenshtein(a,b){
+  a = a||""; b = b||"";
+  const m=a.length, n=b.length;
+  if(m===0) return n;
+  if(n===0) return m;
+  let prev = new Array(n+1);
+  let cur = new Array(n+1);
+  for(let j=0;j<=n;j++) prev[j]=j;
+  for(let i=1;i<=m;i++){
+    cur[0]=i;
+    for(let j=1;j<=n;j++){
+      const cost = a[i-1]===b[j-1] ? 0 : 1;
+      cur[j] = Math.min(prev[j]+1, cur[j-1]+1, prev[j-1]+cost);
+    }
+    [prev,cur] = [cur,prev];
+  }
+  return prev[n];
+}
+
+// diagnosis matching -> {status:'correct'|'warn'|'wrong', bestMatch, distance}
+function matchDiagnosis(input, acceptedAnswers){
+  const normInput = normalize(input);
+  if(!normInput) return {status:"wrong", bestMatch:acceptedAnswers[0], distance:Infinity};
+  let best = {status:"wrong", bestMatch:acceptedAnswers[0], distance:Infinity};
+  for(const ans of acceptedAnswers){
+    const normAns = normalize(ans);
+    if(normInput === normAns){
+      return {status:"correct", bestMatch:ans, distance:0};
+    }
+    const d = levenshtein(normInput, normAns);
+    if(d < best.distance){
+      best = {status: d<=2 ? "warn":"wrong", bestMatch: ans, distance: d};
+    }
+  }
+  return best;
+}
+
+const FEATURE_STOPWORDS = new Set([
+  "of","in","the","a","an","with","and","or","to","at","by",
+  "necrosis","cell","cells","infiltration","material","change","changes",
+  "tissue","layer","layers","one","large","small","area","areas"
+]);
+function normFeat(s){
+  return (s||"").toLowerCase().replace(/[^\w\s฀-๿]/g," ").replace(/\s+/g," ").trim();
+}
+function stem(w){ return (w.length>3 && w.endsWith("s")) ? w.slice(0,-1) : w; }
+function sigWords(feature){
+  return normFeat(feature).split(" ").filter(w=>w.length>2 && !FEATURE_STOPWORDS.has(w));
+}
+function wordMatch(a,b){
+  if(!a||!b) return false;
+  const sa=stem(a), sb=stem(b);
+  return sa===sb || a.includes(b) || b.includes(a);
+}
+// input: raw text (lines or comma separated). features: [{text,importance}]
+function matchFeatures(inputText, features){
+  const tokens = normFeat(inputText.replace(/\n/g,",")).split(/[,]/).map(t=>t.trim()).filter(Boolean);
+  const inputWords = new Set();
+  tokens.forEach(t=> t.split(" ").forEach(w=>{ if(w) inputWords.add(w); }));
+  const inputWordsArr = [...inputWords];
+  const fullNormInput = normFeat(tokens.join(" "));
+
+  return features.map(f=>{
+    const sig = sigWords(f.text);
+    let matched;
+    if(sig.length===0){
+      matched = fullNormInput.includes(normFeat(f.text));
+    } else {
+      const hits = sig.filter(w=> inputWordsArr.some(iw=> wordMatch(iw,w))).length;
+      const required = Math.max(1, Math.ceil(sig.length*0.6));
+      matched = hits >= required;
+    }
+    return {feature:f, matched};
+  });
+}
+
+/* =========================================================
+   SM-2 algorithm
+========================================================= */
+function sm2(srs, grade){
+  // grade: 'again' | 'hard' | 'good' | 'easy'
+  const q = {again:0, hard:3, good:4, easy:5}[grade];
+  let {interval, easeFactor, reps, lapses} = srs;
+  easeFactor = easeFactor || 2.5;
+  reps = reps || 0;
+  lapses = lapses || 0;
+  let ef = easeFactor + (0.1 - (5-q)*(0.08+(5-q)*0.02));
+  if(ef < 1.3) ef = 1.3;
+
+  let newInterval, newReps;
+  if(q < 3){
+    newReps = 0;
+    newInterval = 1;
+    lapses += 1;
+  } else {
+    newReps = reps + 1;
+    if(newReps === 1) newInterval = 1;
+    else if(newReps === 2) newInterval = 6;
+    else newInterval = Math.round((interval||1) * ef);
+    if(grade==="hard") newInterval = Math.max(1, Math.round((interval||1) * 1.2));
+    if(grade==="easy") newInterval = Math.round(((interval||1) * ef) * 1.3);
+  }
+  const due = new Date(Date.now() + newInterval*24*3600*1000).toISOString();
+  return {interval:newInterval, easeFactor:ef, reps:newReps, lapses, due};
+}
+function previewIntervals(srs){
+  return {
+    again: sm2(srs,"again").interval,
+    hard: sm2(srs,"hard").interval,
+    good: sm2(srs,"good").interval,
+    easy: sm2(srs,"easy").interval,
+  };
+}
+function fmtDays(d){
+  if(d < 1) return "<1d";
+  if(d===1) return "1d";
+  if(d<30) return d+"d";
+  if(d<365) return Math.round(d/30)+"mo";
+  return Math.round(d/365)+"y";
+}
+
+/* =========================================================
+   Generic UI helpers
+========================================================= */
+function $(sel){ return document.querySelector(sel); }
+function $all(sel){ return Array.from(document.querySelectorAll(sel)); }
+function showToast(msg){
+  const t = $("#toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(()=> t.classList.remove("show"), 2200);
+}
+function esc(s){
+  return (s||"").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function populateTopicSelects(){
+  $all(".topic-select-target").forEach(()=>{});
+  const opts = TOPICS.map(t=>`<option value="${t}">${t}</option>`).join("");
+  ["#studyTopicFilter","#examTopicFilter","#browseTopicFilter"].forEach(sel=>{
+    const el = $(sel);
+    const cur = el.value;
+    el.innerHTML = el.querySelector('option[value=""]').outerHTML + opts;
+    el.value = cur;
+  });
+}
+
+/* =========================================================
+   Navigation
+========================================================= */
+function switchView(name){
+  $all(".view").forEach(v=> v.classList.remove("active"));
+  $("#view-"+name).classList.add("active");
+  $all("#mainTabs button").forEach(b=> b.classList.toggle("active", b.dataset.view===name));
+  if(name==="browse") renderBrowseList();
+  if(name==="review") renderReviewGrid();
+  if(name==="stats") renderStats();
+}
+$("#mainTabs").addEventListener("click", (e)=>{
+  const btn = e.target.closest("button[data-view]");
+  if(btn) switchView(btn.dataset.view);
+});
+$("#goReviewBtn").addEventListener("click", ()=> switchView("review"));
+
+/* =========================================================
+   LIGHTBOX (pinch zoom / pan / wheel zoom)
+========================================================= */
+const lightbox = $("#lightbox");
+const lightboxImg = $("#lightboxImg");
+let lb = {scale:1, x:0, y:0, startDist:0, startScale:1, dragging:false, lastX:0, lastY:0};
+function openLightbox(src){
+  lightboxImg.src = src;
+  lb = {scale:1,x:0,y:0,startDist:0,startScale:1,dragging:false,lastX:0,lastY:0};
+  applyLbTransform();
+  lightbox.classList.add("active");
+}
+function closeLightbox(){ lightbox.classList.remove("active"); }
+function applyLbTransform(){
+  lightboxImg.style.transform = `translate(${lb.x}px,${lb.y}px) scale(${lb.scale})`;
+}
+$("#lightboxClose").addEventListener("click", closeLightbox);
+lightbox.addEventListener("click", (e)=>{ if(e.target===lightbox) closeLightbox(); });
+function touchDist(t){
+  const dx=t[0].clientX-t[1].clientX, dy=t[0].clientY-t[1].clientY;
+  return Math.hypot(dx,dy);
+}
+lightbox.addEventListener("touchstart",(e)=>{
+  if(e.touches.length===2){
+    lb.startDist = touchDist(e.touches);
+    lb.startScale = lb.scale;
+  } else if(e.touches.length===1){
+    lb.dragging = true;
+    lb.lastX = e.touches[0].clientX;
+    lb.lastY = e.touches[0].clientY;
+  }
+},{passive:true});
+lightbox.addEventListener("touchmove",(e)=>{
+  if(e.touches.length===2){
+    const d = touchDist(e.touches);
+    lb.scale = Math.min(6, Math.max(0.5, lb.startScale * (d/lb.startDist)));
+    applyLbTransform();
+  } else if(e.touches.length===1 && lb.dragging){
+    const dx = e.touches[0].clientX - lb.lastX;
+    const dy = e.touches[0].clientY - lb.lastY;
+    lb.x += dx; lb.y += dy;
+    lb.lastX = e.touches[0].clientX; lb.lastY = e.touches[0].clientY;
+    applyLbTransform();
+  }
+},{passive:true});
+lightbox.addEventListener("touchend",()=>{ lb.dragging=false; });
+lightbox.addEventListener("wheel",(e)=>{
+  e.preventDefault();
+  lb.scale = Math.min(6, Math.max(0.5, lb.scale + (e.deltaY<0? 0.15:-0.15)));
+  applyLbTransform();
+},{passive:false});
+lightbox.addEventListener("dblclick", ()=>{ lb.scale=1; lb.x=0; lb.y=0; applyLbTransform(); });
+
+/* =========================================================
+   STUDY FLOW
+========================================================= */
+let studyQueue = [];
+let studyIdx = 0;
+let studyStage = "diagnosis"; // diagnosis -> features -> reveal
+let studyDiagResult = null;
+let studyFeatResult = null;
+let studyDiagOverride = false;
+
+function dueCards(){
+  const now = Date.now();
+  return ALL_CARDS.filter(c=>{
+    if(c.reviewStatus !== "approved") return false;
+    if(c.cardType !== "gross" && c.cardType !== "micro") return false;
+    const topicF = $("#studyTopicFilter").value;
+    const typeF = $("#studyTypeFilter").value;
+    const hyOnly = $("#studyHYOnly").checked;
+    if(topicF && c.topic !== topicF) return false;
+    if(typeF && c.cardType !== typeF) return false;
+    if(hyOnly && !c.highYield) return false;
+    if(!c.srs) return true;
+    if(!c.srs.due) return true;
+    return new Date(c.srs.due).getTime() <= now;
+  }).sort((a,b)=>{
+    const da = a.srs && a.srs.due ? new Date(a.srs.due).getTime() : 0;
+    const db = b.srs && b.srs.due ? new Date(b.srs.due).getTime() : 0;
+    return da-db;
+  });
+}
+
+function buildStudyQueue(){
+  studyQueue = dueCards();
+  studyIdx = 0;
+  renderStudyCard();
+}
+$("#studyRefreshBtn").addEventListener("click", buildStudyQueue);
+$("#studyTopicFilter").addEventListener("change", buildStudyQueue);
+$("#studyTypeFilter").addEventListener("change", buildStudyQueue);
+$("#studyHYOnly").addEventListener("change", buildStudyQueue);
+
+function renderStudyCard(){
+  if(studyIdx >= studyQueue.length){
+    $("#studyArea").classList.add("hidden");
+    $("#studyEmpty").classList.remove("hidden");
+    return;
+  }
+  $("#studyArea").classList.remove("hidden");
+  $("#studyEmpty").classList.add("hidden");
+  const c = studyQueue[studyIdx];
+  $("#studyImg").src = c.image;
+  $("#studyQueueInfo").textContent = `การ์ดที่ ${studyIdx+1} / ${studyQueue.length}`;
+  $("#studyDueInfo").textContent = c.topic + (c.highYield? " · High-yield":"");
+  $("#studyProgressBar").style.width = Math.round((studyIdx/studyQueue.length)*100)+"%";
+
+  studyStage = "diagnosis";
+  studyDiagResult = null; studyFeatResult=null; studyDiagOverride=false;
+  $("#stageDiagnosis").classList.remove("hidden");
+  $("#stageFeatures").classList.add("hidden");
+  $("#stageReveal").classList.add("hidden");
+  $("#diagnosisInput").value = "";
+  $("#diagnosisFeedback").innerHTML = "";
+  $("#featuresInput").value = "";
+  $("#featuresFeedback").innerHTML = "";
+  $("#checkDiagnosisBtn").disabled = false;
+  $("#diagnosisInput").disabled = false;
+  setTimeout(()=> $("#diagnosisInput").focus(), 50);
+}
+$("#studyImgWrap").addEventListener("click", ()=>{
+  const c = studyQueue[studyIdx];
+  if(c) openLightbox(c.image);
+});
+
+function checkDiagnosis(){
+  if(studyStage !== "diagnosis") return;
+  const c = studyQueue[studyIdx];
+  const val = $("#diagnosisInput").value;
+  if(!val.trim()) return;
+  const result = matchDiagnosis(val, c.diagnosis.acceptedAnswers);
+  studyDiagResult = result;
+  const fb = $("#diagnosisFeedback");
+  $("#diagnosisInput").disabled = true;
+  $("#checkDiagnosisBtn").disabled = true;
+  if(result.status === "correct"){
+    fb.innerHTML = `<div class="feedback correct">✓ ถูกต้อง: <b>${esc(result.bestMatch)}</b></div>`;
+  } else if(result.status === "warn"){
+    fb.innerHTML = `<div class="feedback warn">✓ ถูกต้อง แต่สะกดคลาดเคลื่อน (Levenshtein=${result.distance})<br>
+      คุณพิมพ์: <span class="diff-wrong">${esc(val)}</span><br>
+      สะกดถูกต้อง: <span class="diff-correct">${esc(result.bestMatch)}</span></div>`;
+  } else {
+    fb.innerHTML = `<div class="feedback wrong">✗ ยังไม่ถูก<br>
+      คุณตอบ: <span class="diff-wrong">${esc(val)}</span><br>
+      คำตอบที่ถูก: <span class="diff-correct">${esc(c.diagnosis.answer)}</span>
+      <div style="margin-top:8px;"><label class="small"><input type="checkbox" id="overrideDiag"> ฉันรู้คำตอบจริง ๆ แค่พิมพ์ผิด (override)</label></div>
+      </div>`;
+    setTimeout(()=>{
+      const cb = $("#overrideDiag");
+      if(cb) cb.addEventListener("change", (e)=>{ studyDiagOverride = e.target.checked; });
+    },0);
+  }
+  setTimeout(()=>{
+    studyStage = "features";
+    $("#stageFeatures").classList.remove("hidden");
+    $("#featuresInput").focus();
+  }, 150);
+}
+$("#checkDiagnosisBtn").addEventListener("click", checkDiagnosis);
+
+function checkFeatures(){
+  if(studyStage !== "features") return;
+  const c = studyQueue[studyIdx];
+  const val = $("#featuresInput").value;
+  const results = matchFeatures(val, c.keyFeatures||[]);
+  studyFeatResult = results;
+  $("#featuresInput").disabled = true;
+  $("#checkFeaturesBtn").disabled = true;
+  const essential = results.filter(r=>r.feature.importance==="essential");
+  const important = results.filter(r=>r.feature.importance!=="essential");
+  const okCount = results.filter(r=>r.matched).length;
+  let html = `<div class="feedback ${okCount===results.length && results.length>0 ? "correct":"warn"}">
+    <b>KEY FEATURE SCORE: ${okCount} / ${results.length}</b>
+    <div class="small muted" style="margin-top:4px;">Essential: ${essential.filter(r=>r.matched).length}/${essential.length} · Important: ${important.filter(r=>r.matched).length}/${important.length}</div>
+    <ul class="feat-list">`;
+  results.forEach(r=>{
+    html += `<li class="${r.matched?"ok":"miss"}">${r.matched?"✓":"✗"} ${esc(r.feature.text)}<span class="imp-tag">${r.feature.importance}</span></li>`;
+  });
+  html += "</ul></div>";
+  if(results.length===0){
+    html = `<div class="feedback correct small muted">ไม่มี key features กำหนดไว้สำหรับการ์ดนี้</div>`;
+  }
+  $("#featuresFeedback").innerHTML = html;
+
+  setTimeout(()=>{
+    studyStage = "reveal";
+    renderReveal(c);
+  }, 200);
+}
+$("#checkFeaturesBtn").addEventListener("click", checkFeatures);
+
+function renderReveal(c){
+  $("#stageReveal").classList.remove("hidden");
+  let html = "";
+  if(c.etiology) html += `<h3>Etiology</h3><p>${esc(c.etiology)}</p>`;
+  $("#revealEtio").innerHTML = html;
+  let html2 = "";
+  if(c.pathology) html2 += `<h3>Pathology</h3><p>${esc(c.pathology)}</p>`;
+  $("#revealPatho").innerHTML = html2;
+  $("#revealSource").textContent = `แหล่งที่มา: ${c.source.file} หน้า ${c.source.page} · ${c.image.split("/").pop()}`;
+
+  const preview = c.srs ? previewIntervals(c.srs) : previewIntervals({interval:0,easeFactor:2.5,reps:0,lapses:0});
+  $("#dueAgain").textContent = fmtDays(preview.again);
+  $("#dueHard").textContent = fmtDays(preview.hard);
+  $("#dueGood").textContent = fmtDays(preview.good);
+  $("#dueEasy").textContent = fmtDays(preview.easy);
+}
+
+async function gradeCard(grade){
+  if(studyStage !== "reveal") return;
+  const c = studyQueue[studyIdx];
+  const srs = c.srs || {interval:0,easeFactor:2.5,reps:0,lapses:0,due:null};
+  c.srs = sm2(srs, grade);
+  await idbPut(c);
+  studyIdx++;
+  renderStudyCard();
+}
+$(".grade-row").addEventListener("click",(e)=>{
+  const btn = e.target.closest("button[data-grade]");
+  if(btn) gradeCard(btn.dataset.grade);
+});
+
+document.addEventListener("keydown",(e)=>{
+  const view = document.querySelector(".view.active").id;
+  if(view === "view-study"){
+    if(e.key === "Enter"){
+      if(document.activeElement && document.activeElement.tagName==="TEXTAREA" && studyStage!=="reveal"){
+        e.preventDefault();
+        if(studyStage==="diagnosis") checkDiagnosis();
+        else if(studyStage==="features") checkFeatures();
+      }
+    } else if(["1","2","3","4"].includes(e.key) && studyStage==="reveal"){
+      const map = {1:"again",2:"hard",3:"good",4:"easy"};
+      gradeCard(map[e.key]);
+    }
+  } else if(view === "view-exam"){
+    if(e.key === "Enter" && document.activeElement.tagName==="TEXTAREA"){
+      e.preventDefault();
+      examSubmit();
+    }
+  }
+});
+
+/* =========================================================
+   EXAM MODE
+========================================================= */
+let examQueue = [];
+let examIdx = 0;
+let examTimerHandle = null;
+let examTimeLeft = EXAM_SECONDS;
+let examResults = [];
+
+function buildExamQueue(){
+  const topicF = $("#examTopicFilter").value;
+  const typeF = $("#examTypeFilter").value;
+  let pool = ALL_CARDS.filter(c=> c.reviewStatus==="approved" && (c.cardType==="gross"||c.cardType==="micro"));
+  if(topicF) pool = pool.filter(c=>c.topic===topicF);
+  if(typeF) pool = pool.filter(c=>c.cardType===typeF);
+  // shuffle
+  for(let i=pool.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [pool[i],pool[j]]=[pool[j],pool[i]]; }
+  return pool;
+}
+$("#startExamBtn").addEventListener("click", ()=>{
+  examQueue = buildExamQueue();
+  if(examQueue.length===0){ showToast("ไม่มีการ์ดที่ approve แล้วตรงตามตัวกรอง"); return; }
+  examIdx = 0;
+  examResults = [];
+  $("#examSetup").classList.add("hidden");
+  $("#examReport").classList.add("hidden");
+  $("#examRunning").classList.remove("hidden");
+  renderExamCard();
+});
+function renderExamCard(){
+  if(examIdx >= examQueue.length){ finishExam(); return; }
+  const c = examQueue[examIdx];
+  $("#examImg").src = c.image;
+  $("#examProgress").textContent = `ข้อ ${examIdx+1} / ${examQueue.length}`;
+  $("#examProgressBar").style.width = Math.round((examIdx/examQueue.length)*100)+"%";
+  $("#examDiagnosisInput").value = "";
+  $("#examFeaturesInput").value = "";
+  examTimeLeft = EXAM_SECONDS;
+  updateExamTimerUI();
+  clearInterval(examTimerHandle);
+  examTimerHandle = setInterval(()=>{
+    examTimeLeft--;
+    updateExamTimerUI();
+    if(examTimeLeft<=0){ clearInterval(examTimerHandle); examSubmit(); }
+  },1000);
+  setTimeout(()=> $("#examDiagnosisInput").focus(), 50);
+}
+function updateExamTimerUI(){
+  const t = $("#examTimer");
+  t.textContent = examTimeLeft;
+  t.classList.toggle("low", examTimeLeft<=10);
+}
+function examSubmit(){
+  clearInterval(examTimerHandle);
+  const c = examQueue[examIdx];
+  const diagVal = $("#examDiagnosisInput").value;
+  const featVal = $("#examFeaturesInput").value;
+  const diagResult = matchDiagnosis(diagVal, c.diagnosis.acceptedAnswers);
+  const featResults = matchFeatures(featVal, c.keyFeatures||[]);
+  examResults.push({card:c, diagResult, featResults, timeUsed: EXAM_SECONDS-examTimeLeft});
+  examIdx++;
+  renderExamCard();
+}
+$("#examSubmitBtn").addEventListener("click", examSubmit);
+function finishExam(){
+  $("#examRunning").classList.add("hidden");
+  $("#examReport").classList.remove("hidden");
+  const total = examResults.length;
+  const correctDiag = examResults.filter(r=>r.diagResult.status!=="wrong").length;
+  let featTotal=0, featOk=0;
+  examResults.forEach(r=>{ featTotal += r.featResults.length; featOk += r.featResults.filter(f=>f.matched).length; });
+  let html = `<table class="stat-table">
+    <tr><td>จำนวนข้อ</td><td>${total}</td></tr>
+    <tr><td>วินิจฉัยถูก (รวม spelling warning)</td><td>${correctDiag} / ${total}</td></tr>
+    <tr><td>Key features ถูก</td><td>${featOk} / ${featTotal}</td></tr>
+  </table><h3 style="margin-top:14px;">รายละเอียดรายข้อ</h3>`;
+  examResults.forEach((r,i)=>{
+    html += `<div class="card-list-item">
+      <img src="${r.card.image}">
+      <div class="info">
+        <b>${i+1}. ${esc(r.card.diagnosis.answer)}</b>
+        <span class="small ${r.diagResult.status==='wrong'?'muted':''}" style="color:${r.diagResult.status==='correct'?'var(--good)':r.diagResult.status==='warn'?'var(--warn)':'var(--bad)'}">
+          ${r.diagResult.status==='correct'?'ถูก':r.diagResult.status==='warn'?'ถูก (สะกดคลาดเคลื่อน)':'ผิด'}
+        </span>
+        <span class="small muted">features ${r.featResults.filter(f=>f.matched).length}/${r.featResults.length} · ใช้เวลา ${r.timeUsed}s</span>
+      </div>
+    </div>`;
+  });
+  $("#examReportBody").innerHTML = html;
+}
+$("#examRestartBtn").addEventListener("click", ()=>{
+  $("#examReport").classList.add("hidden");
+  $("#examSetup").classList.remove("hidden");
+});
+
+/* =========================================================
+   BROWSE / MANAGE
+========================================================= */
+function renderBrowseList(){
+  const search = normalize($("#browseSearch").value);
+  const topicF = $("#browseTopicFilter").value;
+  const typeF = $("#browseTypeFilter").value;
+  let list = ALL_CARDS.slice();
+  if(search) list = list.filter(c=> normalize(c.diagnosis?c.diagnosis.answer:c.title).includes(search));
+  if(topicF) list = list.filter(c=>c.topic===topicF);
+  if(typeF) list = list.filter(c=>c.cardType===typeF);
+  $("#browseCount").textContent = list.length;
+  const wrap = $("#browseList");
+  wrap.innerHTML = "";
+  list.forEach(c=>{
+    const div = document.createElement("div");
+    div.className = "card-list-item";
+    const title = c.diagnosis ? c.diagnosis.answer : c.title;
+    div.innerHTML = `<img src="${c.image}">
+      <div class="info">
+        <b>${esc(title)}</b>
+        <span class="small muted">${c.id} · ${c.cardType} · ${c.topic||""} ${c.highYield?"· HY":""}</span>
+        <span class="pill ${c.reviewStatus}">${c.reviewStatus}</span>
+      </div>
+      <button class="btn" data-edit="${c.id}">แก้ไข</button>`;
+    wrap.appendChild(div);
+  });
+}
+["#browseSearch","#browseTopicFilter","#browseTypeFilter"].forEach(sel=>{
+  $(sel).addEventListener("input", renderBrowseList);
+  $(sel).addEventListener("change", renderBrowseList);
+});
+$("#browseList").addEventListener("click",(e)=>{
+  const btn = e.target.closest("button[data-edit]");
+  if(btn) openEditor(btn.dataset.edit);
+});
+$("#newCardBtn").addEventListener("click", ()=> openEditor(null));
+
+/* =========================================================
+   EDITOR
+========================================================= */
+let editingId = null;
+let editingFeatures = [];
+let editingUploadedImage = null;
+
+function openEditor(id){
+  editingId = id;
+  const c = id ? cardById(id) : null;
+  editingUploadedImage = null;
+  $("#editorTitle").textContent = id ? "แก้ไขการ์ด: "+id : "เพิ่มการ์ดใหม่";
+  $("#f_cardType").value = c ? c.cardType : "gross";
+  $("#f_image").value = c ? c.image : "";
+  $("#f_imagePreview").src = c ? c.image : "";
+  $("#f_imagePreview").style.display = c ? "block":"none";
+  $("#f_diagnosis").value = c ? (c.diagnosis?c.diagnosis.answer:c.title) : "";
+  $("#f_accepted").value = c && c.diagnosis ? c.diagnosis.acceptedAnswers.join(", ") : "";
+  editingFeatures = c && c.keyFeatures ? JSON.parse(JSON.stringify(c.keyFeatures)) : [];
+  renderFeatEditor();
+  $("#f_etiology").value = c ? (c.etiology||"") : "";
+  $("#f_pathology").value = c ? (c.pathology||c.notes||"") : "";
+  $("#f_topic").value = c ? (c.topic||"atherosclerosis") : "atherosclerosis";
+  $("#f_highYield").checked = c ? !!c.highYield : false;
+  $("#f_answerVisible").checked = c ? !!c.answerVisible : false;
+  $("#f_reviewNeeded").checked = c ? !!c.reviewNeeded : false;
+  $("#deleteCardBtn").style.display = id ? "inline-block":"none";
+  switchView("editor");
+}
+function renderFeatEditor(){
+  const wrap = $("#f_featuresList");
+  wrap.innerHTML = "";
+  editingFeatures.forEach((f,i)=>{
+    const row = document.createElement("div");
+    row.className = "chip-list";
+    row.innerHTML = `<span class="chip">${esc(f.text)} <small>(${f.importance})</small> <button data-i="${i}">✕</button></span>`;
+    wrap.appendChild(row);
+  });
+}
+$("#f_featuresList").addEventListener("click",(e)=>{
+  const btn = e.target.closest("button[data-i]");
+  if(btn){ editingFeatures.splice(+btn.dataset.i,1); renderFeatEditor(); }
+});
+$("#f_addFeatureBtn").addEventListener("click", ()=>{
+  const text = $("#f_newFeatureText").value.trim();
+  if(!text) return;
+  editingFeatures.push({text, importance:$("#f_newFeatureImportance").value});
+  $("#f_newFeatureText").value = "";
+  renderFeatEditor();
+});
+$("#f_imageFile").addEventListener("change",(e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    editingUploadedImage = reader.result;
+    $("#f_imagePreview").src = editingUploadedImage;
+    $("#f_imagePreview").style.display = "block";
+  };
+  reader.readAsDataURL(file);
+});
+$("#f_image").addEventListener("input", ()=>{
+  const v = $("#f_image").value.trim();
+  if(v){ $("#f_imagePreview").src = v; $("#f_imagePreview").style.display="block"; }
+});
+$("#cancelEditBtn").addEventListener("click", ()=> switchView("browse"));
+
+$("#saveCardBtn").addEventListener("click", async ()=>{
+  const cardType = $("#f_cardType").value;
+  const image = editingUploadedImage || $("#f_image").value.trim();
+  if(!image){ showToast("กรุณาระบุรูปภาพ"); return; }
+  const diagnosisText = $("#f_diagnosis").value.trim();
+  if(!diagnosisText){ showToast("กรุณาระบุ diagnosis/หัวข้อ"); return; }
+  const id = editingId || ("CVS-U-"+Date.now());
+  const existing = editingId ? cardById(editingId) : null;
+  const acceptedRaw = $("#f_accepted").value.trim();
+  const accepted = acceptedRaw ? acceptedRaw.split(",").map(s=>s.trim()).filter(Boolean) : [diagnosisText];
+  const card = {
+    id,
+    cardType,
+    image,
+    originalImage: existing ? existing.originalImage : image,
+    answerVisible: $("#f_answerVisible").checked,
+    reviewNeeded: $("#f_reviewNeeded").checked,
+    reviewStatus: existing ? existing.reviewStatus : "pending",
+    source: existing ? existing.source : {file:"user-added", page:null},
+    topic: $("#f_topic").value,
+    highYield: $("#f_highYield").checked,
+  };
+  if(cardType==="gross" || cardType==="micro"){
+    card.diagnosis = {answer:diagnosisText, acceptedAnswers:accepted};
+    card.keyFeatures = editingFeatures;
+    card.etiology = $("#f_etiology").value.trim();
+    card.pathology = $("#f_pathology").value.trim();
+    card.srs = existing && existing.srs ? existing.srs : {interval:0,easeFactor:2.5,reps:0,lapses:0,due:null};
+  } else {
+    card.title = diagnosisText;
+    card.notes = $("#f_pathology").value.trim();
+  }
+  await idbPut(card);
+  const idx = ALL_CARDS.findIndex(x=>x.id===id);
+  if(idx>=0) ALL_CARDS[idx]=card; else ALL_CARDS.push(card);
+  showToast("บันทึกแล้ว");
+  switchView("browse");
+});
+$("#deleteCardBtn").addEventListener("click", async ()=>{
+  if(!editingId) return;
+  if(!confirm("ลบการ์ดนี้ถาวร?")) return;
+  await idbDelete(editingId);
+  ALL_CARDS = ALL_CARDS.filter(c=>c.id!==editingId);
+  showToast("ลบแล้ว");
+  switchView("browse");
+});
+
+/* =========================================================
+   REVIEW PAGE
+========================================================= */
+function renderReviewGrid(){
+  const statusF = $("#reviewStatusFilter").value;
+  let list = ALL_CARDS.slice();
+  if(statusF) list = list.filter(c=>c.reviewStatus===statusF);
+  $("#reviewCount").textContent = list.length;
+  const grid = $("#reviewGrid");
+  grid.innerHTML = "";
+  list.forEach(c=>{
+    const cell = document.createElement("div");
+    cell.className = "review-cell";
+    const title = c.diagnosis ? c.diagnosis.answer : c.title;
+    cell.innerHTML = `
+      <img src="${c.image}" data-orig="${c.originalImage}" data-cur="cropped">
+      <div class="meta">
+        <div><b>${esc(title)}</b></div>
+        <div>${c.id} · ${c.cardType} · หน้า ${c.source.page}</div>
+        <div>${c.image.split("/").pop()}</div>
+        <div class="row" style="margin-top:4px;">
+          <span class="pill ${c.reviewStatus}">${c.reviewStatus}</span>
+          ${c.answerVisible?'<span class="pill review">answerVisible</span>':''}
+          ${c.reviewNeeded?'<span class="pill review">reviewNeeded</span>':''}
+          ${c.highYield?'<span class="pill hy">HY</span>':''}
+        </div>
+      </div>
+      <div class="review-actions">
+        <button class="btn good" data-approve="${c.id}">Approve</button>
+        <button class="btn danger" data-reject="${c.id}">Reject</button>
+        <button class="btn" data-edit2="${c.id}">Edit</button>
+      </div>`;
+    grid.appendChild(cell);
+  });
+}
+$("#reviewStatusFilter").addEventListener("change", renderReviewGrid);
+$("#reviewGrid").addEventListener("click", async (e)=>{
+  const img = e.target.closest("img[data-orig]");
+  if(img){
+    if(img.dataset.cur==="cropped" && img.dataset.orig && img.dataset.orig!=="undefined"){
+      img.dataset.cur2 = img.src;
+      img.src = img.dataset.orig;
+      img.dataset.cur = "original";
+    } else if(img.dataset.cur==="original"){
+      img.src = img.dataset.cur2;
+      img.dataset.cur = "cropped";
+    }
+    return;
+  }
+  const approveBtn = e.target.closest("button[data-approve]");
+  const rejectBtn = e.target.closest("button[data-reject]");
+  const editBtn = e.target.closest("button[data-edit2]");
+  if(approveBtn){
+    const c = cardById(approveBtn.dataset.approve);
+    c.reviewStatus = "approved"; await idbPut(c); renderReviewGrid();
+  } else if(rejectBtn){
+    const c = cardById(rejectBtn.dataset.reject);
+    c.reviewStatus = "rejected"; await idbPut(c); renderReviewGrid();
+  } else if(editBtn){
+    openEditor(editBtn.dataset.edit2);
+  }
+});
+$("#approveAllBtn").addEventListener("click", async ()=>{
+  const pending = ALL_CARDS.filter(c=>c.reviewStatus!=="rejected");
+  pending.forEach(c=> c.reviewStatus="approved");
+  await idbBulkPut(pending);
+  showToast(`Approve แล้ว ${pending.length} การ์ด`);
+  renderReviewGrid();
+});
+
+/* =========================================================
+   IMPORT / EXPORT
+========================================================= */
+async function imageToDataURL(src){
+  if(src.startsWith("data:")) return src;
+  try{
+    const res = await fetch(src);
+    const blob = await res.blob();
+    return await new Promise((resolve,reject)=>{
+      const r = new FileReader();
+      r.onload = ()=> resolve(r.result);
+      r.onerror = reject;
+      r.readAsDataURL(blob);
+    });
+  }catch(err){
+    return src; // fallback to path reference if fetch blocked (e.g. file://)
+  }
+}
+$("#exportBtn").addEventListener("click", async ()=>{
+  $("#exportStatus").textContent = "กำลังฝังรูปภาพ...";
+  const cards = await idbGetAll();
+  const out = [];
+  for(const c of cards){
+    const copy = JSON.parse(JSON.stringify(c));
+    copy.image = await imageToDataURL(c.image);
+    if(c.originalImage) copy.originalImage = await imageToDataURL(c.originalImage);
+    out.push(copy);
+  }
+  const blob = new Blob([JSON.stringify(out,null,2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "cvs-ospe-export-"+new Date().toISOString().slice(0,10)+".json";
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+  $("#exportStatus").textContent = `Export สำเร็จ (${out.length} การ์ด)`;
+});
+$("#importFile").addEventListener("change",(e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = async ()=>{
+    try{
+      const arr = JSON.parse(reader.result);
+      if(!Array.isArray(arr)) throw new Error("ไฟล์ไม่ถูกต้อง");
+      await idbBulkPut(arr);
+      ALL_CARDS = await idbGetAll();
+      $("#importStatus").textContent = `นำเข้าสำเร็จ ${arr.length} การ์ด`;
+      populateTopicSelects();
+      showToast("นำเข้าสำเร็จ");
+    }catch(err){
+      $("#importStatus").textContent = "เกิดข้อผิดพลาด: "+err.message;
+    }
+  };
+  reader.readAsText(file);
+});
+$("#resetBtn").addEventListener("click", async ()=>{
+  if(!confirm("ลบข้อมูลทั้งหมดและโหลดชุดการ์ดตั้งต้นใหม่? การกระทำนี้ย้อนกลับไม่ได้")) return;
+  await idbClear();
+  await initData();
+  populateTopicSelects();
+  buildStudyQueue();
+  showToast("รีเซ็ตเรียบร้อย");
+  switchView("study");
+});
+
+/* =========================================================
+   STATS
+========================================================= */
+function renderStats(){
+  const total = ALL_CARDS.length;
+  const approved = ALL_CARDS.filter(c=>c.reviewStatus==="approved").length;
+  const studyable = ALL_CARDS.filter(c=>c.cardType==="gross"||c.cardType==="micro");
+  const mature = studyable.filter(c=>c.srs && c.srs.reps>0 && c.srs.interval>=21).length;
+  const due = dueCards().length;
+  $("#statsTable").innerHTML = `
+    <tr><td>การ์ดทั้งหมด</td><td>${total}</td></tr>
+    <tr><td>Approved</td><td>${approved}</td></tr>
+    <tr><td>Diagnosis cards (gross+micro)</td><td>${studyable.length}</td></tr>
+    <tr><td>Mature cards (interval ≥ 21 วัน)</td><td>${mature}</td></tr>
+    <tr><td>ครบกำหนดทบทวนตอนนี้</td><td>${due}</td></tr>
+  `;
+  let topicHtml = "<tr><th>Topic</th><th>จำนวน</th><th>Approved</th></tr>";
+  TOPICS.forEach(t=>{
+    const cs = studyable.filter(c=>c.topic===t);
+    topicHtml += `<tr><td>${t}</td><td>${cs.length}</td><td>${cs.filter(c=>c.reviewStatus==="approved").length}</td></tr>`;
+  });
+  $("#statsTopicTable").innerHTML = topicHtml;
+}
+
+/* =========================================================
+   BOOT
+========================================================= */
+(async function boot(){
+  await initData();
+  populateTopicSelects();
+  buildStudyQueue();
+})();
+
+})();
+</script>
+</body>
+</html>
