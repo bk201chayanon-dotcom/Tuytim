@@ -1,0 +1,2783 @@
+[
+  {
+    "id": "CVS-001",
+    "cardType": "gross",
+    "image": "images/cvs/page-04-02.png",
+    "originalImage": "images/cvs/page-04-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 4
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Fatty streak",
+      "acceptedAnswers": [
+        "Fatty streak",
+        "Fatty streaks"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Flat, yellow lesion",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-002",
+    "cardType": "gross",
+    "image": "images/cvs/page-04-01.png",
+    "originalImage": "images/cvs/page-04-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 4
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Fibrous plaque",
+      "acceptedAnswers": [
+        "Fibrous plaque",
+        "Fibrous plaques"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Raised, firm, yellow-white plaque",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-003",
+    "cardType": "gross",
+    "image": "images/cvs/page-08-01.png",
+    "originalImage": "images/cvs/page-08-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 8
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Fibrous plaque",
+      "acceptedAnswers": [
+        "Fibrous plaque",
+        "Fibrous plaques"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Raised, firm, yellow-white plaque",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-004",
+    "cardType": "gross",
+    "image": "images/cvs/page-09-01-cropped.png",
+    "originalImage": "images/cvs/page-09-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 9
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Complicated plaque",
+      "acceptedAnswers": [
+        "Complicated plaque",
+        "Complicated plaques"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Ulceration/hemorrhage within plaque",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-005",
+    "cardType": "gross",
+    "image": "images/cvs/page-09-02-cropped.png",
+    "originalImage": "images/cvs/page-09-02.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 9
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Complicated plaque",
+      "acceptedAnswers": [
+        "Complicated plaque",
+        "Complicated plaques"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Ulceration/hemorrhage within plaque",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-006",
+    "cardType": "gross",
+    "image": "images/cvs/page-10-01.png",
+    "originalImage": "images/cvs/page-10-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 10
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Complicated plaque",
+      "acceptedAnswers": [
+        "Complicated plaque",
+        "Complicated plaques"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Ulceration/hemorrhage within plaque",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-007",
+    "cardType": "gross",
+    "image": "images/cvs/page-10-02.png",
+    "originalImage": "images/cvs/page-10-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 10
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Complicated plaque",
+      "acceptedAnswers": [
+        "Complicated plaque",
+        "Complicated plaques"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Extensive ulceration with hemorrhage/thrombus",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-008",
+    "cardType": "gross",
+    "image": "images/cvs/page-11-01.png",
+    "originalImage": "images/cvs/page-11-01.png",
+    "answerVisible": false,
+    "reviewNeeded": true,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 11
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Atherosclerosis",
+      "acceptedAnswers": [
+        "Atherosclerosis",
+        "Complicated plaque",
+        "Atherosclerotic plaque"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Irregular yellow-tan atheromatous plaques",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-009",
+    "cardType": "micro",
+    "image": "images/cvs/page-05-01-cropped.png",
+    "originalImage": "images/cvs/page-05-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 5
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Atherosclerosis",
+      "acceptedAnswers": [
+        "Atherosclerosis",
+        "Atherosclerotic plaque"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Fibrous cap",
+        "importance": "essential"
+      },
+      {
+        "text": "Lipid core",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-010",
+    "cardType": "micro",
+    "image": "images/cvs/page-05-02-cropped.png",
+    "originalImage": "images/cvs/page-05-02.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 5
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Atherosclerosis",
+      "acceptedAnswers": [
+        "Atherosclerosis",
+        "Atherosclerotic plaque"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Foamy macrophages",
+        "importance": "essential"
+      },
+      {
+        "text": "Fibrosis",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-011",
+    "cardType": "micro",
+    "image": "images/cvs/page-05-03-cropped.png",
+    "originalImage": "images/cvs/page-05-03.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 5
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Atherosclerosis",
+      "acceptedAnswers": [
+        "Atherosclerosis",
+        "Atherosclerotic plaque"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Cholesterol crystals",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-012",
+    "cardType": "micro",
+    "image": "images/cvs/page-07-01-cropped.png",
+    "originalImage": "images/cvs/page-07-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 7
+    },
+    "topic": "atherosclerosis",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Atherosclerosis",
+      "acceptedAnswers": [
+        "Atherosclerosis",
+        "Atherosclerotic plaque"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Fibrous cap overlying plaque",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-013",
+    "cardType": "micro",
+    "image": "images/cvs/page-12-01.png",
+    "originalImage": "images/cvs/page-12-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 12
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Monckeberg medial calcific sclerosis",
+      "acceptedAnswers": [
+        "Monckeberg medial calcific sclerosis",
+        "Monckeberg's sclerosis",
+        "Medial calcific sclerosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Calcification of tunica media",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-014",
+    "cardType": "micro",
+    "image": "images/cvs/page-13-01-cropped.png",
+    "originalImage": "images/cvs/page-13-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 13
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Hyaline arteriolosclerosis",
+      "acceptedAnswers": [
+        "Hyaline arteriolosclerosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Hyaline thickening of arteriolar wall",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Benign hypertension, Diabetes mellitus",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-015",
+    "cardType": "micro",
+    "image": "images/cvs/page-13-02.png",
+    "originalImage": "images/cvs/page-13-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 13
+    },
+    "topic": "vascular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Hyperplastic arteriolosclerosis",
+      "acceptedAnswers": [
+        "Hyperplastic arteriolosclerosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Onion skin appearance",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Malignant hypertension",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-016",
+    "cardType": "micro",
+    "image": "images/cvs/page-13-03.png",
+    "originalImage": "images/cvs/page-13-03.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 13
+    },
+    "topic": "vascular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Hyperplastic arteriolosclerosis",
+      "acceptedAnswers": [
+        "Hyperplastic arteriolosclerosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Onion skin appearance",
+        "importance": "essential"
+      },
+      {
+        "text": "Fibrinoid necrosis",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Malignant hypertension",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-017",
+    "cardType": "micro",
+    "image": "images/cvs/page-14-01-hyalinosis-cropped.png",
+    "originalImage": "images/cvs/page-14-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 14
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Vascular change in malignant hypertension",
+      "acceptedAnswers": [
+        "Vascular change in malignant hypertension",
+        "Malignant hypertension",
+        "Malignant nephrosclerosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Hyalinosis of arteriole",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-018",
+    "cardType": "micro",
+    "image": "images/cvs/page-14-01-fibrinoid-cropped.png",
+    "originalImage": "images/cvs/page-14-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 14
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Vascular change in malignant hypertension",
+      "acceptedAnswers": [
+        "Vascular change in malignant hypertension",
+        "Malignant hypertension",
+        "Malignant nephrosclerosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Fibrinoid necrosis of arteriole",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-019",
+    "cardType": "micro",
+    "image": "images/cvs/page-14-02.png",
+    "originalImage": "images/cvs/page-14-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 14
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Vascular change in malignant hypertension",
+      "acceptedAnswers": [
+        "Vascular change in malignant hypertension",
+        "Malignant hypertension",
+        "Malignant nephrosclerosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Intimal proliferation, mucoid thickening",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-020",
+    "cardType": "gross",
+    "image": "images/cvs/page-16-01.png",
+    "originalImage": "images/cvs/page-16-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 16
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Aortic aneurysm with dissection",
+      "acceptedAnswers": [
+        "Aortic aneurysm with dissection",
+        "Aortic dissection"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Intramural hematoma, false lumen",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-021",
+    "cardType": "gross",
+    "image": "images/cvs/page-17-01.png",
+    "originalImage": "images/cvs/page-17-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 17
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Aortic dissection",
+      "acceptedAnswers": [
+        "Aortic dissection"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "False lumen / intramural hemorrhage",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-022",
+    "cardType": "gross",
+    "image": "images/cvs/page-17-02.png",
+    "originalImage": "images/cvs/page-17-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 17
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Aortic dissection",
+      "acceptedAnswers": [
+        "Aortic dissection"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "False lumen / intramural hemorrhage",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-023",
+    "cardType": "gross",
+    "image": "images/cvs/page-21-01.png",
+    "originalImage": "images/cvs/page-21-01.png",
+    "answerVisible": false,
+    "reviewNeeded": true,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 21
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Acute myocardial infarction",
+      "acceptedAnswers": [
+        "Acute myocardial infarction",
+        "Acute MI"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Pale, yellow area of necrosis",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-024",
+    "cardType": "gross",
+    "image": "images/cvs/page-22-01.png",
+    "originalImage": "images/cvs/page-22-01.png",
+    "answerVisible": false,
+    "reviewNeeded": true,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 22
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Reperfusion injury",
+      "acceptedAnswers": [
+        "Reperfusion injury",
+        "Hemorrhagic infarction"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Hemorrhagic transformation of infarct",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-025",
+    "cardType": "gross",
+    "image": "images/cvs/page-23-01.png",
+    "originalImage": "images/cvs/page-23-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 23
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Recent transmural MI",
+      "acceptedAnswers": [
+        "Recent transmural MI",
+        "Recent transmural myocardial infarction"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Transmural pale/yellow necrosis",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-026",
+    "cardType": "gross",
+    "image": "images/cvs/page-24-01.png",
+    "originalImage": "images/cvs/page-24-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 24
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Old myocardial infarction",
+      "acceptedAnswers": [
+        "Old myocardial infarction",
+        "Old MI"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "White, fibrous scar",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-027",
+    "cardType": "micro",
+    "image": "images/cvs/page-25-01.png",
+    "originalImage": "images/cvs/page-25-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 25
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Wavy fiber",
+      "acceptedAnswers": [
+        "Wavy fiber",
+        "Wavy fibers"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Thin, wavy myocytes",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-028",
+    "cardType": "micro",
+    "image": "images/cvs/page-25-02.png",
+    "originalImage": "images/cvs/page-25-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 25
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Contraction band",
+      "acceptedAnswers": [
+        "Contraction band",
+        "Contraction band necrosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Dark transverse hypercontraction bands",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-029",
+    "cardType": "micro",
+    "image": "images/cvs/page-26-01.png",
+    "originalImage": "images/cvs/page-26-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 26
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Myocardial infarction, 1 day",
+      "acceptedAnswers": [
+        "Myocardial infarction, 1 day",
+        "MI 1 day"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Early coagulative necrosis",
+        "importance": "essential"
+      },
+      {
+        "text": "Wavy fibers",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-030",
+    "cardType": "micro",
+    "image": "images/cvs/page-26-02.png",
+    "originalImage": "images/cvs/page-26-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 26
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Myocardial infarction, 3-4 days",
+      "acceptedAnswers": [
+        "Myocardial infarction, 3-4 days",
+        "MI 3-4 days"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Neutrophilic infiltrate",
+        "importance": "essential"
+      },
+      {
+        "text": "Loss of nuclei/striations",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-031",
+    "cardType": "micro",
+    "image": "images/cvs/page-26-03.png",
+    "originalImage": "images/cvs/page-26-03.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 26
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Myocardial infarction, 7-10 days",
+      "acceptedAnswers": [
+        "Myocardial infarction, 7-10 days",
+        "MI 7-10 days"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Macrophages with phagocytosis",
+        "importance": "essential"
+      },
+      {
+        "text": "Early granulation tissue",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-032",
+    "cardType": "micro",
+    "image": "images/cvs/page-26-04.png",
+    "originalImage": "images/cvs/page-26-04.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 26
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Myocardial infarction, 2-3 weeks",
+      "acceptedAnswers": [
+        "Myocardial infarction, 2-3 weeks",
+        "MI 2-3 weeks"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Granulation tissue",
+        "importance": "essential"
+      },
+      {
+        "text": "Increased collagen, decreased cellularity",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-033",
+    "cardType": "gross",
+    "image": "images/cvs/page-28-01.png",
+    "originalImage": "images/cvs/page-28-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 28
+    },
+    "topic": "myocardial",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Left ventricular hypertrophy",
+      "acceptedAnswers": [
+        "LVH",
+        "Left ventricular hypertrophy"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Free LV wall thickness ≥ 1.5 cm",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Hypertension",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-034",
+    "cardType": "micro",
+    "image": "images/cvs/page-29-01.png",
+    "originalImage": "images/cvs/page-29-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 29
+    },
+    "topic": "myocardial",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Left ventricular hypertrophy",
+      "acceptedAnswers": [
+        "LVH",
+        "Left ventricular hypertrophy"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Enlarged myocyte nuclei (>3x normal)",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Hypertension",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-035",
+    "cardType": "gross",
+    "image": "images/cvs/page-30-01.png",
+    "originalImage": "images/cvs/page-30-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 30
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Hypertrophic cardiomyopathy",
+      "acceptedAnswers": [
+        "Hypertrophic cardiomyopathy",
+        "HCM"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Marked LV hypertrophy",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Genetic; Friedreich ataxia, storage disease, infants of diabetic mothers",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-036",
+    "cardType": "micro",
+    "image": "images/cvs/page-31-01.png",
+    "originalImage": "images/cvs/page-31-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 31
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Hypertrophic cardiomyopathy",
+      "acceptedAnswers": [
+        "Hypertrophic cardiomyopathy",
+        "HCM"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Myocyte disarray",
+        "importance": "essential"
+      },
+      {
+        "text": "Interstitial fibrosis",
+        "importance": "important"
+      }
+    ],
+    "etiology": "Genetic",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-037",
+    "cardType": "gross",
+    "image": "images/cvs/page-32-01-cropped.png",
+    "originalImage": "images/cvs/page-32-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 32
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Dilated cardiomyopathy",
+      "acceptedAnswers": [
+        "Dilated cardiomyopathy",
+        "DCM"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Four-chamber dilatation and hypertrophy",
+        "importance": "essential"
+      },
+      {
+        "text": "Mural thrombus",
+        "importance": "important"
+      }
+    ],
+    "etiology": "Idiopathic, alcoholic, genetic, myocarditis, hemochromatosis, chronic anemia, doxorubicin",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-038",
+    "cardType": "micro",
+    "image": "images/cvs/page-35-01.png",
+    "originalImage": "images/cvs/page-35-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 35
+    },
+    "topic": "myocardial",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Lymphocytic (viral) myocarditis",
+      "acceptedAnswers": [
+        "Lymphocytic (viral) myocarditis",
+        "Viral myocarditis",
+        "Lymphocytic myocarditis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Lymphocytic infiltrate between myocytes",
+        "importance": "essential"
+      },
+      {
+        "text": "Myocyte necrosis",
+        "importance": "important"
+      }
+    ],
+    "etiology": "Coxsackievirus A and B, influenza, HIV, CMV (viral); also Chlamydiae, Rickettsiae, bacteria, fungi, protozoa, helminths, immune-mediated, sarcoidosis, giant cell myocarditis",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-039",
+    "cardType": "gross",
+    "image": "images/cvs/page-38-01.png",
+    "originalImage": "images/cvs/page-38-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 38
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Rheumatic heart disease",
+      "acceptedAnswers": [
+        "Rheumatic heart disease",
+        "Acute rheumatic valvulitis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Small vegetations along valve closure line",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "Fibrinoid necrosis, precipitation of fibrin at erosive site",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-040",
+    "cardType": "gross",
+    "image": "images/cvs/page-39-01.png",
+    "originalImage": "images/cvs/page-39-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 39
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Chronic rheumatic heart disease",
+      "acceptedAnswers": [
+        "Chronic rheumatic heart disease"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Fish mouth mitral valve",
+        "importance": "essential"
+      },
+      {
+        "text": "Leaflet thickening",
+        "importance": "essential"
+      },
+      {
+        "text": "Commissural fusion and shortening",
+        "importance": "essential"
+      },
+      {
+        "text": "Thickening, fusion of chordae tendineae",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-041",
+    "cardType": "micro",
+    "image": "images/cvs/page-40-01.png",
+    "originalImage": "images/cvs/page-40-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 40
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Aschoff body",
+      "acceptedAnswers": [
+        "Aschoff body",
+        "Aschoff nodule"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Macrophages",
+        "importance": "essential"
+      },
+      {
+        "text": "T cells",
+        "importance": "important"
+      },
+      {
+        "text": "Swollen collagen",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "Seen in rheumatic myocarditis",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-042",
+    "cardType": "micro",
+    "image": "images/cvs/page-40-02.png",
+    "originalImage": "images/cvs/page-40-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 40
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Anitschkow cells",
+      "acceptedAnswers": [
+        "Anitschkow cells",
+        "Anitschkow myocytes",
+        "caterpillar cells"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Modified macrophage, wavy nucleus",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-043",
+    "cardType": "gross",
+    "image": "images/cvs/page-41-01.png",
+    "originalImage": "images/cvs/page-41-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 41
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Infective endocarditis",
+      "acceptedAnswers": [
+        "Infective endocarditis",
+        "Bacterial endocarditis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Large, irregular vegetations",
+        "importance": "essential"
+      },
+      {
+        "text": "Extension to chordae tendineae",
+        "importance": "important"
+      },
+      {
+        "text": "Destroyed/perforated valve",
+        "importance": "important"
+      }
+    ],
+    "etiology": "S. viridans, S. aureus, HACEK group",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-044",
+    "cardType": "gross",
+    "image": "images/cvs/page-42-01-cropped.png",
+    "originalImage": "images/cvs/page-42-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 42
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Infective endocarditis",
+      "acceptedAnswers": [
+        "Infective endocarditis",
+        "Bacterial endocarditis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Large, friable vegetations on valve",
+        "importance": "essential"
+      },
+      {
+        "text": "Cuspal destruction/ring abscess",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-045",
+    "cardType": "micro",
+    "image": "images/cvs/page-43-01-cropped.png",
+    "originalImage": "images/cvs/page-43-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 43
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Infective endocarditis",
+      "acceptedAnswers": [
+        "Infective endocarditis",
+        "Bacterial endocarditis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Fibrin material",
+        "importance": "essential"
+      },
+      {
+        "text": "Neutrophil infiltration",
+        "importance": "essential"
+      },
+      {
+        "text": "Foamy macrophage",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-046",
+    "cardType": "gross",
+    "image": "images/cvs/page-45-01.png",
+    "originalImage": "images/cvs/page-45-01.png",
+    "answerVisible": false,
+    "reviewNeeded": true,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 45
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Mitral stenosis",
+      "acceptedAnswers": [
+        "Mitral stenosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Thickened, calcified leaflets",
+        "importance": "essential"
+      },
+      {
+        "text": "Commissural fusion",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-047",
+    "cardType": "gross",
+    "image": "images/cvs/page-46-01.png",
+    "originalImage": "images/cvs/page-46-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 46
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Aortic stenosis",
+      "acceptedAnswers": [
+        "Aortic stenosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Calcified, thickened valve",
+        "importance": "essential"
+      },
+      {
+        "text": "Commissural fusion",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-048",
+    "cardType": "gross",
+    "image": "images/cvs/page-46-02.png",
+    "originalImage": "images/cvs/page-46-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 46
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Aortic stenosis",
+      "acceptedAnswers": [
+        "Aortic stenosis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Calcified, thickened valve",
+        "importance": "essential"
+      },
+      {
+        "text": "Commissural fusion",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-049",
+    "cardType": "gross",
+    "image": "images/cvs/page-47-01.png",
+    "originalImage": "images/cvs/page-47-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 47
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Bicuspid aortic stenosis",
+      "acceptedAnswers": [
+        "Bicuspid aortic stenosis",
+        "Bicuspid aortic valve"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Two cusps instead of three",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Congenital",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-050",
+    "cardType": "gross",
+    "image": "images/cvs/page-48-01.png",
+    "originalImage": "images/cvs/page-48-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 48
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Bioprosthetic valve",
+      "acceptedAnswers": [
+        "Bioprosthetic valve",
+        "Biological valve",
+        "Tissue valve"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Bovine pericardium construction",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-051",
+    "cardType": "gross",
+    "image": "images/cvs/page-48-02.png",
+    "originalImage": "images/cvs/page-48-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 48
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Bioprosthetic valve",
+      "acceptedAnswers": [
+        "Bioprosthetic valve",
+        "Biological valve",
+        "Tissue valve"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Bovine pericardium construction",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-052",
+    "cardType": "gross",
+    "image": "images/cvs/page-48-03.png",
+    "originalImage": "images/cvs/page-48-03.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 48
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Bioprosthetic valve",
+      "acceptedAnswers": [
+        "Bioprosthetic valve",
+        "Biological valve",
+        "Tissue valve"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Bovine pericardium construction",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-053",
+    "cardType": "gross",
+    "image": "images/cvs/page-48-04.png",
+    "originalImage": "images/cvs/page-48-04.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 48
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Bioprosthetic valve",
+      "acceptedAnswers": [
+        "Bioprosthetic valve",
+        "Biological valve",
+        "Tissue valve"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Bovine pericardium construction",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-054",
+    "cardType": "gross",
+    "image": "images/cvs/page-48-05-mechanical-cropped.png",
+    "originalImage": "images/cvs/page-48-05.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 48
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Mechanical prosthetic valve",
+      "acceptedAnswers": [
+        "Mechanical valve",
+        "Mechanical prosthetic valve"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Rigid bileaflet/ball-cage design",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-055",
+    "cardType": "gross",
+    "image": "images/cvs/page-48-05-tissue-cropped.png",
+    "originalImage": "images/cvs/page-48-05.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 48
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Bioprosthetic valve",
+      "acceptedAnswers": [
+        "Bioprosthetic valve",
+        "Biological valve",
+        "Tissue valve"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Bovine pericardium construction",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-056",
+    "cardType": "gross",
+    "image": "images/cvs/page-49-02.png",
+    "originalImage": "images/cvs/page-49-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 49
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Cardiac pacemaker",
+      "acceptedAnswers": [
+        "Cardiac pacemaker",
+        "Pacemaker"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Battery-powered device with leads",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "Small, battery-powered medical device placed under the skin to control abnormal or slow heart rhythms",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-057",
+    "cardType": "gross",
+    "image": "images/cvs/page-49-03.png",
+    "originalImage": "images/cvs/page-49-03.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 49
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Cardiac pacemaker",
+      "acceptedAnswers": [
+        "Cardiac pacemaker",
+        "Pacemaker"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Battery-powered device with leads",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-058",
+    "cardType": "gross",
+    "image": "images/cvs/page-50-01.png",
+    "originalImage": "images/cvs/page-50-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 50
+    },
+    "topic": "tumour",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Cardiac myxoma",
+      "acceptedAnswers": [
+        "Cardiac myxoma",
+        "Atrial myxoma"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Soft, gelatinous mass",
+        "importance": "essential"
+      },
+      {
+        "text": "Atrial location",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "Soft gelatinous mass, mostly in atrium",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-059",
+    "cardType": "micro",
+    "image": "images/cvs/page-51-01.png",
+    "originalImage": "images/cvs/page-51-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 51
+    },
+    "topic": "tumour",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Cardiac myxoma",
+      "acceptedAnswers": [
+        "Cardiac myxoma",
+        "Atrial myxoma"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Stellate cells in mucopolysaccharide background",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-060",
+    "cardType": "gross",
+    "image": "images/cvs/page-53-01.png",
+    "originalImage": "images/cvs/page-53-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 53
+    },
+    "topic": "pericardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Fibrinous pericarditis",
+      "acceptedAnswers": [
+        "Fibrinous pericarditis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Fibrinous exudate over epicardial surface",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Post-infarct (Dressler syndrome), uremia, SLE, radiation",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-061",
+    "cardType": "gross",
+    "image": "images/cvs/page-53-02.png",
+    "originalImage": "images/cvs/page-53-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 53
+    },
+    "topic": "pericardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Fibrinous pericarditis",
+      "acceptedAnswers": [
+        "Fibrinous pericarditis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Fibrinous exudate over epicardial surface",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Post-infarct (Dressler syndrome), uremia, SLE, radiation",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-062",
+    "cardType": "gross",
+    "image": "images/cvs/page-54-01.png",
+    "originalImage": "images/cvs/page-54-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 54
+    },
+    "topic": "pericardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Hemorrhagic pericarditis",
+      "acceptedAnswers": [
+        "Hemorrhagic pericarditis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Blood-tinged pericardial exudate",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Malignant, bleeding disorder, TB, post surgery",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-063",
+    "cardType": "gross",
+    "image": "images/cvs/page-54-02.png",
+    "originalImage": "images/cvs/page-54-02.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 54
+    },
+    "topic": "pericardial",
+    "highYield": false,
+    "diagnosis": {
+      "answer": "Purulent pericarditis",
+      "acceptedAnswers": [
+        "Purulent pericarditis"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Purulent (pus-like) pericardial exudate",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "Infection",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-064",
+    "cardType": "micro",
+    "image": "images/cvs/page-56-01.png",
+    "originalImage": "images/cvs/page-56-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 56
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Capillary hemangioma",
+      "acceptedAnswers": [
+        "Capillary hemangioma"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Packed capillaries with RBC-filled spaces",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-065",
+    "cardType": "micro",
+    "image": "images/cvs/page-56-02-cropped.png",
+    "originalImage": "images/cvs/page-56-02.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 56
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Capillary hemangioma",
+      "acceptedAnswers": [
+        "Capillary hemangioma"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Intradermal proliferation of capillaries",
+        "importance": "essential"
+      },
+      {
+        "text": "Endothelial cells without atypia",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-066",
+    "cardType": "micro",
+    "image": "images/cvs/page-57-01-cropped.png",
+    "originalImage": "images/cvs/page-57-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 57
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Cavernous hemangioma",
+      "acceptedAnswers": [
+        "Cavernous hemangioma"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Large, cystically dilated vessels",
+        "importance": "essential"
+      },
+      {
+        "text": "Honeycomb pattern",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-067",
+    "cardType": "micro",
+    "image": "images/cvs/page-58-01-cropped.png",
+    "originalImage": "images/cvs/page-58-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 58
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Cavernous hemangioma",
+      "acceptedAnswers": [
+        "Cavernous hemangioma"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Large, dilated vascular spaces",
+        "importance": "essential"
+      },
+      {
+        "text": "Thin fibrous septa",
+        "importance": "important"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-068",
+    "cardType": "micro",
+    "image": "images/cvs/page-59-01.png",
+    "originalImage": "images/cvs/page-59-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 59
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Angiosarcoma",
+      "acceptedAnswers": [
+        "Angiosarcoma"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Irregular, anastomosing vascular channels",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-069",
+    "cardType": "micro",
+    "image": "images/cvs/page-60-01-cropped.png",
+    "originalImage": "images/cvs/page-60-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 60
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Angiosarcoma",
+      "acceptedAnswers": [
+        "Angiosarcoma"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Endothelial cells with marked atypia",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-070",
+    "cardType": "micro",
+    "image": "images/cvs/page-61-01.png",
+    "originalImage": "images/cvs/page-61-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 61
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Polyarteritis nodosa",
+      "acceptedAnswers": [
+        "Polyarteritis nodosa",
+        "PAN"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Segmental necrotizing inflammation",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-071",
+    "cardType": "micro",
+    "image": "images/cvs/page-62-01.png",
+    "originalImage": "images/cvs/page-62-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 62
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Polyarteritis nodosa",
+      "acceptedAnswers": [
+        "Polyarteritis nodosa",
+        "PAN"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Fibrinoid necrosis",
+        "importance": "essential"
+      },
+      {
+        "text": "Neutrophil infiltration",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-072",
+    "cardType": "micro",
+    "image": "images/cvs/page-63-01-cropped.png",
+    "originalImage": "images/cvs/page-63-01.png",
+    "answerVisible": true,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 63
+    },
+    "topic": "vascular",
+    "highYield": true,
+    "diagnosis": {
+      "answer": "Polyarteritis nodosa",
+      "acceptedAnswers": [
+        "Polyarteritis nodosa",
+        "PAN"
+      ]
+    },
+    "keyFeatures": [
+      {
+        "text": "Fibrinoid necrosis of medium-size artery",
+        "importance": "essential"
+      },
+      {
+        "text": "PMN infiltration",
+        "importance": "essential"
+      }
+    ],
+    "etiology": "",
+    "pathology": "",
+    "srs": {
+      "interval": 0,
+      "easeFactor": 2.5,
+      "due": null,
+      "reps": 0,
+      "lapses": 0
+    }
+  },
+  {
+    "id": "CVS-D01",
+    "cardType": "diagram",
+    "image": "images/cvs/page-06-01.png",
+    "originalImage": "images/cvs/page-06-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 6
+    },
+    "topic": "atherosclerosis",
+    "highYield": false,
+    "title": "Structure of normal artery wall and atherosclerotic plaque",
+    "notes": "Labeled diagram: tunica intima/media/adventitia, endothelium, smooth muscle, foamy macrophages, atherosclerotic plaque."
+  },
+  {
+    "id": "CVS-D02",
+    "cardType": "diagram",
+    "image": "images/cvs/page-33-01.png",
+    "originalImage": "images/cvs/page-33-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 33
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "title": "Gross morphology: concentric vs eccentric (dilated) cardiac hypertrophy",
+    "notes": "Comparison diagram: normal heart vs concentric hypertrophy vs dilated heart."
+  },
+  {
+    "id": "CVS-D03",
+    "cardType": "diagram",
+    "image": "images/cvs/page-37-01.png",
+    "originalImage": "images/cvs/page-37-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 37
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "title": "Pathogenesis of rheumatic heart disease",
+    "notes": "Schematic: sore throat -> immune response -> acute rheumatic heart disease (vegetations, Aschoff body myocarditis, fibrinous pericarditis)."
+  },
+  {
+    "id": "CVS-T01",
+    "cardType": "table",
+    "image": "images/cvs/page-44-01.png",
+    "originalImage": "images/cvs/page-44-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 44
+    },
+    "topic": "valvular",
+    "highYield": false,
+    "title": "Types of vegetations in different forms of endocarditis",
+    "notes": "Comparison table: rheumatic fever, infective endocarditis, non-bacterial thrombotic endocarditis (NBTE), Libman-Sacks endocarditis (LSE)."
+  },
+  {
+    "id": "CVS-D04",
+    "cardType": "diagram",
+    "image": "images/cvs/page-49-01.png",
+    "originalImage": "images/cvs/page-49-01.png",
+    "answerVisible": false,
+    "reviewNeeded": false,
+    "source": {
+      "file": "LAB CVS-med3-69.pdf",
+      "page": 49
+    },
+    "topic": "myocardial",
+    "highYield": false,
+    "title": "Cardiac pacemaker anatomy",
+    "notes": "Diagram of pacemaker leads placed into right atrium and right ventricle."
+  }
+]
