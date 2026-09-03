@@ -3645,11 +3645,13 @@ function checkFeatures(){
   const important = results.filter(r=>r.feature.importance!=="essential");
   const okCount = results.filter(r=>r.matched).length;
   let html = `<div class="feedback ${okCount===results.length && results.length>0 ? "correct":"warn"}">
+    <div class="small muted">คุณตอบ: ${esc(val.trim()) || "(ไม่ได้ตอบ)"}</div>
     <b>KEY FEATURE SCORE: ${okCount} / ${results.length}</b>
     <div class="small muted" style="margin-top:4px;">Essential: ${essential.filter(r=>r.matched).length}/${essential.length} · Important: ${important.filter(r=>r.matched).length}/${important.length}</div>
+    <div class="small muted" style="margin-top:8px;"><b>เฉลย (key features ทั้งหมดของการ์ดนี้):</b></div>
     <ul class="feat-list">`;
   results.forEach(r=>{
-    html += `<li class="${r.matched?"ok":"miss"}">${r.matched?"✓":"✗"} ${esc(r.feature.text)}<span class="imp-tag">${r.feature.importance}</span></li>`;
+    html += `<li class="${r.matched?"ok":"miss"}">${r.matched?"✓":"✗"} <b>${esc(r.feature.text)}</b><span class="imp-tag">${r.feature.importance}</span></li>`;
   });
   html += "</ul></div>";
   if(results.length===0){
@@ -3775,7 +3777,7 @@ function examSubmit(){
   const featVal = $("#examFeaturesInput").value;
   const diagResult = matchDiagnosis(diagVal, c.diagnosis.acceptedAnswers);
   const featResults = matchFeatures(featVal, c.keyFeatures||[]);
-  examResults.push({card:c, diagResult, featResults, timeUsed: EXAM_SECONDS-examTimeLeft});
+  examResults.push({card:c, diagResult, featResults, diagVal, featVal, timeUsed: EXAM_SECONDS-examTimeLeft});
   examIdx++;
   renderExamCard();
 }
@@ -3793,14 +3795,19 @@ function finishExam(){
     <tr><td>Key features ถูก</td><td>${featOk} / ${featTotal}</td></tr>
   </table><h3 style="margin-top:14px;">รายละเอียดรายข้อ</h3>`;
   examResults.forEach((r,i)=>{
-    html += `<div class="card-list-item">
+    const featList = r.featResults.map(f=>
+      `<li class="${f.matched?"ok":"miss"}">${f.matched?"✓":"✗"} <b>${esc(f.feature.text)}</b><span class="imp-tag">${f.feature.importance}</span></li>`
+    ).join("");
+    html += `<div class="card-list-item" style="align-items:flex-start;flex-wrap:wrap;">
       <img src="${r.card.image}">
       <div class="info">
-        <b>${i+1}. ${esc(r.card.diagnosis.answer)}</b>
+        <b>${i+1}. เฉลย: ${esc(r.card.diagnosis.answer)}</b>
+        <span class="small muted">คุณตอบ: ${esc(r.diagVal||"") || "(ไม่ได้ตอบ)"}</span>
         <span class="small ${r.diagResult.status==='wrong'?'muted':''}" style="color:${r.diagResult.status==='correct'?'var(--good)':r.diagResult.status==='warn'?'var(--warn)':'var(--bad)'}">
           ${r.diagResult.status==='correct'?'ถูก':r.diagResult.status==='warn'?'ถูก (สะกดคลาดเคลื่อน)':'ผิด'}
         </span>
-        <span class="small muted">features ${r.featResults.filter(f=>f.matched).length}/${r.featResults.length} · ใช้เวลา ${r.timeUsed}s</span>
+        <span class="small muted">ใช้เวลา ${r.timeUsed}s</span>
+        ${featList ? `<div class="small muted" style="margin-top:4px;">Key features ${r.featResults.filter(f=>f.matched).length}/${r.featResults.length}:</div><ul class="feat-list">${featList}</ul>` : ""}
       </div>
     </div>`;
   });
