@@ -372,6 +372,15 @@ table.stat-table td,table.stat-table th{border-bottom:1px solid var(--border);pa
   <!-- ============ IMPORT / EXPORT VIEW ============ -->
   <section class="view" id="view-io">
     <div class="card-box">
+      <h3>อัปเดตเนื้อหาการ์ด</h3>
+      <p class="small muted">ไฟล์ index.html เวอร์ชันใหม่อาจแก้ diagnosis/etiology/pathology/รูปที่ผิดพลาด แต่แอปโหลดข้อมูลเข้า
+        IndexedDB แค่ครั้งแรกครั้งเดียว การเปิดไฟล์ใหม่ทับเฉย ๆ จะไม่เห็นการแก้ไข — กดปุ่มนี้เพื่อดึงเนื้อหาการ์ดล่าสุดที่ฝังมากับไฟล์นี้
+        มาอัปเดตทับ (diagnosis/features/etiology/pathology/รูป) โดย <b>ไม่แตะ</b> ความคืบหน้า SRS หรือสถานะ approve ที่ทำไว้
+        และการ์ดที่คุณเพิ่มเองจะไม่ถูกแตะต้อง</p>
+      <button class="btn primary" id="resyncBtn">อัปเดตเนื้อหาจากไฟล์นี้</button>
+      <span id="resyncStatus" class="small muted"></span>
+    </div>
+    <div class="card-box">
       <h3>Export</h3>
       <p class="small muted">ไฟล์ export จะฝังรูปภาพเป็น base64 ในตัว JSON เดียว เพื่อให้เพื่อนเปิดใช้ต่อได้ครบโดยไม่ต้องมีไฟล์รูปแยก</p>
       <button class="btn primary" id="exportBtn">Export เป็นไฟล์ JSON</button>
@@ -3302,6 +3311,33 @@ async function initData(){
 
 function cardById(id){ return ALL_CARDS.find(c=>c.id===id); }
 
+// Overwrite content fields (diagnosis/features/etiology/pathology/image/etc.) for
+// cards that already exist locally, from the seed baked into *this* index.html,
+// while preserving each card's local reviewStatus and SRS progress. Cards the
+// user added themselves (ids not present in the seed) are left untouched.
+async function resyncSeedContent(){
+  const seed = loadSeed();
+  let updated = 0, added = 0;
+  const toPut = [];
+  for(const sc of seed){
+    const existing = cardById(sc.id);
+    if(existing){
+      const merged = Object.assign({}, sc, {
+        reviewStatus: existing.reviewStatus,
+      });
+      if(sc.srs) merged.srs = existing.srs || sc.srs;
+      toPut.push(merged);
+      updated++;
+    } else {
+      toPut.push(sc);
+      added++;
+    }
+  }
+  await idbBulkPut(toPut);
+  ALL_CARDS = await idbGetAll();
+  return {updated, added};
+}
+
 /* =========================================================
    Text normalization / Levenshtein / matching
 ========================================================= */
@@ -4058,6 +4094,13 @@ async function imageToDataURL(src){
     return src; // fallback to path reference if fetch blocked (e.g. file://)
   }
 }
+$("#resyncBtn").addEventListener("click", async ()=>{
+  const {updated, added} = await resyncSeedContent();
+  $("#resyncStatus").textContent = `อัปเดตแล้ว ${updated} การ์ด (เพิ่มใหม่ ${added})`;
+  populateTopicSelects();
+  buildStudyQueue();
+  showToast("อัปเดตเนื้อหาการ์ดเรียบร้อย");
+});
 $("#exportBtn").addEventListener("click", async ()=>{
   $("#exportStatus").textContent = "กำลังฝังรูปภาพ...";
   const cards = await idbGetAll();
