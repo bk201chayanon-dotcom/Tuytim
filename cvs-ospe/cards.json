@@ -49,15 +49,15 @@
     "topic": "atherosclerosis",
     "highYield": true,
     "diagnosis": {
-      "answer": "Fibrous plaque",
+      "answer": "Complicated plaque",
       "acceptedAnswers": [
-        "Fibrous plaque",
-        "Fibrous plaques"
+        "Complicated plaque",
+        "Complicated plaques"
       ]
     },
     "keyFeatures": [
       {
-        "text": "Raised, firm, yellow-white plaque",
+        "text": "Ulceration/hemorrhage within plaque",
         "importance": "essential"
       }
     ],
