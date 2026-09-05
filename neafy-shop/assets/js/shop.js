@@ -5,7 +5,8 @@
 (function () {
   'use strict';
 
-  const STORE_KEY = 'neafy-shop-cart-v1';
+  const STORE_KEY  = 'neafy-shop-cart-v1';
+  const COUPON_KEY = 'neafy-shop-coupon-v1';
   const $  = (sel, root) => (root || document).querySelector(sel);
   const $$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
 
@@ -37,6 +38,33 @@
     try { localStorage.setItem(STORE_KEY, JSON.stringify(cart)); } catch (e) { /* โหมดส่วนตัว */ }
   }
 
+  /* ---------------- โค้ดส่วนลด ---------------- */
+
+  let coupon = loadCoupon();     // อ็อบเจ็กต์โค้ดที่ใช้อยู่ หรือ null
+  let couponMsg = '';            // ข้อความใต้ช่องกรอกโค้ด
+
+  function findCoupon(code) {
+    const want = String(code || '').trim().toUpperCase();
+    if (!want) return null;
+    return (SHOP.coupons || []).find(c => c.code.toUpperCase() === want) || null;
+  }
+
+  function loadCoupon() {
+    try { return findCoupon(localStorage.getItem(COUPON_KEY)); } catch (e) { return null; }
+  }
+
+  function saveCoupon() {
+    try {
+      if (coupon) localStorage.setItem(COUPON_KEY, coupon.code);
+      else localStorage.removeItem(COUPON_KEY);
+    } catch (e) { /* โหมดส่วนตัว */ }
+  }
+
+  // ส่วนลดไม่เกินค่าสินค้าในตะกร้า
+  function discount() {
+    return coupon ? Math.min(coupon.discount, subtotal()) : 0;
+  }
+
   function cartCount() { return cart.reduce((n, it) => n + it.qty, 0); }
   function subtotal() {
     return cart.reduce((sum, it) => sum + byId(it.id).price * it.qty, 0);
@@ -60,12 +88,13 @@
   function setQty(i, qty) {
     const it = cart[i];
     if (!it) return;
+    captureDraft();
     const stock = sizeOf(byId(it.id), it.size).stock;
     it.qty = Math.max(1, Math.min(qty, stock));
     save(); renderCart(); syncCart();
   }
 
-  function removeAt(i) { cart.splice(i, 1); save(); renderCart(); syncCart(); }
+  function removeAt(i) { captureDraft(); cart.splice(i, 1); save(); renderCart(); syncCart(); }
 
   function syncCart() {
     $('#cartCount').textContent = cartCount();
@@ -78,9 +107,11 @@
     $('#year').textContent = new Date().getFullYear();
     $('#faqLine').textContent = SHOP.contact.line;
 
-    $('#announce').textContent = SHOP.freeShippingFrom
-      ? `ส่งฟรีเมื่อสั่งครบ ${baht(SHOP.freeShippingFrom)} · เปลี่ยนไซซ์ฟรีภายใน 7 วัน`
-      : 'เปลี่ยนไซซ์ฟรีภายใน 7 วัน';
+    const promo = [];
+    if (SHOP.freeShippingFrom) promo.push(`ส่งฟรีเมื่อสั่งครบ ${baht(SHOP.freeShippingFrom)}`);
+    (SHOP.coupons || []).forEach(c => promo.push(`ใส่โค้ด ${c.code} ${c.note}`));
+    promo.push('เปลี่ยนไซซ์ฟรีภายใน 7 วัน');
+    $('#announce').textContent = promo.join(' · ');
 
     const c = SHOP.contact;
     $('#contactList').innerHTML = [
@@ -270,13 +301,26 @@
   }
 
   let checkoutOpen = false;
+  let draft = {};   // ค่าที่ลูกค้าพิมพ์ในฟอร์ม เก็บไว้ไม่ให้หายเวลาหน้าตะกร้าถูกวาดใหม่
+
+  function captureDraft() {
+    const form = $('#orderForm');
+    if (!form) return;
+    ['name', 'tel', 'addr', 'zip', 'pay', 'note'].forEach(k => { draft[k] = form.elements[k].value; });
+  }
+
+  function restoreDraft() {
+    const form = $('#orderForm');
+    if (!form) return;
+    Object.keys(draft).forEach(k => { if (form.elements[k]) form.elements[k].value = draft[k]; });
+  }
 
   function renderCart() {
     const body = $('#cartBody');
     const foot = $('#cartFoot');
 
     if (!cart.length) {
-      checkoutOpen = false;
+      checkoutOpen = false; couponMsg = '';
       body.innerHTML = `
         <div class="empty">
           <h3>ตะกร้ายังว่างอยู่</h3>
@@ -308,20 +352,42 @@
         </div>`;
     }).join('');
 
-    const sub = subtotal(), ship = shipping();
+    const sub = subtotal(), ship = shipping(), off = discount();
     const gapToFree = SHOP.freeShippingFrom ? SHOP.freeShippingFrom - sub : 0;
 
     foot.innerHTML = `
+      ${checkoutOpen ? '' : couponBox()}
       <div class="totals">
         <div><span>ยอดสินค้า</span><span>${baht(sub)}</span></div>
+        ${off ? `<div class="off"><span>ส่วนลด (${esc(coupon.code)})</span><span>−${baht(off)}</span></div>` : ''}
         <div><span>ค่าจัดส่ง</span><span>${ship === 0 ? 'ฟรี' : baht(ship)}</span></div>
-        <div class="grand"><span>รวมทั้งสิ้น</span><span>${baht(sub + ship)}</span></div>
+        <div class="grand"><span>รวมทั้งสิ้น</span><span>${baht(sub - off + ship)}</span></div>
         ${gapToFree > 0 ? `<p class="free-note">สั่งเพิ่มอีก ${baht(gapToFree)} รับส่งฟรี</p>` : ''}
       </div>
       ${checkoutOpen ? checkoutForm() : `
         <button class="btn btn-solid btn-block" id="toCheckout" style="margin-top:16px">สั่งซื้อ</button>`}`;
 
     bindCartEvents();
+    restoreDraft();
+  }
+
+  function couponBox() {
+    if (coupon) {
+      return `
+        <div class="coupon on">
+          <span>ใช้โค้ด <b>${esc(coupon.code)}</b> แล้ว · ${esc(coupon.note)}</span>
+          <button type="button" id="dropCoupon">ยกเลิก</button>
+        </div>`;
+    }
+    return `
+      <div class="coupon">
+        <label for="couponInput">โค้ดส่วนลด</label>
+        <div class="coupon-row">
+          <input id="couponInput" placeholder="กรอกโค้ด" autocomplete="off" spellcheck="false">
+          <button class="btn btn-line" type="button" id="applyCoupon">ใช้โค้ด</button>
+        </div>
+        ${couponMsg ? `<p class="coupon-msg">${esc(couponMsg)}</p>` : ''}
+      </div>`;
   }
 
   function checkoutForm() {
@@ -365,6 +431,28 @@
     $$('[data-del]').forEach(b => b.addEventListener('click', () => removeAt(+b.dataset.del)));
     $$('[data-close]').forEach(b => b.addEventListener('click', closeCart));
 
+    const apply = $('#applyCoupon');
+    if (apply) {
+      const input = $('#couponInput');
+      const tryCode = () => {
+        const found = findCoupon(input.value);
+        if (found) {
+          coupon = found; couponMsg = ''; saveCoupon();
+          toast(`ใช้โค้ด ${found.code} แล้ว · ${found.note}`);
+        } else {
+          couponMsg = input.value.trim() ? 'ไม่พบโค้ดนี้ ลองตรวจตัวสะกดอีกครั้ง' : 'กรุณากรอกโค้ดส่วนลด';
+        }
+        renderCart();
+      };
+      apply.addEventListener('click', tryCode);
+      input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); tryCode(); } });
+    }
+
+    const drop = $('#dropCoupon');
+    if (drop) drop.addEventListener('click', () => {
+      coupon = null; couponMsg = ''; saveCoupon(); renderCart();
+    });
+
     const go = $('#toCheckout');
     if (go) go.addEventListener('click', () => { checkoutOpen = true; renderCart(); $('#f-name').focus(); });
 
@@ -407,7 +495,7 @@
       const p = byId(it.id);
       return `  • ${p.name} (${p.nameTh}) · ไซซ์ ${it.size} × ${it.qty} = ${baht(p.price * it.qty)}`;
     });
-    const sub = subtotal(), ship = shipping();
+    const sub = subtotal(), ship = shipping(), off = discount();
     return [
       `คำสั่งซื้อ ${SHOP.name}`,
       `เลขที่ ${no}`,
@@ -417,8 +505,9 @@
       ...lines,
       '',
       `ยอดสินค้า   ${baht(sub)}`,
+      off ? `ส่วนลด     −${baht(off)} (โค้ด ${coupon.code})` : '',
       `ค่าจัดส่ง    ${ship === 0 ? 'ฟรี' : baht(ship)}`,
-      `รวมทั้งสิ้น  ${baht(sub + ship)}`,
+      `รวมทั้งสิ้น  ${baht(sub - off + ship)}`,
       '',
       'ผู้รับ',
       `  ชื่อ    ${data.name}`,
@@ -477,7 +566,8 @@
     });
 
     // เคลียร์ตะกร้าหลังสรุปออเดอร์แล้ว แต่คงข้อความสรุปไว้บนหน้าจอ
-    cart = []; checkoutOpen = false; save();
+    cart = []; checkoutOpen = false; draft = {};
+    coupon = null; couponMsg = ''; saveCoupon(); save();
     $('#cartCount').textContent = '0';
   }
 
