@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>neafy shop — เสื้อคลาสสิก ตัดเย็บดี ใส่ได้นาน</title>
+<meta name="description" content="neafy shop ร้านเสื้อผ้าทรงคลาสสิก คัดผ้าดี ตัดเย็บประณีต เชิ้ตอ๊อกซ์ฟอร์ดและเสื้อยืดเฮฟวี่คอตตอน">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23f7f2e8'/><text x='50' y='72' font-size='64' font-family='Georgia,serif' text-anchor='middle' fill='%231b1a17'>n</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+Thai:wght@400;500;600&family=Sarabun:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="assets/css/shop.css">
+</head>
+<body>
+
+<div class="announce" id="announce"></div>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <button class="icon-btn menu-btn" id="menuBtn" aria-label="เปิดเมนู" aria-expanded="false">
+      <span class="bars" aria-hidden="true"></span>
+    </button>
+
+    <a class="brand" href="#home">
+      <span class="brand-mark">neafy</span>
+      <span class="brand-sub">shop · est. 2024</span>
+    </a>
+
+    <nav class="mainnav" id="mainnav" aria-label="เมนูหลัก">
+      <a href="#shop">สินค้า</a>
+      <a href="#size">ตารางไซซ์</a>
+      <a href="#story">เรื่องของเรา</a>
+      <a href="#faq">คำถามที่พบบ่อย</a>
+      <a href="#contact">ติดต่อ</a>
+    </nav>
+
+    <button class="cart-btn" id="cartBtn" aria-label="เปิดตะกร้าสินค้า">
+      <span class="cart-word">ตะกร้า</span>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ หน้าร้าน ============ -->
+  <div id="viewShop">
+
+    <section class="hero" id="home">
+      <div class="wrap hero-inner">
+        <p class="eyebrow">เสื้อสองตัวที่เราตั้งใจทำ</p>
+        <h1>ของดีไม่ต้องมีหลายอย่าง</h1>
+        <p class="lede">
+          neafy shop ทำเสื้อแค่สองแบบ แต่ทำให้ดีที่สุดเท่าที่จะทำได้ —
+          คัดผ้าเอง คุมตะเข็บเอง และตั้งราคาตรงไปตรงมา
+        </p>
+        <a class="btn btn-solid" href="#shop">ดูสินค้าทั้งสองแบบ</a>
+        <ul class="hero-marks">
+          <li>ตัดเย็บในประเทศไทย</li>
+          <li>ผ้าคอตตอนแท้ 100%</li>
+          <li>เปลี่ยนไซซ์ฟรีภายใน 7 วัน</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="shop">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="eyebrow">คอลเลกชัน</p>
+          <h2>สินค้าทั้งหมด</h2>
+          <p class="section-note">ราคารวมภาษีแล้ว · ส่งฟรีเมื่อสั่งครบตามยอดที่กำหนด</p>
+        </header>
+        <div class="grid" id="productGrid"></div>
+      </div>
+    </section>
+
+    <section class="section section-rule" id="size">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="eyebrow">วัดก่อนสั่ง</p>
+          <h2>ตารางไซซ์</h2>
+          <p class="section-note">หน่วยเป็นนิ้ว · วัดจากตัวเสื้อวางราบ คลาดเคลื่อนได้ ±0.5 นิ้ว</p>
+        </header>
+        <div class="size-tables" id="sizeTables"></div>
+        <p class="hint">
+          ไม่แน่ใจไซซ์? วัดเสื้อตัวที่ใส่ประจำวางราบ แล้วเทียบช่อง “รอบอก” —
+          หรือทักไลน์มาถามได้เลย เราตอบเองทุกข้อความ
+        </p>
+      </div>
+    </section>
+
+    <section class="section section-tint" id="story">
+      <div class="wrap story">
+        <div class="story-text">
+          <p class="eyebrow">เรื่องของเรา</p>
+          <h2>เริ่มจากเสื้อที่หาซื้อไม่ได้</h2>
+          <p>
+            เราเริ่มทำ neafy shop เพราะหาเสื้อเชิ้ตทรงคลาสสิกที่ผ้าดีจริง
+            ตะเข็บแน่นจริง ในราคาที่ไม่ต้องคิดนานไม่ได้สักที
+          </p>
+          <p>
+            เลยตัดสินใจทำเอง เริ่มจากเสื้อแบบเดียว ตัดกับโรงเย็บเล็ก ๆ ที่รู้จักกันมานาน
+            แก้แพตเทิร์นอยู่หลายรอบกว่าจะได้ทรงที่พอใจ ตอนนี้มีสองแบบ
+            และเราตั้งใจจะค่อย ๆ เพิ่มทีละแบบเท่านั้น
+          </p>
+          <p>
+            ทุกตัวผ่านการตรวจด้วยมือก่อนแพ็ค ถ้าได้รับแล้วไม่ถูกใจ
+            บอกเรามาได้ตรง ๆ เราเปลี่ยนไซซ์ให้ฟรีภายใน 7 วัน
+          </p>
+        </div>
+        <ul class="story-facts">
+          <li><span class="num">2</span><span class="lbl">แบบที่ตั้งใจทำ</span></li>
+          <li><span class="num">100%</span><span class="lbl">คอตตอนแท้</span></li>
+          <li><span class="num">7</span><span class="lbl">วัน เปลี่ยนไซซ์ฟรี</span></li>
+          <li><span class="num">1–2</span><span class="lbl">วัน จัดส่งหลังยืนยัน</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="wrap narrow">
+        <header class="section-head">
+          <p class="eyebrow">ก่อนสั่งซื้อ</p>
+          <h2>คำถามที่พบบ่อย</h2>
+        </header>
+        <div class="faq">
+          <details>
+            <summary>สั่งซื้อและชำระเงินอย่างไร</summary>
+            <p>เลือกไซซ์ กดใส่ตะกร้า แล้วกรอกที่อยู่ในหน้าตะกร้า ระบบจะสรุปรายการให้คัดลอก
+              ส่งมาทางไลน์ <b id="faqLine">@neafyshop</b> เราจะแจ้งเลขบัญชีและยืนยันสต็อกกลับภายในวันเดียวกัน</p>
+          </details>
+          <details>
+            <summary>ส่งของกี่วันถึง</summary>
+            <p>แพ็คและส่งภายใน 1–2 วันทำการหลังยืนยันการโอน ส่งด้วยขนส่งเอกชน
+              กรุงเทพฯ และปริมณฑล 1–2 วัน ต่างจังหวัด 2–3 วัน พร้อมแจ้งเลขพัสดุทุกครั้ง</p>
+          </details>
+          <details>
+            <summary>เปลี่ยนไซซ์ได้ไหม</summary>
+            <p>ได้ ภายใน 7 วันนับจากวันรับของ โดยเสื้อต้องยังไม่ผ่านการซักและป้ายครบ
+              ค่าส่งขากลับลูกค้าออก ค่าส่งขาไปใหม่เราออกให้</p>
+          </details>
+          <details>
+            <summary>ดูแลรักษาอย่างไรให้อยู่นาน</summary>
+            <p>ซักน้ำเย็น กลับด้านใน แยกสีครั้งแรก ตากในร่ม เลี่ยงเครื่องอบผ้า
+              เชิ้ตรีดไฟกลาง เสื้อยืดเลี่ยงการรีดทับลายพิมพ์</p>
+          </details>
+          <details>
+            <summary>มีหน้าร้านไหม</summary>
+            <p>ยังไม่มีหน้าร้านถาวร ขายออนไลน์เป็นหลัก และออกบูธเป็นครั้งคราว
+              ติดตามวันออกบูธได้ทางอินสตาแกรมของร้าน</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ============ หน้ารายละเอียดสินค้า ============ -->
+  <div id="viewProduct" hidden></div>
+
+</main>
+
+<footer class="footer" id="contact">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <span class="brand-mark">neafy</span>
+      <p>Classic shirts, honestly made.</p>
+    </div>
+    <div class="footer-col">
+      <h3>ติดต่อ</h3>
+      <ul id="contactList"></ul>
+    </div>
+    <div class="footer-col">
+      <h3>ช่วยเหลือ</h3>
+      <ul>
+        <li><a href="#size">ตารางไซซ์</a></li>
+        <li><a href="#faq">การจัดส่ง</a></li>
+        <li><a href="#faq">เปลี่ยน/คืนสินค้า</a></li>
+      </ul>
+    </div>
+  </div>
+  <p class="copy">© <span id="year"></span> neafy shop · ตัดเย็บในประเทศไทย</p>
+</footer>
+
+<!-- ============ ตะกร้า ============ -->
+<div class="scrim" id="scrim" hidden></div>
+<aside class="cart" id="cart" hidden aria-label="ตะกร้าสินค้า">
+  <header class="cart-head">
+    <h2>ตะกร้าสินค้า</h2>
+    <button class="icon-btn" id="cartClose" aria-label="ปิดตะกร้า">✕</button>
+  </header>
+  <div class="cart-body" id="cartBody"></div>
+  <footer class="cart-foot" id="cartFoot"></footer>
+</aside>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="assets/js/products.js"></script>
+<script src="assets/js/shop.js"></script>
+</body>
+</html>

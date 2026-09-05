@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="ภาพวาดเสื้อเชิ้ตอ๊อกซ์ฟอร์ด">
+  <rect width="800" height="1000" fill="#f2ece0"/>
+  <g fill="#fdfbf6" stroke="#20201d" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+    <!-- sleeves -->
+    <path d="M256 222 L138 300 Q126 310 130 328 L162 566 Q164 582 180 586 L246 602 Q262 606 262 590 L262 402 Z"/>
+    <path d="M544 222 L662 300 Q674 310 670 328 L638 566 Q636 582 620 586 L554 602 Q538 606 538 590 L538 402 Z"/>
+    <!-- body -->
+    <path d="M256 222 Q400 196 544 222 L544 796 Q400 872 256 796 Z"/>
+  </g>
+  <g fill="none" stroke="#20201d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <!-- yoke -->
+    <path d="M262 290 Q400 268 538 290"/>
+    <!-- placket -->
+    <path d="M386 258 L386 812 M418 258 L418 812"/>
+    <!-- collar -->
+    <path d="M332 214 Q400 268 468 214" fill="#fdfbf6"/>
+    <path d="M332 214 Q356 200 386 200 L400 256 L340 296 Q318 258 332 214 Z" fill="#fdfbf6"/>
+    <path d="M468 214 Q444 200 414 200 L400 256 L460 296 Q482 258 468 214 Z" fill="#fdfbf6"/>
+    <!-- pocket -->
+    <path d="M300 348 L368 348 L368 428 L334 448 L300 428 Z" fill="#fdfbf6"/>
+    <!-- cuff lines -->
+    <path d="M158 540 Q206 552 250 560 M642 540 Q594 552 550 560"/>
+    <!-- hem stitch -->
+    <path d="M262 776 Q400 848 538 776" stroke-dasharray="10 10" stroke-width="3"/>
+  </g>
+  <g fill="#fdfbf6" stroke="#20201d" stroke-width="4">
+    <circle cx="402" cy="330" r="9"/><circle cx="402" cy="432" r="9"/>
+    <circle cx="402" cy="534" r="9"/><circle cx="402" cy="636" r="9"/>
+    <circle cx="402" cy="738" r="9"/>
+  </g>
+</svg>
