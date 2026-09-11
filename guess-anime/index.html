@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ทายชื่ออนิเมะ — เกมทายชื่ออนิเมะจากคำใบ้</title>
+<meta name="description" content="เกมทายชื่ออนิเมะจากคำใบ้ทีละข้อ มีอนิเมะให้ทายกว่า 80 เรื่อง และไม่สุ่มชื่อซ้ำเมื่อผู้เล่นคนใหม่มาเล่นรอบต่อไป">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <button class="brand" id="brand">
+    <span class="mark">ทายชื่ออนิเมะ</span>
+    <span class="sub">Guess the anime</span>
+  </button>
+  <nav class="nav">
+    <button data-go="home" class="on">เล่น</button>
+    <button data-go="board">กระดาน<span class="wide">คะแนน</span></button>
+    <button data-go="archive">คลัง<span class="wide">เรื่อง</span></button>
+  </nav>
+  <button class="icon-btn" id="themeBtn" title="สลับธีมสว่าง/มืด" aria-label="สลับธีมสว่างและมืด">◐</button>
+</header>
+
+<main>
+
+  <!-- ============ หน้าเริ่มเกม ============ -->
+  <section class="view on" id="homeView">
+    <div class="dots-burst" aria-hidden="true"></div>
+    <h1>ทายชื่ออนิเมะจากคำใบ้</h1>
+    <p class="subtitle">
+      เปิดคำใบ้ทีละข้อแล้วทายให้ไวที่สุด ยิ่งใช้คำใบ้น้อย คะแนนยิ่งสูง
+      คลังมีอนิเมะ <b id="poolTotal">—</b> เรื่อง และ<b>เรื่องที่ออกไปแล้วจะไม่ถูกสุ่มซ้ำ</b>
+      แม้ผู้เล่นคนใหม่จะมาเล่นรอบต่อไปก็ตาม
+    </p>
+
+    <div class="card setup">
+      <label class="field">
+        <span class="lab">ชื่อผู้เล่น</span>
+        <input id="playerName" type="text" maxlength="24" placeholder="ใส่ชื่อไว้ขึ้นกระดานคะแนน" autocomplete="off">
+      </label>
+
+      <div class="field">
+        <span class="lab">วิธีตอบ</span>
+        <div class="seg" id="modeSeg" role="group" aria-label="วิธีตอบ">
+          <button data-mode="type" class="on">พิมพ์ชื่อ</button>
+          <button data-mode="choice">เลือก 4 ตัวเลือก</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <span class="lab">ระดับความยาก</span>
+        <div class="seg" id="tierSeg" role="group" aria-label="ระดับความยาก">
+          <button data-tier="1">ดังระดับโลก</button>
+          <button data-tier="2">รู้จักทั่วไป</button>
+          <button data-tier="3">สายลึก</button>
+          <button data-tier="0" class="on">คละทั้งหมด</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <span class="lab">จำนวนข้อต่อรอบ</span>
+        <div class="seg" id="lenSeg" role="group" aria-label="จำนวนข้อ">
+          <button data-len="5">5</button>
+          <button data-len="10" class="on">10</button>
+          <button data-len="15">15</button>
+          <button data-len="20">20</button>
+        </div>
+      </div>
+
+      <p class="pool-line">
+        เหลือให้ทาย <b id="poolLeft">—</b> เรื่อง · ออกไปแล้ว <b id="poolUsed">—</b> เรื่อง
+        <button class="link" id="resetPoolBtn">ล้างประวัติเรื่องที่ออกแล้ว</button>
+      </p>
+
+      <button class="primary big" id="startBtn">เริ่มเล่น</button>
+      <p class="warn" id="poolWarn" hidden></p>
+    </div>
+  </section>
+
+  <!-- ============ หน้าเล่นเกม ============ -->
+  <section class="view" id="playView">
+    <div class="scorebar">
+      <div class="sb-cell"><span class="sb-lab">ข้อ</span><span class="sb-val" id="qNo">1/10</span></div>
+      <div class="sb-cell"><span class="sb-lab">คะแนน</span><span class="sb-val" id="scoreVal">0</span></div>
+      <div class="sb-cell"><span class="sb-lab">ข้อนี้ได้</span><span class="sb-val" id="worthVal">100</span></div>
+      <div class="sb-cell"><span class="sb-lab">ผู้เล่น</span><span class="sb-val" id="whoVal">—</span></div>
+    </div>
+
+    <div class="card quiz">
+      <div class="meta" id="qMeta"></div>
+      <ol class="clues" id="clueList"></ol>
+
+      <div class="answer" id="typeBox">
+        <input id="answerInput" type="text" placeholder="พิมพ์ชื่ออนิเมะ แล้วกด Enter" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <button class="primary" id="submitBtn">ตอบ</button>
+      </div>
+
+      <div class="choices" id="choiceBox" hidden></div>
+
+      <div class="tools">
+        <button id="hintBtn">ขอคำใบ้เพิ่ม <span class="k">(H)</span></button>
+        <button id="skipBtn">ยอมแพ้ข้อนี้ <span class="k">(S)</span></button>
+      </div>
+
+      <div class="verdict" id="verdict" hidden></div>
+      <button class="primary big" id="nextBtn" hidden>ข้อต่อไป <span class="k">(Enter)</span></button>
+    </div>
+  </section>
+
+  <!-- ============ หน้าสรุปผล ============ -->
+  <section class="view" id="resultView">
+    <h1>จบรอบแล้ว</h1>
+    <div class="card result-head">
+      <div class="big-score"><span id="finalScore">0</span><small>คะแนน</small></div>
+      <p class="result-line" id="resultLine">—</p>
+      <p class="result-grade" id="resultGrade">—</p>
+    </div>
+
+    <div class="card">
+      <h2>เฉลยทั้งรอบ</h2>
+      <ul class="recap" id="recapList"></ul>
+    </div>
+
+    <div class="row-btns">
+      <button class="primary big" id="againBtn">เล่นอีกรอบ (ผู้เล่นคนใหม่)</button>
+      <button class="big" id="homeBtn">กลับหน้าแรก</button>
+    </div>
+  </section>
+
+  <!-- ============ กระดานคะแนน ============ -->
+  <section class="view" id="boardView">
+    <h1>กระดานคะแนน</h1>
+    <p class="subtitle">เก็บผลทุกคนที่ผลัดกันมาเล่นบนเครื่องนี้ เรียงจากคะแนนต่อข้อสูงสุด</p>
+    <div class="card">
+      <table class="board" id="boardTable">
+        <thead><tr><th>#</th><th>ผู้เล่น</th><th>คะแนน</th><th>ถูก</th><th>ต่อข้อ</th><th class="wide">เมื่อ</th></tr></thead>
+        <tbody id="boardBody"></tbody>
+      </table>
+      <p class="empty" id="boardEmpty" hidden>ยังไม่มีใครเล่นจบสักรอบ</p>
+      <button class="link" id="clearBoardBtn">ล้างกระดานคะแนน</button>
+    </div>
+  </section>
+
+  <!-- ============ คลังเรื่อง ============ -->
+  <section class="view" id="archiveView">
+    <h1>คลังอนิเมะ</h1>
+    <p class="subtitle">
+      เรื่องที่ถูกถามไปแล้วจะถูกกันออกจากการสุ่มรอบถัดไปโดยอัตโนมัติ
+      ตรงนี้ดูได้ว่าเรื่องไหนออกไปแล้วบ้าง และเหลืออีกกี่เรื่อง
+    </p>
+    <div class="card">
+      <div class="arch-tools">
+        <input id="archSearch" type="search" placeholder="ค้นหาชื่ออนิเมะ" autocomplete="off">
+        <div class="seg" id="archSeg" role="group" aria-label="ตัวกรองคลัง">
+          <button data-arch="used" class="on">ออกไปแล้ว</button>
+          <button data-arch="left">ยังไม่ออก</button>
+          <button data-arch="all">ทั้งหมด</button>
+        </div>
+      </div>
+      <p class="arch-count" id="archCount">—</p>
+      <ul class="arch-list" id="archList"></ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <span>เก็บข้อมูลไว้ในเครื่องนี้เท่านั้น (localStorage) ไม่มีการส่งออกไปที่ไหน</span>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/game.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
