@@ -6,7 +6,7 @@
 ความคืบหน้าของสองวิชาไม่ปนกัน
 
 ที่มาเนื้อหา: สไลด์ **Lab Respiratory System 2** ภาควิชาพยาธิวิทยา
-(61 การ์ด ครอบคลุมทางเดินหายใจส่วนบน กล่องเสียงและมะเร็งกล่องเสียง pulmonary edema,
+(105 การ์ด ครอบคลุมทางเดินหายใจส่วนบน กล่องเสียงและมะเร็งกล่องเสียง pulmonary edema,
 DAD/ARDS, pneumonia, lung abscess, วัณโรค, การติดเชื้อรา, CMV, emphysema,
 bronchiectasis, มะเร็งปอดทุกชนิด และ mesothelioma)
 
@@ -18,6 +18,7 @@ bronchiectasis, มะเร็งปอดทุกชนิด และ mesot
 
 ## คุณสมบัติ
 
+- **เน้นคำถามวินิจฉัย (Dx) และ histology finding ที่สำคัญ** ตามที่ออกสอบจริง
 - **การ์ดแต่ละใบ**: รูป gross/histology จริงจากสไลด์ + คำถาม + เฉลย + **คำบรรยายพยาธิวิทยา**
   ที่อธิบายว่าทำไมถึงตอบอย่างนั้น และจุดที่ใช้แยกจากภาวะใกล้เคียง
 - **ปิดคำตอบในภาพแล้ว**: ป้ายกำกับและป้ายชื่อสิ่งส่งตรวจที่พิมพ์ติดมากับรูปต้นฉบับถูกแถบดำทับ
@@ -37,19 +38,32 @@ bronchiectasis, มะเร็งปอดทุกชนิด และ mesot
 
 | หมวด | จำนวน |
 |---|---|
-| ทางเดินหายใจส่วนบน (nasal polyp, inverted papilloma, vocal nodule) | 9 |
-| กล่องเสียง (laryngeal carcinoma) | 6 |
-| Pulmonary edema / DAD | 5 |
-| Pneumonia & abscess | 7 |
-| วัณโรค | 7 |
-| การติดเชื้อรา (aspergillosis, mucormycosis) | 7 |
-| การติดเชื้อไวรัส (CMV) | 2 |
-| Emphysema / Bronchiectasis | 4 |
-| มะเร็งปอด | 13 |
-| Mesothelioma | 1 |
+| ทางเดินหายใจส่วนบน (nasal polyp, inverted papilloma, vocal nodule) | 15 |
+| กล่องเสียง (laryngeal carcinoma) | 11 |
+| Pulmonary edema / DAD | 9 |
+| Pneumonia & abscess | 12 |
+| วัณโรค | 12 |
+| การติดเชื้อรา (aspergillosis, mucormycosis) | 12 |
+| การติดเชื้อไวรัส (CMV) | 4 |
+| Emphysema / Bronchiectasis | 6 |
+| มะเร็งปอด | 21 |
+| Mesothelioma | 3 |
+
+คำถามแบ่งเป็นสองแนวหลัก:
+
+- **ถามวินิจฉัย (Dx)** — ดูภาพแล้วตอบชื่อโรค เป็นแนวที่ออกสอบมากที่สุด
+  หลายภาพมีการ์ด Dx มากกว่าหนึ่งใบโดยให้เบาะแสคนละชุด
+- **ถาม histology finding ที่สำคัญ** — ตอบชื่อลักษณะทางจุลพยาธิที่ใช้ตัดสินการวินิจฉัยนั้น
+  เช่น hyaline membrane, caseous necrosis, Langhans giant cell, nuclear molding,
+  keratin pearl, intercellular bridge, owl eye inclusion, desmoplastic stroma
+  รวมถึงสีย้อมพิเศษที่ใช้ยืนยัน (GMS, acid-fast stain) และ IHC marker ที่ใช้แยกชนิดมะเร็ง
+
+ภาพเดียวกันมักมีสองการ์ด — ใบหนึ่งถามว่า "โรคอะไร" อีกใบถามว่า "เห็นอะไรถึงตอบอย่างนั้น"
 
 ## หมายเหตุเรื่องข้อมูล
 
+- การ์ดหลายใบใช้รูปเดียวกัน (ถาม Dx ใบหนึ่ง ถาม finding อีกใบหนึ่ง) ไฟล์จึงเก็บรูปไว้ในคลังกลาง
+  แล้วให้การ์ดอ้างถึง ขนาดไฟล์เลยไม่บวมตามจำนวนการ์ด
 - ใช้ฐานข้อมูลชื่อ `ospe-respi-flashcards` แยกจากวิชา CVS (`ospe-cvs-flashcards`)
   เปิดสองวิชาพร้อมกันได้ ความคืบหน้าไม่ทับกัน
 - ข้อมูลอยู่ในเบราว์เซอร์เครื่องที่เปิดไฟล์นี้เท่านั้น — ล้างข้อมูลเบราว์เซอร์แล้วความคืบหน้าจะหาย
