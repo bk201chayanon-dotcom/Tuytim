@@ -1,0 +1,2321 @@
+<title>Active Recall — ยาระบบทางเดินหายใจ</title>
+<meta name="description" content="เว็บถามตอบแบบ Active recall สำหรับทบทวนยาที่ใช้ในระบบทางเดินหายใจ นึกคำตอบเองก่อนดูเฉลย แล้วให้คะแนนตัวเอง">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Noto+Serif+Thai:wght@500;600&display=swap">
+<style>
+/* ------------------------------------------------------------------
+ * styles.css — ธีมของเว็บถามตอบ Active recall
+ *
+ * ภาพจำ: ลมหายใจ — พื้นหลังไล่เฉดนุ่ม ๆ เหมือนอากาศ
+ * สีฟ้าเขียว (ออกซิเจน) ใช้กับสิ่งที่กดได้และสิ่งที่ "ถูก" เท่านั้น
+ * คำถามใช้ตัวอักษรมีเชิงให้อารมณ์เหมือนข้อสอบ คำตอบใช้ตัวอักษรไม่มีเชิงให้อ่านง่าย
+ * ธีมสว่าง/มืดคุมด้วย custom properties ชุดเดียว
+ * ------------------------------------------------------------------ */
+
+:root {
+  --bg:        #f4f7f8;
+  --bg-tint:   #e6eef0;
+  --surface:   #ffffff;
+  --surface-2: #f0f4f5;
+  --line:      #d5e0e3;
+  --line-soft: #e6eef0;
+  --ink:       #16242a;
+  --ink-soft:  #4d646d;
+  --ink-faint: #7d939b;
+  --accent:    #0d7d84;
+  --accent-ink:#ffffff;
+  --accent-bg: #e0f2f2;
+  --good:      #1a7f4f;
+  --good-bg:   #e2f4ea;
+  --warn:      #9a6800;
+  --warn-bg:   #fbf0d8;
+  --bad:       #b23a35;
+  --bad-bg:    #fbe7e5;
+  --serif:     'Newsreader', 'Noto Serif Thai', Georgia, serif;
+  --sans:      'IBM Plex Sans Thai', system-ui, -apple-system, sans-serif;
+  --mono:      'IBM Plex Mono', ui-monospace, monospace;
+  --radius:    14px;
+  --shadow:    0 1px 2px rgba(16,40,48,.06), 0 8px 24px -16px rgba(16,40,48,.4);
+}
+
+:root[data-theme="dark"] {
+  --bg:        #0e1719;
+  --bg-tint:   #132124;
+  --surface:   #162428;
+  --surface-2: #1d2f34;
+  --line:      #27403f;
+  --line-soft: #1e3034;
+  --ink:       #e7f0f1;
+  --ink-soft:  #a3b8bc;
+  --ink-faint: #7b9296;
+  --accent:    #4fd1c5;
+  --accent-ink:#06221f;
+  --accent-bg: #11363a;
+  --good:      #5ed49a;
+  --good-bg:   #10352a;
+  --warn:      #e9be5f;
+  --warn-bg:   #38301a;
+  --bad:       #f08d86;
+  --bad-bg:    #3b201f;
+  --shadow:    0 1px 2px rgba(0,0,0,.4), 0 10px 26px -18px rgba(0,0,0,.9);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:#0e1719; --bg-tint:#132124; --surface:#162428; --surface-2:#1d2f34;
+    --line:#27403f; --line-soft:#1e3034;
+    --ink:#e7f0f1; --ink-soft:#a3b8bc; --ink-faint:#7b9296;
+    --accent:#4fd1c5; --accent-ink:#06221f; --accent-bg:#11363a;
+    --good:#5ed49a; --good-bg:#10352a; --warn:#e9be5f; --warn-bg:#38301a;
+    --bad:#f08d86; --bad-bg:#3b201f;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 26px -18px rgba(0,0,0,.9);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+h1 { font-size: 1.5rem; margin: .2em 0 .35em; letter-spacing: -.01em; }
+h2 { font-size: 1.02rem; margin: 0 0 .5em; }
+p  { margin: 0 0 .8em; }
+b, strong { font-weight: 600; }
+em { font-style: italic; }
+
+/* ---------- แถบบน ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 30;
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 16px;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line-soft);
+}
+.brand {
+  display: flex; flex-direction: column; align-items: flex-start;
+  background: none; border: 0; padding: 0; cursor: pointer;
+  font-family: inherit; color: inherit; text-align: left; line-height: 1.15;
+}
+.brand .mark { font-weight: 600; font-size: .95rem; white-space: nowrap; }
+.brand .sub  { font-size: .7rem; color: var(--ink-faint); white-space: nowrap; }
+.nav { display: flex; gap: 2px; margin-left: auto; }
+.nav button {
+  background: none; border: 0; border-radius: 999px;
+  padding: 6px 12px; font: inherit; font-size: .85rem; white-space: nowrap;
+  color: var(--ink-soft); cursor: pointer;
+}
+.nav button:hover { color: var(--ink); background: var(--surface-2); }
+.nav button.on { background: var(--accent-bg); color: var(--accent); font-weight: 500; }
+.icon-btn {
+  background: none; border: 1px solid var(--line); border-radius: 999px;
+  width: 32px; height: 32px; color: var(--ink-soft); cursor: pointer; font-size: .9rem;
+}
+.icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+main { max-width: 760px; margin: 0 auto; padding: 18px 16px 80px; }
+.view { display: none; }
+.view.on { display: block; animation: rise .18s ease-out; }
+@keyframes rise { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+.subtitle { color: var(--ink-soft); font-size: .93rem; }
+.hint { color: var(--ink-faint); font-size: .82rem; margin: 8px 0 0; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* ---------- ภาพหัวเรื่อง: เส้นลมหายใจ ---------- */
+.hero { margin: 4px 0 10px; }
+.hero canvas { width: 100%; height: 64px; display: block; opacity: .85; }
+
+/* ---------- กล่องเนื้อหา ---------- */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin: 14px 0;
+  box-shadow: var(--shadow);
+}
+.panel-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.panel-tools { margin-left: auto; display: flex; gap: 10px; }
+.link-btn {
+  background: none; border: 0; padding: 0; font: inherit; font-size: .8rem;
+  color: var(--accent); cursor: pointer; text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- แถวสถิติย่อ ---------- */
+.stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 14px 0; }
+.stat {
+  background: var(--surface); border: 1px solid var(--line-soft);
+  border-radius: 12px; padding: 10px 8px; text-align: center;
+}
+.stat .n { font-family: var(--mono); font-size: 1.2rem; font-weight: 500; display: block; }
+.stat .l { font-size: .7rem; color: var(--ink-faint); }
+.stat.due  .n { color: var(--accent); }
+.stat.weak .n { color: var(--bad); }
+.stat.firm .n { color: var(--good); }
+
+/* ---------- รายการหัวข้อ ---------- */
+.topics { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
+.topic {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 10px; cursor: pointer;
+  border: 1px solid transparent;
+}
+.topic:hover { background: var(--surface-2); }
+.topic input { accent-color: var(--accent); width: 16px; height: 16px; flex: none; }
+.topic .name { flex: 1; font-size: .9rem; }
+.topic .slides { font-size: .72rem; color: var(--ink-faint); display: block; }
+.counts { display: flex; gap: 4px; flex: none; }
+.count {
+  font-family: var(--mono); font-size: .72rem; min-width: 26px; text-align: center;
+  padding: 1px 6px; border-radius: 999px; background: var(--surface-2); color: var(--ink-faint);
+}
+.count.due  { background: var(--accent-bg); color: var(--accent); }
+.count.firm { background: var(--good-bg);  color: var(--good); }
+
+/* ---------- ฟอร์ม ---------- */
+.opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.opt-grid label { font-size: .82rem; color: var(--ink-soft); display: flex; flex-direction: column; gap: 4px; }
+.check-line { grid-column: 1 / -1; flex-direction: row !important; align-items: center; gap: 8px !important; }
+.check-line input { accent-color: var(--accent); width: 16px; height: 16px; }
+select, input[type="number"], input[type="search"], textarea {
+  font: inherit; font-size: .9rem; color: var(--ink);
+  background: var(--surface-2); border: 1px solid var(--line);
+  border-radius: 10px; padding: 8px 10px; width: 100%;
+}
+textarea { resize: vertical; min-height: 92px; line-height: 1.6; }
+select:focus, input:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.setting { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: .9rem; }
+.setting input { width: 96px; text-align: right; font-family: var(--mono); }
+.export-box { margin-top: 10px; font-family: var(--mono); font-size: .72rem; min-height: 120px; }
+
+.btn {
+  font: inherit; font-size: .9rem; cursor: pointer;
+  background: var(--surface-2); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 10px; padding: 9px 16px;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn-wide { width: 100%; background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 500; padding: 12px; }
+.btn-wide:hover { color: var(--accent-ink); filter: brightness(1.06); }
+.btn-wide:disabled { opacity: .45; cursor: not-allowed; filter: none; }
+.btn-danger { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 40%, var(--line)); }
+.btn-danger:hover { border-color: var(--bad); color: var(--bad); background: var(--bad-bg); }
+.row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+
+/* ---------- หน้าทบทวน ---------- */
+.study-head { margin-bottom: 14px; }
+.progress { height: 4px; border-radius: 999px; background: var(--line-soft); overflow: hidden; }
+.progress > div { height: 100%; width: 0; background: var(--accent); transition: width .25s ease; }
+.study-meta { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: .76rem; color: var(--ink-faint); }
+.study-meta .mono { margin-left: auto; }
+.chip {
+  font-size: .72rem; padding: 2px 9px; border-radius: 999px;
+  background: var(--surface-2); color: var(--ink-soft); border: 1px solid var(--line-soft);
+}
+.chip.kind { background: var(--accent-bg); color: var(--accent); border-color: transparent; }
+
+.qcard {
+  background: var(--surface); border: 1px solid var(--line-soft);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 20px; margin-bottom: 14px;
+}
+.qcard .prompt {
+  font-family: var(--serif); font-size: 1.22rem; line-height: 1.55;
+  margin: 6px 0 14px; font-weight: 500;
+}
+.qcard .ask-hint { font-size: .78rem; color: var(--ink-faint); margin-bottom: 10px; }
+.card-head { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+
+/* ตัวเลือกปรนัย */
+.choices { display: flex; flex-direction: column; gap: 8px; }
+.choice {
+  display: flex; gap: 10px; align-items: flex-start; text-align: left;
+  font: inherit; font-size: .92rem; cursor: pointer;
+  background: var(--surface-2); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 12px; padding: 11px 13px;
+}
+.choice:hover { border-color: var(--accent); }
+.choice .key { font-family: var(--mono); font-size: .78rem; color: var(--ink-faint); flex: none; line-height: 1.5; }
+.choice.picked { border-color: var(--accent); background: var(--accent-bg); }
+.choice.right { border-color: var(--good); background: var(--good-bg); }
+.choice.wrong { border-color: var(--bad);  background: var(--bad-bg); }
+.choice:disabled { cursor: default; }
+
+/* เฉลย */
+.reveal { border-top: 1px dashed var(--line); margin-top: 16px; padding-top: 14px; }
+.verdict { display: inline-flex; align-items: center; gap: 6px; font-size: .84rem; font-weight: 500; margin-bottom: 10px; }
+.verdict.ok  { color: var(--good); }
+.verdict.no  { color: var(--bad); }
+.label { font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 4px; }
+.your-answer {
+  background: var(--surface-2); border-left: 3px solid var(--line);
+  border-radius: 0 8px 8px 0; padding: 8px 12px; font-size: .88rem;
+  white-space: pre-wrap; color: var(--ink-soft); margin-bottom: 12px;
+}
+.points { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.points li {
+  display: flex; gap: 8px; align-items: flex-start; font-size: .9rem;
+  background: var(--surface-2); border-radius: 10px; padding: 8px 11px;
+}
+.points li::before { content: "◻"; color: var(--ink-faint); flex: none; }
+.points li.hit { background: var(--good-bg); }
+.points li.hit::before { content: "◼"; color: var(--good); }
+.answer { font-size: .93rem; }
+.answer b { color: var(--accent); }
+.src { font-size: .74rem; color: var(--ink-faint); margin-top: 10px; font-family: var(--mono); }
+
+.grade-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
+.grade {
+  font: inherit; font-size: .88rem; cursor: pointer; padding: 11px 6px;
+  border-radius: 12px; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink);
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+.grade small { font-family: var(--mono); font-size: .68rem; color: var(--ink-faint); }
+.grade.g1:hover { border-color: var(--bad);  background: var(--bad-bg);  color: var(--bad); }
+.grade.g2:hover { border-color: var(--warn); background: var(--warn-bg); color: var(--warn); }
+.grade.g3:hover { border-color: var(--good); background: var(--good-bg); color: var(--good); }
+.grade:hover small { color: inherit; }
+
+/* จบรอบ */
+.done { text-align: center; padding: 28px 16px; }
+.done .big { font-family: var(--mono); font-size: 2.4rem; color: var(--accent); }
+
+/* ---------- คลังคำถาม ---------- */
+.tools { display: flex; gap: 8px; margin: 12px 0; }
+.tools select { width: auto; flex: none; max-width: 45%; }
+.q-item {
+  background: var(--surface); border: 1px solid var(--line-soft); border-radius: 12px;
+  padding: 12px 14px; margin-bottom: 8px; cursor: pointer;
+}
+.q-item:hover { border-color: var(--accent); }
+.q-item .q { font-family: var(--serif); font-size: 1rem; font-weight: 500; }
+.q-item .meta { display: flex; gap: 6px; align-items: center; margin-top: 6px; flex-wrap: wrap; }
+.q-item .a { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: .9rem; }
+.q-item mark { background: var(--warn-bg); color: inherit; border-radius: 3px; padding: 0 2px; }
+.box-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--line); flex: none; }
+.box-dot.seen { background: var(--warn); }
+.box-dot.firm { background: var(--good); }
+.empty { text-align: center; color: var(--ink-faint); padding: 32px 10px; font-size: .9rem; }
+
+/* ---------- สถิติ ---------- */
+.bars { display: flex; flex-direction: column; gap: 10px; }
+.bar-line .bar-top { display: flex; font-size: .82rem; margin-bottom: 3px; }
+.bar-line .bar-top .n { margin-left: auto; font-family: var(--mono); font-size: .76rem; color: var(--ink-faint); }
+.bar { height: 7px; border-radius: 999px; background: var(--line-soft); overflow: hidden; display: flex; }
+.bar i { display: block; height: 100%; }
+.bar i.firm { background: var(--good); }
+.bar i.seen { background: var(--accent); }
+.legend { display: flex; gap: 14px; font-size: .74rem; color: var(--ink-faint); margin-top: 10px; flex-wrap: wrap; }
+.legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 4px; }
+.legend i.firm { background: var(--good); }
+.legend i.seen { background: var(--accent); }
+.legend i.new  { background: var(--line); }
+.forecast { display: flex; align-items: flex-end; gap: 3px; height: 92px; margin-top: 6px; }
+.forecast div { flex: 1; background: var(--accent); border-radius: 3px 3px 0 0; min-height: 2px; position: relative; opacity: .85; }
+.forecast div span { position: absolute; bottom: -18px; left: 0; right: 0; text-align: center; font-size: .6rem; color: var(--ink-faint); font-family: var(--mono); }
+.forecast-wrap { padding-bottom: 20px; }
+
+.keys { width: 100%; border-collapse: collapse; font-size: .85rem; }
+.keys td { padding: 6px 0; border-bottom: 1px solid var(--line-soft); }
+.keys td:last-child { color: var(--ink-soft); text-align: right; }
+kbd {
+  font-family: var(--mono); font-size: .76rem; padding: 1px 6px;
+  border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; background: var(--surface-2);
+}
+
+.toast {
+  position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+  background: var(--ink); color: var(--bg); font-size: .85rem;
+  padding: 9px 16px; border-radius: 999px; z-index: 50; box-shadow: var(--shadow);
+}
+
+@media (max-width: 560px) {
+  h1 { font-size: 1.3rem; }
+  .topbar { padding: 8px 12px; gap: 6px; }
+  .brand .sub { display: none; }
+  .nav button { padding: 6px 9px; font-size: .8rem; }
+  .wide { display: none; }
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
+  .opt-grid { grid-template-columns: 1fr; }
+  .qcard { padding: 16px; }
+  .qcard .prompt { font-size: 1.12rem; }
+  .grade-row { grid-template-columns: 1fr; }
+  .grade { flex-direction: row; justify-content: center; gap: 8px; }
+  .tools { flex-direction: column; }
+  .tools select { max-width: none; width: 100%; }
+}
+
+</style>
+
+
+<header class="topbar">
+  <button class="brand" id="brand">
+    <span class="mark">Active Recall</span>
+    <span class="sub">ยาระบบทางเดินหายใจ</span>
+  </button>
+  <nav class="nav">
+    <button data-go="home" class="on">ทบทวน</button>
+    <button data-go="browse">คลัง<span class="wide">คำถาม</span></button>
+    <button data-go="stats">สถิติ</button>
+    <button data-go="settings">ตั้งค่า</button>
+  </nav>
+  <button class="icon-btn" id="themeBtn" title="สลับธีมสว่าง/มืด" aria-label="สลับธีมสว่างและมืด">◐</button>
+</header>
+
+<main>
+
+  <!-- ============ หน้าเริ่มทบทวน ============ -->
+  <section class="view on" id="homeView">
+    <div class="hero" aria-hidden="true"><canvas id="heroWave" width="640" height="90"></canvas></div>
+
+    <h1>ถามตอบแบบ Active recall</h1>
+    <p class="subtitle">
+      ระบบจะถามก่อน ให้คุณ<strong>นึกและพิมพ์คำตอบเอง</strong> แล้วค่อยเปิดเฉลยเทียบทีละประเด็น
+      ข้อที่ตอบไม่ได้จะกลับมาถี่ขึ้น ข้อที่แม่นแล้วจะทิ้งช่วงนานขึ้นเรื่อย ๆ
+    </p>
+
+    <div class="stat-row" id="homeStats"></div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h2>เลือกหัวข้อ</h2>
+        <div class="panel-tools">
+          <button class="link-btn" id="pickAll">เลือกทั้งหมด</button>
+          <button class="link-btn" id="pickNone">ล้าง</button>
+          <button class="link-btn" id="pickDue">เฉพาะที่ถึงกำหนด</button>
+        </div>
+      </div>
+      <div class="topics" id="topicList"></div>
+    </div>
+
+    <div class="panel">
+      <h2>รูปแบบรอบทบทวน</h2>
+      <div class="opt-grid">
+        <label>โหมด
+          <select id="modeSel">
+            <option value="due">ถึงกำหนด + ข้อใหม่ (แนะนำ)</option>
+            <option value="weak">เฉพาะข้อที่เคยตอบไม่ได้</option>
+            <option value="all">สุ่มทุกข้อในหัวข้อที่เลือก</option>
+            <option value="unseen">เฉพาะข้อที่ยังไม่เคยเจอ</option>
+          </select>
+        </label>
+        <label>จำนวนข้อต่อรอบ
+          <select id="sizeSel">
+            <option value="10">10 ข้อ</option>
+            <option value="20" selected>20 ข้อ</option>
+            <option value="30">30 ข้อ</option>
+            <option value="0">ไม่จำกัด</option>
+          </select>
+        </label>
+        <label class="check-line">
+          <input type="checkbox" id="typeFirst" checked>
+          <span>บังคับพิมพ์คำตอบก่อนเปิดเฉลย</span>
+        </label>
+      </div>
+      <button class="btn btn-wide" id="startBtn">เริ่มทบทวน</button>
+      <p class="hint" id="startHint"></p>
+    </div>
+  </section>
+
+  <!-- ============ หน้าทบทวน ============ -->
+  <section class="view" id="studyView">
+    <div class="study-head">
+      <div class="progress"><div id="progressFill"></div></div>
+      <div class="study-meta">
+        <span id="studyTopic" class="chip"></span>
+        <span id="studyCount" class="mono"></span>
+      </div>
+    </div>
+    <div id="qCard"></div>
+  </section>
+
+  <!-- ============ คลังคำถาม ============ -->
+  <section class="view" id="browseView">
+    <h1>คลังคำถาม</h1>
+    <p class="subtitle">คลิกที่ข้อเพื่อดูเฉลย · <span id="browseCount"></span></p>
+    <div class="tools">
+      <input type="search" id="searchBox" placeholder="ค้นหาคำถาม คำตอบ หรือชื่อยา…" autocomplete="off">
+      <select id="browseTopic"><option value="">ทุกหัวข้อ</option></select>
+    </div>
+    <div id="browseList"></div>
+  </section>
+
+  <!-- ============ สถิติ ============ -->
+  <section class="view" id="statsView">
+    <h1>สถิติการทบทวน</h1>
+    <div id="statsBody"></div>
+  </section>
+
+  <!-- ============ ตั้งค่า ============ -->
+  <section class="view" id="settingsView">
+    <h1>ตั้งค่า</h1>
+
+    <div class="panel">
+      <h2>ปริมาณข้อใหม่</h2>
+      <label class="setting">
+        <span>ข้อใหม่สูงสุดต่อวัน</span>
+        <input type="number" id="newPerDay" min="0" max="200" step="1">
+      </label>
+      <p class="hint">จำกัดจำนวนคำถามที่ยังไม่เคยเจอในแต่ละวัน เพื่อไม่ให้ภาระทบทวนวันถัดไปพุ่งเกินไป</p>
+    </div>
+
+    <div class="panel">
+      <h2>ความคืบหน้า</h2>
+      <p class="hint" id="storeInfo"></p>
+      <div class="row">
+        <button class="btn" id="exportBtn">ส่งออกเป็นไฟล์ JSON</button>
+        <button class="btn" id="importBtn">นำเข้าไฟล์</button>
+        <input type="file" id="importFile" accept="application/json,.json" hidden>
+      </div>
+      <textarea id="exportBox" class="export-box" readonly hidden></textarea>
+      <div class="row">
+        <button class="btn btn-danger" id="resetBtn">ล้างความคืบหน้าทั้งหมด</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>แป้นพิมพ์ลัด</h2>
+      <table class="keys">
+        <tr><td><kbd>Ctrl</kbd> + <kbd>Enter</kbd></td><td>ส่งคำตอบ / เปิดเฉลย</td></tr>
+        <tr><td><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></td><td>ให้คะแนนตัวเอง: ลืม · เกือบได้ · จำได้</td></tr>
+        <tr><td><kbd>1</kbd>–<kbd>4</kbd></td><td>เลือกตัวเลือกในข้อปรนัย (ก่อนเปิดเฉลย)</td></tr>
+        <tr><td><kbd>Esc</kbd></td><td>ออกจากรอบทบทวน</td></tr>
+      </table>
+    </div>
+
+    <div class="panel">
+      <h2>ที่มาของเนื้อหา</h2>
+      <p class="hint">
+        สรุปจากสไลด์บรรยาย <em>Drugs used in allergic rhinitis, common cold and cough</em>
+        ซึ่งครอบคลุมยาทั้งระบบทางเดินหายใจ (Asthma, COPD, Allergic rhinitis, Common cold/Cough
+        และ Pulmonary hypertension) รวม 102 สไลด์<br>
+        เนื้อหาในเว็บนี้จัดทำเพื่อการทบทวนความรู้เท่านั้น ไม่ใช้แทนคำแนะนำทางการแพทย์หรือแนวเวชปฏิบัติฉบับเต็ม
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* ------------------------------------------------------------------
+ * questions.js — คลังคำถามทั้งหมดสำหรับการทบทวนแบบ Active recall
+ *
+ * ชนิดคำถาม (t)
+ *   qa    ถาม–ตอบปลายเปิด ผู้เรียนนึกคำตอบเอง แล้วเทียบกับ points (ประเด็นที่ต้องได้)
+ *   fill  เติมคำ ตรวจอัตโนมัติจากรายการ accept (ตรวจแบบหลวม ไม่สนตัวพิมพ์/ช่องว่าง)
+ *   mcq   ปรนัย ตรวจอัตโนมัติจาก correct (ดัชนีเริ่มที่ 0)
+ *
+ * ทุกข้อมี a = คำอธิบายฉบับเต็ม และ src = ที่มาในสไลด์
+ * id ของคำถามสร้างจาก <topicId>-<ลำดับในหัวข้อ> โดย app.js
+ * การแทรกข้อกลางหัวข้อจะทำให้ id เลื่อน — ถ้าอยากรักษาความคืบหน้าเดิม ให้เพิ่มต่อท้าย
+ * ------------------------------------------------------------------ */
+
+const TOPICS = [
+
+/* ============ 1. ภาพรวม & พื้นฐานสรีรวิทยา ============ */
+{
+  id: 'basic',
+  name: 'ภาพรวม & พื้นฐานสรีรวิทยา',
+  slides: 'สไลด์ 1–5',
+  qs: [
+    { t:'qa', src:'สไลด์ 2',
+      q:'โรคของระบบทางเดินหายใจที่เรียนในคอร์สนี้แบ่งเป็นกลุ่มใหญ่อะไรบ้าง ยกตัวอย่างแต่ละกลุ่ม',
+      points:['Obstructive: Asthma, COPD','Allergic/Infective: Allergic rhinitis, Common cold','อื่น ๆ: Pulmonary hypertension, การติดเชื้อทางเดินหายใจ, วัณโรค, มะเร็งปอด'],
+      a:'แบ่งเป็น 3 กลุ่ม คือ (1) โรคอุดกั้นทางเดินหายใจ — Asthma, COPD (2) กลุ่มภูมิแพ้/ติดเชื้อ — Allergic rhinitis, Common cold และ (3) กลุ่มอื่น ๆ เช่น Pulmonary hypertension, URTI/LRTI, วัณโรค และมะเร็งปอด' },
+
+    { t:'qa', src:'สไลด์ 4',
+      q:'ระบบประสาทอัตโนมัติควบคุมกล้ามเนื้อเรียบหลอดลมอย่างไร ทั้งฝั่ง parasympathetic และ sympathetic',
+      points:['Parasympathetic: vagus nerve → ACh → M3 receptor → หลอดลมหดเกร็ง','Sympathetic: catecholamine → beta2 receptor → หลอดลมคลายตัว'],
+      a:'Parasympathetic ส่งสัญญาณผ่าน vagus nerve หลั่ง acetylcholine ไปจับ M3 receptor ทำให้หลอดลม<b>หดเกร็ง</b> ส่วน sympathetic ใช้ catecholamine กระตุ้น beta2 receptor ทำให้หลอดลม<b>คลายตัว</b> ยาแทบทุกกลุ่มในคอร์สนี้คือการเอียงสมดุลสองฝั่งนี้' },
+
+    { t:'fill', src:'สไลด์ 4', accept:['M3','M3 receptor','muscarinic 3'],
+      q:'Parasympathetic ปล่อย acetylcholine ไปจับตัวรับชนิด ______ บนกล้ามเนื้อเรียบหลอดลม จึงเกิด bronchoconstriction',
+      a:'ตัวรับ <b>M3</b> (muscarinic type 3) คือตัวการหลักที่ทำให้หลอดลมหด จึงเป็นเป้าของยากลุ่ม antimuscarinic (ipratropium, tiotropium)' },
+
+    { t:'qa', src:'สไลด์ 4',
+      q:'Autacoids คืออะไร และเกี่ยวข้องกับโรคทางเดินหายใจอย่างไร ยกตัวอย่าง 3 ชนิด',
+      points:['สารที่ร่างกายสร้างเองและออกฤทธิ์เฉพาะที่','ทำให้เกิดการอักเสบและหลอดลมหดเกร็ง','Histamine, leukotrienes, prostaglandins'],
+      a:'Autacoids คือสารที่ร่างกายสร้างขึ้นเองและออกฤทธิ์เฉพาะที่ ได้แก่ histamine, leukotrienes, prostaglandins เป็นตัวการสำคัญที่ทำให้เกิดการอักเสบและการหดเกร็งของหลอดลม จึงเป็นเป้าหมายของยาต้านการอักเสบทั้งหมด' },
+
+    { t:'mcq', src:'สไลด์ 5', correct:2,
+      q:'นิยามของ Obstructive respiratory disorder คือข้อใด',
+      choices:['ปริมาตรปอดลดลงจากพังผืดในเนื้อปอด','ความดันในหลอดเลือดปอดสูงขึ้น','มีการอุดกั้นทางเดินหายใจร่วมกับแรงต้านการไหลของอากาศเพิ่มขึ้น','การแลกเปลี่ยนแก๊สที่ถุงลมบกพร่องโดยไม่มีการอุดกั้น'],
+      a:'โรคอุดกั้นทางเดินหายใจ = มีการอุดกั้นทางเดินหายใจ + increased airflow resistance ตัวแทนหลักคือ Asthma และ COPD' }
+  ]
+},
+
+/* ============ 2. Asthma — พยาธิสรีรวิทยา ============ */
+{
+  id: 'asthma',
+  name: 'Asthma — พยาธิสรีรวิทยา',
+  slides: 'สไลด์ 6–13',
+  qs: [
+    { t:'qa', src:'สไลด์ 6',
+      q:'นิยามของ Asthma คืออะไร และการอุดกั้นทางเดินหายใจเกิดจากกลไกอะไรบ้าง (3 อย่าง)',
+      points:['Bronchial hypersensitivity + inflammation','Spasm of bronchial muscle — กล้ามเนื้อเรียบหดเกร็ง','Edematous swelling — ผนังหลอดลมบวมน้ำ','Increased secretion — เสมหะ/มูกเพิ่มขึ้น'],
+      a:'Asthma คือโรคปอดที่มี <b>bronchial hypersensitivity</b> (หลอดลมไวเกิน) ร่วมกับ <b>inflammation</b> ทำให้เกิดการอุดกั้นโดยเฉพาะช่วงกำเริบ กลไกการอุดกั้นเกิดจาก 3 อย่างพร้อมกัน คือ spasm ของกล้ามเนื้อเรียบ, edema ของผนังหลอดลม และ increased secretion' },
+
+    { t:'qa', src:'สไลด์ 7',
+      q:'ทำไมการรักษาหืดจึงต้องใช้ทั้งยาขยายหลอดลมและยาต้านการอักเสบควบคู่กัน',
+      points:['หลอดลมของผู้ป่วยหืดมีทั้ง bronchoconstriction และ inflammation พร้อมกัน','Bronchodilator แก้กล้ามเนื้อหดเกร็ง','Anti-inflammatory แก้บวม/มูก/หลอดลมไวเกิน'],
+      a:'เพราะหลอดลมผู้ป่วยหืดมีทั้งกล้ามเนื้อหนาตัว-หดเกร็ง (ต้องใช้ bronchodilator) และการอักเสบ บวม มูกเหนียว (ต้องใช้ anti-inflammatory) แก้อย่างเดียวจึงไม่พอ' },
+
+    { t:'qa', src:'สไลด์ 8',
+      q:'แยก Signs และ Symptoms ของหืดให้ได้อย่างละอย่างน้อย 3 ข้อ',
+      points:['Signs: dyspnea, airflow limitation, hyperinflation','Symptoms: breathlessness, wheezing, chest tightness'],
+      a:'<b>Signs</b> (ตรวจพบ): dyspnea, airflow limitation, hyperinflation (ปอดพองเกินเพราะอากาศเข้าง่ายแต่ออกยาก) · <b>Symptoms</b> (ผู้ป่วยรู้สึก): breathlessness, wheezing, chest tightness' },
+
+    { t:'qa', src:'สไลด์ 9',
+      q:'ปัจจัยเสี่ยงของหืดแบ่งเป็น endogenous และ environmental อย่างไร',
+      points:['Endogenous: พันธุกรรม เชื้อชาติ หลอดลมไวเกินโดยกำเนิด','Environmental: สารก่อภูมิแพ้ในบ้าน/นอกบ้าน บุหรี่มือสอง การติดเชื้อ อาหาร ยา ความเครียด'],
+      a:'<b>Endogenous</b>: พันธุกรรม, เชื้อชาติ, ภาวะหลอดลมไวเกินโดยกำเนิด · <b>Environmental</b>: สารก่อภูมิแพ้ในบ้าน/นอกบ้าน, บุหรี่มือสอง, การติดเชื้อทางเดินหายใจ, อาหาร, ยา, ความเครียด' },
+
+    { t:'qa', src:'สไลด์ 10',
+      q:'อธิบายกลไก Allergic asthma (type 1 hypersensitivity) เป็นลำดับขั้น',
+      points:['Allergen กระตุ้น B-cell ผ่าน T-helper cell → สร้าง IgE เพิ่ม','IgE เกาะผิว mast cell → เจอ allergen ซ้ำ → mast cell degranulation','ปล่อย histamine, leukotrienes, prostaglandins','Monocyte/eosinophil เคลื่อนเข้ามา + helper T cell เสริมการอักเสบต่อเนื่อง'],
+      a:'(1) สัมผัส allergen → สร้าง IgE เพิ่มขึ้น (2) IgE เกาะผิว mast cell เมื่อเจอ allergen ซ้ำเกิด mast cell degranulation ปล่อย histamine, leukotrienes, prostaglandins (3) มี migration ของ monocyte/eosinophil และกระตุ้น helper T cell มาเสริมการอักเสบต่อเนื่อง' },
+
+    { t:'qa', src:'สไลด์ 11',
+      q:'Non-allergic asthma เกิดผ่านเส้นทางใด และมีตัวกระตุ้นอะไรบ้าง',
+      points:['ไม่ผ่าน IgE','Irritant receptor → vagal nerve → ACh → M3 → bronchoconstriction','ตัวกระตุ้น: การติดเชื้อ ควันบุหรี่ อากาศเย็น NSAIDs'],
+      a:'ไม่ผ่าน IgE แต่ irritant (การติดเชื้อ, ควันบุหรี่, อากาศเย็น, NSAIDs เช่น aspirin/ibuprofen) กระตุ้น irritant receptor โดยตรง → ส่งสัญญาณผ่าน vagal nerve → หลั่ง ACh → จับ M3 receptor → bronchoconstriction (และกระตุ้น mast cell degranulation ทางอ้อมได้)' },
+
+    { t:'qa', src:'สไลด์ 11',
+      q:'การที่หืดมี 2 เส้นทางกลไก อธิบายเรื่องกลุ่มยาที่ใช้รักษาอย่างไร',
+      points:['IgE-mediated (ภูมิคุ้มกัน) → antihistamine, corticosteroid, LTRA, anti-IgE','Vagal/cholinergic → anticholinergic (บล็อก M3)'],
+      a:'เพราะมีทั้งเส้นทางภูมิคุ้มกัน (IgE-mediated) และเส้นทางประสาท (vagal/cholinergic) ยารักษาจึงมีทั้งกลุ่มบล็อก M3 (anticholinergic) และกลุ่มยับยั้งภูมิแพ้/การอักเสบ (antihistamine, corticosteroid, leukotriene antagonist)' },
+
+    { t:'qa', src:'สไลด์ 13',
+      q:'Arachidonic acid pathway เริ่มต้นจากอะไร และแตกเป็นกี่เส้นทางหลัก อะไรบ้าง',
+      points:['Cell membrane phospholipids → phospholipase → arachidonic acid','COX pathway → prostaglandin/thromboxane','5-Lipoxygenase pathway → leukotriene'],
+      a:'เริ่มจาก cell membrane phospholipids ถูกย่อยโดย <b>phospholipase</b> ได้ arachidonic acid แล้วแยกเป็น 2 เส้นทาง คือ <b>COX</b> (→ PGG2/PGH2 → TXA2, PGI2, PGD2, PGE2) และ <b>5-LO</b> (→ 5-HPETE → LTA4 → LTB4 และ LTC4/D4/E4)' },
+
+    { t:'qa', src:'สไลด์ 13',
+      q:'ผลิตภัณฑ์จาก COX pathway มีอะไรบ้าง และออกฤทธิ์อย่างไร',
+      points:['TXA2 — หดหลอดเลือด กระตุ้นเกล็ดเลือด','PGI2 (prostacyclin) — ขยายหลอดเลือด ยับยั้งเกล็ดเลือด','PGD2, PGE2 — ขยายหลอดเลือด เพิ่มการซึมผ่าน'],
+      a:'PGG2/PGH2 แตกเป็น <b>TXA2</b> (หดหลอดเลือด กระตุ้นเกล็ดเลือด), <b>PGI2</b> (ขยายหลอดเลือด ยับยั้งเกล็ดเลือด) และ <b>PGD2/PGE2</b> (ขยายหลอดเลือด เพิ่ม vascular permeability)' },
+
+    { t:'qa', src:'สไลด์ 13',
+      q:'Cysteinyl leukotrienes (LTC4, D4, E4) ออกฤทธิ์อะไรบ้าง และ LTB4 ต่างออกไปอย่างไร',
+      points:['CysLT: หดหลอดเลือด, bronchospasm, เพิ่มการซึมผ่านของหลอดเลือด','LTB4: chemotaxis ดึงเม็ดเลือดขาวมาที่จุดอักเสบ'],
+      a:'LTC4/D4/E4 ทำให้หดหลอดเลือด, เกิด bronchospasm และเพิ่มการซึมผ่านของหลอดเลือด — เป็นเป้าของ leukotriene receptor antagonist ส่วน <b>LTB4</b> ทำหน้าที่ chemotaxis ดึงเม็ดเลือดขาวเข้าจุดอักเสบ (Lipoxin A4/B4 มีฤทธิ์ตรงข้าม คือยับยั้งการเกาะและ chemotaxis ของ neutrophil)' },
+
+    { t:'qa', src:'สไลด์ 13–14',
+      q:'Corticosteroid และ NSAIDs ยับยั้ง arachidonic acid pathway ที่จุดใด ต่างกันอย่างไร',
+      points:['Steroid ยับยั้ง phospholipase (บนสุด) → ลดสารอักเสบครบทุกเส้นทาง','NSAIDs ยับยั้งเฉพาะ COX','NSAIDs อาจดัน arachidonic acid ไปทาง 5-LO มากขึ้น'],
+      a:'Steroid บล็อก <b>phospholipase</b> ซึ่งอยู่บนสุด จึงลดสารอักเสบได้ครบทุกเส้นทาง ส่วน NSAIDs บล็อกเฉพาะ <b>COX</b> จึงอาจดัน arachidonic acid ไปทาง 5-LO มากขึ้น' },
+
+    { t:'mcq', src:'สไลด์ 14', correct:1,
+      q:'กลไกของ aspirin-induced asthma คือข้อใด',
+      choices:['Aspirin กระตุ้นการสร้าง IgE ต่อ COX','NSAIDs บล็อก COX ทำให้ arachidonic acid ไหลไปทาง 5-LO มากขึ้น จึงเพิ่ม leukotriene','Aspirin จับกับ M3 receptor โดยตรง','Aspirin ยับยั้ง HDAC2 ทำให้ยีนอักเสบทำงานมากขึ้น'],
+      a:'NSAIDs ยับยั้งเฉพาะ COX ทำให้ substrate เหลือไหลไปทาง 5-LO มากขึ้น → leukotriene เพิ่ม → เกิด bronchospasm ในผู้ป่วยบางราย' }
+  ]
+},
+
+/* ============ 3. COPD ============ */
+{
+  id: 'copd',
+  name: 'COPD',
+  slides: 'สไลด์ 14–17',
+  qs: [
+    { t:'qa', src:'สไลด์ 14',
+      q:'นิยามของ COPD คืออะไร และต่างจาก asthma ตรงจุดสำคัญอะไร',
+      points:['Airflow limitation ที่ไม่ reversible เต็มที่','เป็นแบบ progressive ค่อยเป็นค่อยไป','สัมพันธ์กับการอักเสบผิดปกติต่อฝุ่นควัน/สารระคายเคือง','Asthma ส่วนใหญ่ reversible'],
+      a:'COPD คือ airflow limitation ที่ <b>not fully reversible</b> มักเป็นแบบ progressive และสัมพันธ์กับการอักเสบผิดปกติของปอดต่อฝุ่นควัน/สารระคายเคือง จุดต่างสำคัญจาก asthma คือ asthma ส่วนใหญ่กลับคืนสภาพได้' },
+
+    { t:'qa', src:'สไลด์ 15',
+      q:'พยาธิสภาพของ COPD เกิดที่ตำแหน่งใดบ้าง และมีเซลล์อักเสบชนิดใดเพิ่มขึ้น',
+      points:['ทางเดินหายใจ, เนื้อปอด (parenchyma), หลอดเลือดปอด','Neutrophils, eosinophils, macrophages','T-lymphocytes (Th1, Th2, Th17, cytotoxic T)'],
+      a:'อักเสบเรื้อรังทั่วทางเดินหายใจ เนื้อปอด และหลอดเลือดปอด โดยมีเซลล์อักเสบเพิ่มขึ้นหลายชนิด ได้แก่ neutrophils, eosinophils, macrophages และ T-lymphocytes (Th1, Th2, Th17, cytotoxic T1/T2)' },
+
+    { t:'mcq', src:'สไลด์ 15', correct:0,
+      q:'เซลล์อักเสบที่เด่นใน COPD และอธิบายว่าทำไม COPD ตอบสนอง ICS น้อยกว่าหืด คือเซลล์ใด',
+      choices:['Neutrophil','Eosinophil','Mast cell','Basophil'],
+      a:'COPD เด่น <b>neutrophil</b> ต่างจาก asthma ที่เด่น eosinophil/mast cell ซึ่งตอบสนองต่อ corticosteroid ได้ดีกว่า จึงเป็นเหตุผลที่ COPD ตอบสนอง ICS น้อยกว่า' },
+
+    { t:'qa', src:'สไลด์ 15',
+      q:'อาการหลักและประวัติที่ชวนสงสัย COPD คืออะไร',
+      points:['ไอเรื้อรัง','มีเสมหะ','หายใจลำบาก','ประวัติสูบบุหรี่หรือสัมผัสปัจจัยเสี่ยง'],
+      a:'ไอเรื้อรัง มีเสมหะ หรือหายใจลำบาก ร่วมกับประวัติสูบบุหรี่หรือสัมผัสปัจจัยเสี่ยง' },
+
+    { t:'fill', src:'สไลด์ 17', accept:['asthma-copd overlap','asthma copd overlap','overlap','acos'],
+      q:'ผู้ป่วยบางรายมีลักษณะของทั้งหืดและ COPD ซ้อนทับกัน เรียกภาวะนี้ว่า ______',
+      a:'<b>Asthma-COPD overlap</b> — พยาธิกลไกของสองโรคบางครั้งแยกกันไม่ขาด' }
+  ]
+},
+
+/* ============ 4. เปรียบเทียบ & เป้าหมายการรักษา ============ */
+{
+  id: 'goals',
+  name: 'Asthma vs COPD & เป้าหมายการรักษา',
+  slides: 'สไลด์ 18–21',
+  qs: [
+    { t:'qa', src:'สไลด์ 18',
+      q:'เปรียบเทียบ Asthma กับ COPD ใน 4 ประเด็น: อายุที่เริ่มเป็น, ลักษณะอาการ, ประวัติ และการกลับคืนของการอุดกั้น',
+      points:['อายุ: หืดเริ่มตั้งแต่เด็ก / COPD เริ่มวัยกลางคน','อาการ: หืดผันแปรวันต่อวัน เป็นมากกลางคืน-เช้ามืด / COPD ค่อย ๆ แย่ลงเรื่อย ๆ','ประวัติ: หืดมีภูมิแพ้ rhinitis ประวัติครอบครัว / COPD สูบบุหรี่มานาน เหนื่อยตอนออกแรง','การอุดกั้น: หืด reversible / COPD irreversible'],
+      a:'<b>Asthma</b>: เริ่มตั้งแต่เด็ก, อาการผันแปรวันต่อวันและเป็นมากกลางคืน/เช้ามืด, มีประวัติภูมิแพ้-rhinitis-ครอบครัว, การอุดกั้นส่วนใหญ่ reversible · <b>COPD</b>: เริ่มวัยกลางคน, อาการค่อย ๆ แย่ลงเรื่อย ๆ, ประวัติสูบบุหรี่มานานและเหนื่อยตอนออกแรง, การอุดกั้นส่วนใหญ่ irreversible' },
+
+    { t:'qa', src:'สไลด์ 19',
+      q:'แนวทางการจัดการทั่วไปของโรคอุดกั้นทางเดินหายใจมีอะไรบ้าง',
+      points:['ให้ความรู้ผู้ป่วย','ประเมิน/ติดตามอาการและสมรรถภาพปอด (FEV1, PEF)','หลีกเลี่ยงปัจจัยเสี่ยง เช่น เลิกบุหรี่','วางแผนการใช้ยารายบุคคล','วางแผนรับมืออาการกำเริบและติดตามสม่ำเสมอ'],
+      a:'ให้ความรู้ผู้ป่วย, ประเมินและติดตามทั้งอาการและสมรรถภาพปอด (FEV1, PEF), หลีกเลี่ยงปัจจัยเสี่ยง, วางแผนการใช้ยารายบุคคล, วางแผนรับมืออาการกำเริบ และติดตามผลสม่ำเสมอ' },
+
+    { t:'qa', src:'สไลด์ 20',
+      q:'เป้าหมายการรักษาหืด (Asthma) มีอะไรบ้าง',
+      points:['ควบคุมอาการให้คงที่','ป้องกันการกำเริบเฉียบพลัน','รักษาสมรรถภาพปอดให้ใกล้เคียงปกติ','หลีกเลี่ยงผลข้างเคียงจากยา','ป้องกัน airflow limitation ถาวร และลดอัตราตาย'],
+      a:'ควบคุมอาการให้คงที่, ป้องกันการกำเริบเฉียบพลัน, รักษาสมรรถภาพปอดให้ใกล้เคียงปกติที่สุด, หลีกเลี่ยงผลข้างเคียงจากยา, ป้องกันการเกิด airflow limitation แบบถาวร และลดอัตราตายจากหืด' },
+
+    { t:'qa', src:'สไลด์ 21',
+      q:'เป้าหมายการรักษา COPD มีอะไรบ้าง',
+      points:['ชะลอการดำเนินโรค','บรรเทาอาการ','เพิ่มความทนต่อการออกกำลังกาย','เพิ่มคุณภาพชีวิต','ป้องกัน/รักษาภาวะแทรกซ้อนและการกำเริบ ลดอัตราตาย'],
+      a:'ชะลอการดำเนินโรค, บรรเทาอาการ, เพิ่มความทนต่อการออกกำลังกาย, เพิ่มคุณภาพชีวิต, ป้องกันและรักษาภาวะแทรกซ้อน/อาการกำเริบ และลดอัตราตาย' },
+
+    { t:'mcq', src:'สไลด์ 20–21', correct:3,
+      q:'ปรัชญาการรักษาของหืดกับ COPD ต่างกันอย่างไร',
+      choices:['หืดเน้นชะลอโรค COPD เน้นควบคุมอาการ','ทั้งสองโรคเน้นชะลอการเสื่อมของปอดเหมือนกัน','ทั้งสองโรคเน้นควบคุมอาการที่ผันผวนเหมือนกัน','หืดเน้นควบคุมอาการที่ผันผวน ส่วน COPD เน้นชะลอการเสื่อมที่ดำเนินไปเรื่อย ๆ'],
+      a:'Asthma เน้น "ควบคุม" อาการที่ผันผวน ส่วน COPD เน้น "ชะลอ" การเสื่อมที่ดำเนินไปเรื่อย ๆ' }
+  ]
+},
+
+/* ============ 5. การให้ยาทางสูดพ่น ============ */
+{
+  id: 'inhale',
+  name: 'การให้ยาทางสูดพ่น (Inhaled route)',
+  slides: 'สไลด์ 22–24',
+  qs: [
+    { t:'qa', src:'สไลด์ 22',
+      q:'ข้อดีของการให้ยาทางสูดพ่นเทียบกับการกินคืออะไร',
+      points:['ยาไปออกฤทธิ์ที่ทางเดินหายใจโดยตรง','ใช้ขนาดยาต่ำกว่ามากแต่ได้ผลการรักษา','ผลข้างเคียงทั่วร่างกาย (systemic) ต่ำกว่า'],
+      a:'ยาไปออกฤทธิ์ที่ทางเดินหายใจโดยตรง ใช้ขนาดยาต่ำกว่าการกินมากแต่ยังได้ผลการรักษา และมีความเสี่ยงต่อ systemic side effect ต่ำกว่า' },
+
+    { t:'fill', src:'สไลด์ 22', accept:['2-5','2–5','2 5','2-5 ไมครอน','2-5 micron','2-5 um'],
+      q:'ขนาดอนุภาคยาที่เหมาะสมสำหรับไปถึงหลอดลมส่วนล่างคือ ______ ไมครอน',
+      a:'<b>2–5 ไมครอน</b> — เล็กกว่านี้จะถูกหายใจออกมา ใหญ่กว่านี้จะติดอยู่แค่คอ/หลอดลมใหญ่' },
+
+    { t:'qa', src:'สไลด์ 24',
+      q:'pMDI ร่วมกับ spacer ช่วยแก้ปัญหาอะไรได้บ้าง',
+      points:['ลดปัญหาการกดยาไม่พร้อมกับการหายใจเข้า','ลดยาตกค้างในช่องปาก/คอ (จึงลดเชื้อราและเสียงแหบเมื่อใช้ ICS)'],
+      a:'ช่วยลดปัญหาการกดยาไม่พร้อมกับจังหวะหายใจเข้า และลดยาตกค้างในช่องปาก/คอ ซึ่งเป็นวิธีป้องกันผลข้างเคียงเฉพาะที่ของ ICS ด้วย' },
+
+    { t:'qa', src:'สไลด์ 24',
+      q:'Nebulizer และ DPI เหมาะกับผู้ป่วยกลุ่มใด และมีข้อจำกัดอะไร',
+      points:['Nebulizer: เด็กเล็ก ผู้ที่สูดพ่นเองไม่ได้ หรืออาการกำเริบรุนแรง','DPI (Accuhaler, Ellipta, Turbuhaler): ต้องอาศัยแรงหายใจเข้าของผู้ป่วยเอง','DPI ไม่เหมาะกับผู้ที่แรงหายใจเข้าน้อยมาก'],
+      a:'<b>Nebulizer</b> แปลงยาน้ำเป็นละอองฝอย เหมาะกับเด็กเล็ก ผู้ป่วยที่สูดพ่นเองไม่ได้ หรืออาการกำเริบรุนแรง · <b>DPI</b> (Accuhaler, Ellipta, Turbuhaler) ต้องใช้แรงหายใจเข้าของผู้ป่วยดึงผงยา จึงไม่เหมาะกับผู้ที่แรงหายใจเข้าน้อยมาก' },
+
+    { t:'mcq', src:'สไลด์ 24', correct:2,
+      q:'ผู้ป่วยหืดกำเริบรุนแรง หายใจเข้าได้แรงน้อยมาก ควรเลือกอุปกรณ์นำส่งยาแบบใด',
+      choices:['DPI ชนิด Turbuhaler','DPI ชนิด Accuhaler','pMDI ร่วมกับ spacer หรือ nebulizer','ยาเม็ดรับประทานเท่านั้น'],
+      a:'pMDI+spacer และ nebulizer ไม่ต้องพึ่งแรงหายใจเข้าแรง ๆ ของผู้ป่วย จึงเหมาะกับภาวะกำเริบรุนแรงหรือเด็กเล็ก' }
+  ]
+},
+
+/* ============ 6. Beta2-agonists ============ */
+{
+  id: 'beta2',
+  name: 'Beta2-agonists',
+  slides: 'สไลด์ 26–34',
+  qs: [
+    { t:'fill', src:'สไลด์ 27', accept:['70','70%','70 %','ร้อยละ 70'],
+      q:'ตัวรับ beta-adrenergic ในเยื่อบุทางเดินหายใจและถุงลม เป็นชนิด beta2 ประมาณ ______ เปอร์เซ็นต์',
+      a:'<b>70%</b> ของ beta receptor ในทางเดินหายใจเป็นชนิด beta2 จึงเป็นเป้าหมายหลักของยากลุ่มนี้' },
+
+    { t:'qa', src:'สไลด์ 27',
+      q:'ทำไมยาขยายหลอดลมกลุ่มนี้จึงเลือกออกฤทธิ์ที่ beta2 ไม่ใช่ beta1',
+      points:['beta2 เด่นที่กล้ามเนื้อเรียบหลอดลมและหลอดเลือด (70% ของ beta receptor ในทางเดินหายใจ)','beta1 อยู่ที่หัวใจเป็นหลัก','เลี่ยง beta1 เพื่อไม่ให้หัวใจเต้นเร็ว'],
+      a:'เพราะ beta2 เด่นที่กล้ามเนื้อเรียบหลอดลม/หลอดเลือดและเยื่อบุทางเดินหายใจ ส่วน beta1 อยู่ที่หัวใจเป็นหลัก การเลือก beta2 จึงเลี่ยงผลกระตุ้นหัวใจ' },
+
+    { t:'qa', src:'สไลด์ 28–29',
+      q:'อธิบายกลไกการออกฤทธิ์ของ beta2-agonist ตั้งแต่จับตัวรับจนหลอดลมคลายตัว',
+      points:['จับ beta2 receptor (GPCR ชนิด Gs)','กระตุ้น adenylate cyclase → ATP เป็น cAMP','cAMP กระตุ้น protein kinase A (PKA)','ผลปลายทาง: แคลเซียมในเซลล์ลดลง + ยับยั้ง MLCK','กล้ามเนื้อเรียบคลายตัว = bronchodilation'],
+      a:'beta2-agonist จับ beta2 receptor (Gs-coupled) → กระตุ้น adenylate cyclase เปลี่ยน ATP เป็น <b>cAMP</b> → กระตุ้น <b>PKA</b> ซึ่งเพิ่ม Ca-activated K channel (hyperpolarize), ลด PLC-IP3-Ca pathway, เพิ่ม Na/Ca exchange และ Na,Ca-ATPase, และลดการทำงานของ <b>MLCK</b> → แคลเซียมในเซลล์ลดลง กล้ามเนื้อเรียบคลายตัว' },
+
+    { t:'qa', src:'สไลด์ 29',
+      q:'นอกจากขยายหลอดลม การกระตุ้น beta2 receptor ยังให้ผลอะไรอีก',
+      points:['ยับยั้งการหลั่ง mediator จาก mast cell','ลดการซึมผ่านของหลอดเลือด (vascular permeability)','เปลี่ยนแปลงการทำงานของ mucociliary clearance'],
+      a:'ยับยั้งการหลั่ง mediator จาก mast cell, ลด vascular permeability และเปลี่ยนแปลงการทำงานของ mucociliary clearance' },
+
+    { t:'qa', src:'สไลด์ 28',
+      q:'cAMP ถูกสลายโดยเอนไซม์ใด และยากลุ่มใดใช้ประโยชน์จากจุดนี้',
+      points:['Phosphodiesterase (PDE) สลาย cAMP เป็น 5-AMP','Methylxanthine (theophylline) ยับยั้ง PDE','เสริมฤทธิ์ขยายหลอดลมไปทางเดียวกับ beta2-agonist'],
+      a:'cAMP ถูกสลายโดย <b>phosphodiesterase (PDE)</b> เป็น 5-AMP ยากลุ่ม methylxanthine เช่น theophylline ยับยั้ง PDE ทำให้ cAMP อยู่นานขึ้น จึงเสริมฤทธิ์ไปในทิศทางเดียวกับ beta2-agonist' },
+
+    { t:'qa', src:'สไลด์ 31',
+      q:'SABA คืออะไร ออกฤทธิ์นานเท่าไร และมียาตัวใดบ้าง',
+      points:['Short-Acting Beta2 Agonist','ออกฤทธิ์ 4–6 ชั่วโมง','Salbutamol, Terbutaline, Fenoterol, Pirbuterol, Procaterol'],
+      a:'SABA = Short-Acting Beta2 Agonist ออกฤทธิ์ <b>4–6 ชั่วโมง</b> ได้แก่ salbutamol, terbutaline, fenoterol, pirbuterol, procaterol' },
+
+    { t:'qa', src:'สไลด์ 31',
+      q:'LABA คืออะไร ออกฤทธิ์นานเท่าไร และมียาตัวใดบ้าง',
+      points:['Long-Acting Beta2 Agonist','ออกฤทธิ์นานกว่า 12 ชั่วโมง','Formoterol, Salmeterol, Arformoterol'],
+      a:'LABA = Long-Acting Beta2 Agonist ออกฤทธิ์ <b>นานกว่า 12 ชั่วโมง</b> ได้แก่ formoterol, salmeterol, arformoterol' },
+
+    { t:'qa', src:'สไลด์ 32',
+      q:'บทบาทของ SABA ในการรักษาคืออะไร และใช้เมื่อใด',
+      points:['ใช้เป็น reliever ยาบรรเทาอาการเฉียบพลัน','เป็นตัวเลือกแรกในการรักษา acute exacerbation','ใช้ป้องกันก่อนออกกำลังกายใน exercise-induced asthma','ไม่ควรใช้เป็นยาควบคุมระยะยาว'],
+      a:'SABA เป็น <b>reliever</b> ใช้บรรเทาอาการกำเริบเฉียบพลันเป็นตัวเลือกแรก และใช้ป้องกันก่อนออกกำลังกายใน exercise-induced asthma แต่ไม่ควรใช้เป็นยาควบคุมระยะยาว' },
+
+    { t:'qa', src:'สไลด์ 32',
+      q:'ถ้าผู้ป่วยต้องใช้ SABA บ่อยขึ้นเรื่อย ๆ แปลว่าอะไร',
+      points:['เป็นสัญญาณเตือนว่าโรคควบคุมไม่ดี','สมรรถภาพปอดแย่ลง','ควรทบทวนยาควบคุม (ICS)'],
+      a:'เป็นสัญญาณเตือนว่าควบคุมโรคได้ไม่ดีและสมรรถภาพปอดแย่ลง ต้องทบทวนการรักษาด้วยยาควบคุม' },
+
+    { t:'qa', src:'สไลด์ 33',
+      q:'LABA ใช้เมื่อใด และทำไมจึงห้ามใช้ LABA เดี่ยว ๆ ในหืด',
+      points:['ใช้เป็น controller เมื่อ ICS ขนาดต่ำอย่างเดียวคุมไม่ได้','ต้องใช้ร่วมกับ ICS เสมอ','LABA ไม่มีฤทธิ์ต้านการอักเสบ จึงไม่คุมการอักเสบที่เป็นต้นเหตุ'],
+      a:'ใช้เป็น <b>controller</b> เมื่อ ICS ขนาดต่ำอย่างเดียวยังคุมอาการไม่ได้ และต้องใช้ร่วมกับ ICS เสมอ เพราะ LABA ขยายหลอดลมแต่ไม่คุมการอักเสบ' },
+
+    { t:'qa', src:'สไลด์ 33',
+      q:'ผลข้างเคียงเชิงระบบของ beta2-agonist มีอะไรบ้าง',
+      points:['กระตุ้นหัวใจและหลอดเลือด (ใจสั่น หัวใจเต้นเร็ว)','มือสั่นจากกล้ามเนื้อลาย (skeletal muscle tremor)','โพแทสเซียมในเลือดต่ำ (hypokalemia)'],
+      a:'กระตุ้นหัวใจและหลอดเลือด, skeletal muscle tremor (มือสั่น) และ hypokalemia — พบน้อยกว่าเมื่อให้ทางสูดพ่นเทียบกับยากิน' },
+
+    { t:'mcq', src:'สไลด์ 31–34', correct:1,
+      q:'ยาคู่ใดจัดเป็น SABA และ LABA ตามลำดับ',
+      choices:['Salmeterol กับ Salbutamol','Salbutamol กับ Salmeterol','Ipratropium กับ Tiotropium','Theophylline กับ Formoterol'],
+      a:'Salbutamol และ terbutaline เป็น SABA ส่วน salmeterol และ formoterol เป็น LABA (ipratropium/tiotropium เป็นกลุ่ม antimuscarinic)' }
+  ]
+},
+
+/* ============ 7. Methylxanthines ============ */
+{
+  id: 'xanthine',
+  name: 'Methylxanthines / Theophylline',
+  slides: 'สไลด์ 35–39',
+  qs: [
+    { t:'qa', src:'สไลด์ 35',
+      q:'Theophylline มีกลไกการออกฤทธิ์อย่างไร (2 กลไกหลัก)',
+      points:['Non-selective PDE inhibitor (PDE-3, 4, 5) → cAMP ไม่ถูกสลาย → หลอดลมคลายตัว','Adenosine receptor antagonist → ลด bronchoconstriction จาก adenosine'],
+      a:'(1) <b>Non-selective PDE inhibitor</b> (PDE-3, 4, 5) ในกล้ามเนื้อเรียบหลอดลมและเซลล์อักเสบ ทำให้ cAMP สลายช้าลง หลอดลมคลายตัว (2) <b>Adenosine receptor antagonist</b> — adenosine ปกติทำให้หลอดลมหด การบล็อกจึงช่วยขยายหลอดลมทางอ้อม' },
+
+    { t:'qa', src:'สไลด์ 35',
+      q:'ฤทธิ์ของ theophylline เปลี่ยนไปตามขนาดยาอย่างไร',
+      points:['ขนาดสูง (>10 mg/L) → ฤทธิ์ขยายหลอดลม','ขนาดต่ำ (5–10 mg/L) → ฤทธิ์ต้านการอักเสบ'],
+      a:'ขนาดสูง (มากกว่า 10 mg/L) ให้ฤทธิ์ <b>ขยายหลอดลม</b> ส่วนขนาดต่ำ (5–10 mg/L) ให้ฤทธิ์ <b>ต้านการอักเสบ</b>' },
+
+    { t:'fill', src:'สไลด์ 37', accept:['cyp1a2','1a2'],
+      q:'Theophylline ถูกเมตาบอลิซึมที่ตับผ่านเอนไซม์ ______',
+      a:'<b>CYP1A2</b> — จึงไวต่อยาที่ยับยั้งหรือกระตุ้นเอนไซม์นี้มาก' },
+
+    { t:'fill', src:'สไลด์ 37', accept:['10-15','10–15','10 15','10-15 mg/l'],
+      q:'ระดับยา theophylline ในเลือดที่ต้องติดตามให้อยู่ในช่วง (steady state) คือ ______ mg/L',
+      a:'<b>10–15 mg/L</b> — therapeutic range แคบมาก จึงต้องตรวจติดตามระดับยาเสมอ' },
+
+    { t:'qa', src:'สไลด์ 38',
+      q:'ยาใดทำให้ระดับ theophylline ในเลือดสูงขึ้น (เสี่ยง toxicity) และยาใดทำให้ต่ำลง',
+      points:['เพิ่มระดับ (ยับยั้งเอนไซม์): cimetidine, macrolide, ciprofloxacin, enoxacin','ลดระดับ (กระตุ้นเอนไซม์): barbiturate, carbamazepine'],
+      a:'<b>เพิ่มระดับยา</b> (ยับยั้ง CYP1A2): cimetidine, macrolide antibiotics, ciprofloxacin, enoxacin · <b>ลดระดับยา</b> (กระตุ้นเอนไซม์): barbiturate, carbamazepine' },
+
+    { t:'qa', src:'สไลด์ 39',
+      q:'อาการของภาวะเป็นพิษจาก theophylline มีอะไรบ้าง แยกตามระบบ',
+      points:['ทางเดินอาหาร: คลื่นไส้ อาเจียน','CNS: กระสับกระส่าย นอนไม่หลับ ปวดศีรษะ ชัก','หัวใจ: เต้นเร็ว เต้นผิดจังหวะ','กระตุ้นศูนย์ควบคุมการหายใจ / รุนแรงถึงเสียชีวิต'],
+      a:'GI: คลื่นไส้ อาเจียน · CNS: กระสับกระส่าย นอนไม่หลับ ปวดศีรษะ <b>ชัก</b> · CVS: หัวใจเต้นเร็ว/ผิดจังหวะ · กระตุ้นศูนย์ควบคุมการหายใจ และถ้ารุนแรงอาจเสียชีวิต' },
+
+    { t:'qa', src:'สไลด์ 38',
+      q:'ผู้ป่วยกลุ่มใดต้องระวังเป็นพิเศษเมื่อใช้ theophylline',
+      points:['โรคลมชัก','ต่อมไทรอยด์เป็นพิษ','หัวใจเต้นผิดจังหวะ','โรคตับ','หญิงตั้งครรภ์'],
+      a:'ผู้ป่วยโรคลมชัก, ต่อมไทรอยด์เป็นพิษ, หัวใจเต้นผิดจังหวะ, โรคตับ และหญิงตั้งครรภ์' },
+
+    { t:'qa', src:'สไลด์ 37',
+      q:'Theophylline ให้ทางใดได้บ้าง และมีบทบาทอย่างไรในการรักษา',
+      points:['ให้ทางปากและทางหลอดเลือดดำ','ทางหลอดเลือดดำใช้บรรเทาอาการเฉียบพลัน','ชนิด sustained-release ใช้เป็น controller ระยะยาว'],
+      a:'ให้ได้ทั้งทางปากและทางหลอดเลือดดำ (พาเรนเทอรัลใช้บรรเทาอาการเฉียบพลัน) ส่วนชนิดออกฤทธิ์นาน (sustained-release) ใช้เป็นยาควบคุมระยะยาวเพื่อคุมอาการและเพิ่มสมรรถภาพปอด' },
+
+    { t:'mcq', src:'สไลด์ 38', correct:2,
+      q:'ผู้ป่วยใช้ theophylline อยู่ แล้วได้รับ erythromycin (macrolide) เพิ่ม จะเกิดอะไรขึ้น',
+      choices:['ระดับ theophylline ลดลง เสี่ยงคุมโรคไม่ได้','ไม่มีผลต่อกัน เพราะคนละเอนไซม์','ระดับ theophylline สูงขึ้น เสี่ยงเกิดพิษ เช่น ชักและหัวใจเต้นผิดจังหวะ','ทั้งสองตัวถูกขับออกเร็วขึ้นพร้อมกัน'],
+      a:'Macrolide ยับยั้ง CYP1A2 ทำให้ theophylline ถูกทำลายช้าลง ระดับยาสูงขึ้นจนเสี่ยง toxicity ซึ่งอันตรายเพราะ therapeutic range แคบ' }
+  ]
+},
+
+/* ============ 8. Muscarinic antagonists ============ */
+{
+  id: 'antimus',
+  name: 'Muscarinic antagonists (Anticholinergics)',
+  slides: 'สไลด์ 40–43',
+  qs: [
+    { t:'qa', src:'สไลด์ 41',
+      q:'ตัวรับ muscarinic ในปอดมีชนิดย่อยอะไรบ้าง และแต่ละชนิดทำหน้าที่อะไร',
+      points:['M1 — ที่ปมประสาท ช่วยส่งสัญญาณผ่าน ganglion','M2 — auto-receptor ยับยั้งการหลั่ง ACh เพิ่ม (negative feedback)','M3 — บนกล้ามเนื้อเรียบหลอดลม ทำให้ bronchoconstriction'],
+      a:'<b>M1</b> อยู่ที่ post-ganglionic neuron ช่วยส่งสัญญาณผ่านปมประสาท, <b>M2</b> เป็น auto-receptor คอยยับยั้งการหลั่ง ACh เพิ่มเติม (negative feedback) และ <b>M3</b> อยู่บนกล้ามเนื้อเรียบหลอดลม เป็นตัวการหลักที่ทำให้หลอดลมหด' },
+
+    { t:'qa', src:'สไลด์ 41',
+      q:'อธิบายเส้นทาง parasympathetic จาก pre-ganglionic nerve จนถึงกล้ามเนื้อเรียบหลอดลม',
+      points:['Pre-ganglionic nerve ปล่อย ACh จับ nicotinic receptor ที่ ganglion','Post-ganglionic nerve ปล่อย ACh อีกครั้ง','ACh จับ M3 บนกล้ามเนื้อเรียบ → bronchoconstriction'],
+      a:'Pre-ganglionic nerve ปล่อย ACh ไปจับ <b>nicotinic receptor</b> ที่ parasympathetic ganglion → post-ganglionic nerve ปล่อย ACh อีกครั้งไปจับ <b>M3</b> บน airway smooth muscle → bronchoconstriction' },
+
+    { t:'qa', src:'สไลด์ 40',
+      q:'ยากลุ่ม antimuscarinic ออกฤทธิ์อย่างไร และมีข้อจำกัดสำคัญอะไร',
+      points:['บล็อก M3 receptor แบบจำเพาะ','ยับยั้งฤทธิ์หดหลอดลมจาก ACh → bronchodilation','ไม่มีฤทธิ์ต้านการอักเสบ'],
+      a:'บล็อก <b>M3 receptor</b> จึงยับยั้งฤทธิ์หดเกร็งหลอดลมจาก ACh เกิด bronchodilation แต่ <b>ไม่มีฤทธิ์ต้านการอักเสบ</b> ต่างจาก corticosteroid หรือ leukotriene modifier' },
+
+    { t:'qa', src:'สไลด์ 42',
+      q:'SAMA และ LAMA มียาตัวใดบ้าง และให้ทางใด',
+      points:['SAMA: Ipratropium bromide, Oxitropium bromide','LAMA: Tiotropium bromide, Umeclidinium bromide','ให้ทางสูดพ่นเท่านั้น'],
+      a:'<b>SAMA</b>: ipratropium bromide, oxitropium bromide · <b>LAMA</b>: tiotropium bromide, umeclidinium bromide — ให้ทางสูดพ่นเท่านั้น' },
+
+    { t:'qa', src:'สไลด์ 42',
+      q:'LAMA มีบทบาทอย่างไรในการรักษา COPD',
+      points:['ใช้เป็น add-on therapy ร่วมกับ beta2-agonist','เป็นยาหลักตัวหนึ่งของ COPD','แต่ไม่มีฤทธิ์ต้านการอักเสบ'],
+      a:'LAMA ใช้เป็น add-on therapy ร่วมกับ beta2-agonist และเป็นยาหลักตัวหนึ่งในการรักษา COPD แม้ไม่มีฤทธิ์ต้านการอักเสบ' },
+
+    { t:'qa', src:'สไลด์ 42',
+      q:'ผลข้างเคียงหลักของยากลุ่ม antimuscarinic ชนิดสูดพ่นคืออะไร',
+      points:['ปากแห้ง','รสขมในปาก','เกิดจากฤทธิ์ antimuscarinic ตกค้างในช่องปาก'],
+      a:'ปากแห้งและรสขมในปาก จากฤทธิ์ antimuscarinic ที่ตกค้างเฉพาะที่ในช่องปาก' },
+
+    { t:'mcq', src:'สไลด์ 41', correct:1,
+      q:'ตัวรับใดทำหน้าที่เป็น auto-receptor คอยยับยั้งการหลั่ง ACh เพิ่มเติม',
+      choices:['M1','M2','M3','Nicotinic receptor'],
+      a:'M2 เป็น auto-receptor ที่ให้ negative feedback ต่อการหลั่ง ACh ส่วน M3 คือตัวที่ทำให้หลอดลมหด' }
+  ]
+},
+
+/* ============ 9. ยาขยายหลอดลมกลุ่มอื่น & PDE-4 ============ */
+{
+  id: 'novelbd',
+  name: 'ยาขยายหลอดลมกลุ่มใหม่ & PDE-4 inhibitor',
+  slides: 'สไลด์ 44–45',
+  qs: [
+    { t:'qa', src:'สไลด์ 44',
+      q:'Magnesium sulfate ใช้ในสถานการณ์ใด ให้ทางใด และมีผลข้างเคียงอะไร',
+      points:['ใช้เฉพาะอาการกำเริบเฉียบพลันรุนแรง','ให้ทางหลอดเลือดดำหรือพ่นละอองฝอย','ผลข้างเคียง: คลื่นไส้ ร้อนวูบวาบ (flushing)'],
+      a:'ใช้เฉพาะ <b>acute severe exacerbation</b> ให้ทางหลอดเลือดดำหรือพ่นละอองฝอย ผลข้างเคียงคือคลื่นไส้และร้อนวูบวาบ — ไม่ใช่ยาควบคุมประจำ' },
+
+    { t:'qa', src:'สไลด์ 44',
+      q:'ANP และ VIP analog ทำให้หลอดลมคลายตัวผ่านสารตัวกลางใด',
+      points:['ANP กระตุ้น guanylyl cyclase → เพิ่ม cGMP','VIP analog → เพิ่ม cAMP'],
+      a:'<b>ANP</b> กระตุ้น guanylyl cyclase เพิ่ม <b>cGMP</b> ส่วน <b>VIP analog</b> เพิ่ม <b>cAMP</b> (คนละกลไกกับ beta2-agonist แต่ผลลัพธ์ทางเดียวกัน)' },
+
+    { t:'qa', src:'สไลด์ 45',
+      q:'PDE-4 พบเด่นในเซลล์ชนิดใด และการยับยั้งให้ผลอะไร',
+      points:['พบในเซลล์อักเสบ: mast cell, eosinophil, neutrophil, T lymphocyte','ลดการแทรกซึมของ eosinophil','ลดการอักเสบ โดยเฉพาะใน COPD'],
+      a:'PDE-4 เป็น isoform หลักในเซลล์อักเสบ (mast cell, eosinophil, neutrophil, T lymphocyte) การยับยั้งจึงลดการแทรกซึมของ eosinophil และลดการอักเสบ โดยเฉพาะใน COPD' },
+
+    { t:'fill', src:'สไลด์ 45', accept:['roflumilast'],
+      q:'ยา PDE-4 inhibitor ที่ใช้ใน COPD และมีผลข้างเคียงเด่นคือคลื่นไส้อาเจียนรุนแรง คือยาชื่อ ______',
+      a:'<b>Roflumilast</b> (อีกตัวคือ apremilast) — ผลข้างเคียงเด่นคือคลื่นไส้อาเจียนรุนแรง' },
+
+    { t:'mcq', src:'สไลด์ 44', correct:3,
+      q:'ข้อใดถูกต้องเกี่ยวกับ MgSO4 ในโรคทางเดินหายใจ',
+      choices:['ใช้เป็นยาควบคุมระยะยาวแทน ICS','ให้ทางปากวันละครั้ง','ออกฤทธิ์โดยบล็อก M3 receptor','ใช้เฉพาะอาการกำเริบเฉียบพลันรุนแรง ให้ทาง IV หรือพ่นละอองฝอย'],
+      a:'MgSO4 สงวนไว้สำหรับอาการกำเริบเฉียบพลันรุนแรงเท่านั้น ให้ทางหลอดเลือดดำหรือพ่นละอองฝอย' }
+  ]
+},
+
+/* ============ 10. Corticosteroids ============ */
+{
+  id: 'steroid',
+  name: 'Corticosteroids',
+  slides: 'สไลด์ 46–54',
+  qs: [
+    { t:'qa', src:'สไลด์ 46',
+      q:'ยาต้านการอักเสบที่มีประสิทธิภาพสูงสุดสำหรับหืดคืออะไร และอยู่ในบทบาทใด',
+      points:['Corticosteroid โดยเฉพาะรูปแบบสูดพ่น (ICS)','เป็นยา controller หลักของโรคหืด'],
+      a:'<b>Corticosteroid</b> โดยเฉพาะ <b>Inhaled Corticosteroid (ICS)</b> ซึ่งเป็นยา controller หลักของโรคหืด' },
+
+    { t:'qa', src:'สไลด์ 47–48',
+      q:'อธิบายกลไกระดับโมเลกุลของ corticosteroid ตั้งแต่เข้าเซลล์จนกดยีนอักเสบ',
+      points:['เข้าเซลล์ จับ glucocorticoid receptor (GR) ในไซโตพลาสซึม','GR-steroid complex เคลื่อนเข้านิวเคลียส','ดึง HDAC2 มา deacetylate histone','DNA ขดแน่นขึ้น → กดการแสดงออกของยีนอักเสบ'],
+      a:'Steroid เข้าเซลล์จับ <b>glucocorticoid receptor (GR)</b> เกิด GR-steroid complex เคลื่อนเข้านิวเคลียส แล้วดึง <b>HDAC2</b> มา deacetylate histone ทำให้ DNA ขดแน่นขึ้น จึงกดการแสดงออกของยีนอักเสบ (gene repression)' },
+
+    { t:'qa', src:'สไลด์ 47–48',
+      q:'NF-kB เปิดยีนอักเสบได้อย่างไร (ตั้งแต่ inflammatory stimuli)',
+      points:['IL-1beta / TNF-alpha กระตุ้น IKKbeta','IKKbeta กระตุ้น NF-kB (p65/p50)','NF-kB เข้านิวเคลียส จับ DNA ดึง coactivator CBP/HAT','Acetylation ของ histone → DNA คลายตัว → ถอดรหัสยีนอักเสบเพิ่ม'],
+      a:'Inflammatory stimuli (IL-1beta, TNF-alpha) กระตุ้น <b>IKKbeta</b> → กระตุ้น <b>NF-kB</b> (p65/p50) → เข้านิวเคลียสจับ DNA และดึง coactivator <b>CBP/HAT</b> → acetylation ของ histone → DNA คลายตัว → เพิ่มการถอดรหัสยีนอักเสบ (cytokine, chemokine, adhesion molecule, enzyme)' },
+
+    { t:'fill', src:'สไลด์ 48', accept:['hdac2','hdac-2','histone deacetylase 2'],
+      q:'Corticosteroid กดยีนอักเสบโดยดึงเอนไซม์ ______ เข้ามา deacetylate histone',
+      a:'<b>HDAC2</b> (histone deacetylase 2) — ตรงข้ามกับ NF-kB ที่เปิดยีนด้วยการ acetylate ผ่าน CBP/HAT' },
+
+    { t:'qa', src:'สไลด์ 49–50',
+      q:'Corticosteroid มีผลต่อเซลล์อักเสบชนิดใดบ้าง อย่างไร',
+      points:['ลดจำนวน eosinophil (เพิ่ม apoptosis)','ลด cytokine จาก T-lymphocyte','ลดจำนวน mast cell','ลด cytokine จาก macrophage','ลดจำนวน dendritic cell'],
+      a:'ลดจำนวน eosinophil โดยเพิ่ม apoptosis, ลด cytokine จาก T-lymphocyte และ macrophage, ลดจำนวน mast cell และ dendritic cell' },
+
+    { t:'qa', src:'สไลด์ 50',
+      q:'Corticosteroid มีผลต่อเซลล์โครงสร้าง (structural cells) อย่างไรบ้าง',
+      points:['Epithelial cell: ลด cytokine/mediator','Endothelial cell: ลดการรั่วซึม','กล้ามเนื้อเรียบ: เพิ่มจำนวน beta2 receptor และลด cytokine','Mucus gland: ลดการหลั่งมูก'],
+      a:'เยื่อบุผิวลด cytokine/mediator, เซลล์บุหลอดเลือดลดการรั่วซึม, กล้ามเนื้อเรียบหลอดลม <b>เพิ่มจำนวน beta2 receptor</b> และลด cytokine, ต่อมสร้างมูกลดการหลั่งมูก' },
+
+    { t:'qa', src:'สไลด์ 50, 54',
+      q:'ทำไมการใช้ ICS ร่วมกับ LABA จึงเสริมฤทธิ์กัน (synergy)',
+      points:['Steroid เพิ่มจำนวน/ความไวของ beta2 receptor','beta2-agonist ช่วยเสริมการทำงานของ steroid กลับ','จึงมีการผลิตยาสูตรผสมในตัวเดียว'],
+      a:'Corticosteroid เพิ่มจำนวนและความไวของ beta2 receptor ทำให้ LABA ออกฤทธิ์ดีขึ้น ขณะที่ beta2-agonist ก็ช่วยเสริมฤทธิ์ steroid กลับ จึงมีการผลิตเป็นยาสูตรผสมในตัวเดียว' },
+
+    { t:'qa', src:'สไลด์ 51',
+      q:'ยาในกลุ่ม ICS มีตัวใดบ้าง (ตอบให้ได้อย่างน้อย 4 ตัว)',
+      points:['Beclomethasone dipropionate','Fluticasone propionate','Budesonide','Mometasone / Triamcinolone acetonide / Flunisolide / Ciclesonide'],
+      a:'Beclomethasone dipropionate, fluticasone propionate, triamcinolone acetonide, mometasone, budesonide, flunisolide, ciclesonide' },
+
+    { t:'qa', src:'สไลด์ 52',
+      q:'ผลข้างเคียงเฉพาะที่ของ ICS มีอะไรบ้าง และป้องกันอย่างไร',
+      points:['เชื้อราในช่องปาก/คอหอย (oropharyngeal candidiasis)','เสียงแหบ (dysphonia)','ไอ','ป้องกันด้วยการใช้ spacer และบ้วนปากหลังพ่นยา'],
+      a:'เชื้อราในช่องปาก/คอหอย, เสียงแหบ (dysphonia) และไอ — ป้องกันได้ด้วยการใช้ <b>spacer</b> และ <b>บ้วนปากหลังพ่นยา</b>' },
+
+    { t:'qa', src:'สไลด์ 52',
+      q:'ผลข้างเคียงเชิงระบบของ corticosteroid (เมื่อใช้ขนาดสูง/นาน) มีอะไรบ้าง',
+      points:['กดการทำงานของต่อมหมวกไต (adrenal suppression)','ยับยั้งการเจริญเติบโตในเด็ก','กระดูกพรุน','ต้อกระจก ต้อหิน','ความผิดปกติทางเมตาบอลิซึม (น้ำตาล อินซูลิน ไตรกลีเซอไรด์) และทางจิตเวช'],
+      a:'Adrenal suppression, ยับยั้งการเจริญเติบโตในเด็ก, กระดูกพรุน, ต้อกระจก, ต้อหิน, ความผิดปกติทางเมตาบอลิซึมและทางจิตเวช' },
+
+    { t:'qa', src:'สไลด์ 53',
+      q:'ข้อควรระวังของการใช้ systemic corticosteroid มีอะไรบ้าง',
+      points:['วัณโรค (TB) และการติดเชื้อปรสิต','กระดูกพรุน ต้อหิน','เบาหวาน','ซึมเศร้ารุนแรง แผลในกระเพาะอาหาร','ใช้ระยะยาวอาจกระตุ้น Herpes virus กำเริบ'],
+      a:'ระวังในผู้ป่วยวัณโรค, การติดเชื้อปรสิต, กระดูกพรุน, ต้อหิน, เบาหวาน, ซึมเศร้ารุนแรง หรือแผลในกระเพาะอาหาร และการใช้ระยะยาวอาจกระตุ้นให้ Herpes virus กำเริบ' },
+
+    { t:'qa', src:'สไลด์ 54',
+      q:'ยาสูตรผสม ICS + LABA มีตัวอย่างอะไรบ้าง และมีข้อดีอย่างไร',
+      points:['Fluticasone propionate/Salmeterol','Budesonide/Formoterol','สะดวก เพิ่ม adherence ของผู้ป่วย'],
+      a:'เช่น fluticasone propionate/salmeterol และ budesonide/formoterol — รวมในอุปกรณ์เดียวเพื่อความสะดวกและเพิ่ม adherence' },
+
+    { t:'mcq', src:'สไลด์ 47–48', correct:2,
+      q:'ข้อใดอธิบายความต่างระหว่าง NF-kB กับ corticosteroid ในระดับยีนได้ถูกต้อง',
+      choices:['ทั้งคู่ acetylate histone แต่คนละตำแหน่ง','NF-kB deacetylate เปิดยีน ส่วน steroid acetylate ปิดยีน','NF-kB เปิดยีนอักเสบด้วยการ acetylate ผ่าน CBP/HAT ส่วน steroid ปิดยีนด้วยการ deacetylate ผ่าน HDAC2','Steroid บล็อก NF-kB ที่ผิวเซลล์ก่อนเข้าไปในนิวเคลียส'],
+      a:'NF-kB เปิดยีนอักเสบด้วย acetylation ผ่าน CBP/HAT ส่วน corticosteroid ปิดยีนด้วย deacetylation ผ่าน HDAC2' }
+  ]
+},
+
+/* ============ 11. ยาต้าน mediator การอักเสบ ============ */
+{
+  id: 'mediator',
+  name: 'Cromones & Leukotriene modifiers',
+  slides: 'สไลด์ 55–60',
+  qs: [
+    { t:'qa', src:'สไลด์ 55',
+      q:'Cromones มียาอะไรบ้าง และเชื่อว่าออกฤทธิ์อย่างไร',
+      points:['Sodium cromoglycate, Nedocromil sodium','Non-specific chloride channel blocker','ทำให้เกิด mast cell membrane stabilization','ยับยั้งการหลั่งสารตัวกลางจากเซลล์อักเสบและยับยั้ง neuronal reflex ในปอด'],
+      a:'Sodium cromoglycate และ nedocromil sodium เชื่อว่าเป็น non-specific chloride channel blocker ที่ทำให้เกิด <b>mast cell membrane stabilization</b> จึงยับยั้งการหลั่งสารตัวกลางจากเซลล์อักเสบหลายชนิดและยับยั้ง neuronal reflex ในปอด' },
+
+    { t:'qa', src:'สไลด์ 56',
+      q:'Cromones ใช้ในบทบาทใด และทำไมจึงใช้แก้อาการกำเริบเฉียบพลันไม่ได้',
+      points:['ใช้เป็นยาป้องกัน (prophylaxis) และ controller ในหืดไม่รุนแรงถึงปานกลาง','ออกฤทธิ์ช้า จึงไม่ใช้กับอาการกำเริบเฉียบพลัน','ให้ทางสูดพ่น ดูดซึมน้อย ผลข้างเคียงน้อยมาก'],
+      a:'ใช้เป็นยา <b>ป้องกัน</b> และ controller ในหืดไม่รุนแรงถึงปานกลาง ไม่ใช้รักษาอาการกำเริบเพราะออกฤทธิ์ช้า ให้ทางสูดพ่น ดูดซึมเข้าร่างกายน้อย ผลข้างเคียงพบน้อยมาก (บางครั้ง bronchospasm, ไอ, ระคายคอ) และไม่มีปฏิกิริยากับยาอื่น' },
+
+    { t:'qa', src:'สไลด์ 57–58',
+      q:'Leukotriene modifiers แบ่งเป็นกี่กลุ่มตามกลไก มีอะไรบ้าง',
+      points:['CysLT1 receptor antagonist: montelukast, pranlukast, zafirlukast','5-Lipoxygenase inhibitor: zileuton (ถอนออกจากตลาดแล้ว)'],
+      a:'(1) <b>CysLT1 receptor antagonist</b> — บล็อกไม่ให้ LTC4/D4/E4 จับตัวรับ ได้แก่ montelukast, pranlukast, zafirlukast (2) <b>5-LO inhibitor</b> — ยับยั้งการสร้างตั้งแต่ต้นทาง เช่น zileuton ซึ่งถอนออกจากตลาดแล้ว' },
+
+    { t:'fill', src:'สไลด์ 58', accept:['montelukast'],
+      q:'ยา leukotriene receptor antagonist ที่ใช้บ่อยที่สุดและให้ทางปากคือ ______',
+      a:'<b>Montelukast</b> — บล็อก CysLT1 receptor ให้ทางปาก ผลข้างเคียงน้อย' },
+
+    { t:'qa', src:'สไลด์ 59–60',
+      q:'Leukotriene modifiers มีบทบาทอย่างไรในการรักษาหืด และมีข้อจำกัดอะไร',
+      points:['ใช้เป็น add-on therapy ลดอาการ เพิ่มสมรรถภาพปอด ลดการกำเริบ','มีฤทธิ์ขยายหลอดลมได้บ้าง (แปรผัน)','ประสิทธิภาพน้อยกว่า ICS ขนาดต่ำ','ข้อดีคือให้ทางปาก สะดวกกว่าสูดพ่น ผลข้างเคียงน้อย'],
+      a:'ใช้เป็น <b>add-on therapy</b> ช่วยลดอาการ เพิ่มสมรรถภาพปอด ลดการกำเริบ และช่วยลดขนาด steroid ที่ต้องใช้ แต่ประสิทธิภาพน้อยกว่า ICS ขนาดต่ำ ข้อดีคือให้ทางปากและทนต่อยาได้ดี' },
+
+    { t:'mcq', src:'สไลด์ 55–58', correct:0,
+      q:'ผู้ป่วยหืดไม่รุนแรง ต้องการยาป้องกันที่ทำให้ mast cell เสถียร ไม่ใช้แก้อาการเฉียบพลัน ควรเป็นยาข้อใด',
+      choices:['Sodium cromoglycate','Salbutamol','Theophylline','Ipratropium'],
+      a:'Cromones (sodium cromoglycate, nedocromil) ทำให้เยื่อหุ้ม mast cell เสถียร ใช้ป้องกันเท่านั้น ออกฤทธิ์ช้าจึงไม่ใช้กับอาการกำเริบ' }
+  ]
+},
+
+/* ============ 12. Biologics ============ */
+{
+  id: 'biologic',
+  name: 'Immunomodulatory therapy (Biologics)',
+  slides: 'สไลด์ 61–67',
+  qs: [
+    { t:'qa', src:'สไลด์ 61',
+      q:'Omalizumab คือยาอะไร ออกฤทธิ์อย่างไร ให้ทางใด และมีข้อจำกัดอะไร',
+      points:['Humanized monoclonal antibody ต่อ IgE','จับส่วนของ IgE ที่ใช้เกาะตัวรับบน mast cell','ลดความรุนแรงของหืด ลดการใช้ corticosteroid ลดการกำเริบ','ให้ฉีดใต้ผิวหนัง (subcutaneous) · ราคาสูง'],
+      a:'<b>Omalizumab</b> เป็น humanized monoclonal antibody ที่จำเพาะต่อส่วนของ IgE ที่ใช้จับตัวรับบน mast cell จึงยับยั้งการจับ IgE-mast cell ลดความรุนแรงของหืด ลดความจำเป็นในการใช้ corticosteroid และลดการกำเริบ ให้โดยฉีดใต้ผิวหนัง ข้อจำกัดคือราคาสูง' },
+
+    { t:'qa', src:'สไลด์ 63–66',
+      q:'ยา anti-IL-5 มีตัวใดบ้าง และเหมาะกับผู้ป่วยกลุ่มใด',
+      points:['Mepolizumab, Benralizumab','ลด eosinophil โดยตรง เพราะ IL-5 เป็นตัวกระตุ้นหลักของ eosinophil','เหมาะกับ severe eosinophilic asthma'],
+      a:'Mepolizumab และ benralizumab ลด eosinophil โดยตรง (IL-5 เป็นตัวกระตุ้นหลักของ eosinophil) จึงเหมาะกับ severe eosinophilic asthma' },
+
+    { t:'qa', src:'สไลด์ 63–66',
+      q:'ยา anti-IL-4/IL-13 มีตัวใดบ้าง และออกฤทธิ์ที่จุดใด',
+      points:['Dupilumab, Lebrikizumab','บล็อกที่ตัวรับ IL-4R alpha / IL-13R alpha','ซึ่งส่งสัญญาณผ่าน transcription factor STAT-6'],
+      a:'Dupilumab และ lebrikizumab บล็อกที่ตัวรับ IL-4Ralpha/IL-13Ralpha ซึ่งส่งสัญญาณผ่าน transcription factor <b>STAT-6</b>' },
+
+    { t:'fill', src:'สไลด์ 63–66', accept:['tezepelumab'],
+      q:'ยา anti-TSLP ที่บล็อกสารตั้งต้นซึ่งกระตุ้น T2 inflammation ทั้งวงจร คือ ______',
+      a:'<b>Tezepelumab</b> — ต้าน thymic stromal lymphopoietin (TSLP) ส่วน anti-IL-33 คือ itepekimab' },
+
+    { t:'qa', src:'สไลด์ 67',
+      q:'ยากลุ่มใหม่ที่กำลังพัฒนาสำหรับ COPD และโรคทางเดินหายใจมีอะไรบ้าง',
+      points:['PDE-4 inhibitor รุ่นใหม่: roflumilast, apremilast, cilomilast, tofimilast','Ensifentrine ยับยั้งทั้ง PDE-3 และ PDE-4','CRTh2 antagonist บล็อกตัวรับ chemotactic factor ของ Th2','Endothelin receptor antagonist เช่น bosentan (ใช้ใน pulmonary hypertension)'],
+      a:'PDE-4 inhibitor รุ่นใหม่ (roflumilast, apremilast, cilomilast, tofimilast), ensifentrine (ยับยั้ง PDE-3 และ PDE-4 พร้อมกัน), CRTh2 antagonist และ endothelin receptor antagonist เช่น bosentan' },
+
+    { t:'qa', src:'สไลด์ 61–67',
+      q:'ยาชีวภาพ (biologics) ต่างจาก corticosteroid ในเชิงหลักการอย่างไร',
+      points:['Biologics เป็น targeted therapy เจาะจง cytokine/chemokine ตัวใดตัวหนึ่ง','Corticosteroid ออกฤทธิ์กว้าง กดยีนอักเสบหลายทาง','Biologics ใช้ในผู้ป่วยหืดรุนแรงที่คุมด้วยยามาตรฐานไม่ได้'],
+      a:'Biologics เป็น targeted therapy ที่เจาะจง cytokine/chemokine ตัวใดตัวหนึ่งในวงจร T2 inflammation ต่างจาก corticosteroid ที่กดการอักเสบอย่างกว้าง จึงสงวนไว้สำหรับหืดรุนแรงหรือ COPD ที่กำเริบบ่อย' },
+
+    { t:'mcq', src:'สไลด์ 61–66', correct:3,
+      q:'ผู้ป่วย severe eosinophilic asthma ที่ยังกำเริบบ่อยแม้ใช้ ICS/LABA เต็มที่ ยาชีวภาพกลุ่มใดตรงเป้าที่สุด',
+      choices:['Anti-IgE (omalizumab)','Anti-TSLP (tezepelumab)','Anti-IL-13 (lebrikizumab)','Anti-IL-5 (mepolizumab หรือ benralizumab)'],
+      a:'IL-5 เป็นตัวกระตุ้นหลักของ eosinophil การบล็อก IL-5 จึงลด eosinophil โดยตรง ตรงเป้าที่สุดกับ severe eosinophilic asthma' }
+  ]
+},
+
+/* ============ 13. GINA & GOLD ============ */
+{
+  id: 'guideline',
+  name: 'แนวทาง GINA & GOLD',
+  slides: 'สไลด์ 68–72',
+  qs: [
+    { t:'qa', src:'สไลด์ 68',
+      q:'GINA ใช้วงจรการดูแลผู้ป่วยแบบ personalized asthma management อย่างไร',
+      points:['Assess — ประเมิน','Adjust — ปรับยา','Review — ทบทวนผล','ทำซ้ำเป็นวงจรต่อเนื่อง'],
+      a:'ใช้วงจร <b>Assess → Adjust → Review</b> ซ้ำเป็นวงจรต่อเนื่อง เพื่อปรับการรักษาให้เหมาะกับผู้ป่วยแต่ละราย' },
+
+    { t:'qa', src:'สไลด์ 68–70',
+      q:'GINA แบ่งการรักษาเป็น 2 track อะไรบ้าง ต่างกันอย่างไร',
+      points:['Track 1 (แนะนำหลัก): ICS-formoterol เป็นทั้ง controller และ reliever (MART)','Track 2 (ทางเลือก): SABA เป็น reliever ร่วมกับ ICS เป็น controller','ทั้งสอง track ไล่ระดับตาม Step 1–5'],
+      a:'<b>Track 1</b> (แนะนำเป็นหลัก) ใช้ ICS-formoterol เป็นทั้งยาควบคุมและยาบรรเทาในตัวเดียว (MART: Maintenance And Reliever Therapy) ตั้งแต่ Step 1 แบบ as-needed ถึง Step 5 · <b>Track 2</b> (ทางเลือก) ใช้ SABA เป็น reliever ร่วมกับ ICS ขนาดต่าง ๆ เป็น controller' },
+
+    { t:'fill', src:'สไลด์ 68–70', accept:['mart','maintenance and reliever therapy'],
+      q:'การใช้ ICS-formoterol เป็นทั้งยาควบคุมและยาบรรเทาอาการในตัวเดียว เรียกว่าแนวทาง ______',
+      a:'<b>MART</b> = Maintenance And Reliever Therapy ซึ่งเป็นแกนของ GINA Track 1' },
+
+    { t:'qa', src:'สไลด์ 70',
+      q:'ทำไมแนวทางปัจจุบันจึงไม่แนะนำให้ใช้ SABA เดี่ยว ๆ โดยไม่มี ICS',
+      points:['เสี่ยงต่อการกำเริบรุนแรง','เสี่ยงเสียชีวิต','SABA ไม่คุมการอักเสบซึ่งเป็นต้นเหตุ','ต้องมี ICS ควบคู่เสมอไม่ว่า track ไหน'],
+      a:'เพราะ SABA บรรเทาอาการแต่ไม่คุมการอักเสบที่เป็นต้นเหตุ การใช้เดี่ยว ๆ จึงเสี่ยงต่อการกำเริบรุนแรงและเสียชีวิต แนวทางปัจจุบันจึงต้องมี ICS ควบคู่เสมอ' },
+
+    { t:'qa', src:'สไลด์ 68–70',
+      q:'ที่ Step 5 ของ GINA มีการเพิ่มยาอะไรบ้าง',
+      points:['เพิ่ม LAMA','พิจารณายาชีวภาพ: anti-IgE, anti-IL5/5R, anti-IL4Ralpha, anti-TSLP'],
+      a:'เพิ่ม LAMA และพิจารณายา biologic ได้แก่ anti-IgE, anti-IL5/5R, anti-IL4Ralpha และ anti-TSLP' },
+
+    { t:'fill', src:'สไลด์ 71', accept:['0.7','<0.7','0.70','70%'],
+      q:'เกณฑ์วินิจฉัย COPD ตาม GOLD คือ post-bronchodilator FEV1/FVC น้อยกว่า ______',
+      a:'<b>FEV1/FVC น้อยกว่า 0.7</b> หลังให้ยาขยายหลอดลม ยืนยันภาวะอุดกั้นถาวร' },
+
+    { t:'qa', src:'สไลด์ 71',
+      q:'GOLD แบ่งระดับความรุนแรงตามสมรรถภาพปอด (spirometric grade) อย่างไร',
+      points:['GOLD 1: FEV1 มากกว่าหรือเท่ากับ 80%','GOLD 2: 50–79%','GOLD 3: 30–49%','GOLD 4: น้อยกว่า 30%'],
+      a:'GOLD 1 (FEV1 ≥80%), GOLD 2 (50–79%), GOLD 3 (30–49%), GOLD 4 (<30%) ของค่าที่คาดคะเน' },
+
+    { t:'qa', src:'สไลด์ 71',
+      q:'GOLD จัดกลุ่มผู้ป่วยเป็น A, B, E ด้วยเกณฑ์อะไร',
+      points:['ใช้ประวัติการกำเริบต่อปี','กำเริบ 0–1 ครั้งและไม่นอนโรงพยาบาล = กลุ่ม A หรือ B','กำเริบ ≥2 ครั้งหรือเข้าโรงพยาบาล = กลุ่ม E','ร่วมกับความรุนแรงของอาการ (mMRC, CAT score)'],
+      a:'ใช้จำนวนครั้งการกำเริบต่อปี (0–1 ครั้งไม่นอนโรงพยาบาล = A/B, ≥2 ครั้งหรือเข้าโรงพยาบาล = E) ร่วมกับความรุนแรงของอาการที่วัดด้วย mMRC หรือ CAT score' }
+  ]
+},
+
+/* ============ 14. Allergic rhinitis & Common cold ============ */
+{
+  id: 'rhinitis',
+  name: 'Allergic rhinitis & Common cold',
+  slides: 'สไลด์ 73–74',
+  qs: [
+    { t:'qa', src:'สไลด์ 73',
+      q:'พยาธิกำเนิดของ allergic rhinitis เป็นอย่างไร',
+      points:['Immediate hypersensitivity type 1 เหมือน allergic asthma','Allergen เช่น ฝุ่น ละอองเกสร ขนสัตว์','IgE-mediated mast cell degranulation ที่เยื่อบุจมูก','ปล่อย histamine เป็นหลัก'],
+      a:'เป็นปฏิกิริยา immediate hypersensitivity type 1 เช่นเดียวกับ allergic asthma โดย allergen กระตุ้นให้เกิด IgE-mediated mast cell degranulation ที่เยื่อบุจมูก ปล่อย <b>histamine</b> เป็นหลัก' },
+
+    { t:'qa', src:'สไลด์ 73',
+      q:'Common cold เกิดจากอะไร และแยกจาก allergic rhinitis ทางคลินิกอย่างไร',
+      points:['เกิดจากการติดเชื้อไวรัส โดยเฉพาะ Coronavirus และ Rhinovirus','ไข้หวัดมักมีไข้ ส่วนภูมิแพ้มักไม่มีไข้','อาการอื่นคล้ายกันมาก: น้ำมูกไหล คัดจมูก จาม ไอ'],
+      a:'Common cold เกิดจากการติดเชื้อไวรัส โดยเฉพาะ <b>Coronavirus</b> และ <b>Rhinovirus</b> อาการคล้าย allergic rhinitis มาก (น้ำมูกไหล คัดจมูก น้ำตาไหล จาม ไอ ปวดศีรษะ) แต่ไข้หวัดมักมีไข้ ส่วนภูมิแพ้มักไม่มีไข้' },
+
+    { t:'qa', src:'สไลด์ 74',
+      q:'ยาที่ใช้ใน allergic rhinitis และ common cold แบ่งเป็น 4 กลุ่มตามอาการอะไรบ้าง',
+      points:['Antihistamines — คัน จาม น้ำมูกไหล น้ำตาไหล','Nasal decongestants — คัดจมูก','Antitussives — ไอแห้ง','Expectorants และ mucolytics — ไอมีเสมหะ'],
+      a:'(1) <b>Antihistamines</b> แก้คัน จาม น้ำมูกไหล น้ำตาไหล (2) <b>Nasal decongestants</b> แก้คัดจมูก (3) <b>Antitussives</b> แก้ไอแห้ง (4) <b>Expectorants/Mucolytics</b> ช่วยขับและลดความเหนียวของเสมหะ' },
+
+    { t:'mcq', src:'สไลด์ 73–74', correct:1,
+      q:'ผู้ป่วยมาด้วยจาม น้ำมูกใสไหล คันจมูกและตา ไม่มีไข้ มีประวัติแพ้ฝุ่น ยาที่ตรงกลไกที่สุดคือข้อใด',
+      choices:['Nasal decongestant ชนิดหยอดจมูก','Antihistamine (H1 antagonist)','Antitussive กลุ่ม opioid','Mucolytic เช่น acetylcysteine'],
+      a:'อาการคัน จาม น้ำมูกไหล เกิดจาก histamine ที่หลั่งจาก mast cell จึงตอบสนองดีต่อ H1 antagonist (decongestant ใช้เมื่ออาการเด่นคือคัดจมูก)' }
+  ]
+},
+
+/* ============ 15. Antihistamines ============ */
+{
+  id: 'antihist',
+  name: 'Antihistamines (H1 antagonists)',
+  slides: 'สไลด์ 75–79',
+  qs: [
+    { t:'qa', src:'สไลด์ 75',
+      q:'Histamine ที่จับ H1 receptor ทำให้เกิดอาการอะไรบ้าง',
+      points:['หลอดเลือดขยายตัว','เพิ่มการซึมผ่านของหลอดเลือด (บวมน้ำ)','คัน จาม น้ำมูกไหล'],
+      a:'Histamine จาก mast cell จับ H1 receptor ที่เยื่อบุจมูก หลอดเลือดและปลายประสาท ทำให้หลอดเลือดขยายตัว เพิ่มการซึมผ่าน (บวมน้ำ) คัน จาม และน้ำมูกไหล' },
+
+    { t:'qa', src:'สไลด์ 75–76',
+      q:'Antihistamine รุ่นแรกมีคุณสมบัติทางเภสัชจลนศาสตร์อย่างไร และทำไมจึงง่วง',
+      points:['ดูดซึมจากทางเดินอาหารเร็วและเกือบสมบูรณ์','ละลายในไขมันดี จึงผ่านเข้า CNS ได้ → ง่วงซึม','ออกฤทธิ์สูงสุดใน 1–2 ชั่วโมง ระยะเวลาสั้น 4–6 ชั่วโมง','เมตาบอลิซึมผ่าน CYP3A4 ที่ตับ'],
+      a:'ดูดซึมเร็วและเกือบสมบูรณ์ <b>ละลายในไขมันได้ดี</b> จึงผ่านเข้าสมองทำให้ง่วงซึมเด่นชัด ออกฤทธิ์สูงสุดใน 1–2 ชั่วโมง ระยะเวลาออกฤทธิ์สั้นเพียง <b>4–6 ชั่วโมง</b> เมตาบอลิซึมผ่าน cytochrome P450 3A4' },
+
+    { t:'qa', src:'สไลด์ 76',
+      q:'ยา antihistamine รุ่นแรกมีตัวใดบ้าง (ตอบให้ได้อย่างน้อย 4 ตัว)',
+      points:['Chlorpheniramine (CPM)','Diphenhydramine','Dimenhydrinate','Hydroxyzine / Brompheniramine / Cyclizine / Cyproheptadine'],
+      a:'Dimenhydrinate, diphenhydramine, chlorpheniramine, brompheniramine, hydroxyzine, cyclizine, cyproheptadine (ตัวหลังมีฤทธิ์เพิ่มความอยากอาหารด้วย)' },
+
+    { t:'qa', src:'สไลด์ 77',
+      q:'Antihistamine รุ่นที่สองต่างจากรุ่นแรกอย่างไร และมียาตัวใดบ้าง',
+      points:['ละลายในไขมันน้อยกว่า เข้า CNS ได้น้อย จึงง่วงน้อยกว่ามาก','ออกฤทธิ์ยาว 12–24 ชั่วโมง กินวันละครั้งได้','Fexofenadine, Loratadine, Cetirizine'],
+      a:'ละลายในไขมันน้อยกว่า เข้า CNS ได้น้อย จึงง่วงน้อยกว่ามาก และออกฤทธิ์นาน <b>12–24 ชั่วโมง</b> กินวันละครั้งได้ ตัวอย่าง piperidine derivative ได้แก่ fexofenadine, loratadine, cetirizine' },
+
+    { t:'qa', src:'สไลด์ 78',
+      q:'ผลข้างเคียงของ antihistamine มีอะไรบ้าง',
+      points:['ง่วงซึม (มากในรุ่นแรก)','ปากแห้ง คอแห้ง ไอ','น้ำหนักเพิ่ม (ketotifen, cyproheptadine)','ในเด็กอาจเกิดการกระตุ้นและชัก','หัวใจเต้นผิดจังหวะ, ความดันต่ำเมื่อลุกยืน'],
+      a:'ง่วงซึม (เด่นในรุ่นแรก), ปากแห้ง คอแห้ง ไอ, น้ำหนักเพิ่ม (ketotifen, cyproheptadine), ในเด็กอาจเกิด excitation และชักได้, หัวใจเต้นผิดจังหวะ และ postural hypotension' },
+
+    { t:'qa', src:'สไลด์ 78',
+      q:'Drug interaction สำคัญของ antihistamine รุ่นที่ 2 คืออะไร',
+      points:['ใช้ร่วมกับ ketoconazole หรือ erythromycin','เพิ่มความเสี่ยงพิษต่อหัวใจ (cardiac toxicity)','เพราะแย่งเมตาบอลิซึมผ่านเอนไซม์ตัวเดียวกัน'],
+      a:'ยารุ่นที่ 2 บางตัวเมื่อใช้ร่วมกับ <b>ketoconazole</b> หรือ <b>erythromycin</b> อาจเพิ่มความเสี่ยง cardiac toxicity เพราะแย่งเมตาบอลิซึมผ่านเอนไซม์ตัวเดียวกัน' },
+
+    { t:'mcq', src:'สไลด์ 78', correct:2,
+      q:'เด็กเล็กได้รับ antihistamine รุ่นแรกเกินขนาด อาการที่ต้องระวังเป็นพิเศษคือข้อใด',
+      choices:['ง่วงซึมลึกจนหลับยาวเหมือนผู้ใหญ่','ความดันโลหิตสูงวิกฤต','การกระตุ้นระบบประสาท (excitation) และชัก','หลอดลมหดเกร็งเฉียบพลัน'],
+      a:'ในเด็ก antihistamine อาจทำให้เกิด excitation และชักได้ ตรงข้ามกับผู้ใหญ่ที่มักง่วงซึม' },
+
+    { t:'mcq', src:'สไลด์ 75–77', correct:1,
+      q:'ผู้ป่วยเป็นคนขับรถ ต้องการยาแก้ภูมิแพ้ที่ง่วงน้อยและกินวันละครั้ง ควรเลือกข้อใด',
+      choices:['Chlorpheniramine','Loratadine','Diphenhydramine','Hydroxyzine'],
+      a:'Loratadine เป็นรุ่นที่ 2 ละลายไขมันน้อย เข้า CNS น้อย จึงง่วงน้อย และออกฤทธิ์ 12–24 ชั่วโมง ส่วนอีก 3 ตัวเป็นรุ่นแรกที่ง่วงมาก' }
+  ]
+},
+
+/* ============ 16. Nasal decongestants ============ */
+{
+  id: 'decong',
+  name: 'Nasal decongestants',
+  slides: 'สไลด์ 80–85',
+  qs: [
+    { t:'qa', src:'สไลด์ 81',
+      q:'ยาลดอาการคัดจมูกออกฤทธิ์อย่างไร',
+      points:['เป็น alpha-adrenergic agonist (sympathomimetic)','จับ alpha receptor บนกล้ามเนื้อเรียบของหลอดเลือด','เกิด vasoconstriction ทั้งหลอดเลือดแดงและดำ','เลือดไปเลี้ยงเยื่อบุจมูกลดลง อาการบวม/คัดจมูกลดลง'],
+      a:'เป็น alpha-adrenergic agonist จับ alpha receptor บนกล้ามเนื้อเรียบของหลอดเลือด ทำให้เกิด <b>vasoconstriction</b> เลือดคั่งที่เยื่อบุจมูกลดลง อาการบวมและคัดจมูกจึงลดลง' },
+
+    { t:'qa', src:'สไลด์ 81',
+      q:'นอกจากหลอดเลือดจมูก ยากลุ่ม decongestant ยังมีผลต่อระบบใดอีก',
+      points:['กล้ามเนื้อม่านตา → ม่านตาขยาย (mydriasis)','กล้ามเนื้อมดลูก','เมตาบอลิซึม → เพิ่มระดับกลูโคสในเลือด'],
+      a:'มีผลหดกล้ามเนื้อเรียบอื่น ๆ ด้วย เช่น กล้ามเนื้อม่านตา (ทำให้ม่านตาขยาย) และมดลูก รวมทั้งเพิ่มระดับกลูโคสในเลือด' },
+
+    { t:'qa', src:'สไลด์ 80',
+      q:'Decongestant แบ่งตามโครงสร้างเป็นกลุ่มใดบ้าง และกลุ่มใดแรงกว่า',
+      points:['Phenylethylamine: ephedrine, pseudoephedrine, phenylephrine, phenylpropanolamine','Imidazoline: naphazoline, tetrahydrozoline, oxymetazoline, xylometazoline','Imidazoline แรงกว่าและออกฤทธิ์นานกว่า'],
+      a:'<b>Phenylethylamine derivatives</b>: ephedrine, pseudoephedrine, phenylephrine, phenylpropanolamine, propylhexedrine, methoxamine · <b>Imidazoline derivatives</b>: naphazoline, tetrahydrozoline, oxymetazoline, xylometazoline ซึ่งแรงกว่าและออกฤทธิ์นานกว่า' },
+
+    { t:'qa', src:'สไลด์ 82',
+      q:'เปรียบเทียบการให้ decongestant แบบเฉพาะที่กับแบบรับประทาน',
+      points:['Topical (หยอด/พ่นจมูก): ออกฤทธิ์เฉพาะที่ เริ่มเร็ว แต่สั้น','Oral: ออกฤทธิ์ทั่วร่างกาย เริ่มช้ากว่าแต่นานกว่า','Topical เสี่ยง rebound congestion / Oral เสี่ยงผลข้างเคียงทั่วร่างกาย'],
+      a:'<b>Topical</b> (naphazoline, xylometazoline, oxymetazoline) ออกฤทธิ์เฉพาะที่ เริ่มเร็วแต่ระยะสั้น · <b>Oral</b> (phenylpropanolamine, phenylephrine, pseudoephedrine) ออกฤทธิ์ทั่วร่างกาย เริ่มช้ากว่าแต่นานกว่า' },
+
+    { t:'fill', src:'สไลด์ 83', accept:['5','5 วัน','5 days','ห้าวัน'],
+      q:'Rebound congestion จากยาหยอด/พ่นจมูกมักเกิดเมื่อใช้ติดต่อกันนานกว่า ______ วัน',
+      a:'<b>5 วัน</b> — หลอดเลือดปรับตัวขยายกลับเมื่อยาหมดฤทธิ์ ทำให้ต้องใช้ยาถี่ขึ้นเรื่อย ๆ วนเป็นวงจร' },
+
+    { t:'qa', src:'สไลด์ 83',
+      q:'ผลข้างเคียงเชิงระบบของ decongestant มีอะไรบ้าง',
+      points:['นอนไม่หลับ กระสับกระส่าย','หัวใจเต้นเร็ว/ผิดจังหวะ ความดันโลหิตสูง','คลื่นไส้อาเจียน เหงื่อออก','กระตุ้นหูรูดกระเพาะปัสสาวะ','เกินขนาดมากอาจกดระบบประสาทจนโคม่า'],
+      a:'นอนไม่หลับ กระสับกระส่าย หัวใจเต้นเร็วและผิดจังหวะ ความดันโลหิตสูง คลื่นไส้อาเจียน เหงื่อออก กระตุ้นหูรูดกระเพาะปัสสาวะ และถ้าเกินขนาดมากอาจกดระบบประสาทจนโคม่า' },
+
+    { t:'mcq', src:'สไลด์ 83', correct:2,
+      q:'เด็กเล็กได้รับ naphazoline หรือ tetrahydrozoline เกินขนาด อาการที่ต้องเฝ้าระวังคือข้อใด',
+      choices:['ความดันโลหิตสูงวิกฤตอย่างเดียว','หลอดลมหดเกร็งรุนแรง','การกดระบบประสาทส่วนกลางจนถึงขั้นโคม่า','ภาวะโพแทสเซียมในเลือดต่ำ'],
+      a:'ในเด็ก imidazoline เกินขนาดอาจกดระบบประสาทส่วนกลางจนถึงขั้นโคม่า ตรงข้ามกับผู้ใหญ่ที่มักถูกกระตุ้น' },
+
+    { t:'qa', src:'สไลด์ 84',
+      q:'ข้อควรระวัง/ข้อห้ามใช้ของ decongestant มีกลุ่มใดบ้าง และ drug interaction ที่สำคัญคืออะไร',
+      points:['เบาหวาน, ต่อมไทรอยด์เป็นพิษ, ความดันโลหิตสูง, angina','ต่อมลูกหมากโต, ต้อหิน','เด็กและผู้สูงอายุต้องระวังเป็นพิเศษ','DI: MAOI, theophylline, tricyclic antidepressant'],
+      a:'ระวังในผู้ป่วยเบาหวาน ต่อมไทรอยด์เป็นพิษ ความดันโลหิตสูง โรคหลอดเลือดหัวใจตีบ ต่อมลูกหมากโต ต้อหิน ผู้ที่ใช้ TCA รวมถึงเด็กและผู้สูงอายุ · <b>DI สำคัญ</b>: MAOI, theophylline, tricyclic antidepressant' }
+  ]
+},
+
+/* ============ 17. Antitussives ============ */
+{
+  id: 'antituss',
+  name: 'ยาระงับไอ (Antitussives)',
+  slides: 'สไลด์ 86–91',
+  qs: [
+    { t:'qa', src:'สไลด์ 86, 88',
+      q:'อธิบายวงจรการไอ (cough reflex) เป็นลำดับ',
+      points:['Cough receptor ที่ทางเดินหายใจรับสัญญาณระคายเคือง','ส่งผ่าน sensory (afferent) fiber','ไปยัง cough center ที่ก้านสมอง (medulla)','ส่งกลับผ่าน motor (efferent) fiber ไปยังกล้ามเนื้อที่ใช้ไอ'],
+      a:'Cough receptor ที่ทางเดินหายใจ → sensory (afferent) fiber → <b>cough center</b> ที่ medulla → motor (efferent) fiber → กล้ามเนื้อที่เกี่ยวข้องกับการไอ' },
+
+    { t:'qa', src:'สไลด์ 88',
+      q:'ยาระงับไอออกฤทธิ์ยับยั้งได้ที่ตำแหน่งใดบ้าง ยกตัวอย่างยาแต่ละตำแหน่ง',
+      points:['ที่ cough center (ส่วนกลาง): opioid, dextromethorphan','ที่ cough receptor (ส่วนปลาย): benzonatate (local anesthetic)'],
+      a:'(1) ยับยั้งที่ <b>cough center</b> — กลไกส่วนกลาง เช่น codeine, dextromethorphan (2) ยับยั้งที่ <b>cough receptor</b> — กลไกส่วนปลาย เช่น benzonatate ซึ่งเป็น local anesthetic' },
+
+    { t:'qa', src:'สไลด์ 86',
+      q:'ข้อบ่งใช้และข้อห้ามสำคัญของยาระงับไอคืออะไร',
+      points:['ใช้กับไอแห้ง (dry cough)','ห้ามใช้เมื่อไอมีเสมหะมาก','เพราะการกดการไอจะทำให้เสมหะคั่งค้าง'],
+      a:'ใช้กับ <b>ไอแห้ง</b> ที่ไม่มีอันตรายจากการสะสมของเสมหะ ถ้าไอมีเสมหะมาก การกดการไอจะทำให้เสมหะคั่งค้าง จึงเป็นข้อห้ามใช้ที่สำคัญ' },
+
+    { t:'qa', src:'สไลด์ 87, 89',
+      q:'Codeine ออกฤทธิ์ระงับไออย่างไร มีฤทธิ์อื่นอะไร และผลข้างเคียงคืออะไร',
+      points:['กดศูนย์ควบคุมการไอที่ก้านสมอง (medulla)','ขนาดสูงมีฤทธิ์ระงับปวด','กดศูนย์ควบคุมการหายใจด้วย','ผลข้างเคียง: คลื่นไส้ อาเจียน ท้องผูก เสพติดเมื่อใช้ระยะยาว'],
+      a:'Codeine กดศูนย์ควบคุมการไอที่ medulla ที่ขนาดสูงมีฤทธิ์ระงับปวด แต่ <b>กดศูนย์ควบคุมการหายใจ</b> ด้วย ผลข้างเคียงคือคลื่นไส้ อาเจียน ท้องผูก และเสพติดได้เมื่อใช้ระยะยาว' },
+
+    { t:'qa', src:'สไลด์ 89',
+      q:'เภสัชจลนศาสตร์และข้อควรระวังของ codeine คืออะไร',
+      points:['ดูดซึมทางเดินอาหารดี ออกฤทธิ์ใน 15–30 นาที นาน 4–6 ชั่วโมง','เมตาบอลิซึมที่ตับ','ระวังในผู้ป่วยหืดและ COPD (เสี่ยงกดการหายใจซ้ำเติม)','ระวังในผู้ที่ใช้ยาจิตเวช แอลกอฮอล์ หรือ MAOI'],
+      a:'ดูดซึมทางเดินอาหารดี ออกฤทธิ์ใน 15–30 นาที นาน 4–6 ชั่วโมง เมตาบอลิซึมที่ตับ ระวังในผู้ป่วยหืด/COPD เพราะกดการหายใจซ้ำเติม และระวังเมื่อใช้ร่วมกับยาจิตเวช แอลกอฮอล์ หรือ MAOI' },
+
+    { t:'qa', src:'สไลด์ 90',
+      q:'Dextromethorphan ออกฤทธิ์อย่างไร และมีข้อดีเหนือ codeine อย่างไร',
+      points:['เป็น d-isomer ของ codeine','เพิ่ม threshold ของ cough center ผ่าน NMDA receptor antagonist และ opioid receptor antagonist','ระงับไอได้ดีเทียบเท่า codeine','ไม่มีฤทธิ์ระงับปวด ไม่เสพติด ไม่กดการหายใจ'],
+      a:'เป็น d-isomer ของ codeine เพิ่ม threshold ของ cough center ผ่านการเป็น <b>NMDA receptor antagonist</b> และ opioid receptor antagonist ประสิทธิภาพเทียบเท่า codeine แต่ไม่มีฤทธิ์ระงับปวด ไม่เสพติด และไม่กดการหายใจ ออกฤทธิ์ใน 15–30 นาที นาน 5–6 ชั่วโมง' },
+
+    { t:'qa', src:'สไลด์ 91',
+      q:'Benzonatate ต่างจากยาระงับไอตัวอื่นอย่างไร',
+      points:['เป็นอนุพันธ์ polyglycol','กลไกเป็น local anesthetic','ออกฤทธิ์ที่ stretch receptor และ cough receptor ในปอดโดยตรง (afferent pathway)','ประสิทธิภาพเทียบเท่า codeine ออกฤทธิ์ 15–20 นาที นาน 3–8 ชั่วโมง'],
+      a:'Benzonatate เป็นอนุพันธ์ polyglycol ที่ออกฤทธิ์แบบ <b>local anesthetic</b> ที่ stretch receptor และ cough receptor ในปอดโดยตรง (บล็อก afferent pathway) ต่างจากตัวอื่นที่ออกฤทธิ์ที่สมอง ผลข้างเคียงน้อย (ปวดศีรษะ เวียนศีรษะ ท้องผูก และกระตุ้น CNS ถ้าขนาดสูง)' },
+
+    { t:'qa', src:'สไลด์ 91',
+      q:'Noscapine และ Levopropoxyphene napsylate มีประสิทธิภาพอย่างไรเทียบกับ codeine',
+      points:['Noscapine: อนุพันธ์ alkaloid จากฝิ่น ประสิทธิภาพเทียบเท่า codeine','Levopropoxyphene napsylate: ฤทธิ์น้อยกว่า codeine'],
+      a:'Noscapine เป็น alkaloid จากฝิ่น ระงับไอได้เทียบเท่า codeine ส่วน levopropoxyphene napsylate มีฤทธิ์น้อยกว่า codeine' },
+
+    { t:'mcq', src:'สไลด์ 86–90', correct:3,
+      q:'ผู้ป่วย COPD มีอาการไอแห้งรบกวนการนอน ต้องการยาระงับไอที่เสี่ยงกดการหายใจน้อยที่สุด ควรเลือกข้อใด',
+      choices:['Codeine','Hydrocodone','Hydromorphone','Dextromethorphan'],
+      a:'Dextromethorphan ระงับไอได้เทียบเท่า codeine แต่ไม่กดการหายใจและไม่เสพติด จึงปลอดภัยกว่าในผู้ป่วยหืด/COPD (แต่ยังต้องระวังเมื่อใช้ร่วมกับยากดประสาทส่วนกลาง)' }
+  ]
+},
+
+/* ============ 18. Expectorants & Mucolytics ============ */
+{
+  id: 'mucus',
+  name: 'Expectorants & Mucolytics',
+  slides: 'สไลด์ 92–99',
+  qs: [
+    { t:'qa', src:'สไลด์ 92',
+      q:'Expectorant กับ Mucolytic ต่างกันอย่างไร',
+      points:['Expectorant: เพิ่มปริมาณสารคัดหลั่งและทำให้มูกใสขึ้น ช่วยให้ไอขับออกง่าย','Mucolytic: เปลี่ยนคุณสมบัติทางเคมีฟิสิกส์ของมูก ทำให้ความหนืดลดลงโดยตรง','ทั้งคู่ใช้กับไอแบบมีเสมหะ (productive cough)'],
+      a:'<b>Expectorant</b> เพิ่มปริมาณสารคัดหลั่งของหลอดลมและทำให้มูกใสขึ้น ช่วยให้เสมหะเคลื่อนตัวและถูกขับออกด้วยการไอ · <b>Mucolytic</b> เปลี่ยนคุณสมบัติทางเคมีฟิสิกส์ของมูกให้ความหนืดลดลงโดยตรง' },
+
+    { t:'qa', src:'สไลด์ 93–94',
+      q:'Guaifenesin ออกฤทธิ์อย่างไร',
+      points:['กระตุ้นตัวรับที่กระเพาะอาหาร (gastric receptor)','กระตุ้น gastropulmonary mucokinetic vagal reflex','เพิ่มปริมาณสารคัดหลั่งที่เหลว','ไอขับเสมหะเหนียวออกง่ายขึ้น'],
+      a:'กระตุ้น gastric receptor → กระตุ้น <b>gastropulmonary mucokinetic vagal reflex</b> → เพิ่มสารคัดหลั่งที่เหลวขึ้น ทำให้ไอขับเสมหะเหนียวออกได้ง่าย และการไอลดลงเมื่อเสมหะถูกขับหมด ผลข้างเคียงคือคลื่นไส้อาเจียนและระบบทางเดินอาหารแปรปรวน' },
+
+    { t:'qa', src:'สไลด์ 95',
+      q:'Potassium iodide ออกฤทธิ์อย่างไร และมีความเสี่ยงอะไร',
+      points:['กลไกคล้าย guaifenesin — เพิ่ม gastropulmonary mucokinetic vagal reflex','ความเสี่ยงพิษจากไอโอไดด์: เลือดออกในทางเดินอาหาร หัวใจเต้นผิดจังหวะ','ภาวะไทรอยด์ต่ำ คอพอก และ iodism','DI: potassium-sparing diuretic, ยาต้านไทรอยด์'],
+      a:'กลไกคล้าย guaifenesin คือเพิ่ม gastropulmonary mucokinetic vagal reflex แต่เสี่ยง <b>iodide toxicity</b> ได้แก่ เลือดออกในทางเดินอาหาร หัวใจเต้นผิดจังหวะ ไทรอยด์ต่ำ คอพอก และ iodism · ระวังในผู้ป่วยไทรอยด์เป็นพิษ โรคปอด โรคหัวใจ โรคไต และหญิงตั้งครรภ์' },
+
+    { t:'qa', src:'สไลด์ 96',
+      q:'หลักการของ mucolytics คืออะไร และมียาตัวใดบ้าง',
+      points:['ทำลายพันธะไดซัลไฟด์ (disulfide bond) ระหว่างสาย glycoprotein ในมูก','โครงสร้างร่างแหของมูกหลวมลง มูกใสและหนืดน้อยลง','Bromhexine, Ambroxol, Acetylcysteine, Carbocisteine'],
+      a:'เปลี่ยนคุณสมบัติทางเคมีฟิสิกส์ของสารคัดหลั่ง โดยเฉพาะการทำลาย <b>disulfide bond</b> ระหว่างสาย glycoprotein ในมูก ทำให้โครงสร้างร่างแหหลวมลง ยาหลักได้แก่ bromhexine, ambroxol, acetylcysteine, carbocisteine' },
+
+    { t:'qa', src:'สไลด์ 97',
+      q:'Bromhexine และ Ambroxol ต่างกันอย่างไร และ Ambroxol มีจุดเด่นพิเศษอะไร',
+      points:['Bromhexine: ย่อยสลาย acidic mucopolysaccharide และกระตุ้นต่อม serous ให้หลั่งเพิ่ม','Ambroxol: เป็นเมแทบอไลต์หลักของ bromhexine ใช้ใน chronic bronchitis','Ambroxol มี surfactant effect ลดแรงตึงผิว ป้องกันถุงลมแฟบ'],
+      a:'Bromhexine ย่อยสลาย acidic mucopolysaccharide และกระตุ้นเซลล์ต่อม serous ให้หลั่งเพิ่ม ความหนืดจึงลดลง · <b>Ambroxol</b> เป็นเมแทบอไลต์หลักของ bromhexine ใช้ในหลอดลมอักเสบเรื้อรัง และมี <b>surfactant effect</b> ลดแรงตึงผิว ช่วยป้องกันไม่ให้ถุงลมแฟบตอนหายใจออกสุด' },
+
+    { t:'qa', src:'สไลด์ 98',
+      q:'Acetylcysteine ออกฤทธิ์อย่างไร ทำงานดีที่สุดในสภาวะใด และมีผลข้างเคียงสำคัญอะไร',
+      points:['เป็นอนุพันธ์ของกรดอะมิโน L-cysteine','ทำลายพันธะไดซัลไฟด์ระหว่าง mucoprotein โดยตรง (reducing agent)','ออกฤทธิ์ดีที่สุดที่ pH สูง 7–9','กระตุ้นให้เกิด bronchospasm โดยเฉพาะในผู้ป่วยหืด'],
+      a:'เป็นอนุพันธ์ของ L-cysteine ทำหน้าที่เป็น <b>reducing agent</b> ทำลาย disulfide bond ระหว่าง mucoprotein โดยตรง ออกฤทธิ์ดีที่สุดที่ pH 7–9 ผลข้างเคียงสำคัญคือกระตุ้น <b>bronchospasm</b> โดยเฉพาะในผู้ป่วยหืด รวมถึงระบบทางเดินอาหารแปรปรวนและผื่นคัน' },
+
+    { t:'qa', src:'สไลด์ 99',
+      q:'Carbocisteine ต่างจาก acetylcysteine อย่างไร',
+      points:['ออกฤทธิ์แบบ mucoregulatory — แทรกแซงการสังเคราะห์มูกตั้งแต่ต้นทาง','ทำให้ร่างกายสร้างมูกที่หนืดน้อยกว่าเดิม','ไม่ใช่ reducing agent จึงไม่ทำลาย disulfide bond','ช่วยลดการอักเสบของเยื่อบุหลอดลมด้วย'],
+      a:'Carbocisteine เป็น <b>mucoregulator</b> คือไปแทรกแซงการสังเคราะห์มูกตั้งแต่ต้นทาง ทำให้สร้างมูกที่หนืดน้อยลง (แทนที่จะสลายมูกที่มีอยู่แล้ว) และช่วยลดการอักเสบของเยื่อบุหลอดลม ไม่ใช่ reducing agent · ระวังในผู้ป่วยแผลในกระเพาะอาหาร' },
+
+    { t:'mcq', src:'สไลด์ 98', correct:1,
+      q:'ผู้ป่วยหืดที่มีเสมหะเหนียว ต้องระวังยา mucolytic ตัวใดเป็นพิเศษเพราะอาจกระตุ้น bronchospasm',
+      choices:['Carbocisteine','Acetylcysteine','Ambroxol','Guaifenesin'],
+      a:'Acetylcysteine กระตุ้นให้เกิด bronchospasm ได้ โดยเฉพาะในผู้ป่วยหืด' }
+  ]
+},
+
+/* ============ 19. Pulmonary arterial hypertension ============ */
+{
+  id: 'pah',
+  name: 'Pulmonary arterial hypertension',
+  slides: 'สไลด์ 100',
+  qs: [
+    { t:'qa', src:'สไลด์ 100',
+      q:'PAH เกิดจากอะไร และนำไปสู่ภาวะใดในระยะท้าย',
+      points:['การเพิ่มจำนวนเซลล์ผิดปกติของหลอดเลือดปอด (vascular proliferation)','แรงต้านในหลอดเลือดปอดเพิ่มขึ้น','ระยะท้ายเกิดภาวะหัวใจซีกขวาล้มเหลว (right heart failure)'],
+      a:'เกิดจาก vascular proliferation ของหลอดเลือดปอดและแรงต้านในหลอดเลือดปอดที่เพิ่มขึ้น ซึ่งนำไปสู่ <b>right heart failure</b> ในระยะท้าย' },
+
+    { t:'qa', src:'สไลด์ 100',
+      q:'ยารักษา PAH กลุ่ม selective pulmonary vasodilator มีอะไรบ้าง',
+      points:['Endothelin receptor antagonist: Bosentan, Ambrisentan','PDE-5 inhibitor'],
+      a:'<b>Endothelin receptor antagonist</b> เช่น bosentan และ ambrisentan รวมถึงกลุ่ม <b>PDE-5 inhibitor</b> ซึ่งกลไกคล้ายยารักษาหย่อนสมรรถภาพทางเพศ แต่ใช้ขยายหลอดเลือดปอดโดยเฉพาะ' },
+
+    { t:'mcq', src:'สไลด์ 100', correct:0,
+      q:'Bosentan จัดอยู่ในยากลุ่มใด',
+      choices:['Endothelin receptor antagonist','PDE-4 inhibitor','Leukotriene receptor antagonist','Muscarinic antagonist'],
+      a:'Bosentan เป็น endothelin receptor antagonist ใช้ในภาวะความดันหลอดเลือดปอดสูง' }
+  ]
+},
+
+/* ============ 20. ภาพรวมเชื่อมโยง ============ */
+{
+  id: 'bigpic',
+  name: 'สรุปเชื่อมโยง (Big picture)',
+  slides: 'ตารางสรุป & Big picture',
+  qs: [
+    { t:'qa', src:'Big picture 1',
+      q:'สรุปว่าหลอดลมถูกควบคุมด้วยสองระบบตรงข้ามกันอย่างไร และยาขยายหลอดลมทุกตัวพยายามทำอะไร',
+      points:['Sympathetic: beta2 → cAMP → คลายตัว','Parasympathetic: M3 → หดตัว','ยาขยายหลอดลมพยายามเอียงสมดุลไปทาง cAMP สูง / ACh ต่ำ'],
+      a:'Sympathetic (beta2 → cAMP → คลายตัว) ตรงข้ามกับ parasympathetic (M3 → หดตัว) ยาขยายหลอดลมทุกตัวคือการเอียงสมดุลไปทาง cAMP สูงหรือ ACh ต่ำ ไม่ว่าจะโดย beta2-agonist, PDE inhibitor หรือ antimuscarinic' },
+
+    { t:'qa', src:'Big picture 2–3',
+      q:'เรียงลำดับวิวัฒนาการของยาต้านการอักเสบจากกว้างไปแคบ พร้อมตัวอย่าง',
+      points:['Corticosteroid — บล็อกกว้างที่สุด (phospholipase, กดยีนอักเสบผ่าน HDAC2)','LTRA — บล็อกเฉพาะตัวรับ CysLT1 เช่น montelukast','Biologics — บล็อกเฉพาะ cytokine ตัวเดียว เช่น anti-IL5, anti-IgE'],
+      a:'จากกว้างไปแคบ: <b>corticosteroid</b> (กดยีนอักเสบทั้งวง) → <b>leukotriene modifier</b> (บล็อกเฉพาะเส้นทาง 5-LO/CysLT1) → <b>biologics</b> (บล็อกเฉพาะ cytokine ตัวเดียว เช่น IL-5, IgE, TSLP)' },
+
+    { t:'qa', src:'ตารางสรุป',
+      q:'จับคู่กลไกกับกลุ่มยาให้ครบ: ยับยั้ง PDE + ต้าน adenosine / บล็อก M3 / กดยีนอักเสบผ่าน HDAC2 / บล็อก CysLT1',
+      points:['ยับยั้ง PDE + ต้าน adenosine = Methylxanthine (theophylline)','บล็อก M3 = SAMA/LAMA (ipratropium, tiotropium)','กดยีนอักเสบผ่าน HDAC2 = ICS (budesonide, fluticasone)','บล็อก CysLT1 = LTRA (montelukast)'],
+      a:'Methylxanthine = ยับยั้ง PDE + ต้าน adenosine · SAMA/LAMA = บล็อก M3 · ICS = กดยีนอักเสบผ่าน HDAC2 · LTRA = บล็อก CysLT1 receptor' },
+
+    { t:'qa', src:'ตารางสรุป',
+      q:'สรุปการเลือกยาตามลักษณะอาการไอ: ไอแห้ง vs ไอมีเสมหะ',
+      points:['ไอแห้ง: antitussive — codeine (กด cough center), dextromethorphan, benzonatate','ไอมีเสมหะ: expectorant (guaifenesin, KI) และ mucolytic (bromhexine, acetylcysteine, carbocisteine)','ห้ามกดการไอเมื่อมีเสมหะมาก'],
+      a:'<b>ไอแห้ง</b> ใช้ยาระงับไอ (codeine, dextromethorphan, benzonatate) · <b>ไอมีเสมหะ</b> ใช้ expectorant (guaifenesin, KI) หรือ mucolytic (bromhexine, ambroxol, acetylcysteine, carbocisteine) และห้ามกดการไอเพราะจะทำให้เสมหะคั่ง' }
+  ]
+}
+
+];
+
+/* ให้ใช้ได้ทั้งในเบราว์เซอร์และใน Node (สำหรับทดสอบคลังคำถาม) */
+if (typeof module !== 'undefined' && module.exports) module.exports = { TOPICS };
+
+</script>
+<script>
+/* ------------------------------------------------------------------
+ * recall.js — ตัวจัดตารางทบทวนแบบกล่อง (Leitner) สำหรับการถามตอบ
+ *
+ * แนวคิด: ทุกคำถามอยู่ใน "กล่อง" (box) 0–6 ตอบได้เลื่อนขึ้นกล่องถัดไป
+ * ระยะห่างจะยาวขึ้นเรื่อย ๆ ตอบไม่ได้ตกกลับกล่อง 0 และถามซ้ำในรอบเดียวกัน
+ *
+ * ระดับการให้คะแนนตัวเอง (grade)
+ *   1 = ลืม       ตกกลับกล่อง 0 และวนกลับมาถามใหม่ในรอบนี้
+ *   2 = เกือบได้  อยู่กล่องเดิม เจอใหม่เร็วกว่าปกติ
+ *   3 = จำได้     เลื่อนขึ้นกล่องถัดไป
+ *
+ * ฟังก์ชันทั้งหมดเป็น pure function (ไม่แก้ของเดิม) จึงทดสอบแยกด้วย Node ได้
+ * ------------------------------------------------------------------ */
+
+const Recall = (() => {
+  const DAY = 24 * 60 * 60 * 1000;
+
+  /* ระยะห่าง (วัน) ของแต่ละกล่อง — กล่อง 0 คือ "ถามซ้ำในรอบนี้" */
+  const BOXES = [0, 1, 3, 7, 16, 35, 90];
+  const TOP_BOX = BOXES.length - 1;
+
+  /* ตั้งแต่กล่องนี้ขึ้นไปถือว่า "แม่นแล้ว" */
+  const FIRM_BOX = 4;
+
+  const GRADE = { FORGOT: 1, ALMOST: 2, KNEW: 3 };
+
+  function fresh() {
+    return { box: 0, due: 0, reps: 0, right: 0, wrong: 0, lapses: 0, last: 0 };
+  }
+
+  /* กระจายวันครบกำหนดเล็กน้อย เพื่อไม่ให้คำถามกองมาวันเดียวกันหมด */
+  function fuzz(days, rnd = Math.random) {
+    if (days < 4) return days;
+    const spread = Math.max(1, Math.round(days * 0.12));
+    return days + Math.floor(rnd() * (spread * 2 + 1)) - spread;
+  }
+
+  /**
+   * คำนวณสถานะถัดไปของคำถาม — คืนค่าเป็นวัตถุใหม่เสมอ
+   * ใช้ทั้งตอนบันทึกคำตอบจริง และตอนแสดงตัวอย่างระยะเวลาบนปุ่มให้คะแนน
+   */
+  function schedule(rec, grade, now = Date.now(), rnd = Math.random) {
+    const r = Object.assign(fresh(), rec);
+    const next = Object.assign({}, r, { reps: r.reps + 1, last: now });
+
+    if (grade === GRADE.FORGOT) {
+      if (r.reps > 0) next.lapses = r.lapses + 1;
+      next.wrong = r.wrong + 1;
+      next.box = 0;
+      next.due = now;                       // วนกลับมาถามใหม่ในรอบนี้
+      return next;
+    }
+
+    if (grade === GRADE.ALMOST) {
+      next.wrong = r.wrong + 1;
+      next.box = Math.max(0, r.box);
+      const days = Math.max(1, Math.round(BOXES[next.box] / 2));   // เจอใหม่เร็วกว่าตอบได้เต็ม
+      next.due = now + days * DAY;
+      return next;
+    }
+
+    next.right = r.right + 1;
+    next.box = Math.min(TOP_BOX, r.box + 1);
+    next.due = now + Math.max(1, fuzz(BOXES[next.box], rnd)) * DAY;
+    return next;
+  }
+
+  /* ข้อความบนปุ่มให้คะแนน เช่น "1 วัน" หรือ "ในรอบนี้" */
+  function preview(rec, grade, now = Date.now()) {
+    const next = schedule(rec, grade, now, () => 0.5);
+    const days = Math.round((next.due - now) / DAY);
+    if (days <= 0) return 'ในรอบนี้';
+    if (days === 1) return 'พรุ่งนี้';
+    if (days < 30) return days + ' วัน';
+    return Math.round(days / 30) + ' เดือน';
+  }
+
+  const isDue  = (rec, now = Date.now()) => !!rec && rec.reps > 0 && rec.due <= now;
+  const isFirm = rec => !!rec && rec.box >= FIRM_BOX;
+  const isSeen = rec => !!rec && rec.reps > 0;
+
+  /* คำถามที่ยังไม่แม่น: เคยตอบผิด/เกือบได้ และยังอยู่กล่องต้น ๆ */
+  const isWeak = rec => isSeen(rec) && (rec.box < 2 || rec.wrong > rec.right);
+
+  /**
+   * จัดคิวคำถามของรอบทบทวน
+   *   pool   รายการคำถามทั้งหมดที่เลือกไว้ (มี id)
+   *   progress  ตารางความคืบหน้า { id: rec }
+   *   opts   { mode, size, newLimit, now, rnd }
+   */
+  function buildQueue(pool, progress, opts = {}) {
+    const now = opts.now || Date.now();
+    const rnd = opts.rnd || Math.random;
+    const size = opts.size || 0;
+    const newLimit = opts.newLimit == null ? 15 : opts.newLimit;
+    const mode = opts.mode || 'due';
+    const rec = id => progress[id];
+
+    const shuffle = arr => {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(rnd() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    };
+
+    let queue;
+    if (mode === 'all') {
+      queue = shuffle(pool);
+    } else if (mode === 'unseen') {
+      queue = shuffle(pool.filter(q => !isSeen(rec(q.id))));
+    } else if (mode === 'weak') {
+      queue = shuffle(pool.filter(q => isWeak(rec(q.id))));
+    } else {
+      const due = pool.filter(q => isDue(rec(q.id), now))
+                      .sort((a, b) => rec(a.id).due - rec(b.id).due);
+      const fresh_ = shuffle(pool.filter(q => !isSeen(rec(q.id)))).slice(0, Math.max(0, newLimit));
+      queue = due.concat(fresh_);
+    }
+
+    return size > 0 ? queue.slice(0, size) : queue;
+  }
+
+  /* ภาระทบทวนล่วงหน้า n วัน นับจากวันนี้ */
+  function forecast(progress, days = 14, now = Date.now()) {
+    const out = new Array(days).fill(0);
+    const start = new Date(now); start.setHours(0, 0, 0, 0);
+    Object.keys(progress).forEach(id => {
+      const r = progress[id];
+      if (!r || !r.reps) return;
+      const d = Math.floor((r.due - start.getTime()) / DAY);
+      if (d < 0) out[0]++;
+      else if (d < days) out[d]++;
+    });
+    return out;
+  }
+
+  return { BOXES, TOP_BOX, FIRM_BOX, GRADE, DAY, fresh, schedule, preview,
+           isDue, isFirm, isSeen, isWeak, buildQueue, forecast };
+})();
+
+if (typeof module !== 'undefined' && module.exports) module.exports = Recall;
+
+</script>
+<script>
+/* ------------------------------------------------------------------
+ * app.js — คิวคำถาม การแสดงผล และการบันทึกข้อมูลของเว็บ Active recall
+ *
+ * ไหลของหน้าทบทวน: ถาม → ผู้เรียนพิมพ์/เลือกคำตอบเอง → เปิดเฉลย
+ * → เทียบทีละประเด็น → ให้คะแนนตัวเอง → Recall.schedule กำหนดว่าจะเจอใหม่เมื่อไร
+ * ------------------------------------------------------------------ */
+
+(() => {
+  'use strict';
+
+  const STORE_KEY = 'resp-recall-v1';
+  const THEME_KEY = 'resp-recall-theme';
+  const G = Recall.GRADE;
+
+  /* ---------------- คลังคำถามแบนราบ ---------------- */
+
+  const ALL = [];
+  const TOPIC_BY_ID = {};
+  TOPICS.forEach(topic => {
+    TOPIC_BY_ID[topic.id] = topic;
+    topic.qs.forEach((q, i) => {
+      ALL.push(Object.assign({}, q, {
+        id: topic.id + '-' + (i + 1),
+        topicId: topic.id,
+        topicName: topic.name
+      }));
+    });
+  });
+  const BY_ID = {};
+  ALL.forEach(q => { BY_ID[q.id] = q; });
+
+  const KIND = { qa: 'ปลายเปิด', fill: 'เติมคำ', mcq: 'ปรนัย' };
+
+  /* ---------------- ข้อมูลที่บันทึกไว้ ---------------- */
+
+  const defaults = () => ({
+    progress: {},                 // id -> สถานะการทบทวน
+    topics: TOPICS.map(t => t.id),// หัวข้อที่เลือกไว้
+    settings: { newPerDay: 15, size: 20, mode: 'due', typeFirst: true },
+    daily: { date: '', newDone: 0 },
+    history: []                   // [{ d: 'YYYY-MM-DD', n, ok }]
+  });
+
+  let store = load();
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return defaults();
+      const parsed = JSON.parse(raw);
+      const base = defaults();
+      return {
+        progress: parsed.progress || base.progress,
+        topics: Array.isArray(parsed.topics) && parsed.topics.length ? parsed.topics : base.topics,
+        settings: Object.assign(base.settings, parsed.settings || {}),
+        daily: Object.assign(base.daily, parsed.daily || {}),
+        history: Array.isArray(parsed.history) ? parsed.history : []
+      };
+    } catch (e) {
+      return defaults();
+    }
+  }
+
+  function save() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); }
+    catch (e) { toast('บันทึกความคืบหน้าไม่สำเร็จ — พื้นที่เก็บข้อมูลของเบราว์เซอร์อาจเต็ม'); }
+  }
+
+  const todayKey = (d = new Date()) => {
+    const p = n => String(n).padStart(2, '0');
+    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+  };
+
+  function rollDaily() {
+    const t = todayKey();
+    if (store.daily.date !== t) { store.daily = { date: t, newDone: 0 }; save(); }
+  }
+
+  function logAnswer(grade) {
+    const t = todayKey();
+    let row = store.history[store.history.length - 1];
+    if (!row || row.d !== t) { row = { d: t, n: 0, ok: 0 }; store.history.push(row); }
+    row.n++;
+    if (grade === G.KNEW) row.ok++;
+    if (store.history.length > 180) store.history = store.history.slice(-180);
+  }
+
+  const recOf = id => store.progress[id];
+
+  /* ---------------- เครื่องมือเล็ก ๆ ---------------- */
+
+  const $  = sel => document.querySelector(sel);
+  const $$ = sel => Array.prototype.slice.call(document.querySelectorAll(sel));
+
+  function el(tag, cls, html) {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (html != null) n.innerHTML = html;
+    return n;
+  }
+
+  const escapeHtml = s => String(s).replace(/[&<>"]/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  let toastTimer;
+  function toast(msg) {
+    const old = $('.toast');
+    if (old) old.remove();
+    const n = el('div', 'toast', escapeHtml(msg));
+    document.body.appendChild(n);
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => n.remove(), 2600);
+  }
+
+  /* ตัดช่องว่าง เครื่องหมายวรรคตอน และตัวพิมพ์ใหญ่ออก ก่อนเทียบคำตอบเติมคำ */
+  const norm = s => String(s).toLowerCase()
+    .replace(/[\s .,;:!?()[\]{}"'`_/\\-]+/g, '')
+    .replace(/[–—]/g, '');
+
+  function checkFill(input, accept) {
+    const raw = String(input).toLowerCase();
+    const a = norm(input);
+    if (!a) return false;
+    return accept.some(x => {
+      const b = norm(x);
+      if (!b) return false;
+      if (a === b) return true;
+      if (b.length <= 4) {
+        /* คำตอบสั้น (มักเป็นตัวเลข) ต้องตรงทั้งคำ ไม่ใช่เป็นส่วนหนึ่งของเลขอื่น
+           เช่น ตอบ "15 วัน" ไม่ควรนับว่าตรงกับเฉลย "5" */
+        const esc = String(x).toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        return new RegExp('(^|[^0-9a-z])' + esc + '([^0-9a-z]|$)').test(raw);
+      }
+      return a.includes(b) || b.includes(a);
+    });
+  }
+
+  /* ---------------- ธีม ---------------- */
+
+  function applyTheme(mode) {
+    if (mode) document.documentElement.setAttribute('data-theme', mode);
+    else document.documentElement.removeAttribute('data-theme');
+  }
+  applyTheme(localStorage.getItem(THEME_KEY));
+
+  $('#themeBtn').addEventListener('click', () => {
+    const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+    const cur = document.documentElement.getAttribute('data-theme') || (dark ? 'dark' : 'light');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    try { localStorage.setItem(THEME_KEY, next); } catch (e) { /* โหมดส่วนตัว */ }
+    drawWave();
+  });
+
+  /* ---------------- การสลับหน้า ---------------- */
+
+  const VIEWS = { home: renderHome, browse: renderBrowse, stats: renderStats, settings: renderSettings, study: null };
+  let current = 'home';
+
+  function go(name) {
+    if (current === 'study' && name !== 'study') session = null;
+    current = name;
+    $$('.view').forEach(v => v.classList.toggle('on', v.id === name + 'View'));
+    $$('.nav button').forEach(b => b.classList.toggle('on', b.dataset.go === name));
+    if (VIEWS[name]) VIEWS[name]();
+    window.scrollTo(0, 0);
+  }
+
+  $$('.nav button').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
+  $('#brand').addEventListener('click', () => go('home'));
+
+  /* ---------------- เส้นลมหายใจบนหัวเรื่อง ---------------- */
+
+  function drawWave() {
+    const c = $('#heroWave');
+    if (!c) return;
+    const ctx = c.getContext('2d');
+    const w = c.width, h = c.height;
+    ctx.clearRect(0, 0, w, h);
+    const ink = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#0d7d84';
+    ctx.strokeStyle = ink;
+    ctx.lineWidth = 2;
+    ctx.lineJoin = 'round';
+    ctx.beginPath();
+    for (let x = 0; x <= w; x++) {
+      const t = x / w;
+      /* หายใจเข้า-ออก 2 รอบ แล้วค่อย ๆ จางลงทางขวา */
+      const y = h / 2 - Math.sin(t * Math.PI * 4) * (h / 3) * (1 - t * 0.55);
+      if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.globalAlpha = 0.9;
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+
+  /* ---------------- หน้าเริ่มทบทวน ---------------- */
+
+  function countsFor(ids) {
+    const now = Date.now();
+    let due = 0, fresh = 0, firm = 0;
+    ids.forEach(id => {
+      const r = recOf(id);
+      if (!Recall.isSeen(r)) fresh++;
+      else if (Recall.isDue(r, now)) due++;
+      if (Recall.isFirm(r)) firm++;
+    });
+    return { due, fresh, firm, total: ids.length };
+  }
+
+  function selectedPool() {
+    return ALL.filter(q => store.topics.indexOf(q.topicId) >= 0);
+  }
+
+  function renderHome() {
+    rollDaily();
+    drawWave();
+
+    const all = countsFor(ALL.map(q => q.id));
+    const seen = ALL.filter(q => Recall.isSeen(recOf(q.id))).length;
+    $('#homeStats').innerHTML = [
+      ['due',  all.due,   'ถึงกำหนด'],
+      ['',     all.fresh, 'ยังไม่เคยเจอ'],
+      ['firm', all.firm,  'แม่นแล้ว'],
+      ['',     seen + '/' + ALL.length, 'เคยทบทวน']
+    ].map(([cls, n, label]) =>
+      '<div class="stat ' + cls + '"><span class="n">' + n + '</span><span class="l">' + label + '</span></div>'
+    ).join('');
+
+    const list = $('#topicList');
+    list.innerHTML = '';
+    TOPICS.forEach(t => {
+      const ids = t.qs.map((q, i) => t.id + '-' + (i + 1));
+      const c = countsFor(ids);
+      const row = el('label', 'topic');
+      row.innerHTML =
+        '<input type="checkbox" value="' + t.id + '"' + (store.topics.indexOf(t.id) >= 0 ? ' checked' : '') + '>' +
+        '<span class="name">' + escapeHtml(t.name) +
+          '<span class="slides">' + escapeHtml(t.slides) + ' · ' + c.total + ' ข้อ</span></span>' +
+        '<span class="counts">' +
+          (c.due ? '<span class="count due" title="ถึงกำหนดทบทวน">' + c.due + '</span>' : '') +
+          (c.firm ? '<span class="count firm" title="แม่นแล้ว">' + c.firm + '</span>' : '') +
+          '<span class="count" title="ยังไม่เคยเจอ">' + c.fresh + '</span>' +
+        '</span>';
+      row.querySelector('input').addEventListener('change', e => {
+        const id = e.target.value;
+        const at = store.topics.indexOf(id);
+        if (e.target.checked && at < 0) store.topics.push(id);
+        if (!e.target.checked && at >= 0) store.topics.splice(at, 1);
+        save();
+        updateStartHint();
+      });
+      list.appendChild(row);
+    });
+
+    $('#modeSel').value = store.settings.mode;
+    $('#sizeSel').value = String(store.settings.size);
+    $('#typeFirst').checked = !!store.settings.typeFirst;
+    updateStartHint();
+  }
+
+  function plannedQueue() {
+    rollDaily();
+    const left = Math.max(0, store.settings.newPerDay - store.daily.newDone);
+    return Recall.buildQueue(selectedPool(), store.progress, {
+      mode: store.settings.mode,
+      size: store.settings.size,
+      newLimit: store.settings.mode === 'due' ? left : Infinity
+    });
+  }
+
+  function updateStartHint() {
+    const n = plannedQueue().length;
+    const hint = $('#startHint');
+    const btn = $('#startBtn');
+    btn.disabled = n === 0;
+    if (!store.topics.length) hint.textContent = 'ยังไม่ได้เลือกหัวข้อ';
+    else if (n === 0) {
+      hint.textContent = store.settings.mode === 'due'
+        ? 'ยังไม่มีข้อที่ถึงกำหนดในหัวข้อที่เลือก — ลองโหมด "สุ่มทุกข้อ" หรือกลับมาพรุ่งนี้'
+        : 'ไม่มีคำถามที่ตรงเงื่อนไขของโหมดนี้';
+    } else {
+      hint.textContent = 'รอบนี้จะได้ ' + n + ' ข้อ จาก ' + store.topics.length + ' หัวข้อ';
+    }
+  }
+
+  $('#modeSel').addEventListener('change', e => { store.settings.mode = e.target.value; save(); updateStartHint(); });
+  $('#sizeSel').addEventListener('change', e => { store.settings.size = parseInt(e.target.value, 10); save(); updateStartHint(); });
+  $('#typeFirst').addEventListener('change', e => { store.settings.typeFirst = e.target.checked; save(); });
+  $('#pickAll').addEventListener('click', () => { store.topics = TOPICS.map(t => t.id); save(); renderHome(); });
+  $('#pickNone').addEventListener('click', () => { store.topics = []; save(); renderHome(); });
+  $('#pickDue').addEventListener('click', () => {
+    const now = Date.now();
+    store.topics = TOPICS.filter(t =>
+      t.qs.some((q, i) => Recall.isDue(recOf(t.id + '-' + (i + 1)), now))
+    ).map(t => t.id);
+    if (!store.topics.length) toast('ยังไม่มีหัวข้อที่ถึงกำหนดทบทวน');
+    save();
+    renderHome();
+  });
+  $('#startBtn').addEventListener('click', startSession);
+
+  /* ---------------- รอบทบทวน ---------------- */
+
+  let session = null;
+
+  function startSession() {
+    const queue = plannedQueue();
+    if (!queue.length) { toast('ไม่มีคำถามให้ทบทวนในเงื่อนไขนี้'); return; }
+    session = {
+      queue: queue.map(q => q.id),
+      planned: queue.length,
+      done: 0,
+      right: 0,
+      revealed: false,
+      answer: '',
+      picked: null,
+      autoOk: null
+    };
+    go('study');
+    renderCard();
+  }
+
+  function currentQuestion() {
+    return session && session.queue.length ? BY_ID[session.queue[0]] : null;
+  }
+
+  function renderCard() {
+    const q = currentQuestion();
+    const wrap = $('#qCard');
+    if (!q) { renderDone(); return; }
+
+    const total = Math.max(session.planned, session.done + session.queue.length);
+    $('#progressFill').style.width = Math.round(session.done / total * 100) + '%';
+    $('#studyTopic').textContent = q.topicName;
+    $('#studyCount').textContent = (session.done + 1) + '/' + total;
+
+    const rec = recOf(q.id);
+    const state = !Recall.isSeen(rec) ? 'ข้อใหม่'
+      : Recall.isFirm(rec) ? 'ทบทวนซ้ำ' : 'กำลังจำ';
+
+    wrap.innerHTML = '';
+    const card = el('div', 'qcard');
+    card.appendChild(el('div', 'card-head',
+      '<span class="chip kind">' + KIND[q.t] + '</span><span class="chip">' + state + '</span>'));
+    card.appendChild(el('div', 'prompt', q.q));
+
+    if (q.t === 'mcq') {
+      const box = el('div', 'choices');
+      q.choices.forEach((c, i) => {
+        const b = el('button', 'choice');
+        b.type = 'button';
+        b.innerHTML = '<span class="key">' + (i + 1) + '</span><span>' + escapeHtml(c) + '</span>';
+        b.addEventListener('click', () => { session.picked = i; reveal(); });
+        box.appendChild(b);
+      });
+      card.appendChild(box);
+    } else if (q.t === 'fill') {
+      card.appendChild(el('div', 'ask-hint', 'พิมพ์คำตอบลงในช่อง แล้วกดส่งคำตอบ'));
+      const inp = el('input');
+      inp.type = 'text';
+      inp.id = 'answerBox';
+      inp.autocomplete = 'off';
+      inp.placeholder = 'คำตอบของคุณ…';
+      card.appendChild(inp);
+      card.appendChild(submitButton());
+    } else {
+      const n = q.points ? q.points.length : 0;
+      card.appendChild(el('div', 'ask-hint',
+        'นึกคำตอบในใจแล้วพิมพ์ออกมาให้ได้อย่างน้อย ' + n + ' ประเด็น ก่อนเปิดเฉลย'));
+      const ta = el('textarea');
+      ta.id = 'answerBox';
+      ta.placeholder = 'เขียนสิ่งที่นึกออก… (ไม่ต้องสวย ขอให้ครบประเด็น)';
+      card.appendChild(ta);
+      card.appendChild(submitButton());
+    }
+
+    wrap.appendChild(card);
+    const input = $('#answerBox');
+    if (input) input.focus();
+  }
+
+  function submitButton() {
+    const row = el('div', 'row');
+    const b = el('button', 'btn btn-wide', 'ส่งคำตอบ แล้วดูเฉลย');
+    b.type = 'button';
+    b.addEventListener('click', reveal);
+    row.appendChild(b);
+    return row;
+  }
+
+  function reveal() {
+    const q = currentQuestion();
+    if (!q || session.revealed) return;
+
+    const input = $('#answerBox');
+    session.answer = input ? input.value.trim() : '';
+
+    if (q.t !== 'mcq' && store.settings.typeFirst && !session.answer) {
+      toast('ลองเขียนสิ่งที่นึกออกก่อน — การพยายามนึกคือหัวใจของ active recall');
+      if (input) input.focus();
+      return;
+    }
+
+    session.revealed = true;
+    if (q.t === 'mcq') session.autoOk = session.picked === q.correct;
+    else if (q.t === 'fill') session.autoOk = checkFill(session.answer, q.accept);
+    else session.autoOk = null;
+
+    renderReveal();
+  }
+
+  function renderReveal() {
+    const q = currentQuestion();
+    const card = $('#qCard .qcard');
+
+    /* ข้อปรนัย: ระบายตัวเลือกถูก/ผิด แล้วปิดปุ่มไม่ให้กดซ้ำ */
+    if (q.t === 'mcq') {
+      $$('#qCard .choice').forEach((b, i) => {
+        b.disabled = true;
+        if (i === q.correct) b.classList.add('right');
+        else if (i === session.picked) b.classList.add('wrong');
+      });
+    } else {
+      const inp = $('#answerBox');
+      if (inp) inp.disabled = true;
+      const btn = $('#qCard .btn-wide');
+      if (btn) btn.remove();
+    }
+
+    const box = el('div', 'reveal');
+
+    if (session.autoOk !== null) {
+      box.appendChild(el('div', 'verdict ' + (session.autoOk ? 'ok' : 'no'),
+        session.autoOk ? '✓ ตอบถูก' : '✕ ยังไม่ตรง'));
+    }
+
+    if (q.t === 'qa' && session.answer) {
+      box.appendChild(el('div', 'label', 'คำตอบของคุณ'));
+      box.appendChild(el('div', 'your-answer', escapeHtml(session.answer)));
+    }
+
+    if (q.points && q.points.length) {
+      box.appendChild(el('div', 'label', 'ประเด็นที่ต้องได้ — กดติ๊กข้อที่คุณนึกออก'));
+      const ul = el('ul', 'points');
+      q.points.forEach(p => {
+        const li = el('li', '', escapeHtml(p));
+        li.addEventListener('click', () => li.classList.toggle('hit'));
+        ul.appendChild(li);
+      });
+      box.appendChild(ul);
+    }
+
+    box.appendChild(el('div', 'label', 'เฉลย'));
+    box.appendChild(el('div', 'answer', q.a));
+    box.appendChild(el('div', 'src', q.src));
+
+    const rec = recOf(q.id) || Recall.fresh();
+    const grades = el('div', 'grade-row');
+    [[G.FORGOT, 'ลืม', 'g1'], [G.ALMOST, 'เกือบได้', 'g2'], [G.KNEW, 'จำได้', 'g3']].forEach(([g, label, cls]) => {
+      const b = el('button', 'grade ' + cls,
+        '<span>' + label + '</span><small>' + Recall.preview(rec, g) + '</small>');
+      b.type = 'button';
+      b.addEventListener('click', () => grade(g));
+      grades.appendChild(b);
+    });
+    box.appendChild(grades);
+
+    card.appendChild(box);
+    box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function grade(g) {
+    const q = currentQuestion();
+    if (!q || !session.revealed) return;
+
+    const before = recOf(q.id);
+    const wasNew = !Recall.isSeen(before);
+    store.progress[q.id] = Recall.schedule(before || Recall.fresh(), g);
+    if (wasNew) { rollDaily(); store.daily.newDone++; }
+    logAnswer(g);
+    save();
+
+    session.queue.shift();
+    session.done++;
+    if (g === G.KNEW) session.right++;
+    /* ข้อที่ลืม วนกลับมาถามใหม่ในรอบนี้ หลังผ่านไปอีกไม่กี่ข้อ */
+    if (g === G.FORGOT) {
+      const at = Math.min(session.queue.length, 4);
+      session.queue.splice(at, 0, q.id);
+    }
+
+    session.revealed = false;
+    session.answer = '';
+    session.picked = null;
+    session.autoOk = null;
+    renderCard();
+  }
+
+  function renderDone() {
+    const pct = session.done ? Math.round(session.right / session.done * 100) : 0;
+    $('#progressFill').style.width = '100%';
+    $('#studyTopic').textContent = 'จบรอบ';
+    $('#studyCount').textContent = session.done + ' ข้อ';
+
+    const wrap = $('#qCard');
+    wrap.innerHTML = '';
+    const card = el('div', 'qcard done');
+    card.innerHTML =
+      '<div class="big">' + pct + '%</div>' +
+      '<p class="subtitle">ตอบได้เต็ม ' + session.right + ' จาก ' + session.done + ' ครั้งที่ตอบในรอบนี้</p>' +
+      '<p class="hint">ข้อที่ยังไม่แม่นถูกจัดคิวให้กลับมาเร็วขึ้นแล้ว</p>';
+    const row = el('div', 'row');
+    const again = el('button', 'btn', 'ทบทวนอีกรอบ');
+    again.addEventListener('click', startSession);
+    const home = el('button', 'btn btn-wide', 'กลับหน้าหลัก');
+    home.addEventListener('click', () => go('home'));
+    row.appendChild(again);
+    card.appendChild(row);
+    card.appendChild(home);
+    wrap.appendChild(card);
+    session.queue = [];
+  }
+
+  /* ---------------- แป้นพิมพ์ลัด ---------------- */
+
+  document.addEventListener('keydown', e => {
+    if (current !== 'study' || !session) return;
+    const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
+
+    if (e.key === 'Escape') { go('home'); return; }
+
+    if (!session.revealed) {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey || !typing)) { e.preventDefault(); reveal(); return; }
+      const q = currentQuestion();
+      if (q && q.t === 'mcq' && /^[1-9]$/.test(e.key)) {
+        const i = parseInt(e.key, 10) - 1;
+        if (i < q.choices.length) { session.picked = i; reveal(); }
+      }
+      return;
+    }
+
+    if (typing) return;
+    if (e.key === '1') grade(G.FORGOT);
+    if (e.key === '2') grade(G.ALMOST);
+    if (e.key === '3' || e.key === 'Enter') grade(G.KNEW);
+  });
+
+  /* ---------------- คลังคำถาม ---------------- */
+
+  function renderBrowse() {
+    const sel = $('#browseTopic');
+    if (sel.options.length === 1) {
+      TOPICS.forEach(t => {
+        const o = document.createElement('option');
+        o.value = t.id;
+        o.textContent = t.name;
+        sel.appendChild(o);
+      });
+    }
+    drawBrowseList();
+  }
+
+  function highlight(text, term) {
+    const safe = escapeHtml(text);
+    if (!term) return safe;
+    const needle = escapeHtml(term).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return safe.replace(new RegExp(needle, 'gi'), m => '<mark>' + m + '</mark>');
+  }
+
+  function drawBrowseList() {
+    const term = $('#searchBox').value.trim();
+    const topic = $('#browseTopic').value;
+    const plain = html => String(html).replace(/<[^>]+>/g, '');
+    const hit = q => {
+      if (topic && q.topicId !== topic) return false;
+      if (!term) return true;
+      const hay = [q.q, plain(q.a), (q.points || []).join(' '), (q.choices || []).join(' '),
+                   (q.accept || []).join(' '), q.topicName].join(' ').toLowerCase();
+      return hay.indexOf(term.toLowerCase()) >= 0;
+    };
+
+    const rows = ALL.filter(hit);
+    $('#browseCount').textContent = rows.length + ' ข้อ จากทั้งหมด ' + ALL.length;
+
+    const list = $('#browseList');
+    list.innerHTML = '';
+    if (!rows.length) {
+      list.appendChild(el('div', 'empty', 'ไม่พบคำถามที่ตรงกับคำค้น'));
+      return;
+    }
+
+    rows.forEach(q => {
+      const r = recOf(q.id);
+      const cls = Recall.isFirm(r) ? 'firm' : Recall.isSeen(r) ? 'seen' : '';
+      const item = el('div', 'q-item');
+      item.innerHTML =
+        '<div class="q">' + highlight(q.q, term) + '</div>' +
+        '<div class="meta"><span class="box-dot ' + cls + '"></span>' +
+          '<span class="chip">' + escapeHtml(q.topicName) + '</span>' +
+          '<span class="chip kind">' + KIND[q.t] + '</span>' +
+          '<span class="chip">' + escapeHtml(q.src) + '</span></div>';
+      const ans = el('div', 'a');
+      ans.hidden = true;
+      ans.innerHTML =
+        (q.t === 'mcq' ? '<p><b>คำตอบ:</b> ' + escapeHtml(q.choices[q.correct]) + '</p>' : '') +
+        (q.t === 'fill' ? '<p><b>คำตอบ:</b> ' + escapeHtml(q.accept[0]) + '</p>' : '') +
+        (q.points ? '<ul class="points">' + q.points.map(p => '<li>' + escapeHtml(p) + '</li>').join('') + '</ul>' : '') +
+        q.a;
+      item.appendChild(ans);
+      item.addEventListener('click', () => { ans.hidden = !ans.hidden; });
+      list.appendChild(item);
+    });
+  }
+
+  $('#searchBox').addEventListener('input', drawBrowseList);
+  $('#browseTopic').addEventListener('change', drawBrowseList);
+
+  /* ---------------- สถิติ ---------------- */
+
+  function renderStats() {
+    const body = $('#statsBody');
+    const now = Date.now();
+    const seen = ALL.filter(q => Recall.isSeen(recOf(q.id)));
+    const firm = ALL.filter(q => Recall.isFirm(recOf(q.id)));
+    const totals = seen.reduce((acc, q) => {
+      const r = recOf(q.id);
+      acc.right += r.right; acc.wrong += r.wrong;
+      return acc;
+    }, { right: 0, wrong: 0 });
+    const answered = totals.right + totals.wrong;
+    const acc = answered ? Math.round(totals.right / answered * 100) : 0;
+    const dueNow = ALL.filter(q => Recall.isDue(recOf(q.id), now)).length;
+
+    body.innerHTML = '';
+
+    body.appendChild(el('div', 'stat-row',
+      '<div class="stat"><span class="n">' + seen.length + '</span><span class="l">ข้อที่เคยทบทวน</span></div>' +
+      '<div class="stat firm"><span class="n">' + firm.length + '</span><span class="l">แม่นแล้ว</span></div>' +
+      '<div class="stat"><span class="n">' + acc + '%</span><span class="l">อัตราตอบได้เต็ม</span></div>' +
+      '<div class="stat due"><span class="n">' + dueNow + '</span><span class="l">ถึงกำหนดตอนนี้</span></div>'));
+
+    /* ความคืบหน้ารายหัวข้อ */
+    const byTopic = el('div', 'panel');
+    byTopic.appendChild(el('h2', null, 'ความคืบหน้ารายหัวข้อ'));
+    const bars = el('div', 'bars');
+    TOPICS.forEach(t => {
+      const ids = t.qs.map((q, i) => t.id + '-' + (i + 1));
+      const c = countsFor(ids);
+      const seenN = c.total - c.fresh;
+      const line = el('div', 'bar-line');
+      line.innerHTML =
+        '<div class="bar-top"><span>' + escapeHtml(t.name) + '</span>' +
+          '<span class="n">' + c.firm + '/' + c.total + '</span></div>' +
+        '<div class="bar">' +
+          '<i class="firm" style="width:' + (c.firm / c.total * 100) + '%"></i>' +
+          '<i class="seen" style="width:' + ((seenN - c.firm) / c.total * 100) + '%"></i>' +
+        '</div>';
+      bars.appendChild(line);
+    });
+    byTopic.appendChild(bars);
+    byTopic.appendChild(el('div', 'legend',
+      '<span><i class="firm"></i>แม่นแล้ว</span><span><i class="seen"></i>กำลังจำ</span><span><i class="new"></i>ยังไม่เคยเจอ</span>'));
+    body.appendChild(byTopic);
+
+    /* ภาระทบทวนล่วงหน้า 14 วัน */
+    const fc = Recall.forecast(store.progress, 14, now);
+    const max = Math.max.apply(null, fc.concat([1]));
+    const fcPanel = el('div', 'panel');
+    fcPanel.appendChild(el('h2', null, 'ภาระทบทวน 14 วันข้างหน้า'));
+    const chart = el('div', 'forecast');
+    fc.forEach((n, i) => {
+      const bar = el('div');
+      bar.style.height = Math.max(2, n / max * 100) + '%';
+      bar.title = n + ' ข้อ';
+      bar.innerHTML = '<span>' + (i === 0 ? 'วันนี้' : i) + '</span>';
+      chart.appendChild(bar);
+    });
+    const wrap = el('div', 'forecast-wrap');
+    wrap.appendChild(chart);
+    fcPanel.appendChild(wrap);
+    body.appendChild(fcPanel);
+
+    /* ประวัติการทบทวนล่าสุด */
+    const hist = store.history.slice(-10).reverse();
+    const hPanel = el('div', 'panel');
+    hPanel.appendChild(el('h2', null, 'สิบวันล่าสุด'));
+    if (!hist.length) {
+      hPanel.appendChild(el('div', 'empty', 'ยังไม่มีประวัติการทบทวน'));
+    } else {
+      const tb = el('table', 'keys');
+      hist.forEach(row => {
+        const tr = el('tr', null,
+          '<td class="mono">' + row.d + '</td>' +
+          '<td>' + row.n + ' ครั้ง · ตอบได้เต็ม ' + Math.round(row.ok / row.n * 100) + '%</td>');
+        tb.appendChild(tr);
+      });
+      hPanel.appendChild(tb);
+    }
+    body.appendChild(hPanel);
+  }
+
+  /* ---------------- ตั้งค่า ---------------- */
+
+  function renderSettings() {
+    $('#newPerDay').value = store.settings.newPerDay;
+    const seen = ALL.filter(q => Recall.isSeen(recOf(q.id))).length;
+    rollDaily();
+    $('#storeInfo').textContent =
+      'บันทึกไว้ในเบราว์เซอร์นี้ · มีข้อมูลของ ' + seen + ' ข้อ · วันนี้ทบทวนข้อใหม่ไปแล้ว ' +
+      store.daily.newDone + ' ข้อ';
+  }
+
+  $('#newPerDay').addEventListener('change', e => {
+    const n = parseInt(e.target.value, 10);
+    store.settings.newPerDay = isNaN(n) ? 15 : Math.max(0, Math.min(200, n));
+    e.target.value = store.settings.newPerDay;
+    save();
+    toast('บันทึกแล้ว');
+  });
+
+  $('#exportBtn').addEventListener('click', () => {
+    const data = JSON.stringify(store, null, 2);
+    const name = 'resp-recall-' + todayKey() + '.json';
+    let downloaded = false;
+    try {
+      const url = URL.createObjectURL(new Blob([data], { type: 'application/json' }));
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      downloaded = true;
+    } catch (e) { /* บางโฮสต์บล็อกการดาวน์โหลดที่หน้าเว็บสั่งเอง */ }
+
+    /* สำรองไว้เสมอ: แสดงข้อความให้คัดลอกเองได้ */
+    const box = $('#exportBox');
+    box.hidden = false;
+    box.value = data;
+    box.select();
+    toast(downloaded ? 'ส่งออกเป็นไฟล์แล้ว' : 'คัดลอกข้อความในกล่องด้านล่างไปเก็บไว้ได้');
+  });
+
+  $('#importBtn').addEventListener('click', () => $('#importFile').click());
+  $('#importFile').addEventListener('change', e => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result);
+        if (!data || typeof data.progress !== 'object') throw new Error('รูปแบบไม่ถูกต้อง');
+        localStorage.setItem(STORE_KEY, JSON.stringify(data));
+        store = load();
+        toast('นำเข้าความคืบหน้าแล้ว');
+        go('home');
+      } catch (err) {
+        toast('ไฟล์ไม่ถูกต้อง — ต้องเป็นไฟล์ที่ส่งออกจากเว็บนี้');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  $('#resetBtn').addEventListener('click', () => {
+    if (!confirm('ล้างความคืบหน้าทั้งหมดในเบราว์เซอร์นี้? ย้อนกลับไม่ได้')) return;
+    store = defaults();
+    save();
+    toast('ล้างความคืบหน้าแล้ว');
+    go('home');
+  });
+
+  /* ---------------- เริ่มทำงาน ---------------- */
+
+  rollDaily();
+  go('home');
+  addEventListener('resize', drawWave);
+})();
+
+</script>

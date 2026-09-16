@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Active Recall — ยาระบบทางเดินหายใจ</title>
+<meta name="description" content="เว็บถามตอบแบบ Active recall สำหรับทบทวนยาที่ใช้ในระบบทางเดินหายใจ นึกคำตอบเองก่อนดูเฉลย แล้วให้คะแนนตัวเอง">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🫁</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Noto+Serif+Thai:wght@500;600&display=swap">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <button class="brand" id="brand">
+    <span class="mark">Active Recall</span>
+    <span class="sub">ยาระบบทางเดินหายใจ</span>
+  </button>
+  <nav class="nav">
+    <button data-go="home" class="on">ทบทวน</button>
+    <button data-go="browse">คลัง<span class="wide">คำถาม</span></button>
+    <button data-go="stats">สถิติ</button>
+    <button data-go="settings">ตั้งค่า</button>
+  </nav>
+  <button class="icon-btn" id="themeBtn" title="สลับธีมสว่าง/มืด" aria-label="สลับธีมสว่างและมืด">◐</button>
+</header>
+
+<main>
+
+  <!-- ============ หน้าเริ่มทบทวน ============ -->
+  <section class="view on" id="homeView">
+    <div class="hero" aria-hidden="true"><canvas id="heroWave" width="640" height="90"></canvas></div>
+
+    <h1>ถามตอบแบบ Active recall</h1>
+    <p class="subtitle">
+      ระบบจะถามก่อน ให้คุณ<strong>นึกและพิมพ์คำตอบเอง</strong> แล้วค่อยเปิดเฉลยเทียบทีละประเด็น
+      ข้อที่ตอบไม่ได้จะกลับมาถี่ขึ้น ข้อที่แม่นแล้วจะทิ้งช่วงนานขึ้นเรื่อย ๆ
+    </p>
+
+    <div class="stat-row" id="homeStats"></div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h2>เลือกหัวข้อ</h2>
+        <div class="panel-tools">
+          <button class="link-btn" id="pickAll">เลือกทั้งหมด</button>
+          <button class="link-btn" id="pickNone">ล้าง</button>
+          <button class="link-btn" id="pickDue">เฉพาะที่ถึงกำหนด</button>
+        </div>
+      </div>
+      <div class="topics" id="topicList"></div>
+    </div>
+
+    <div class="panel">
+      <h2>รูปแบบรอบทบทวน</h2>
+      <div class="opt-grid">
+        <label>โหมด
+          <select id="modeSel">
+            <option value="due">ถึงกำหนด + ข้อใหม่ (แนะนำ)</option>
+            <option value="weak">เฉพาะข้อที่เคยตอบไม่ได้</option>
+            <option value="all">สุ่มทุกข้อในหัวข้อที่เลือก</option>
+            <option value="unseen">เฉพาะข้อที่ยังไม่เคยเจอ</option>
+          </select>
+        </label>
+        <label>จำนวนข้อต่อรอบ
+          <select id="sizeSel">
+            <option value="10">10 ข้อ</option>
+            <option value="20" selected>20 ข้อ</option>
+            <option value="30">30 ข้อ</option>
+            <option value="0">ไม่จำกัด</option>
+          </select>
+        </label>
+        <label class="check-line">
+          <input type="checkbox" id="typeFirst" checked>
+          <span>บังคับพิมพ์คำตอบก่อนเปิดเฉลย</span>
+        </label>
+      </div>
+      <button class="btn btn-wide" id="startBtn">เริ่มทบทวน</button>
+      <p class="hint" id="startHint"></p>
+    </div>
+  </section>
+
+  <!-- ============ หน้าทบทวน ============ -->
+  <section class="view" id="studyView">
+    <div class="study-head">
+      <div class="progress"><div id="progressFill"></div></div>
+      <div class="study-meta">
+        <span id="studyTopic" class="chip"></span>
+        <span id="studyCount" class="mono"></span>
+      </div>
+    </div>
+    <div id="qCard"></div>
+  </section>
+
+  <!-- ============ คลังคำถาม ============ -->
+  <section class="view" id="browseView">
+    <h1>คลังคำถาม</h1>
+    <p class="subtitle">คลิกที่ข้อเพื่อดูเฉลย · <span id="browseCount"></span></p>
+    <div class="tools">
+      <input type="search" id="searchBox" placeholder="ค้นหาคำถาม คำตอบ หรือชื่อยา…" autocomplete="off">
+      <select id="browseTopic"><option value="">ทุกหัวข้อ</option></select>
+    </div>
+    <div id="browseList"></div>
+  </section>
+
+  <!-- ============ สถิติ ============ -->
+  <section class="view" id="statsView">
+    <h1>สถิติการทบทวน</h1>
+    <div id="statsBody"></div>
+  </section>
+
+  <!-- ============ ตั้งค่า ============ -->
+  <section class="view" id="settingsView">
+    <h1>ตั้งค่า</h1>
+
+    <div class="panel">
+      <h2>ปริมาณข้อใหม่</h2>
+      <label class="setting">
+        <span>ข้อใหม่สูงสุดต่อวัน</span>
+        <input type="number" id="newPerDay" min="0" max="200" step="1">
+      </label>
+      <p class="hint">จำกัดจำนวนคำถามที่ยังไม่เคยเจอในแต่ละวัน เพื่อไม่ให้ภาระทบทวนวันถัดไปพุ่งเกินไป</p>
+    </div>
+
+    <div class="panel">
+      <h2>ความคืบหน้า</h2>
+      <p class="hint" id="storeInfo"></p>
+      <div class="row">
+        <button class="btn" id="exportBtn">ส่งออกเป็นไฟล์ JSON</button>
+        <button class="btn" id="importBtn">นำเข้าไฟล์</button>
+        <input type="file" id="importFile" accept="application/json,.json" hidden>
+      </div>
+      <textarea id="exportBox" class="export-box" readonly hidden></textarea>
+      <div class="row">
+        <button class="btn btn-danger" id="resetBtn">ล้างความคืบหน้าทั้งหมด</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>แป้นพิมพ์ลัด</h2>
+      <table class="keys">
+        <tr><td><kbd>Ctrl</kbd> + <kbd>Enter</kbd></td><td>ส่งคำตอบ / เปิดเฉลย</td></tr>
+        <tr><td><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></td><td>ให้คะแนนตัวเอง: ลืม · เกือบได้ · จำได้</td></tr>
+        <tr><td><kbd>1</kbd>–<kbd>4</kbd></td><td>เลือกตัวเลือกในข้อปรนัย (ก่อนเปิดเฉลย)</td></tr>
+        <tr><td><kbd>Esc</kbd></td><td>ออกจากรอบทบทวน</td></tr>
+      </table>
+    </div>
+
+    <div class="panel">
+      <h2>ที่มาของเนื้อหา</h2>
+      <p class="hint">
+        สรุปจากสไลด์บรรยาย <em>Drugs used in allergic rhinitis, common cold and cough</em>
+        ซึ่งครอบคลุมยาทั้งระบบทางเดินหายใจ (Asthma, COPD, Allergic rhinitis, Common cold/Cough
+        และ Pulmonary hypertension) รวม 102 สไลด์<br>
+        เนื้อหาในเว็บนี้จัดทำเพื่อการทบทวนความรู้เท่านั้น ไม่ใช้แทนคำแนะนำทางการแพทย์หรือแนวเวชปฏิบัติฉบับเต็ม
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<script src="assets/js/questions.js"></script>
+<script src="assets/js/recall.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
