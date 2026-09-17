@@ -2265,28 +2265,60 @@ if (typeof module !== 'undefined' && module.exports) module.exports = Recall;
     toast('บันทึกแล้ว');
   });
 
-  $('#exportBtn').addEventListener('click', () => {
-    const data = JSON.stringify(store, null, 2);
-    const name = 'resp-recall-' + todayKey() + '.json';
-    let downloaded = false;
-    try {
-      const url = URL.createObjectURL(new Blob([data], { type: 'application/json' }));
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = name;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-      downloaded = true;
-    } catch (e) { /* บางโฮสต์บล็อกการดาวน์โหลดที่หน้าเว็บสั่งเอง */ }
+  /* บางโฮสต์ (เช่นหน้าเว็บที่ถูกฝังในแซนด์บ็อกซ์) ไม่อนุญาตให้หน้าเว็บ
+     สั่งดาวน์โหลดเอง แต่มี API ให้ยื่นไฟล์ผ่านตัวโฮสต์แทน — ลองทางนั้นก่อน
+     แล้วค่อยถอยมาใช้ลิงก์ดาวน์โหลดปกติของเบราว์เซอร์ */
 
-    /* สำรองไว้เสมอ: แสดงข้อความให้คัดลอกเองได้ */
+  let downloader;   // undefined = ยังไม่ได้ถาม, null = ไม่มีให้ใช้
+
+  async function hostDownloader() {
+    if (downloader !== undefined) return downloader;
+    downloader = null;
+    if (window.claude && typeof window.claude.use === 'function') {
+      try { downloader = await window.claude.use('downloads'); }
+      catch (e) { downloader = null; }
+    }
+    return downloader;
+  }
+
+  function browserDownload(filename, text) {
+    const url = URL.createObjectURL(new Blob([text], { type: 'application/json' }));
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  $('#exportBtn').addEventListener('click', async () => {
+    const data = JSON.stringify(store, null, 2);
+    const filename = 'resp-recall-' + todayKey() + '.json';
+
+    /* แสดงข้อความไว้เสมอ เผื่อบันทึกไฟล์ไม่ได้ก็ยังคัดลอกเก็บเองได้ */
     const box = $('#exportBox');
     box.hidden = false;
     box.value = data;
-    box.select();
-    toast(downloaded ? 'ส่งออกเป็นไฟล์แล้ว' : 'คัดลอกข้อความในกล่องด้านล่างไปเก็บไว้ได้');
+
+    const host = await hostDownloader();
+    if (!host) {
+      try {
+        browserDownload(filename, data);
+        toast('ดาวน์โหลดไฟล์ความคืบหน้าแล้ว');
+      } catch (e) {
+        toast('คัดลอกข้อความในกล่องด้านล่างไปเก็บไว้ได้');
+      }
+      return;
+    }
+
+    try {
+      await host.save({ filename, data });
+      toast('บันทึกไฟล์ความคืบหน้าแล้ว');
+    } catch (err) {
+      const code = err && err.code;
+      if (code === 'declined') return;                       // ผู้ใช้กดยกเลิกเอง
+      if (code === 'rate_limited') toast('มีหน้าต่างบันทึกค้างอยู่ ลองใหม่อีกครั้ง');
+      else toast('บันทึกไฟล์ไม่สำเร็จ — คัดลอกข้อความในกล่องด้านล่างไปเก็บไว้ได้');
+    }
   });
 
   $('#importBtn').addEventListener('click', () => $('#importFile').click());
