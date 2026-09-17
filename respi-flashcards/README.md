@@ -6,7 +6,7 @@
 ความคืบหน้าของสองวิชาไม่ปนกัน
 
 ที่มาเนื้อหา: สไลด์ **Lab Respiratory System 2** ภาควิชาพยาธิวิทยา
-(105 การ์ด ครอบคลุมทางเดินหายใจส่วนบน กล่องเสียงและมะเร็งกล่องเสียง pulmonary edema,
+(136 การ์ด ครอบคลุมทางเดินหายใจส่วนบน กล่องเสียงและมะเร็งกล่องเสียง pulmonary edema,
 DAD/ARDS, pneumonia, lung abscess, วัณโรค, การติดเชื้อรา, CMV, emphysema,
 bronchiectasis, มะเร็งปอดทุกชนิด และ mesothelioma)
 
@@ -38,18 +38,18 @@ bronchiectasis, มะเร็งปอดทุกชนิด และ mesot
 
 | หมวด | จำนวน |
 |---|---|
-| ทางเดินหายใจส่วนบน (nasal polyp, inverted papilloma, vocal nodule) | 15 |
-| กล่องเสียง (laryngeal carcinoma) | 11 |
-| Pulmonary edema / DAD | 9 |
-| Pneumonia & abscess | 12 |
-| วัณโรค | 12 |
-| การติดเชื้อรา (aspergillosis, mucormycosis) | 12 |
-| การติดเชื้อไวรัส (CMV) | 4 |
-| Emphysema / Bronchiectasis | 6 |
-| มะเร็งปอด | 21 |
-| Mesothelioma | 3 |
+| ทางเดินหายใจส่วนบน (nasal polyp, inverted papilloma, vocal nodule) | 20 |
+| กล่องเสียง (laryngeal carcinoma) | 13 |
+| Pulmonary edema / DAD | 11 |
+| Pneumonia & abscess | 15 |
+| วัณโรค | 17 |
+| การติดเชื้อรา (aspergillosis, mucormycosis) | 16 |
+| การติดเชื้อไวรัส (CMV) | 5 |
+| Emphysema / Bronchiectasis | 8 |
+| มะเร็งปอด | 27 |
+| Mesothelioma | 4 |
 
-คำถามแบ่งเป็นสองแนวหลัก:
+คำถามแบ่งเป็นสามแนว:
 
 - **ถามวินิจฉัย (Dx)** — ดูภาพแล้วตอบชื่อโรค เป็นแนวที่ออกสอบมากที่สุด
   หลายภาพมีการ์ด Dx มากกว่าหนึ่งใบโดยให้เบาะแสคนละชุด
@@ -58,7 +58,28 @@ bronchiectasis, มะเร็งปอดทุกชนิด และ mesot
   keratin pearl, intercellular bridge, owl eye inclusion, desmoplastic stroma
   รวมถึงสีย้อมพิเศษที่ใช้ยืนยัน (GMS, acid-fast stain) และ IHC marker ที่ใช้แยกชนิดมะเร็ง
 
-ภาพเดียวกันมักมีสองการ์ด — ใบหนึ่งถามว่า "โรคอะไร" อีกใบถามว่า "เห็นอะไรถึงตอบอย่างนั้น"
+- **บรรยายพยาธิสภาพ (31 ใบ)** — พิมพ์บรรยายสิ่งที่เห็นเป็นภาษาอังกฤษ
+  คำเฉลยยกมาจากคำบรรยายใต้ภาพในสไลด์ตรง ๆ เช่น
+  *"Endophytic growth of epithelial nests with smooth outer contour"*,
+  *"Dilated bronchus and bronchioles, filled by purulent exudates"*,
+  *"Uniform narrow septate hyphae with acute angle branching"*
+
+ภาพเดียวกันมักมีหลายการ์ด — ใบหนึ่งถามว่า "โรคอะไร" ใบหนึ่งถามว่า "เห็นอะไรถึงตอบอย่างนั้น"
+และอีกใบให้บรรยายภาพนั้นออกมาเป็นประโยคเต็ม
+
+### การตรวจคำตอบของโจทย์บรรยาย
+
+โจทย์บรรยายไม่ได้เทียบทั้งประโยคแบบคำต่อคำ (ซึ่งจะโหดเกินไป) แต่แตกเฉลยเป็น
+**"ประเด็นที่ต้องพูดถึง"** แล้วตรวจทีละประเด็นว่าพูดถึงครบหรือไม่
+
+- แต่ละประเด็นมีได้หลายสำนวน เขียนสำนวนไหนก็นับ — `dilated` / `dilatation` / `enlarged`,
+  `purulent exudate` / `pus`, `salt and pepper` / `finely granular chromatin`
+- สลับลำดับประโยคได้ สะกดแบบอังกฤษ (oedema, haemorrhage, hyalinisation) ได้
+  และพิมพ์ผิดเล็กน้อยยังนับให้ เพราะเทียบแบบเลื่อนหน้าต่างทีละคำด้วย Levenshtein
+- หลังตรวจจะแสดงเป็น checklist ว่าได้ประเด็นไหนแล้ว (✓) ขาดประเด็นไหน (✗)
+  พร้อมคำบรรยายฉบับเต็มตามสไลด์ให้เทียบ
+- ตอบไม่ครบจะขึ้นว่า "บรรยายได้ 2 จาก 4 ประเด็น" — ถ้าคิดว่าที่เขียนสื่อความหมายเดียวกันแล้ว
+  กดปุ่ม override เพื่อนับเป็นถูกเองได้
 
 ## หมายเหตุเรื่องข้อมูล
 
