@@ -6,7 +6,7 @@
 ความคืบหน้าของสองวิชาไม่ปนกัน
 
 ที่มาเนื้อหา: สไลด์ **Lab Respiratory System 2** ภาควิชาพยาธิวิทยา
-(136 การ์ด ครอบคลุมทางเดินหายใจส่วนบน กล่องเสียงและมะเร็งกล่องเสียง pulmonary edema,
+(155 การ์ด ครอบคลุมทางเดินหายใจส่วนบน กล่องเสียงและมะเร็งกล่องเสียง pulmonary edema,
 DAD/ARDS, pneumonia, lung abscess, วัณโรค, การติดเชื้อรา, CMV, emphysema,
 bronchiectasis, มะเร็งปอดทุกชนิด และ mesothelioma)
 
@@ -49,7 +49,7 @@ bronchiectasis, มะเร็งปอดทุกชนิด และ mesot
 | มะเร็งปอด | 27 |
 | Mesothelioma | 4 |
 
-คำถามแบ่งเป็นสามแนว:
+คำถามแบ่งเป็นสี่แนว:
 
 - **ถามวินิจฉัย (Dx)** — ดูภาพแล้วตอบชื่อโรค เป็นแนวที่ออกสอบมากที่สุด
   หลายภาพมีการ์ด Dx มากกว่าหนึ่งใบโดยให้เบาะแสคนละชุด
@@ -63,6 +63,10 @@ bronchiectasis, มะเร็งปอดทุกชนิด และ mesot
   *"Endophytic growth of epithelial nests with smooth outer contour"*,
   *"Dilated bronchus and bronchioles, filled by purulent exudates"*,
   *"Uniform narrow septate hyphae with acute angle branching"*
+
+- **สาเหตุ ปัจจัยเสี่ยง และกลไก (19 ใบ)** — เชื้อก่อโรคของ lobar pneumonia,
+  ทำไมวัณโรคทุติยภูมิชอบยอดปอด, mucormycosis กับเบาหวาน, alpha-1 antitrypsin,
+  ระยะฟักตัวของแอสเบสตอส, มะเร็งปอดชนิดที่สัมพันธ์กับบุหรี่
 
 ภาพเดียวกันมักมีหลายการ์ด — ใบหนึ่งถามว่า "โรคอะไร" ใบหนึ่งถามว่า "เห็นอะไรถึงตอบอย่างนั้น"
 และอีกใบให้บรรยายภาพนั้นออกมาเป็นประโยคเต็ม
