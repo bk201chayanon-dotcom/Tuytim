@@ -6,7 +6,7 @@
 ความคืบหน้าของสองวิชาไม่ปนกัน
 
 ที่มาเนื้อหา: สไลด์ **Lab Respiratory System 2** ภาควิชาพยาธิวิทยา
-(155 การ์ด ครอบคลุมทางเดินหายใจส่วนบน กล่องเสียงและมะเร็งกล่องเสียง pulmonary edema,
+(150 การ์ด ครอบคลุมทางเดินหายใจส่วนบน กล่องเสียงและมะเร็งกล่องเสียง pulmonary edema,
 DAD/ARDS, pneumonia, lung abscess, วัณโรค, การติดเชื้อรา, CMV, emphysema,
 bronchiectasis, มะเร็งปอดทุกชนิด และ mesothelioma)
 
@@ -64,9 +64,10 @@ bronchiectasis, มะเร็งปอดทุกชนิด และ mesot
   *"Dilated bronchus and bronchioles, filled by purulent exudates"*,
   *"Uniform narrow septate hyphae with acute angle branching"*
 
-- **สาเหตุ ปัจจัยเสี่ยง และกลไก (19 ใบ)** — เชื้อก่อโรคของ lobar pneumonia,
-  ทำไมวัณโรคทุติยภูมิชอบยอดปอด, mucormycosis กับเบาหวาน, alpha-1 antitrypsin,
-  ระยะฟักตัวของแอสเบสตอส, มะเร็งปอดชนิดที่สัมพันธ์กับบุหรี่
+- **Etiology (14 ใบ)** — สาเหตุของโรคล้วน ๆ: เชื้อของ lobar pneumonia,
+  การสำลักกับ lung abscess, โพรงเดิมกับ aspergilloma, ภูมิคุ้มกันบกพร่องกับ
+  invasive aspergillosis และ CMV, เบาหวาน ketoacidosis กับ mucormycosis,
+  บุหรี่กับ emphysema และมะเร็งปอด, alpha-1 antitrypsin deficiency
 
 ภาพเดียวกันมักมีหลายการ์ด — ใบหนึ่งถามว่า "โรคอะไร" ใบหนึ่งถามว่า "เห็นอะไรถึงตอบอย่างนั้น"
 และอีกใบให้บรรยายภาพนั้นออกมาเป็นประโยคเต็ม
