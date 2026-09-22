@@ -30,7 +30,8 @@
 |---|---|
 | Dx | ดูภาพแล้วตอบชื่อโรค |
 | Histology finding | keratin pearl, signet ring cell, Rokitansky-Aschoff sinus, Mallory body |
-| Etiology (19 ใบ) | mucocele เกิดจาก trauma ที่ท่อต่อมน้ำลาย · นิ่วในท่อน้ำลายกับ chronic sialadenitis · NSAIDs กับ H. pylori · ยีน CDH1 และ APC · Echinococcus granulosus · พยาธิใบไม้ตับกับ cholangiocarcinoma · นิ่วอุด cystic duct |
+| Etiology (29 ใบ) | mucocele เกิดจาก trauma ที่ท่อต่อมน้ำลาย · นิ่วในท่อน้ำลายกับ chronic sialadenitis · NSAIDs กับ H. pylori · ยีน CDH1 และ APC · Echinococcus granulosus · พยาธิใบไม้ตับกับ cholangiocarcinoma · นิ่วอุด cystic duct |
+| Etiology จากยีน | ยีนทุกตัวที่พิมพ์อยู่ในแผนภาพของสไลด์: APC ที่ 5q21 และ β-catenin · K-RAS ที่ 12p12 · TP53 ที่ 17p13 · LOH 18q21 (SMAD 2/4) · COX-2 · MLH1/MSH2/MSH6/PMS1/PMS2 · TGFBR2, BAX, BRAF, TCF4, IGF2R · CDH1 กับ GAPPS · KIT |
 | บรรยายพยาธิสภาพ | พิมพ์บรรยายเป็นภาษาอังกฤษ ตรวจทีละประเด็น |
 
 ## หมวดการ์ด
