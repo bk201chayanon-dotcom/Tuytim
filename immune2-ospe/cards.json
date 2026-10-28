@@ -1,0 +1,5726 @@
+{
+ "topics": [
+  {
+   "id": "lab",
+   "no": 1,
+   "label": "Lab infection",
+   "short": "Lab infection",
+   "sub": "พยาธิวิทยาของโรคติดเชื้อ: แบคทีเรีย mycetoma เชื้อรา ไวรัส และปรสิต",
+   "by": "La-or Chompuk, M.D. · ภาควิชาพยาธิวิทยา"
+  },
+  {
+   "id": "dx",
+   "no": 2,
+   "label": "Infectious immunodiagnosis",
+   "short": "Immunodiagnosis",
+   "sub": "ซิฟิลิส ไวรัสตับอักเสบบีและซี: การตรวจทางน้ำเหลืองและการแปลผล",
+   "by": "Infectious Immunodiag 69 · แนวทางระดับชาติ 2564, 2568"
+  }
+ ],
+ "categories": [
+  {
+   "id": "bact",
+   "label": "Bacterial infection",
+   "topic": "lab"
+  },
+  {
+   "id": "myc",
+   "label": "Mycetoma & Splendore–Hoeppli",
+   "topic": "lab"
+  },
+  {
+   "id": "fungus",
+   "label": "Fungal infection",
+   "topic": "lab"
+  },
+  {
+   "id": "virus",
+   "label": "Viral infection",
+   "topic": "lab"
+  },
+  {
+   "id": "parasite",
+   "label": "Parasitic infection",
+   "topic": "lab"
+  },
+  {
+   "id": "syph-clin",
+   "label": "ซิฟิลิส: ระยะโรคและรอยโรค",
+   "topic": "dx"
+  },
+  {
+   "id": "syph-lab",
+   "label": "ซิฟิลิส: การตรวจและแปลผล",
+   "topic": "dx"
+  },
+  {
+   "id": "hep",
+   "label": "ไวรัสตับอักเสบ บี/ซี",
+   "topic": "dx"
+  }
+ ],
+ "cards": [
+  {
+   "id": "pneu-gross",
+   "category": "bact",
+   "question": "จงให้การวินิจฉัย (ปอดจากการชันสูตรศพ)",
+   "answers": [
+    "Lobar pneumonia",
+    "Pneumococcal pneumonia",
+    "Acute lobar pneumonia",
+    "Bacterial lobar pneumonia"
+   ],
+   "explain": "ปอดทั้ง lobe แข็งและเป็นสีขาวแน่น (consolidation) จำกัดอยู่ในขอบเขตของ lobe — ลักษณะของ lobar pneumonia ซึ่งมักเกิดจาก Streptococcus pneumoniae",
+   "imageRef": "pneu_gross",
+   "keywords": null,
+   "src": "สไลด์ 4"
+  },
+  {
+   "id": "pneu-organism",
+   "category": "bact",
+   "question": "เชื้อก่อโรคที่พบบ่อยที่สุดของรอยโรคในภาพนี้คืออะไร",
+   "answers": [
+    "Streptococcus pneumoniae",
+    "S. pneumoniae",
+    "Pneumococcus",
+    "Strep pneumoniae"
+   ],
+   "explain": "โรคปอดบวมแบบ lobar pneumonia มักเกิดจาก Streptococcus pneumoniae — แบคทีเรียแกรมบวก รูปร่างกลม อยู่เป็นคู่ (diplococci) หรือเป็นสาย",
+   "imageRef": "pneu_gross",
+   "keywords": null,
+   "src": "สไลด์ 3–4"
+  },
+  {
+   "id": "pneu-cell",
+   "category": "bact",
+   "question": "เซลล์อักเสบที่อยู่เต็มถุงลมในภาพนี้คือเซลล์ชนิดใด",
+   "answers": [
+    "Neutrophils",
+    "Neutrophil",
+    "Polymorphonuclear leukocytes",
+    "PMN",
+    "PMNs",
+    "Neutrophil infiltration"
+   ],
+   "explain": "ถุงลมเต็มไปด้วย neutrophil (acute inflammatory exudate) ขณะที่ผนังถุงลมยังคงอยู่ เป็นลักษณะของปอดบวมจากแบคทีเรีย",
+   "imageRef": "pneu_histo",
+   "keywords": null,
+   "src": "สไลด์ 4"
+  },
+  {
+   "id": "pneu-histo",
+   "category": "bact",
+   "question": "จงให้การวินิจฉัย (ชิ้นเนื้อปอด)",
+   "answers": [
+    "Lobar pneumonia",
+    "Pneumococcal pneumonia",
+    "Acute lobar pneumonia",
+    "Bacterial lobar pneumonia",
+    "Acute bacterial pneumonia",
+    "Bacterial pneumonia",
+    "Acute pneumonia",
+    "Bronchopneumonia",
+    "Pneumonia"
+   ],
+   "explain": "ถุงลมเต็มไปด้วย neutrophil = acute bacterial pneumonia สไลด์ใช้ภาพนี้คู่กับ gross ของ lobar pneumonia (การแยก lobar กับ bronchopneumonia ดูจาก gross ว่ากินทั้ง lobe หรือเป็นหย่อมรอบหลอดลม)",
+   "imageRef": "pneu_histo",
+   "keywords": null,
+   "src": "สไลด์ 4"
+  },
+  {
+   "id": "des-pneumococcus",
+   "category": "bact",
+   "question": "จงบอกการติดสีแกรมและรูปร่างของเชื้อ Streptococcus pneumoniae",
+   "answers": [
+    "Gram-positive diplococci (or cocci in chain)"
+   ],
+   "explain": "สไลด์: S. pneumoniae เป็นเชื้อแบคทีเรียแกรมบวก รูปร่างกลม อยู่กันเป็นคู่ (diplococci) หรือเป็นสาย (gram positive cocci in chain)",
+   "imageRef": "pneu_gross",
+   "keywords": [
+    [
+     "gram positive",
+     "gram +",
+     "แกรมบวก"
+    ],
+    [
+     "diplococci",
+     "diplococcus",
+     "cocci",
+     "cocci in pairs",
+     "cocci in chain",
+     "รูปกลม"
+    ]
+   ],
+   "src": "สไลด์ 3"
+  },
+  {
+   "id": "tb-gross",
+   "category": "bact",
+   "question": "จงให้การวินิจฉัย (ปอดของผู้ป่วยไอเรื้อรัง น้ำหนักลด)",
+   "answers": [
+    "Pulmonary tuberculosis",
+    "Tuberculosis",
+    "TB",
+    "Cavitary tuberculosis",
+    "Secondary tuberculosis",
+    "Reactivation tuberculosis",
+    "Post primary tuberculosis",
+    "วัณโรคปอด",
+    "วัณโรค"
+   ],
+   "explain": "วัณโรคปอดมักเกิดที่ปอดกลีบบน หน้าตัดเห็นเนื้อตายสีเหลืองคล้ายเนย (caseous necrosis) และเกิดเป็นโพรง (cavity)",
+   "imageRef": "tb_gross",
+   "keywords": null,
+   "src": "สไลด์ 7"
+  },
+  {
+   "id": "tb-caseous",
+   "category": "bact",
+   "question": "จงบอกชนิดของเนื้อตาย (necrosis) ที่เห็นในปอดนี้",
+   "answers": [
+    "Caseous necrosis",
+    "Caseation necrosis",
+    "Caseation",
+    "Caseous"
+   ],
+   "explain": "Caseous necrosis: เนื้อตายสีขาวเทาหรือเหลืองคล้ายเนย พบที่ตรงกลางรอยโรคของวัณโรค",
+   "imageRef": "tb_gross",
+   "keywords": null,
+   "src": "สไลด์ 6–7"
+  },
+  {
+   "id": "tb-granuloma",
+   "category": "bact",
+   "question": "จงบอกชนิดของการอักเสบที่เห็นในภาพ (ชิ้นเนื้อปอด)",
+   "answers": [
+    "Granulomatous inflammation",
+    "Chronic granulomatous inflammation",
+    "Granuloma",
+    "Granulomatous",
+    "Caseating granulomatous inflammation",
+    "Caseating granuloma"
+   ],
+   "explain": "Granulomatous inflammation: กลุ่ม epithelioid histiocytes ร่วมกับ Langhans giant cell และ lymphocyte — พยาธิสภาพหลักของวัณโรค",
+   "imageRef": "tb_granuloma",
+   "keywords": null,
+   "src": "สไลด์ 8"
+  },
+  {
+   "id": "tb-langhans",
+   "category": "bact",
+   "question": "จงบอกชื่อเซลล์ที่ลูกศรชี้",
+   "answers": [
+    "Langhans giant cell",
+    "Langhan giant cell",
+    "Langhans giant cells",
+    "Langhans type giant cell",
+    "Multinucleated giant cell",
+    "Multinucleated giant cells"
+   ],
+   "explain": "Langhans giant cell เกิดจาก macrophage หลายตัวรวมกัน นิวเคลียสเรียงเป็นรูปเกือกม้าที่ขอบเซลล์ (อย่าสับสนกับ Langerhans cell ซึ่งเป็น dendritic cell)",
+   "imageRef": "tb_granuloma",
+   "keywords": null,
+   "src": "สไลด์ 8"
+  },
+  {
+   "id": "tb-afb-stain",
+   "category": "bact",
+   "question": "ภาพนี้ย้อมด้วยสีพิเศษชนิดใด",
+   "answers": [
+    "Acid fast stain",
+    "Acid fast",
+    "Ziehl–Neelsen",
+    "Ziehl–Neelsen stain",
+    "AFB stain",
+    "ZN stain",
+    "Kinyoun stain",
+    "Acid fast bacilli stain"
+   ],
+   "explain": "การย้อม acid-fast (เช่น Ziehl–Neelsen) ใช้สี carbol fuchsin เชื้อที่ผนังเซลล์มี mycolic acid จะทนต่อการล้างสีด้วยกรด-แอลกอฮอล์จึงติดสีแดง พื้นหลังติดสีฟ้า",
+   "imageRef": "tb_afb",
+   "keywords": null,
+   "src": "สไลด์ 5, 8"
+  },
+  {
+   "id": "tb-afb-org",
+   "category": "bact",
+   "question": "สิ่งที่ลูกศรชี้ (แท่งสีแดง) คืออะไร",
+   "answers": [
+    "Acid fast bacilli",
+    "AFB",
+    "Mycobacterium tuberculosis",
+    "M. tuberculosis",
+    "Tubercle bacilli",
+    "Mycobacteria",
+    "Mycobacterium"
+   ],
+   "explain": "เชื้อ Mycobacterium tuberculosis เป็นแบคทีเรียรูปแท่ง ต้องการออกซิเจน ติดสีแดงเมื่อย้อม acid fast จึงเรียกว่า acid-fast bacilli (AFB)",
+   "imageRef": "tb_afb",
+   "keywords": null,
+   "src": "สไลด์ 5, 8"
+  },
+  {
+   "id": "tb-mycolic",
+   "category": "bact",
+   "question": "ส่วนประกอบใดในผนังเซลล์ของ Mycobacterium ที่ทำให้เชื้อทนต่อการล้างสีด้วยกรดหรือแอลกอฮอล์",
+   "answers": [
+    "Mycolic acid",
+    "Mycolic acids"
+   ],
+   "explain": "ผนังเซลล์เป็นไขมันหนา ประกอบด้วย mycolic acid เมื่อย้อมด้วย carbol fuchsin แล้วจะทนต่อการล้างสีออกด้วยกรดหรือแอลกอฮอล์ (acid fast)",
+   "imageRef": "tb_afb",
+   "keywords": null,
+   "src": "สไลด์ 5"
+  },
+  {
+   "id": "tb-miliary",
+   "category": "bact",
+   "question": "จงให้การวินิจฉัย (ผิวตัดปอด)",
+   "answers": [
+    "Miliary tuberculosis",
+    "Pulmonary miliary tuberculosis",
+    "Miliary TB",
+    "Miliary",
+    "Disseminated tuberculosis"
+   ],
+   "explain": "Pulmonary miliary tuberculosis: จุดเล็ก ๆ สีขาวขนาดใกล้เคียงกันกระจายไปทั่วปอด เกิดจากเชื้อแพร่ไปตามกระแสเลือด",
+   "imageRef": "tb_miliary",
+   "keywords": null,
+   "src": "สไลด์ 9"
+  },
+  {
+   "id": "des-tb-granuloma",
+   "category": "bact",
+   "question": "จงบรรยายองค์ประกอบของ granuloma ในวัณโรคเป็นภาษาอังกฤษ",
+   "answers": [
+    "Epithelioid histiocytes, Langhans (multinucleated) giant cells, lymphocytes/plasma cells and central caseous necrosis"
+   ],
+   "explain": "สไลด์: granulomatous inflammation — กลางรอยโรคเป็น caseous necrosis มี macrophage ที่เปลี่ยนรูปคล้ายเยื่อบุผิว (epithelioid histiocytes), multinucleated giant cells และเซลล์อักเสบเรื้อรัง (lymphocytes, plasma cells)",
+   "imageRef": "tb_granuloma",
+   "keywords": [
+    [
+     "epithelioid histiocytes",
+     "epithelioid cells",
+     "epithelioid histiocyte",
+     "epithelioid"
+    ],
+    [
+     "langhans giant cell",
+     "multinucleated giant cell",
+     "giant cells",
+     "giant cell"
+    ],
+    [
+     "lymphocytes",
+     "lymphocyte",
+     "plasma cells",
+     "chronic inflammatory cells"
+    ],
+    [
+     "caseous necrosis",
+     "caseation",
+     "caseating",
+     "central necrosis"
+    ]
+   ],
+   "src": "สไลด์ 6, 8"
+  },
+  {
+   "id": "gu-dx",
+   "category": "bact",
+   "question": "จงให้การวินิจฉัยรอยโรคที่ลูกศรชี้ (กระเพาะอาหารที่ผ่าตัดออก)",
+   "answers": [
+    "Gastric ulcer",
+    "Peptic ulcer",
+    "Chronic peptic ulcer",
+    "Chronic gastric ulcer",
+    "Peptic ulcer disease"
+   ],
+   "explain": "Gastric (peptic) ulcer — การติดเชื้อ H. pylori เรื้อรังสัมพันธ์กับ gastritis และ peptic ulcer ทั้ง gastric ulcer และ duodenal ulcer",
+   "imageRef": "gastric_ulcer",
+   "keywords": null,
+   "src": "สไลด์ 18–19"
+  },
+  {
+   "id": "gu-organism",
+   "category": "bact",
+   "question": "เชื้อแบคทีเรียที่สัมพันธ์กับรอยโรคนี้มากที่สุดคืออะไร",
+   "answers": [
+    "Helicobacter pylori",
+    "H. pylori",
+    "Hp"
+   ],
+   "explain": "Helicobacter pylori เป็นแบคทีเรียแกรมลบรูปแท่ง ไม่ลุกลามเนื้อเยื่อ (noninvasive) และไม่สร้างสปอร์ การติดเชื้อเรื้อรังทำให้เกิด gastritis, peptic ulcer และเพิ่มความเสี่ยง adenocarcinoma กับ lymphoma ของกระเพาะ",
+   "imageRef": "gastric_ulcer",
+   "keywords": null,
+   "src": "สไลด์ 18"
+  },
+  {
+   "id": "gastritis-dx",
+   "category": "bact",
+   "question": "จงให้การวินิจฉัย (ชิ้นเนื้อกระเพาะอาหารของผู้ติดเชื้อ H. pylori)",
+   "answers": [
+    "Acute gastritis",
+    "Active gastritis",
+    "Acute active gastritis",
+    "Chronic active gastritis",
+    "H. pylori gastritis",
+    "Gastritis"
+   ],
+   "explain": "มี neutrophil แทรกในเยื่อบุและต่อมของกระเพาะ = acute (active) gastritis",
+   "imageRef": "acute_gastritis",
+   "keywords": null,
+   "src": "สไลด์ 20"
+  },
+  {
+   "id": "gastritis-cell",
+   "category": "bact",
+   "question": "เซลล์อักเสบที่ลูกศรชี้คือเซลล์ชนิดใด",
+   "answers": [
+    "Neutrophils",
+    "Neutrophil",
+    "Polymorphonuclear leukocytes",
+    "PMN",
+    "PMNs",
+    "Neutrophil infiltration"
+   ],
+   "explain": "Neutrophil infiltration ในเยื่อบุกระเพาะเป็นเครื่องบอกการอักเสบที่ active",
+   "imageRef": "acute_gastritis",
+   "keywords": null,
+   "src": "สไลด์ 20"
+  },
+  {
+   "id": "hp-he",
+   "category": "bact",
+   "question": "สิ่งที่ลูกศรสีน้ำเงินชี้ในชั้นเมือกเหนือเยื่อบุผิวคืออะไร (ย้อม H&E)",
+   "answers": [
+    "Helicobacter pylori",
+    "H. pylori",
+    "Hp"
+   ],
+   "explain": "H. pylori อยู่ในชั้นเมือกเหนือเยื่อบุผิวของกระเพาะ (ไม่ลุกลามเข้าเนื้อเยื่อ) เห็นเป็นแท่งเล็ก ๆ โค้ง",
+   "imageRef": "hp_he",
+   "keywords": null,
+   "src": "สไลด์ 21"
+  },
+  {
+   "id": "hp-ihc",
+   "category": "bact",
+   "question": "ภาพนี้ใช้การย้อมวิธีใดยืนยันเชื้อ (เชื้อติดสีน้ำตาล)",
+   "answers": [
+    "Immunohistochemistry",
+    "IHC",
+    "Immunohistochemical stain",
+    "Immunostain",
+    "Immunoperoxidase stain"
+   ],
+   "explain": "Gastric mucosa: positive for H. pylori by immunohistochemistry — เชื้อติดสีน้ำตาลบริเวณผิวเยื่อบุ",
+   "imageRef": "hp_ihc",
+   "keywords": null,
+   "src": "สไลด์ 22"
+  },
+  {
+   "id": "hp-ihc-org",
+   "category": "bact",
+   "question": "จงบอกชื่อเชื้อที่ติดสีน้ำตาลในภาพ (ชิ้นเนื้อกระเพาะอาหาร)",
+   "answers": [
+    "Helicobacter pylori",
+    "H. pylori",
+    "Hp"
+   ],
+   "explain": "Rod shape bacteria at mucosal surface ที่ย้อม IHC ติดสีน้ำตาล = H. pylori",
+   "imageRef": "hp_ihc_zoom",
+   "keywords": null,
+   "src": "สไลด์ 22–23"
+  },
+  {
+   "id": "des-hp",
+   "category": "bact",
+   "question": "จงบรรยายรูปร่างและตำแหน่งของเชื้อในภาพนี้",
+   "answers": [
+    "Rod-shaped (curved) bacteria at the mucosal surface"
+   ],
+   "explain": "สไลด์บรรยายว่า \"Rod shape bacteria at mucosal surface\"",
+   "imageRef": "hp_ihc_zoom",
+   "keywords": [
+    [
+     "rod shape",
+     "rod",
+     "rods",
+     "rod shaped",
+     "bacilli",
+     "curved",
+     "spiral"
+    ],
+    [
+     "mucosal surface",
+     "surface",
+     "mucus",
+     "mucous layer",
+     "surface epithelium",
+     "lumen"
+    ]
+   ],
+   "src": "สไลด์ 22"
+  },
+  {
+   "id": "des-hp-gram",
+   "category": "bact",
+   "question": "H. pylori ติดสีแกรมอะไร และมีรูปร่างแบบใด",
+   "answers": [
+    "Gram-negative bacilli"
+   ],
+   "explain": "สไลด์: H. pylori เป็นแบคทีเรียชนิดแกรมลบรูปแท่ง (gram negative bacilli) ไม่ลุกลามเนื้อเยื่อ และไม่สร้างสปอร์",
+   "imageRef": "hp_he",
+   "keywords": [
+    [
+     "gram negative",
+     "แกรมลบ"
+    ],
+    [
+     "bacilli",
+     "bacillus",
+     "rod",
+     "rods",
+     "rod shaped",
+     "curved",
+     "spiral",
+     "รูปแท่ง"
+    ]
+   ],
+   "src": "สไลด์ 18"
+  },
+  {
+   "id": "hp-neoplasm",
+   "category": "bact",
+   "question": "การติดเชื้อนี้แบบเรื้อรังเพิ่มความเสี่ยงต่อเนื้องอกของกระเพาะอาหารชนิดใด (ตอบ 1 ชนิด)",
+   "answers": [
+    "Gastric adenocarcinoma",
+    "Adenocarcinoma",
+    "Gastric lymphoma",
+    "MALT lymphoma",
+    "Lymphoma",
+    "Gastric cancer",
+    "Gastric carcinoma"
+   ],
+   "explain": "สไลด์: H. pylori อาจทำให้เกิดมะเร็งกระเพาะอาหารชนิด adenocarcinoma และเนื้องอกชนิด lymphoma ของกระเพาะ",
+   "imageRef": "hp_he",
+   "keywords": null,
+   "src": "สไลด์ 18"
+  },
+  {
+   "id": "pmc-gross1",
+   "category": "bact",
+   "question": "จงให้การวินิจฉัย (ลำไส้ใหญ่ของผู้ป่วยที่ได้รับยาปฏิชีวนะแล้วท้องร่วงรุนแรง)",
+   "answers": [
+    "Pseudomembranous colitis",
+    "Pseudomembranous enterocolitis",
+    "C. difficile colitis",
+    "Clostridium difficile colitis",
+    "Clostridioides difficile colitis",
+    "Antibiotic associated colitis"
+   ],
+   "explain": "Hyperemic mucosa and green-yellow exudate — pseudomembranous colitis จาก Clostridioides difficile",
+   "imageRef": "pmc_gross1",
+   "keywords": null,
+   "src": "สไลด์ 25"
+  },
+  {
+   "id": "pmc-gross2",
+   "category": "bact",
+   "question": "จงให้การวินิจฉัย (ลำไส้ใหญ่)",
+   "answers": [
+    "Pseudomembranous colitis",
+    "Pseudomembranous enterocolitis",
+    "C. difficile colitis",
+    "Clostridium difficile colitis",
+    "Clostridioides difficile colitis",
+    "Antibiotic associated colitis"
+   ],
+   "explain": "Yellow-green plaques and nodules on the colonic mucosa = pseudomembrane",
+   "imageRef": "pmc_gross2",
+   "keywords": null,
+   "src": "สไลด์ 26"
+  },
+  {
+   "id": "pmc-membrane",
+   "category": "bact",
+   "question": "แผ่นนูนสีเหลืองเขียวที่ลูกศรชี้บนเยื่อบุลำไส้เรียกว่าอะไร",
+   "answers": [
+    "Pseudomembrane",
+    "Pseudomembranes",
+    "Pseudomembranous plaques",
+    "Yellow green plaques"
+   ],
+   "explain": "Pseudomembrane คือหนอง เนื้อตาย fibrin และเมือกที่สะสมเป็นแผ่นบนเยื่อบุที่อักเสบ ไม่ใช่เยื่อบุจริง",
+   "imageRef": "pmc_gross2",
+   "keywords": null,
+   "src": "สไลด์ 24, 26"
+  },
+  {
+   "id": "pmc-organism",
+   "category": "bact",
+   "question": "เชื้อก่อโรคนี้คืออะไร",
+   "answers": [
+    "Clostridioides difficile",
+    "Clostridium difficile",
+    "C. difficile",
+    "C. diff"
+   ],
+   "explain": "Clostridioides difficile (ชื่อเดิม Clostridium difficile) เป็นสาเหตุ 10–20% ของ antibiotic-associated diarrhea และเป็นสาเหตุเกือบทั้งหมดของ pseudomembranous colitis",
+   "imageRef": "pmc_gross1",
+   "keywords": null,
+   "src": "สไลด์ 24"
+  },
+  {
+   "id": "pmc-toxin",
+   "category": "bact",
+   "question": "เชื้อนี้ไม่ได้ทำลายลำไส้โดยตรง แต่ก่อโรคผ่านสารพิษชนิดใด (ตอบให้ครบ 2 ชนิด)",
+   "answers": [
+    "Toxin A and toxin B",
+    "Toxin A and B",
+    "Toxins A and B",
+    "Toxin A toxin B",
+    "Toxin A b",
+    "A and B",
+    "A B"
+   ],
+   "explain": "Toxin A เป็น enterotoxin กระตุ้น macrophage และ mast cell ให้เกิดการอักเสบ มี fluid secretion และเพิ่ม mucosal permeability ส่วน toxin B มี enterotoxic activity น้อยกว่า A — toxin ทำให้เกิด leukocyte chemotaxis จน colitis แย่ลง มี focal ulceration และหนองกับเนื้อตายสะสมเป็น pseudomembrane",
+   "imageRef": "pmc_gross2",
+   "keywords": null,
+   "src": "สไลด์ 24"
+  },
+  {
+   "id": "pmc-histo",
+   "category": "bact",
+   "question": "จงให้การวินิจฉัย (ชิ้นเนื้อลำไส้ใหญ่)",
+   "answers": [
+    "Pseudomembranous colitis",
+    "Pseudomembranous enterocolitis",
+    "C. difficile colitis",
+    "Clostridium difficile colitis",
+    "Clostridioides difficile colitis",
+    "Antibiotic associated colitis"
+   ],
+   "explain": "Colonic mucosa with sloughed epithelium, neutrophils, mucin, fibrin deposition on the surface and crypts",
+   "imageRef": "pmc_histo1",
+   "keywords": null,
+   "src": "สไลด์ 27"
+  },
+  {
+   "id": "des-pmc",
+   "category": "bact",
+   "question": "จงบรรยายพยาธิสภาพที่เห็นบนผิวเยื่อบุลำไส้ใหญ่ในภาพนี้",
+   "answers": [
+    "Colonic mucosa with sloughed epithelium, neutrophils, mucin, fibrin deposition on the surface and crypts"
+   ],
+   "explain": "คำบรรยายใต้ภาพในสไลด์ — exudate ที่ประกอบด้วย fibrin, neutrophil และ mucin พุ่งออกจาก crypt ที่เสียหาย",
+   "imageRef": "pmc_histo1",
+   "keywords": [
+    [
+     "neutrophils",
+     "neutrophil",
+     "inflammatory cells",
+     "pmn"
+    ],
+    [
+     "fibrin",
+     "fibrinous"
+    ],
+    [
+     "mucin",
+     "mucus"
+    ],
+    [
+     "sloughed epithelium",
+     "sloughed",
+     "necrotic epithelium",
+     "necrosis",
+     "necrotic"
+    ]
+   ],
+   "src": "สไลด์ 27"
+  },
+  {
+   "id": "pmc-A",
+   "category": "bact",
+   "question": "สิ่งที่ป้าย A ชี้ (ลูกศรสีดำ) คืออะไร",
+   "answers": [
+    "Necrotic gland",
+    "Necrotic glands",
+    "Necrotic crypt",
+    "Necrotic crypts"
+   ],
+   "explain": "Necrotic gland: ต่อม (crypt) ที่ตายและขยายตัว เต็มไปด้วยเซลล์อักเสบและเมือก",
+   "imageRef": "pmc_histo2",
+   "keywords": null,
+   "src": "สไลด์ 28"
+  },
+  {
+   "id": "pmc-B",
+   "category": "bact",
+   "question": "สิ่งที่ป้าย B ชี้ (ลูกศรสีแดง) คืออะไร",
+   "answers": [
+    "Fibrin exudate",
+    "Fibrin",
+    "Fibrinous exudate",
+    "Fibrinopurulent exudate",
+    "Pseudomembrane"
+   ],
+   "explain": "Fibrin exudate บนผิวเยื่อบุ เป็นส่วนประกอบของ pseudomembrane",
+   "imageRef": "pmc_histo2",
+   "keywords": null,
+   "src": "สไลด์ 28"
+  },
+  {
+   "id": "myc-foot",
+   "category": "myc",
+   "question": "จงให้การวินิจฉัย (เท้าของชาวนา บวมแข็ง ตะปุ่มตะป่ำ มีรูเปิดหลายรู)",
+   "answers": [
+    "Mycetoma",
+    "Madura foot",
+    "Maduromycosis",
+    "Eumycetoma",
+    "Actinomycetoma",
+    "Eumycotic mycetoma",
+    "Actinomycotic mycetoma",
+    "โรคเท้าชาวนา"
+   ],
+   "explain": "Mycetoma (Madura foot, โรคเท้าชาวนา) — ก้อนแข็ง บวม ตะปุ่มตะป่ำ มีรูเปิด (sinus) ที่มีหนองและโคโลนีของเชื้อ (grains, granules) หลายสีหลายขนาดไหลออกมา เกิดได้ทั้งจากแบคทีเรียและเชื้อรา",
+   "imageRef": "myc_foot",
+   "keywords": null,
+   "src": "สไลด์ 10–11"
+  },
+  {
+   "id": "myc-granule",
+   "category": "myc",
+   "question": "เม็ดสีเหลืองที่ลูกศรชี้ ซึ่งออกมาพร้อมหนองจากรูเปิดของรอยโรคนี้ เรียกว่าอะไร",
+   "answers": [
+    "Sulfur granules",
+    "Sulfur granule",
+    "Sulphur granules",
+    "Sulphur granule",
+    "Grains",
+    "Grain",
+    "Granules"
+   ],
+   "explain": "Sulfur granules สีเหลือง พบในหนองและเนื้อเยื่อที่ติดเชื้อ",
+   "imageRef": "myc_granule",
+   "keywords": null,
+   "src": "สไลด์ 11"
+  },
+  {
+   "id": "myc-granule-what",
+   "category": "myc",
+   "question": "เม็ด grains/granules ที่ออกมาจากรูเปิดของ mycetoma แท้จริงแล้วคืออะไร",
+   "answers": [
+    "Colonies of the organism",
+    "Colonies",
+    "Colony",
+    "Microcolonies",
+    "Colonies of organisms",
+    "Bacterial colonies",
+    "Fungal colonies",
+    "โคโลนีของเชื้อ"
+   ],
+   "explain": "สไลด์: sulfur granules สีเหลือง \"ซึ่งเป็น colonies ของเชื้อ\"",
+   "imageRef": "myc_granule",
+   "keywords": null,
+   "src": "สไลด์ 11"
+  },
+  {
+   "id": "myc-histo",
+   "category": "myc",
+   "question": "จงให้การวินิจฉัย (ชิ้นเนื้อจากรอยโรคเรื้อรังที่เท้าซึ่งมีรูเปิดหลายรู)",
+   "answers": [
+    "Mycetoma",
+    "Madura foot",
+    "Maduromycosis",
+    "Eumycetoma",
+    "Actinomycetoma",
+    "Eumycotic mycetoma",
+    "Actinomycotic mycetoma",
+    "โรคเท้าชาวนา"
+   ],
+   "explain": "กลุ่มเชื้อ (grain) ขนาดใหญ่ล้อมรอบด้วยเซลล์อักเสบ ในบริบทรอยโรคที่เท้า = mycetoma",
+   "imageRef": "myc_grain",
+   "keywords": null,
+   "src": "สไลด์ 11"
+  },
+  {
+   "id": "myc-neut",
+   "category": "myc",
+   "question": "เซลล์อักเสบที่ล้อมรอบกลุ่มเชื้อในภาพนี้เป็นเซลล์ชนิดใด",
+   "answers": [
+    "Neutrophils",
+    "Neutrophil",
+    "Polymorphonuclear leukocytes",
+    "PMN",
+    "PMNs",
+    "Neutrophil infiltration"
+   ],
+   "explain": "สไลด์: Mycetoma เห็นเส้นใยของเชื้อรา ล้อมรอบด้วยเซลล์อักเสบชนิด neutrophils",
+   "imageRef": "myc_neut",
+   "keywords": null,
+   "src": "สไลด์ 12"
+  },
+  {
+   "id": "myc-eumyc-name",
+   "category": "myc",
+   "question": "mycetoma ที่เกิดจากเชื้อรา เรียกว่าอะไร",
+   "answers": [
+    "Eumycotic mycetoma",
+    "Eumycetoma",
+    "Eumycotic"
+   ],
+   "explain": "Eumycotic mycetoma เกิดจากเชื้อรา ส่วน actinomycotic mycetoma เกิดจากแบคทีเรีย",
+   "imageRef": "eumyc_hyphae",
+   "keywords": null,
+   "src": "สไลด์ 10"
+  },
+  {
+   "id": "myc-actino-name",
+   "category": "myc",
+   "question": "mycetoma ที่เกิดจากเชื้อแบคทีเรีย เรียกว่าอะไร",
+   "answers": [
+    "Actinomycotic mycetoma",
+    "Actinomycetoma",
+    "Actinomycotic"
+   ],
+   "explain": "Actinomycotic mycetoma เกิดจากแบคทีเรีย เช่น Actinomadura madurae, A. pelletieri, Streptomyces somaliensis",
+   "imageRef": "myc_grain",
+   "keywords": null,
+   "src": "สไลด์ 10"
+  },
+  {
+   "id": "myc-actino-org",
+   "category": "myc",
+   "question": "จงยกตัวอย่างเชื้อแบคทีเรียที่ก่อ actinomycotic mycetoma (ตอบ 1 ชนิด)",
+   "answers": [
+    "Actinomadura madurae",
+    "Actinomadura pelletieri",
+    "Streptomyces somaliensis",
+    "A. madurae",
+    "A. pelletieri",
+    "Actinomadura",
+    "Streptomyces",
+    "Nocardia"
+   ],
+   "explain": "ตัวอย่างในสไลด์: Actinomadura madurae, A. pelletieri, Streptomyces somaliensis",
+   "imageRef": null,
+   "keywords": null,
+   "src": "สไลด์ 10"
+  },
+  {
+   "id": "myc-eumyc-org",
+   "category": "myc",
+   "question": "จงยกตัวอย่างเชื้อราที่ก่อ eumycotic mycetoma (ตอบ 1 ชนิด)",
+   "answers": [
+    "Pseudallescheria boydii",
+    "Madurella grisea",
+    "Madurella mycetomatis",
+    "Madurella",
+    "P. boydii",
+    "Scedosporium apiospermum"
+   ],
+   "explain": "ตัวอย่างในสไลด์: Pseudallescheria boydii, Madurella grisea, M. mycetomatis",
+   "imageRef": null,
+   "keywords": null,
+   "src": "สไลด์ 10"
+  },
+  {
+   "id": "myc-class",
+   "category": "myc",
+   "question": "Madura foot จัดเป็นการติดเชื้อรากลุ่มใด (แบ่งตามตำแหน่งที่ติดเชื้อบนร่างกาย)",
+   "answers": [
+    "Cutaneous and subcutaneous mycoses",
+    "Subcutaneous mycoses",
+    "Subcutaneous mycosis",
+    "Subcutaneous",
+    "Cutaneous and subcutaneous mycosis"
+   ],
+   "explain": "การติดเชื้อราที่ผิวหนังและใต้ผิวหนัง (Cutaneous and Subcutaneous mycoses) ได้แก่ โรคเท้าชาวนา (Madura foot)",
+   "imageRef": null,
+   "keywords": null,
+   "src": "สไลด์ 30"
+  },
+  {
+   "id": "des-myc-clinical",
+   "category": "myc",
+   "question": "จงบอกลักษณะทางคลินิก 3 อย่างของ mycetoma",
+   "answers": [
+    "Hard swelling (nodules), draining sinuses, and grains/granules in the pus"
+   ],
+   "explain": "สไลด์: ก้อนแข็ง บวม ตะปุ่มตะป่ำ มีรูเปิด (sinus) ซึ่งมีหนองและโคโลนีของเชื้อ (grains, granules) ออกมา",
+   "imageRef": "myc_foot",
+   "keywords": [
+    [
+     "swelling",
+     "hard mass",
+     "mass",
+     "nodules",
+     "nodule",
+     "tumefaction",
+     "ก้อน",
+     "บวม"
+    ],
+    [
+     "sinus",
+     "sinuses",
+     "draining sinus",
+     "sinus tracts",
+     "รูเปิด"
+    ],
+    [
+     "grains",
+     "granules",
+     "grain",
+     "granule",
+     "sulfur granules"
+    ]
+   ],
+   "src": "สไลด์ 10"
+  },
+  {
+   "id": "eumyc-pattern",
+   "category": "myc",
+   "question": "จงบอกรูปแบบการอักเสบที่เห็นในภาพ (ชิ้นเนื้อจาก eumycotic mycetoma)",
+   "answers": [
+    "Suppurative granuloma",
+    "Suppurative granulomatous inflammation",
+    "Suppurative granulomas",
+    "Suppurative granulomatous"
+   ],
+   "explain": "Eumycotic mycetoma: suppurative granuloma — ตรงกลางเป็นกลุ่มเส้นใยราและ neutrophil (หนอง) ล้อมรอบด้วย epithelioid histiocytes",
+   "imageRef": "eumyc_granuloma",
+   "keywords": null,
+   "src": "สไลด์ 13"
+  },
+  {
+   "id": "eumyc-A",
+   "category": "myc",
+   "question": "เซลล์ที่ป้าย A ชี้คืออะไร",
+   "answers": [
+    "Epithelioid histiocytes",
+    "Epithelioid histiocyte",
+    "Epithelioid cells",
+    "Epithelioid macrophages",
+    "Epithelioid"
+   ],
+   "explain": "ชั้นนอกของ suppurative granuloma เป็น epithelioid histiocytes",
+   "imageRef": "eumyc_granuloma",
+   "keywords": null,
+   "src": "สไลด์ 13"
+  },
+  {
+   "id": "eumyc-B",
+   "category": "myc",
+   "question": "สิ่งที่ป้าย B ชี้คืออะไร",
+   "answers": [
+    "Pigmented fungal hyphae",
+    "Fungal hyphae",
+    "Pigmented hyphae",
+    "Dematiaceous hyphae",
+    "Fungal grain"
+   ],
+   "explain": "Pigmented fungal hyphae อยู่ตรงกลาง granuloma",
+   "imageRef": "eumyc_granuloma",
+   "keywords": null,
+   "src": "สไลด์ 13"
+  },
+  {
+   "id": "eumyc-C",
+   "category": "myc",
+   "question": "เซลล์ที่ป้าย C ชี้คืออะไร",
+   "answers": [
+    "Neutrophils",
+    "Neutrophil",
+    "Polymorphonuclear leukocytes",
+    "PMN",
+    "PMNs",
+    "Neutrophil infiltration"
+   ],
+   "explain": "Neutrophil ล้อมรอบกลุ่มเส้นใยรา ทำให้ granuloma นี้เป็นแบบ suppurative",
+   "imageRef": "eumyc_granuloma",
+   "keywords": null,
+   "src": "สไลด์ 13"
+  },
+  {
+   "id": "eumyc-hyphae",
+   "category": "myc",
+   "question": "สิ่งที่ลูกศรชี้ (กลุ่มสีน้ำตาลเข้ม) คืออะไร",
+   "answers": [
+    "Pigmented fungal hyphae",
+    "Fungal hyphae",
+    "Pigmented hyphae",
+    "Dematiaceous hyphae",
+    "Dematiaceous fungal hyphae"
+   ],
+   "explain": "Eumycotic mycetoma: pigmented fungal hyphae",
+   "imageRef": "eumyc_hyphae",
+   "keywords": null,
+   "src": "สไลด์ 14"
+  },
+  {
+   "id": "sh-name",
+   "category": "myc",
+   "question": "ปรากฏการณ์ที่มีสาร eosinophilic ล้อมรอบกลุ่มเชื้อเป็นแฉก (radiating) แบบในภาพนี้เรียกว่าอะไร",
+   "answers": [
+    "Splendore–Hoeppli phenomenon",
+    "Splendore–Hoeppli",
+    "Splendore–Hoeppli reaction",
+    "Splendore–Hoeppli material"
+   ],
+   "explain": "Splendore–Hoeppli phenomenon: เชื้อ (แบคทีเรีย ปรสิต เชื้อรา) หรือสารเฉื่อย ถูกล้อมรอบด้วยสาร eosinophilic amorphous material เป็นแฉก กระบอง หรือวงแหวน",
+   "imageRef": "sh_low",
+   "keywords": null,
+   "src": "สไลด์ 15–16"
+  },
+  {
+   "id": "sh-B",
+   "category": "myc",
+   "question": "สิ่งที่ป้าย B ชี้คืออะไร",
+   "answers": [
+    "Fungal hyphae",
+    "Hyphae",
+    "Fungal colony",
+    "Fungal grain",
+    "Fungus"
+   ],
+   "explain": "กลุ่มเส้นใยรา (fungal hyphae) อยู่ตรงกลาง ล้อมรอบด้วยสาร eosinophilic",
+   "imageRef": "sh_high",
+   "keywords": null,
+   "src": "สไลด์ 17"
+  },
+  {
+   "id": "sh-C",
+   "category": "myc",
+   "question": "สิ่งที่ป้าย C ชี้คืออะไร",
+   "answers": [
+    "Eosinophilic material",
+    "Eosinophilic amorphous material",
+    "Splendore–Hoeppli material",
+    "Splendore–Hoeppli phenomenon",
+    "Eosinophilic substance"
+   ],
+   "explain": "Eosinophilic material ที่ขอบกลุ่มเชื้อ = Splendore–Hoeppli phenomenon",
+   "imageRef": "sh_high",
+   "keywords": null,
+   "src": "สไลด์ 17"
+  },
+  {
+   "id": "sh-A",
+   "category": "myc",
+   "question": "สิ่งที่ป้าย A ชี้คืออะไร",
+   "answers": [
+    "Inflammatory cells",
+    "Inflammatory cell",
+    "Neutrophils",
+    "Inflammatory infiltrate"
+   ],
+   "explain": "เซลล์อักเสบรอบกลุ่มเชื้อ",
+   "imageRef": "sh_high",
+   "keywords": null,
+   "src": "สไลด์ 17"
+  },
+  {
+   "id": "des-sh-composition",
+   "category": "myc",
+   "question": "สาร eosinophilic ใน Splendore-Hoeppli phenomenon เชื่อว่าประกอบด้วยอะไรบ้าง",
+   "answers": [
+    "Fibrin, antigen-antibody complexes and debris"
+   ],
+   "explain": "สไลด์: \"The eosinophilic material is thought to be composed of fibrin, antigen-antibody complexes and debris\"",
+   "imageRef": "sh_high",
+   "keywords": [
+    [
+     "antigen antibody complexes",
+     "antigen antibody complex",
+     "immune complexes",
+     "immune complex"
+    ],
+    [
+     "fibrin"
+    ],
+    [
+     "debris",
+     "cellular debris"
+    ]
+   ],
+   "src": "สไลด์ 15"
+  },
+  {
+   "id": "des-sh-effect",
+   "category": "myc",
+   "question": "Splendore-Hoeppli phenomenon มีผลต่อการติดเชื้ออย่างไร",
+   "answers": [
+    "Prevents phagocytosis and leads to chronicity of infection"
+   ],
+   "explain": "สไลด์: \"Prevents phagocytosis and leads to chronicity of infection\"",
+   "imageRef": "sh_low",
+   "keywords": [
+    [
+     "prevents phagocytosis",
+     "prevent phagocytosis",
+     "inhibits phagocytosis",
+     "resist phagocytosis",
+     "ป้องกันการถูกจับกิน"
+    ],
+    [
+     "chronicity",
+     "chronic infection",
+     "chronic",
+     "เรื้อรัง"
+    ]
+   ],
+   "src": "สไลด์ 15"
+  },
+  {
+   "id": "fungi-forms",
+   "category": "fungus",
+   "question": "เชื้อราเจริญเติบโตได้ 2 รูปแบบ คืออะไร",
+   "answers": [
+    "Budding yeast and filamentous hyphae (mold)"
+   ],
+   "explain": "สไลด์: เชื้อราเจริญได้ 2 แบบ คือ ยีสต์ที่แบ่งตัว (budding yeast) และสายรา (filamentous hyphae, mold)",
+   "imageRef": null,
+   "keywords": [
+    [
+     "yeast",
+     "yeasts",
+     "budding yeast",
+     "ยีสต์"
+    ],
+    [
+     "hyphae",
+     "mold",
+     "mould",
+     "filamentous",
+     "สายรา"
+    ]
+   ],
+   "src": "สไลด์ 29"
+  },
+  {
+   "id": "fungi-dimorphic",
+   "category": "fungus",
+   "question": "เชื้อราที่เปลี่ยนรูปตามอุณหภูมิ — เป็นสายราที่อุณหภูมิห้อง และเป็น yeast ที่อุณหภูมิร่างกาย — เรียกว่าอะไร",
+   "answers": [
+    "Dimorphic fungi",
+    "Dimorphic fungus",
+    "Dimorphic",
+    "Thermally dimorphic fungi"
+   ],
+   "explain": "เชื้อราก่อโรคที่สำคัญทางคลินิกมักเป็น dimorphic fungi",
+   "imageRef": null,
+   "keywords": null,
+   "src": "สไลด์ 29"
+  },
+  {
+   "id": "fungi-superficial",
+   "category": "fungus",
+   "question": "โรคเกลื้อน (tinea versicolor) และโรคกลาก (dermatophytosis) จัดเป็นการติดเชื้อรากลุ่มใด",
+   "answers": [
+    "Superficial mycoses",
+    "Superficial mycosis",
+    "Superficial"
+   ],
+   "explain": "การติดเชื้อราที่ผิวชั้นบน (Superficial mycoses)",
+   "imageRef": null,
+   "keywords": null,
+   "src": "สไลด์ 30"
+  },
+  {
+   "id": "fungi-systemic",
+   "category": "fungus",
+   "question": "Candidiasis, cryptococcosis, aspergillosis, mucormycosis, pneumocystosis และ histoplasmosis จัดเป็นการติดเชื้อรากลุ่มใด",
+   "answers": [
+    "Systemic mycoses",
+    "Deep mycoses",
+    "Systemic mycosis",
+    "Deep mycosis",
+    "Systemic",
+    "Deep"
+   ],
+   "explain": "การติดเชื้อราในอวัยวะภายใน (Systemic mycoses หรือ Deep mycoses)",
+   "imageRef": null,
+   "keywords": null,
+   "src": "สไลด์ 30"
+  },
+  {
+   "id": "cand-thrush",
+   "category": "fungus",
+   "question": "จงให้การวินิจฉัย (คราบขาวบนลิ้นของทารก)",
+   "answers": [
+    "Oral thrush",
+    "Oral candidiasis",
+    "Thrush",
+    "Candidiasis",
+    "Oropharyngeal candidiasis"
+   ],
+   "explain": "Oral thrush จาก Candida albicans — เชื้อเจริญได้ดีในที่อุ่นและชื้น จึงมักทำให้เกิด oral thrush, vaginitis, diaper rash",
+   "imageRef": "cand_thrush",
+   "keywords": null,
+   "src": "สไลด์ 31–32"
+  },
+  {
+   "id": "cand-diaper",
+   "category": "fungus",
+   "question": "จงให้การวินิจฉัย (ผื่นแดงบริเวณที่ใส่ผ้าอ้อมของทารก มีตุ่มกระจายรอบผื่นหลัก)",
+   "answers": [
+    "Candidiasis",
+    "Candidal diaper dermatitis",
+    "Diaper candidiasis",
+    "Cutaneous candidiasis",
+    "Diaper rash",
+    "Candida diaper rash"
+   ],
+   "explain": "Diaper rash จาก Candida — ที่อับชื้นใต้ผ้าอ้อม มีผื่นแดงและตุ่มเล็ก ๆ กระจายรอบ (satellite lesions)",
+   "imageRef": "cand_diaper",
+   "keywords": null,
+   "src": "สไลด์ 32"
+  },
+  {
+   "id": "cand-nail",
+   "category": "fungus",
+   "question": "จงให้การวินิจฉัย (เล็บมือ)",
+   "answers": [
+    "Onychomycosis",
+    "Candidal onychomycosis",
+    "Candida onychomycosis"
+   ],
+   "explain": "Onychomycosis — สไลด์จัดไว้ในกลุ่มรอยโรคของ candidiasis",
+   "imageRef": "cand_nail",
+   "keywords": null,
+   "src": "สไลด์ 32"
+  },
+  {
+   "id": "cand-organism",
+   "category": "fungus",
+   "question": "เชื้อก่อโรคที่พบบ่อยที่สุดของรอยโรคนี้คืออะไร",
+   "answers": [
+    "Candida albicans",
+    "C. albicans",
+    "Candida"
+   ],
+   "explain": "Candida albicans ทำให้เกิดโรคตั้งแต่ superficial lesions ไปจนถึง disseminated infections",
+   "imageRef": "cand_thrush",
+   "keywords": null,
+   "src": "สไลด์ 31"
+  },
+  {
+   "id": "cand-risk",
+   "category": "fungus",
+   "question": "ผู้ป่วยกลุ่มใดมีโอกาสติดเชื้อ Candida ได้ง่าย (ตอบ 1 กลุ่ม)",
+   "answers": [
+    "Diabetes mellitus",
+    "Diabetes",
+    "DM",
+    "Burns",
+    "Burn",
+    "Leukopenia",
+    "Neutropenia",
+    "Immunocompromised",
+    "เบาหวาน",
+    "แผลไฟไหม้",
+    "เม็ดเลือดขาวต่ำ"
+   ],
+   "explain": "สไลด์: ผู้ป่วยเบาหวาน แผลไฟไหม้ และผู้ที่มีเม็ดเลือดขาวต่ำ (leukopenia)",
+   "imageRef": "cand_diaper",
+   "keywords": null,
+   "src": "สไลด์ 31"
+  },
+  {
+   "id": "cand-pas",
+   "category": "fungus",
+   "question": "จงบอกชื่อเชื้อรา (ย้อม PAS)",
+   "answers": [
+    "Candidiasis",
+    "Candida",
+    "Candida albicans",
+    "Candida infection",
+    "Candida spp"
+   ],
+   "explain": "Candida spp.: yeasts และ pseudohyphae",
+   "imageRef": "cand_pas",
+   "keywords": null,
+   "src": "สไลด์ 33"
+  },
+  {
+   "id": "cand-gms-stain",
+   "category": "fungus",
+   "question": "ภาพนี้ย้อมด้วยสีพิเศษใด (เชื้อราติดสีดำบนพื้นเขียว)",
+   "answers": [
+    "GMS",
+    "Grocott methenamine silver",
+    "Gomori methenamine silver",
+    "Methenamine silver",
+    "Silver stain",
+    "Grocott"
+   ],
+   "explain": "GMS (Grocott–Gomori methenamine silver) ย้อมผนังเชื้อราเป็นสีดำบนพื้นสีเขียว ใช้กับเชื้อราแทบทุกชนิดรวมถึง Pneumocystis",
+   "imageRef": "cand_gms",
+   "keywords": null,
+   "src": "สไลด์ 33"
+  },
+  {
+   "id": "cand-he",
+   "category": "fungus",
+   "question": "จงให้การวินิจฉัย (ชิ้นเนื้อ ย้อม H&E)",
+   "answers": [
+    "Candidiasis",
+    "Candida",
+    "Candida albicans",
+    "Candida infection",
+    "Candida spp"
+   ],
+   "explain": "Candidiasis: เห็นทั้ง yeasts และ pseudohyphae",
+   "imageRef": "cand_he",
+   "keywords": null,
+   "src": "สไลด์ 34"
+  },
+  {
+   "id": "cand-A",
+   "category": "fungus",
+   "question": "สิ่งที่ป้าย A ชี้คืออะไร",
+   "answers": [
+    "Pseudohyphae",
+    "Pseudohypha",
+    "Pseudohyphae of Candida"
+   ],
+   "explain": "Pseudohyphae: yeast ที่แตกหน่อต่อกันเป็นสายยาว มีรอยคอดที่รอยต่อ ต่างจาก true hyphae ที่มีผนังกั้นตรง",
+   "imageRef": "cand_he",
+   "keywords": null,
+   "src": "สไลด์ 34"
+  },
+  {
+   "id": "cand-B",
+   "category": "fungus",
+   "question": "สิ่งที่ป้าย B ชี้คืออะไร",
+   "answers": [
+    "Yeasts",
+    "Yeast",
+    "Yeast cells",
+    "Budding yeasts",
+    "Blastoconidia"
+   ],
+   "explain": "Yeasts ของ Candida",
+   "imageRef": "cand_he",
+   "keywords": null,
+   "src": "สไลด์ 34"
+  },
+  {
+   "id": "cand-budding",
+   "category": "fungus",
+   "question": "สิ่งที่ลูกศรชี้คืออะไร",
+   "answers": [
+    "Budding yeasts",
+    "Budding yeast",
+    "Yeasts",
+    "Blastoconidia"
+   ],
+   "explain": "Budding yeasts ของ Candida",
+   "imageRef": "cand_budding",
+   "keywords": null,
+   "src": "สไลด์ 35"
+  },
+  {
+   "id": "des-candida",
+   "category": "fungus",
+   "question": "จงบรรยายรูปร่างของเชื้อ Candida ที่พบในเนื้อเยื่อ",
+   "answers": [
+    "Yeasts, budding yeasts and pseudohyphae (rare true septate hyphae)"
+   ],
+   "explain": "สไลด์: Morphology — yeast, budding yeasts, pseudohyphae, rare true septate hyphae",
+   "imageRef": "cand_pas",
+   "keywords": [
+    [
+     "yeast",
+     "yeasts",
+     "budding yeast",
+     "budding yeasts"
+    ],
+    [
+     "pseudohyphae",
+     "pseudohypha"
+    ]
+   ],
+   "src": "สไลด์ 31"
+  },
+  {
+   "id": "asp-ball",
+   "category": "fungus",
+   "question": "จงให้การวินิจฉัยรอยโรคในโพรงของปอดนี้",
+   "answers": [
+    "Aspergilloma",
+    "Fungus ball",
+    "Fungal ball",
+    "Pulmonary aspergilloma",
+    "Colonizing aspergillosis"
+   ],
+   "explain": "Aspergilloma: เห็นเป็นโพรงที่มี colonies ของเชื้อราอัดแน่น (colonizing aspergillosis) — เชื้อเจริญในโพรงเดิม ไม่ลุกลามเข้าเนื้อเยื่อ",
+   "imageRef": "asp_ball",
+   "keywords": null,
+   "src": "สไลด์ 36–37"
+  },
+  {
+   "id": "des-asp-ball",
+   "category": "fungus",
+   "question": "Aspergilloma (colonizing aspergillosis) ต่างจาก invasive aspergillosis อย่างไร",
+   "answers": [
+    "Growth of fungus in a cavity, no tissue invasion"
+   ],
+   "explain": "สไลด์: Colonizing/Aspergilloma — growth of fungus in cavity, no tissue invasion",
+   "imageRef": "asp_ball",
+   "keywords": [
+    [
+     "cavity",
+     "pre-existing cavity",
+     "โพรง"
+    ],
+    [
+     "no tissue invasion",
+     "no invasion",
+     "without tissue invasion",
+     "without invasion",
+     "not invade",
+     "noninvasive",
+     "ไม่ลุกลาม"
+    ]
+   ],
+   "src": "สไลด์ 36"
+  },
+  {
+   "id": "asp-org",
+   "category": "fungus",
+   "question": "จงบอกชื่อเชื้อรา (ชิ้นเนื้อ ย้อม GMS)",
+   "answers": [
+    "Aspergillus",
+    "Aspergillus spp",
+    "Aspergillus fumigatus",
+    "Aspergillosis",
+    "Invasive aspergillosis"
+   ],
+   "explain": "Aspergillus spp.: septate hyphae with acute angle branching",
+   "imageRef": "asp_gms2",
+   "keywords": null,
+   "src": "สไลด์ 39"
+  },
+  {
+   "id": "asp-org2",
+   "category": "fungus",
+   "question": "จงบอกชื่อเชื้อรา (ย้อม GMS)",
+   "answers": [
+    "Aspergillus",
+    "Aspergillus spp",
+    "Aspergillus fumigatus",
+    "Aspergillosis",
+    "Invasive aspergillosis"
+   ],
+   "explain": "Aspergillus spp. — septate hyphae with acute angle branching",
+   "imageRef": "asp_gms1",
+   "keywords": null,
+   "src": "สไลด์ 38"
+  },
+  {
+   "id": "asp-A",
+   "category": "fungus",
+   "question": "โครงสร้างที่ป้าย A ชี้ (ลูกศรสีแดง) คืออะไร",
+   "answers": [
+    "Septum",
+    "Septa",
+    "Septation"
+   ],
+   "explain": "Septum (ผนังกั้น) — Aspergillus เป็น septate hyphae",
+   "imageRef": "asp_gms2",
+   "keywords": null,
+   "src": "สไลด์ 39"
+  },
+  {
+   "id": "asp-B",
+   "category": "fungus",
+   "question": "เส้นใยที่ป้าย B ชี้แตกแขนงเป็นมุมแบบใด",
+   "answers": [
+    "Acute angle branching",
+    "Acute angle",
+    "Acute angle branch",
+    "Dichotomous branching",
+    "45 degree",
+    "40 degree",
+    "มุมแหลม"
+   ],
+   "explain": "Acute angle (ประมาณ 40–45°) branching — ต่างจาก Mucor ที่แตกแขนงเป็นมุมฉาก",
+   "imageRef": "asp_gms2",
+   "keywords": null,
+   "src": "สไลด์ 36, 39"
+  },
+  {
+   "id": "des-asp",
+   "category": "fungus",
+   "question": "จงบรรยายลักษณะของเส้นใยเชื้อราในภาพนี้",
+   "answers": [
+    "Septate hyphae (5–10 µm) with acute angle (40°) branching"
+   ],
+   "explain": "สไลด์: invasive aspergillosis — septate hyphae, 5–10 µm thick, branching at acute angle (40 degree), tendency to invade blood vessel, hemorrhage",
+   "imageRef": "asp_gms1",
+   "keywords": [
+    [
+     "septate",
+     "septate hyphae",
+     "septated",
+     "septa"
+    ],
+    [
+     "acute angle",
+     "acute angle branching",
+     "dichotomous",
+     "45 degree",
+     "40 degree",
+     "มุมแหลม"
+    ]
+   ],
+   "src": "สไลด์ 36, 38"
+  },
+  {
+   "id": "asp-species",
+   "category": "fungus",
+   "question": "Aspergillus species ที่ก่อโรคบ่อยที่สุดคืออะไร",
+   "answers": [
+    "Aspergillus fumigatus",
+    "A. fumigatus",
+    "Fumigatus"
+   ],
+   "explain": "Aspergillus fumigatus พบบ่อยที่สุด ก่อโรค sinusitis, pneumonia และ disseminated infection",
+   "imageRef": "asp_gms1",
+   "keywords": null,
+   "src": "สไลด์ 36"
+  },
+  {
+   "id": "asp-vessel",
+   "category": "fungus",
+   "question": "invasive aspergillosis มักลุกลามเข้าหลอดเลือด ทำให้เกิดพยาธิสภาพใดในเนื้อเยื่อ",
+   "answers": [
+    "Hemorrhage",
+    "Haemorrhage",
+    "Hemorrhagic infarction",
+    "Infarction",
+    "Thrombosis",
+    "Necrosis"
+   ],
+   "explain": "สไลด์: tendency to invade blood vessel, hemorrhage — การลุกลามหลอดเลือดทำให้เลือดออกและเนื้อตายจากการขาดเลือด",
+   "imageRef": "asp_gms2",
+   "keywords": null,
+   "src": "สไลด์ 36"
+  },
+  {
+   "id": "mucor-org",
+   "category": "fungus",
+   "question": "จงบอกชื่อเชื้อรา (ย้อม GMS)",
+   "answers": [
+    "Mucor",
+    "Mucor spp",
+    "Mucormycosis",
+    "Zygomycosis",
+    "Rhizopus",
+    "Mucorales",
+    "Zygomycetes"
+   ],
+   "explain": "Mucor spp.: broad non-septate hyphae with right angle branching",
+   "imageRef": "mucor_gms2",
+   "keywords": null,
+   "src": "สไลด์ 42"
+  },
+  {
+   "id": "des-mucor",
+   "category": "fungus",
+   "question": "จงบรรยายลักษณะของเส้นใยเชื้อราในภาพนี้",
+   "answers": [
+    "Broad, irregular, non-septate hyphae (6–50 µm) with right angle branching"
+   ],
+   "explain": "สไลด์: nonseptate irregular wide (6–50 µm) fungal hyphae with right angle branching, tendency to invade blood vessels",
+   "imageRef": "mucor_gms2",
+   "keywords": [
+    [
+     "nonseptate",
+     "aseptate",
+     "pauciseptate",
+     "no septa",
+     "without septa"
+    ],
+    [
+     "broad",
+     "wide",
+     "ribbon",
+     "irregular",
+     "6-50"
+    ],
+    [
+     "right angle",
+     "90 degree",
+     "perpendicular",
+     "มุมฉาก"
+    ]
+   ],
+   "src": "สไลด์ 40, 42"
+  },
+  {
+   "id": "mucor-pas",
+   "category": "fungus",
+   "question": "จงให้การวินิจฉัย (ชิ้นเนื้อโพรงจมูกของผู้ป่วยเบาหวาน ย้อม PAS)",
+   "answers": [
+    "Mucormycosis",
+    "Zygomycosis",
+    "Rhinocerebral mucormycosis",
+    "Mucor",
+    "Mucor infection"
+   ],
+   "explain": "Broad non-septate hyphae, right angle branching = Mucor spp. (mucormycosis)",
+   "imageRef": "mucor_pas",
+   "keywords": null,
+   "src": "สไลด์ 41"
+  },
+  {
+   "id": "mucor-dm",
+   "category": "fungus",
+   "question": "ผู้ป่วยเบาหวานต้องระวังการติดเชื้อรานี้ในรูปแบบใด",
+   "answers": [
+    "Rhinocerebral mucormycosis",
+    "Rhinocerebral",
+    "Rhino orbital cerebral mucormycosis",
+    "Rhinoorbitocerebral mucormycosis"
+   ],
+   "explain": "สไลด์: ในผู้ป่วยเบาหวานต้องระวัง rhinocerebral mucormycosis — โรคนี้มักเกิดในคนภูมิคุ้มกันต่ำ พบที่ sinus, lung, GI tract",
+   "imageRef": "mucor_gms1",
+   "keywords": null,
+   "src": "สไลด์ 40"
+  },
+  {
+   "id": "mucor-name",
+   "category": "fungus",
+   "question": "Mucormycosis มีชื่อเรียกอีกชื่อหนึ่งว่าอะไร",
+   "answers": [
+    "Zygomycosis"
+   ],
+   "explain": "Others name: Zygomycosis",
+   "imageRef": "mucor_gms1",
+   "keywords": null,
+   "src": "สไลด์ 40"
+  },
+  {
+   "id": "crypto-ink",
+   "category": "fungus",
+   "question": "การเตรียมสิ่งส่งตรวจ (CSF) ในภาพนี้ใช้วิธีใด",
+   "answers": [
+    "India ink",
+    "India ink preparation",
+    "India ink stain",
+    "Nigrosin"
+   ],
+   "explain": "India ink preparation: หมึกไม่ซึมผ่าน capsule จึงเห็นวงใสรอบเชื้อบนพื้นดำ",
+   "imageRef": "crypto_ink",
+   "keywords": null,
+   "src": "สไลด์ 43–44"
+  },
+  {
+   "id": "crypto-ink-org",
+   "category": "fungus",
+   "question": "จงบอกชื่อเชื้อ (CSF ของผู้ป่วย AIDS ที่มีไข้และปวดศีรษะ)",
+   "answers": [
+    "Cryptococcosis",
+    "Cryptococcus neoformans",
+    "Cryptococcus",
+    "C. neoformans",
+    "Cryptococcal infection"
+   ],
+   "explain": "Cryptococcus neoformans: encapsulated yeast ทำให้เกิด meningoencephalitis โดยเฉพาะในผู้ที่ภูมิคุ้มกันต่ำ",
+   "imageRef": "crypto_ink",
+   "keywords": null,
+   "src": "สไลด์ 43–44"
+  },
+  {
+   "id": "crypto-bm",
+   "category": "fungus",
+   "question": "จงให้การวินิจฉัย (ไขกระดูก ย้อม H&E)",
+   "answers": [
+    "Cryptococcosis",
+    "Cryptococcus neoformans",
+    "Cryptococcus",
+    "C. neoformans",
+    "Cryptococcal infection"
+   ],
+   "explain": "Bone marrow: cryptococcosis — yeasts with capsule",
+   "imageRef": "crypto_bm",
+   "keywords": null,
+   "src": "สไลด์ 45"
+  },
+  {
+   "id": "des-crypto-bm",
+   "category": "fungus",
+   "question": "สิ่งที่ลูกศรสีเขียวชี้คืออะไร (บรรยายสั้น ๆ)",
+   "answers": [
+    "Yeasts with capsule"
+   ],
+   "explain": "สไลด์: \"Yeasts with capsule\" — capsule ไม่ติดสี H&E จึงเห็นเป็นวงใสรอบเชื้อ",
+   "imageRef": "crypto_bm",
+   "keywords": [
+    [
+     "yeast",
+     "yeasts"
+    ],
+    [
+     "capsule",
+     "capsules",
+     "capsular",
+     "halo",
+     "encapsulated"
+    ]
+   ],
+   "src": "สไลด์ 45"
+  },
+  {
+   "id": "crypto-muci",
+   "category": "fungus",
+   "question": "ภาพนี้ย้อมด้วยสีพิเศษใดเพื่อแสดง capsule ของเชื้อ (capsule ติดสีชมพูแดง)",
+   "answers": [
+    "Mucicarmine",
+    "Mucicarmine stain",
+    "Mayer mucicarmine",
+    "Mucin stain"
+   ],
+   "explain": "Lung: cryptococcosis — mucin/mucicarmine stain for capsule",
+   "imageRef": "crypto_muci",
+   "keywords": null,
+   "src": "สไลด์ 46"
+  },
+  {
+   "id": "crypto-muci-dx",
+   "category": "fungus",
+   "question": "จงให้การวินิจฉัย (ชิ้นเนื้อปอด ย้อม mucicarmine)",
+   "answers": [
+    "Cryptococcosis",
+    "Cryptococcus neoformans",
+    "Cryptococcus",
+    "C. neoformans",
+    "Cryptococcal infection"
+   ],
+   "explain": "Capsule ของ Cryptococcus ติด mucicarmine เป็นสีชมพูแดง",
+   "imageRef": "crypto_muci",
+   "keywords": null,
+   "src": "สไลด์ 46"
+  },
+  {
+   "id": "crypto-pas",
+   "category": "fungus",
+   "question": "จงบอกชื่อเชื้อ (ย้อม PAS)",
+   "answers": [
+    "Cryptococcosis",
+    "Cryptococcus neoformans",
+    "Cryptococcus",
+    "C. neoformans",
+    "Cryptococcal infection"
+   ],
+   "explain": "Yeast ขนาด 5–10 µm มี capsule หนาเป็นวงรอบตัว — Cryptococcus",
+   "imageRef": "crypto_pas",
+   "keywords": null,
+   "src": "สไลด์ 44"
+  },
+  {
+   "id": "crypto-cns",
+   "category": "fungus",
+   "question": "Cryptococcus neoformans ก่อโรคที่ระบบใดบ่อยที่สุดในผู้ที่ภูมิคุ้มกันต่ำ",
+   "answers": [
+    "Meningoencephalitis",
+    "Meningitis",
+    "Cryptococcal meningitis",
+    "Central nervous system",
+    "CNS",
+    "Brain"
+   ],
+   "explain": "ทำให้เกิด meningoencephalitis โดยเฉพาะในผู้ที่ภูมิคุ้มกันต่ำ บาง serotype ทำให้เกิด skin lesion, lung lesion, disseminated",
+   "imageRef": "crypto_ink",
+   "keywords": null,
+   "src": "สไลด์ 43"
+  },
+  {
+   "id": "crypto-budding",
+   "category": "fungus",
+   "question": "จากภาพวาดของเชื้อนี้ การแตกหน่อ (budding) มีลักษณะอย่างไร",
+   "answers": [
+    "Narrow based budding",
+    "Narrow based unequal budding",
+    "Narrow based",
+    "Narrow neck budding"
+   ],
+   "explain": "Cryptococcus: 5–10 µm yeasts with wide capsular halo, narrow-based unequal budding",
+   "imageRef": "crypto_drawing",
+   "keywords": null,
+   "src": "สไลด์ 44"
+  },
+  {
+   "id": "des-crypto",
+   "category": "fungus",
+   "question": "จงบรรยายลักษณะของเชื้อ Cryptococcus (ขนาด รูปร่าง และสิ่งที่ล้อมรอบ)",
+   "answers": [
+    "Yeast 5–10 µm with a thick gelatinous capsule"
+   ],
+   "explain": "สไลด์: Morphology — yeast form 5–10 µm with thick gelatinous capsule; ย้อมได้ด้วย PAS, Mucicarmine, India ink preparation",
+   "imageRef": "crypto_drawing",
+   "keywords": [
+    [
+     "yeast",
+     "yeasts"
+    ],
+    [
+     "capsule",
+     "gelatinous capsule",
+     "capsular halo",
+     "halo"
+    ],
+    [
+     "5-10"
+    ]
+   ],
+   "src": "สไลด์ 43–44"
+  },
+  {
+   "id": "histo-dx",
+   "category": "fungus",
+   "question": "จงให้การวินิจฉัย (ชิ้นเนื้อจากแผลในช่องปากของผู้ป่วย HIV — สังเกตเซลล์ที่ลูกศรสีแดงชี้)",
+   "answers": [
+    "Histoplasmosis",
+    "Histoplasma capsulatum",
+    "Histoplasma",
+    "H. capsulatum"
+   ],
+   "explain": "Histoplasmosis: yeasts ขนาดเล็ก 3–5 µm อยู่เต็มไซโทพลาซึมของ macrophage — แยกจาก Talaromyces ที่ yeast มีผนังกั้นตามขวาง (transverse septum)",
+   "imageRef": "histo_tissue",
+   "keywords": null,
+   "src": "สไลด์ 47–48"
+  },
+  {
+   "id": "histo-smear",
+   "category": "fungus",
+   "question": "สิ่งที่ลูกศรชี้ภายในไซโทพลาซึมของ macrophage คืออะไร",
+   "answers": [
+    "Histoplasma capsulatum",
+    "Histoplasma",
+    "Histoplasma yeasts",
+    "Small yeasts",
+    "Yeasts",
+    "Yeast"
+   ],
+   "explain": "Histoplasmosis, 3–5 µm yeasts in macrophages",
+   "imageRef": "histo_smear",
+   "keywords": null,
+   "src": "สไลด์ 48"
+  },
+  {
+   "id": "histo-gastric",
+   "category": "fungus",
+   "question": "จงให้การวินิจฉัย (ชิ้นเนื้อกระเพาะอาหารของผู้ป่วยภูมิคุ้มกันบกพร่อง)",
+   "answers": [
+    "Histoplasmosis",
+    "Histoplasma capsulatum",
+    "Histoplasma",
+    "H. capsulatum"
+   ],
+   "explain": "Gastric mucosa: histoplasmosis — yeasts ขนาด 3–5 µm อยู่ใน lamina propria (ลูกศร)",
+   "imageRef": "histo_gastric",
+   "keywords": null,
+   "src": "สไลด์ 49"
+  },
+  {
+   "id": "des-histo",
+   "category": "fungus",
+   "question": "จงบรรยายลักษณะของเชื้อที่เห็น (ขนาด และตำแหน่งที่พบ)",
+   "answers": [
+    "Thin-walled yeasts 3–5 µm within macrophages"
+   ],
+   "explain": "สไลด์: Histoplasma capsulatum — 3–5 µm thin-walled yeast; ภาพแสดง yeasts in macrophages",
+   "imageRef": "histo_tissue",
+   "keywords": [
+    [
+     "yeast",
+     "yeasts",
+     "thin walled yeast",
+     "small yeasts"
+    ],
+    [
+     "3-5"
+    ],
+    [
+     "macrophage",
+     "macrophages",
+     "histiocytes",
+     "intracellular"
+    ]
+   ],
+   "src": "สไลด์ 47–48"
+  },
+  {
+   "id": "histo-sites",
+   "category": "fungus",
+   "question": "Histoplasma capsulatum ทำให้เกิดรอยโรคที่อวัยวะใดได้บ้าง (ตอบ 1)",
+   "answers": [
+    "Lung",
+    "Mediastinum",
+    "Adrenal gland",
+    "Adrenal",
+    "Liver",
+    "Meninges",
+    "Disseminated",
+    "ปอด"
+   ],
+   "explain": "สไลด์: Lung lesion, mediastinum, adrenal gland, liver, meninges, disseminated",
+   "imageRef": null,
+   "keywords": null,
+   "src": "สไลด์ 47"
+  },
+  {
+   "id": "talaro-org",
+   "category": "fungus",
+   "question": "จงบอกชื่อเชื้อ (ผู้ป่วย AIDS มีตุ่มที่ผิวหนังกระจายทั่วตัว)",
+   "answers": [
+    "Talaromyces marneffei",
+    "Penicillium marneffei",
+    "Talaromycosis",
+    "Penicilliosis",
+    "Penicillosis",
+    "T. marneffei",
+    "P. marneffei",
+    "Talaromyces"
+   ],
+   "explain": "Penicillosis (ชื่อใหม่ Talaromycosis) จาก Penicillium marneffei (ชื่อใหม่ Talaromyces marneffei) — yeast with binary fission / transverse septa",
+   "imageRef": "talaro_yeast",
+   "keywords": null,
+   "src": "สไลด์ 50–51"
+  },
+  {
+   "id": "talaro-septum",
+   "category": "fungus",
+   "question": "ลักษณะสำคัญของเชื้อที่ลูกศรสีเหลืองชี้คืออะไร",
+   "answers": [
+    "Transverse septum",
+    "Transverse septa",
+    "Binary fission",
+    "Central septum",
+    "Septum"
+   ],
+   "explain": "Yeasts with binary fission or transverse septa (septum divides cell in 2 parts) ขนาด 2–5 µm",
+   "imageRef": "talaro_yeast",
+   "keywords": null,
+   "src": "สไลด์ 50–51"
+  },
+  {
+   "id": "talaro-gms",
+   "category": "fungus",
+   "question": "จงบอกชื่อเชื้อ (ย้อม GMS)",
+   "answers": [
+    "Talaromyces marneffei",
+    "Penicillium marneffei",
+    "Talaromycosis",
+    "Penicilliosis",
+    "Penicillosis",
+    "T. marneffei",
+    "P. marneffei",
+    "Talaromyces"
+   ],
+   "explain": "Penicillium: GMS stain shows binary fission",
+   "imageRef": "talaro_gms",
+   "keywords": null,
+   "src": "สไลด์ 52"
+  },
+  {
+   "id": "talaro-name",
+   "category": "fungus",
+   "question": "ปัจจุบัน Penicillium marneffei เปลี่ยนชื่อเป็นอะไร",
+   "answers": [
+    "Talaromyces marneffei",
+    "T. marneffei",
+    "Talaromyces"
+   ],
+   "explain": "Penicillium marneffei → Talaromyces marneffei; โรค Penicillosis → Talaromycosis",
+   "imageRef": "talaro_gms",
+   "keywords": null,
+   "src": "สไลด์ 50"
+  },
+  {
+   "id": "des-talaro",
+   "category": "fungus",
+   "question": "จงบรรยายลักษณะทางจุลพยาธิวิทยาของเชื้อนี้",
+   "answers": [
+    "Yeasts (2–5 µm) with binary fission or transverse septa"
+   ],
+   "explain": "สไลด์: พบ yeasts with binary fission or transverse septa (septum divides cell in 2 parts) ขนาด 2–5 µm มักเกิดในคนที่ภูมิคุ้มกันต่ำ",
+   "imageRef": "talaro_gms",
+   "keywords": [
+    [
+     "yeast",
+     "yeasts"
+    ],
+    [
+     "binary fission",
+     "transverse septum",
+     "transverse septa",
+     "septum",
+     "septa"
+    ]
+   ],
+   "src": "สไลด์ 50"
+  },
+  {
+   "id": "pcp-he",
+   "category": "fungus",
+   "question": "จงให้การวินิจฉัย (ปอดของผู้ป่วย AIDS ที่มีไข้ ไอ หายใจเร็ว)",
+   "answers": [
+    "Pneumocystis pneumonia",
+    "PCP",
+    "PJP",
+    "Pneumocystosis",
+    "Pneumocystis jirovecii pneumonia",
+    "Pneumocystis carinii pneumonia",
+    "Pneumocystis jiroveci pneumonia",
+    "Pneumocystis"
+   ],
+   "explain": "Pneumocystis pneumonia: ถุงลมเต็มไปด้วยสารสีชมพูเป็นฟอง ผนังถุงลมหนามี monocytes, plasma cells และ histiocytes",
+   "imageRef": "pcp_he",
+   "keywords": null,
+   "src": "สไลด์ 53–54"
+  },
+  {
+   "id": "des-pcp-he",
+   "category": "fungus",
+   "question": "จงบรรยายลักษณะของสารที่อยู่เต็มถุงลมในภาพนี้",
+   "answers": [
+    "Pink, foamy material filling the alveolar spaces"
+   ],
+   "explain": "สไลด์: พบสารสีชมพู เป็นฟอง บรรจุเต็มในช่องว่างถุงลม และผนังถุงลมหนา",
+   "imageRef": "pcp_he",
+   "keywords": [
+    [
+     "foamy",
+     "frothy",
+     "bubbly",
+     "ฟอง"
+    ],
+    [
+     "pink",
+     "eosinophilic",
+     "ชมพู"
+    ]
+   ],
+   "src": "สไลด์ 53"
+  },
+  {
+   "id": "pcp-gms",
+   "category": "fungus",
+   "question": "จงบอกชื่อเชื้อ (ชิ้นเนื้อปอด ย้อม GMS)",
+   "answers": [
+    "Pneumocystis jirovecii",
+    "Pneumocystis jiroveci",
+    "Pneumocystis",
+    "P. jirovecii",
+    "Pneumocystis carinii"
+   ],
+   "explain": "Lung: Pneumocystis jiroveci — yeasts with cup shape",
+   "imageRef": "pcp_gms2",
+   "keywords": null,
+   "src": "สไลด์ 55"
+  },
+  {
+   "id": "pcp-shape",
+   "category": "fungus",
+   "question": "เชื้อที่ลูกศรสีแดงชี้มีรูปร่างแบบใด",
+   "answers": [
+    "Cup shape",
+    "Cup shaped",
+    "Boat shape",
+    "Boat shaped",
+    "Crushed ping pong ball",
+    "Helmet shape"
+   ],
+   "explain": "เมื่อย้อม GMS จะพบรูปร่างคล้ายถ้วย (cup) หรือเรือ (boat shape) ขนาด 4–6 µm",
+   "imageRef": "pcp_gms1",
+   "keywords": null,
+   "src": "สไลด์ 53–54"
+  },
+  {
+   "id": "pcp-cxr",
+   "category": "fungus",
+   "question": "ภาพรังสีทรวงอกของผู้ป่วย HIV ที่มีไข้ ไอ หายใจเร็ว — นึกถึงการติดเชื้อราชนิดใดมากที่สุด",
+   "answers": [
+    "Pneumocystis pneumonia",
+    "PCP",
+    "PJP",
+    "Pneumocystosis",
+    "Pneumocystis jirovecii pneumonia",
+    "Pneumocystis carinii pneumonia",
+    "Pneumocystis jiroveci pneumonia",
+    "Pneumocystis"
+   ],
+   "explain": "Pneumocystis jirovecii เป็น opportunistic fungus ผู้ป่วยมีไข้ ไอ หายใจเร็ว; gross ปอดทั้งสองข้างแข็ง หน้าตัดเป็นตุ่มนูนเล็ก ๆ (granular surface)",
+   "imageRef": "pcp_cxr",
+   "keywords": null,
+   "src": "สไลด์ 53–54"
+  },
+  {
+   "id": "des-pcp-gross",
+   "category": "fungus",
+   "question": "จงบรรยายลักษณะ gross ของปอดในโรค Pneumocystis pneumonia",
+   "answers": [
+    "Both lungs firm with a granular cut surface"
+   ],
+   "explain": "สไลด์: ปอดทั้งสองข้างแข็ง หน้าตัดเป็นตุ่มนูนเล็ก ๆ (granular surface) ปอดจมน้ำทั้งสองข้าง",
+   "imageRef": null,
+   "keywords": [
+    [
+     "both lungs",
+     "bilateral",
+     "ทั้งสองข้าง"
+    ],
+    [
+     "firm",
+     "heavy",
+     "consolidated",
+     "แข็ง"
+    ],
+    [
+     "granular",
+     "granular surface",
+     "ตุ่มนูน"
+    ]
+   ],
+   "src": "สไลด์ 53"
+  },
+  {
+   "id": "virus-cells",
+   "category": "virus",
+   "question": "เนื้อเยื่อที่ติดเชื้อไวรัส มักพบเซลล์อักเสบชนิดใดเป็นส่วนใหญ่",
+   "answers": [
+    "Lymphocytes and macrophages",
+    "Lymphocytes",
+    "Lymphocyte",
+    "Mononuclear cells",
+    "Macrophages",
+    "Mononuclear inflammatory cells"
+   ],
+   "explain": "ไวรัสเป็น obligate intracellular organism เนื้อเยื่อที่ติดเชื้อมักมีเซลล์อักเสบชนิด lymphocytes และ macrophages เป็นส่วนใหญ่",
+   "imageRef": null,
+   "keywords": null,
+   "src": "สไลด์ 56"
+  },
+  {
+   "id": "hpv-vulva",
+   "category": "virus",
+   "question": "จงให้การวินิจฉัย (รอยโรคที่อวัยวะเพศภายนอก)",
+   "answers": [
+    "Condyloma acuminatum",
+    "Condyloma acuminata",
+    "Condylomata acuminata",
+    "Anogenital wart",
+    "Anogenital warts",
+    "Genital wart",
+    "Genital warts",
+    "Venereal wart",
+    "หูดหงอนไก่"
+   ],
+   "explain": "Condyloma acuminata (หูดหงอนไก่) — หูดจาก HPV บริเวณอวัยวะสืบพันธุ์ ผิวขรุขระคล้ายดอกกะหล่ำ (ต่างจาก condyloma lata ของ secondary syphilis ที่แบนและผิวเรียบชื้น)",
+   "imageRef": "hpv_vulva",
+   "keywords": null,
+   "src": "สไลด์ 57–58"
+  },
+  {
+   "id": "hpv-perianal",
+   "category": "virus",
+   "question": "จงให้การวินิจฉัย (รอยโรครอบทวารหนัก)",
+   "answers": [
+    "Condyloma acuminatum",
+    "Condyloma acuminata",
+    "Condylomata acuminata",
+    "Anogenital wart",
+    "Anogenital warts",
+    "Genital wart",
+    "Genital warts",
+    "Venereal wart",
+    "หูดหงอนไก่"
+   ],
+   "explain": "Condyloma acuminata รอบทวารหนัก — ตุ่มผิวขรุขระหลายตุ่ม (DDx: condyloma lata ของซิฟิลิสระยะที่ 2 ซึ่งแบน เรียบ ชื้น)",
+   "imageRef": "hpv_perianal",
+   "keywords": null,
+   "src": "สไลด์ 58"
+  },
+  {
+   "id": "hpv-penis",
+   "category": "virus",
+   "question": "จงให้การวินิจฉัย (รอยโรคที่องคชาต)",
+   "answers": [
+    "Condyloma acuminatum",
+    "Condyloma acuminata",
+    "Condylomata acuminata",
+    "Anogenital wart",
+    "Anogenital warts",
+    "Genital wart",
+    "Genital warts",
+    "Venereal wart",
+    "หูดหงอนไก่"
+   ],
+   "explain": "Condyloma acuminata (anogenital warts)",
+   "imageRef": "hpv_penis",
+   "keywords": null,
+   "src": "สไลด์ 58"
+  },
+  {
+   "id": "hpv-virus",
+   "category": "virus",
+   "question": "เชื้อก่อโรคของรอยโรคนี้คืออะไร",
+   "answers": [
+    "Human papillomavirus",
+    "HPV",
+    "Human papilloma virus",
+    "HPV 6, 11",
+    "HPV type 6 and 11"
+   ],
+   "explain": "Human papillomavirus (HPV) ทำให้เซลล์เยื่อบุ squamous เพิ่มจำนวนจนเป็นตุ่มนูน เรียกว่าหูด (wart)",
+   "imageRef": "hpv_vulva",
+   "keywords": null,
+   "src": "สไลด์ 57"
+  },
+  {
+   "id": "verruca-dx",
+   "category": "virus",
+   "question": "จงให้การวินิจฉัย (ชิ้นเนื้อจากตุ่มนูนที่นิ้วมือ)",
+   "answers": [
+    "Verruca vulgaris",
+    "Common wart",
+    "Common warts",
+    "Wart",
+    "Viral wart",
+    "Verruca"
+   ],
+   "explain": "Verruca vulgaris (common wart) พบที่มือและส่วนอื่นของร่างกาย",
+   "imageRef": "verruca_low",
+   "keywords": null,
+   "src": "สไลด์ 57, 59"
+  },
+  {
+   "id": "verruca-green",
+   "category": "virus",
+   "question": "จงบอกพยาธิสภาพที่ลูกศรสีเขียวชี้",
+   "answers": [
+    "Papillomatosis",
+    "Papillomatous",
+    "Papillomatous hyperplasia"
+   ],
+   "explain": "Papillomatosis: epidermis หนาขึ้นและยื่นออกไป (exophytic growth) คล้ายนิ้วมือ",
+   "imageRef": "verruca_low",
+   "keywords": null,
+   "src": "สไลด์ 59"
+  },
+  {
+   "id": "verruca-yellow",
+   "category": "virus",
+   "question": "จงบอกพยาธิสภาพที่ลูกศรสีเหลืองชี้",
+   "answers": [
+    "Hyperkeratosis",
+    "Hyperkeratotic"
+   ],
+   "explain": "Hyperkeratosis: ผิวหนังชั้นนอกสุด (keratin) หนาตัวขึ้น",
+   "imageRef": "verruca_high",
+   "keywords": null,
+   "src": "สไลด์ 59"
+  },
+  {
+   "id": "koilocyte",
+   "category": "virus",
+   "question": "เซลล์ที่ลูกศรสีเหลืองชี้เรียกว่าอะไร (ชิ้นเนื้อปากมดลูก)",
+   "answers": [
+    "Koilocyte",
+    "Koilocytes",
+    "Koilocytosis",
+    "Koilocytic change",
+    "Koilocytic atypia"
+   ],
+   "explain": "Koilocyte: เซลล์ที่ติด HPV มีช่องว่างใสรอบนิวเคลียส นิวเคลียสติดสีเข้ม ขนาดใหญ่ขึ้น ขอบไม่เรียบ",
+   "imageRef": "koilocyte",
+   "keywords": null,
+   "src": "สไลด์ 57, 60"
+  },
+  {
+   "id": "des-koilocyte",
+   "category": "virus",
+   "question": "จงบรรยายลักษณะของเซลล์ที่ลูกศรชี้",
+   "answers": [
+    "Large hyperchromatic, irregular nuclei with a perinuclear halo"
+   ],
+   "explain": "สไลด์: Cervix: koilocyte — large hyperchromatic nuclei, perinuclear halo (และขอบนิวเคลียสไม่เรียบ)",
+   "imageRef": "koilocyte",
+   "keywords": [
+    [
+     "perinuclear halo",
+     "perinuclear clearing",
+     "clear halo",
+     "halo",
+     "perinuclear vacuolization"
+    ],
+    [
+     "hyperchromatic",
+     "hyperchromasia",
+     "dark nuclei"
+    ],
+    [
+     "large nuclei",
+     "enlarged nuclei",
+     "nuclear enlargement",
+     "enlarged",
+     "large"
+    ]
+   ],
+   "src": "สไลด์ 57, 60"
+  },
+  {
+   "id": "hpv-plantar",
+   "category": "virus",
+   "question": "หูดที่พบบริเวณฝ่าเท้าเรียกว่าอะไร",
+   "answers": [
+    "Plantar wart",
+    "Plantar warts",
+    "Verruca plantaris"
+   ],
+   "explain": "Plantar warts เป็นหูดที่พบบริเวณฝ่าเท้า; common warts (verruca vulgaris) ที่มือ; anogenital warts (condyloma acuminata) ที่อวัยวะสืบพันธุ์",
+   "imageRef": null,
+   "keywords": null,
+   "src": "สไลด์ 57"
+  },
+  {
+   "id": "cmv-dx",
+   "category": "virus",
+   "question": "จงให้การวินิจฉัย (ชิ้นเนื้อปอดของผู้ป่วยหลังปลูกถ่ายไต)",
+   "answers": [
+    "Cytomegalovirus infection",
+    "CMV infection",
+    "CMV pneumonia",
+    "CMV pneumonitis",
+    "Cytomegalovirus pneumonia",
+    "Cytomegalovirus",
+    "CMV"
+   ],
+   "explain": "Lung: cytomegalovirus infection — เซลล์ขนาดใหญ่ มี intranuclear inclusion ขนาดใหญ่สีม่วง ล้อมรอบด้วย clear halo และมี basophilic intracytoplasmic inclusions ขนาดเล็ก",
+   "imageRef": "cmv",
+   "keywords": null,
+   "src": "สไลด์ 61–62"
+  },
+  {
+   "id": "cmv-yellow",
+   "category": "virus",
+   "question": "สิ่งที่ลูกศรสีเหลืองชี้คืออะไร",
+   "answers": [
+    "Intranuclear inclusion",
+    "Intranuclear inclusions",
+    "Intranuclear inclusion body",
+    "Owl eye inclusion",
+    "Owl's eye inclusion",
+    "Owl eye"
+   ],
+   "explain": "Intranuclear inclusion ขนาดใหญ่สีม่วง (ลักษณะ owl’s eye)",
+   "imageRef": "cmv",
+   "keywords": null,
+   "src": "สไลด์ 62"
+  },
+  {
+   "id": "cmv-red",
+   "category": "virus",
+   "question": "สิ่งที่ลูกศรสีแดงชี้คืออะไร",
+   "answers": [
+    "Intracytoplasmic inclusions",
+    "Intracytoplasmic inclusion",
+    "Basophilic intracytoplasmic inclusions",
+    "Cytoplasmic inclusions"
+   ],
+   "explain": "Basophilic intracytoplasmic inclusions ขนาดเล็ก",
+   "imageRef": "cmv",
+   "keywords": null,
+   "src": "สไลด์ 62"
+  },
+  {
+   "id": "cmv-green",
+   "category": "virus",
+   "question": "บริเวณใสที่ลูกศรสีเขียวชี้ (รอบ inclusion ในนิวเคลียส) เรียกว่าอะไร",
+   "answers": [
+    "Perinuclear halo",
+    "Halo",
+    "Clear halo",
+    "Perinuclear clearing"
+   ],
+   "explain": "สไลด์ระบุว่า perinuclear halo (green) — คือวงใสที่ล้อมรอบ intranuclear inclusion",
+   "imageRef": "cmv",
+   "keywords": null,
+   "src": "สไลด์ 62"
+  },
+  {
+   "id": "des-cmv",
+   "category": "virus",
+   "question": "จงบรรยายลักษณะของเซลล์ที่ติดเชื้อในภาพนี้",
+   "answers": [
+    "Enlarged cells with a large purple intranuclear inclusion surrounded by a clear halo, and small basophilic intracytoplasmic inclusions"
+   ],
+   "explain": "สไลด์: เซลล์ที่ติดเชื้อ CMV มีขนาดใหญ่ขึ้น มี large purple intranuclear inclusion ล้อมรอบด้วย clear halo และอาจพบ basophilic intracytoplasmic inclusions ขนาดเล็ก",
+   "imageRef": "cmv",
+   "keywords": [
+    [
+     "enlarged",
+     "cytomegaly",
+     "large cell",
+     "large cells",
+     "enlarged cells"
+    ],
+    [
+     "intranuclear inclusion",
+     "intranuclear"
+    ],
+    [
+     "halo",
+     "clear halo",
+     "perinuclear halo"
+    ],
+    [
+     "intracytoplasmic inclusion",
+     "intracytoplasmic",
+     "cytoplasmic inclusions"
+    ]
+   ],
+   "src": "สไลด์ 61"
+  },
+  {
+   "id": "cmv-host",
+   "category": "virus",
+   "question": "CMV ทำให้เกิด systemic infection ในผู้ป่วยกลุ่มใด",
+   "answers": [
+    "Immunocompromised",
+    "Immunocompromised patients",
+    "Immunocompromised host",
+    "Transplant recipients",
+    "AIDS",
+    "HIV",
+    "ภูมิคุ้มกันบกพร่อง"
+   ],
+   "explain": "ในคนภูมิคุ้มกันปกติ CMV ทำให้เกิดการติดเชื้อแบบไม่มีอาการหรือ mononucleosis-like infection แต่ในผู้ป่วยภูมิคุ้มกันบกพร่องทำให้เกิด systemic infection ก่อโรคได้ในเซลล์ทุกชนิดของอวัยวะนั้น",
+   "imageRef": null,
+   "keywords": null,
+   "src": "สไลด์ 61"
+  },
+  {
+   "id": "hsv-lip",
+   "category": "virus",
+   "question": "จงให้การวินิจฉัย (ตุ่มน้ำใสเป็นกลุ่มที่ริมฝีปาก เจ็บ)",
+   "answers": [
+    "Herpes simplex virus infection",
+    "HSV infection",
+    "Herpes simplex",
+    "Herpes labialis",
+    "Herpes",
+    "HSV",
+    "Cold sore",
+    "เริม",
+    "โรคเริม"
+   ],
+   "explain": "Herpes simplex virus infection (โรคเริม) — กลุ่มตุ่มน้ำใส (vesicle group) ที่มักแตกเป็นแผลที่ผิวหนังและเยื่อบุ อาจเจ็บ",
+   "imageRef": "hsv_lip",
+   "keywords": null,
+   "src": "สไลด์ 63–64"
+  },
+  {
+   "id": "hsv-tzanck",
+   "category": "virus",
+   "question": "เซลล์ในภาพนี้ (smear ที่ขูดจากฐานตุ่มน้ำ) เรียกว่าอะไร",
+   "answers": [
+    "Multinucleated giant cells",
+    "Multinucleated giant cell",
+    "Multinucleated cells",
+    "Tzanck cells",
+    "Multinucleated epithelial giant cells"
+   ],
+   "explain": "เมื่อขูดรอยโรคไปดูจะพบเซลล์ที่ติดเชื้อมารวมกันเป็น multinucleated giant cells with glassy intranuclear inclusion (Cowdry type A) — การตรวจนี้เรียกว่า Tzanck smear",
+   "imageRef": "hsv_tzanck",
+   "keywords": null,
+   "src": "สไลด์ 63–64"
+  },
+  {
+   "id": "hsv-cowdry",
+   "category": "virus",
+   "question": "inclusion ในนิวเคลียสลักษณะใสเหมือนกระจก (glassy) ของเซลล์ที่ติดเชื้อนี้ เรียกว่าอะไร",
+   "answers": [
+    "Cowdry type A",
+    "Cowdry A",
+    "Cowdry type A inclusion",
+    "Cowdry type A inclusions",
+    "Cowdry body"
+   ],
+   "explain": "Glassy intranuclear inclusion (Cowdry type A) ใน multinucleated giant cells",
+   "imageRef": "hsv_tzanck",
+   "keywords": null,
+   "src": "สไลด์ 63"
+  },
+  {
+   "id": "hsv-histo",
+   "category": "virus",
+   "question": "จงให้การวินิจฉัย (ชิ้นเนื้อจากแผล — ดูเซลล์ที่ลูกศรสีเขียวชี้)",
+   "answers": [
+    "Herpes simplex virus infection",
+    "HSV infection",
+    "Herpes simplex",
+    "Herpes labialis",
+    "Herpes",
+    "HSV",
+    "Cold sore",
+    "เริม",
+    "โรคเริม"
+   ],
+   "explain": "เซลล์ multinucleated ที่มี glassy intranuclear inclusion บนขอบแผล = HSV infection",
+   "imageRef": "hsv_histo",
+   "keywords": null,
+   "src": "สไลด์ 64"
+  },
+  {
+   "id": "des-hsv",
+   "category": "virus",
+   "question": "จงบรรยายลักษณะของเซลล์ที่ติดเชื้อนี้",
+   "answers": [
+    "Multinucleated giant cells with glassy intranuclear inclusions (Cowdry type A)"
+   ],
+   "explain": "สไลด์: Multinucleated giant cells with glassy intranuclear inclusion (Cowdry type A)",
+   "imageRef": "hsv_tzanck",
+   "keywords": [
+    [
+     "multinucleated",
+     "multinucleation",
+     "giant cell",
+     "giant cells"
+    ],
+    [
+     "glassy",
+     "ground glass",
+     "intranuclear inclusion",
+     "cowdry"
+    ]
+   ],
+   "src": "สไลด์ 63"
+  },
+  {
+   "id": "hsv-pattern",
+   "category": "virus",
+   "question": "HSV ทำให้เกิดการอักเสบแบบใด",
+   "answers": [
+    "Necrotizing inflammation",
+    "Necrotizing",
+    "Necrotising inflammation"
+   ],
+   "explain": "HSV ทำให้เกิดการอักเสบและการตายของเนื้อเยื่อที่ติดเชื้อ (necrotizing inflammation)",
+   "imageRef": null,
+   "keywords": null,
+   "src": "สไลด์ 63"
+  },
+  {
+   "id": "mollusc-clin",
+   "category": "virus",
+   "question": "จงให้การวินิจฉัย (ตุ่มเล็ก ๆ หลายตุ่มที่ผิวหนัง)",
+   "answers": [
+    "Molluscum contagiosum",
+    "Molluscum",
+    "หูดข้าวสุก"
+   ],
+   "explain": "Molluscum contagiosum (หูดข้าวสุก): ตุ่มที่มีรอยบุ๋มตรงกลาง (umbilicated papule)",
+   "imageRef": "mollusc_clin",
+   "keywords": null,
+   "src": "สไลด์ 65–66"
+  },
+  {
+   "id": "mollusc-umbilicated",
+   "category": "virus",
+   "question": "ลักษณะเฉพาะของตุ่มที่ลูกศรชี้เรียกว่าอะไร",
+   "answers": [
+    "Umbilicated papule",
+    "Umbilicated",
+    "Umbilication",
+    "Central umbilication",
+    "Central dimple"
+   ],
+   "explain": "Umbilicated papule — ตุ่มมีรอยบุ๋มตรงกลาง",
+   "imageRef": "mollusc_clin",
+   "keywords": null,
+   "src": "สไลด์ 65–66"
+  },
+  {
+   "id": "mollusc-low",
+   "category": "virus",
+   "question": "จงให้การวินิจฉัย (ชิ้นเนื้อผิวหนัง)",
+   "answers": [
+    "Molluscum contagiosum",
+    "Molluscum",
+    "หูดข้าวสุก"
+   ],
+   "explain": "Epithelium เจริญหวำลงไปในเนื้อเยื่อด้านล่าง (endophytic growth) และพบ molluscum bodies",
+   "imageRef": "mollusc_low",
+   "keywords": null,
+   "src": "สไลด์ 65–66"
+  },
+  {
+   "id": "mollusc-growth",
+   "category": "virus",
+   "question": "รูปแบบการเจริญของ epidermis ที่ลูกศรชี้เรียกว่าอะไร",
+   "answers": [
+    "Endophytic growth",
+    "Endophytic",
+    "Endophytic proliferation"
+   ],
+   "explain": "Endophytic growth — ตรงข้ามกับหูดจาก HPV ที่ยื่นออกไปด้านนอก (exophytic)",
+   "imageRef": "mollusc_low",
+   "keywords": null,
+   "src": "สไลด์ 65–66"
+  },
+  {
+   "id": "mollusc-bodies",
+   "category": "virus",
+   "question": "สิ่งที่ลูกศรชี้คืออะไร",
+   "answers": [
+    "Molluscum bodies",
+    "Molluscum body",
+    "Henderson–Patterson bodies",
+    "Henderson–Patterson body",
+    "Intracytoplasmic inclusions",
+    "Intracytoplasmic inclusion bodies"
+   ],
+   "explain": "Molluscum bodies = intracytoplasmic inclusion of keratinocyte",
+   "imageRef": "mollusc_high",
+   "keywords": null,
+   "src": "สไลด์ 65–66"
+  },
+  {
+   "id": "des-mollusc-body",
+   "category": "virus",
+   "question": "Molluscum body คือ inclusion ชนิดใด และอยู่ในเซลล์ใด",
+   "answers": [
+    "Intracytoplasmic inclusion of keratinocytes"
+   ],
+   "explain": "สไลด์: Molluscum bodies (intracytoplasmic inclusion of keratinocyte)",
+   "imageRef": "mollusc_high",
+   "keywords": [
+    [
+     "intracytoplasmic",
+     "cytoplasmic"
+    ],
+    [
+     "keratinocyte",
+     "keratinocytes",
+     "squamous cells",
+     "epidermal cells"
+    ]
+   ],
+   "src": "สไลด์ 65"
+  },
+  {
+   "id": "rabies-dx",
+   "category": "virus",
+   "question": "จงให้การวินิจฉัย (สมองของผู้ป่วยที่มีอาการกลัวน้ำ กลัวลม ก่อนเสียชีวิต)",
+   "answers": [
+    "Rabies",
+    "Rabies encephalitis",
+    "Rabies virus infection",
+    "โรคพิษสุนัขบ้า"
+   ],
+   "explain": "Rabies (โรคพิษสุนัขบ้า) จาก rabies virus — microscopy พบ Negri bodies",
+   "imageRef": "rabies",
+   "keywords": null,
+   "src": "สไลด์ 67–68"
+  },
+  {
+   "id": "rabies-negri",
+   "category": "virus",
+   "question": "สิ่งที่ลูกศรชี้คืออะไร",
+   "answers": [
+    "Negri body",
+    "Negri bodies"
+   ],
+   "explain": "Negri body: round to oval shaped eosinophilic intracytoplasmic inclusion in pyramidal cells",
+   "imageRef": "rabies",
+   "keywords": null,
+   "src": "สไลด์ 68"
+  },
+  {
+   "id": "des-negri",
+   "category": "virus",
+   "question": "จงบรรยายลักษณะของสิ่งที่ลูกศรชี้",
+   "answers": [
+    "Round to oval, eosinophilic, intracytoplasmic inclusions in neurons"
+   ],
+   "explain": "สไลด์: Negri bodies — round to oval intracytoplasmic, eosinophilic inclusions พบใน neurons โดยเฉพาะ pyramidal cells ของ hippocampus และ Purkinje cells ใน cerebellum",
+   "imageRef": "rabies",
+   "keywords": [
+    [
+     "round",
+     "oval",
+     "round to oval"
+    ],
+    [
+     "eosinophilic",
+     "pink"
+    ],
+    [
+     "intracytoplasmic",
+     "cytoplasmic"
+    ],
+    [
+     "neuron",
+     "neurons",
+     "pyramidal cells",
+     "purkinje cells",
+     "neuronal"
+    ]
+   ],
+   "src": "สไลด์ 67–68"
+  },
+  {
+   "id": "rabies-site",
+   "category": "virus",
+   "question": "Negri bodies พบได้บ่อยในเซลล์ประสาทชนิดใด (ตอบ 1)",
+   "answers": [
+    "Pyramidal cells of hippocampus",
+    "Pyramidal cells",
+    "Pyramidal neurons",
+    "Purkinje cells",
+    "Purkinje cells of cerebellum",
+    "Hippocampus",
+    "Cerebellum"
+   ],
+   "explain": "โดยเฉพาะ pyramidal cells ของ hippocampus และ Purkinje cells ใน cerebellum",
+   "imageRef": "rabies",
+   "keywords": null,
+   "src": "สไลด์ 67"
+  },
+  {
+   "id": "strongy-gastric",
+   "category": "parasite",
+   "question": "จงให้การวินิจฉัย (ชิ้นเนื้อกระเพาะอาหารของผู้ป่วยที่ได้ยากดภูมิคุ้มกัน)",
+   "answers": [
+    "Strongyloidiasis",
+    "Strongyloides stercoralis",
+    "Strongyloides",
+    "Strongyloides hyperinfection",
+    "Disseminated strongyloidiasis"
+   ],
+   "explain": "Gastric mucosa with Strongyloid larvae — ในผู้ป่วยภูมิคุ้มกันบกพร่อง ตัวอ่อนแพร่กระจาย (disseminated) จาก uncontrolled autoinfection",
+   "imageRef": "strongy_gastric",
+   "keywords": null,
+   "src": "สไลด์ 69, 71"
+  },
+  {
+   "id": "strongy-arrow",
+   "category": "parasite",
+   "question": "สิ่งที่ลูกศรชี้คืออะไร",
+   "answers": [
+    "Larvae",
+    "Larva",
+    "Strongyloides larvae",
+    "Strongyloid larvae",
+    "Filariform larvae",
+    "Rhabditiform larvae"
+   ],
+   "explain": "Strongyloid larvae ที่ลุกลามเข้าเนื้อเยื่อ (Morphology: invasion of larvae in tissues)",
+   "imageRef": "strongy_gastric",
+   "keywords": null,
+   "src": "สไลด์ 69, 71"
+  },
+  {
+   "id": "strongy-crypt",
+   "category": "parasite",
+   "question": "จงให้การวินิจฉัย (ชิ้นเนื้อลำไส้ — ดูสิ่งที่หัวลูกศรชี้ใน crypt)",
+   "answers": [
+    "Strongyloidiasis",
+    "Strongyloides stercoralis",
+    "Strongyloides",
+    "Strongyloides hyperinfection",
+    "Disseminated strongyloidiasis"
+   ],
+   "explain": "ตัวอ่อนของ Strongyloides stercoralis อยู่ใน crypt ของลำไส้",
+   "imageRef": "strongy_crypt",
+   "keywords": null,
+   "src": "สไลด์ 70"
+  },
+  {
+   "id": "strongy-auto",
+   "category": "parasite",
+   "question": "ในผู้ป่วยภูมิคุ้มกันบกพร่อง พยาธินี้แพร่กระจายทั่วร่างกายได้เพราะกลไกใด",
+   "answers": [
+    "Uncontrolled autoinfection",
+    "Autoinfection",
+    "Auto infection",
+    "Hyperinfection"
+   ],
+   "explain": "Immunocompromised: disseminated worms due to uncontrolled autoinfection, complicated by sepsis from intestinal bacteria",
+   "imageRef": "strongy_larva",
+   "keywords": null,
+   "src": "สไลด์ 69"
+  },
+  {
+   "id": "strongy-sepsis",
+   "category": "parasite",
+   "question": "ภาวะแทรกซ้อนรุนแรงของ disseminated strongyloidiasis ที่เกิดจากแบคทีเรียในลำไส้คืออะไร",
+   "answers": [
+    "Sepsis",
+    "Gram negative sepsis",
+    "Bacterial sepsis",
+    "Septicemia",
+    "Bacteremia",
+    "Septic shock"
+   ],
+   "explain": "Sepsis from intestinal bacteria — ตัวอ่อนนำแบคทีเรียจากลำไส้เข้ากระแสเลือด",
+   "imageRef": null,
+   "keywords": null,
+   "src": "สไลด์ 69"
+  },
+  {
+   "id": "strongy-normal",
+   "category": "parasite",
+   "question": "ในคนภูมิคุ้มกันปกติ การติดเชื้อ Strongyloides stercoralis ทำให้เกิดอาการอะไร (ตอบ 1)",
+   "answers": [
+    "Diarrhea",
+    "Diarrhoea",
+    "Malabsorption",
+    "ท้องเสีย",
+    "ท้องร่วง"
+   ],
+   "explain": "Immunocompetent: diarrhea, malabsorption",
+   "imageRef": null,
+   "keywords": null,
+   "src": "สไลด์ 69"
+  },
+  {
+   "id": "entero-appendix",
+   "category": "parasite",
+   "question": "จงให้การวินิจฉัย (ไส้ติ่งที่ผ่าตัดออก — ดูสิ่งที่อยู่ในกรอบสีเหลือง)",
+   "answers": [
+    "Enterobiasis",
+    "Enterobius vermicularis",
+    "Enterobius",
+    "Pinworm",
+    "Pin worm",
+    "Threadworm",
+    "Oxyuriasis"
+   ],
+   "explain": "Enterobius vermicularis in appendix — พยาธิตัวกลม (pin worm/thread worm) อาจพบร่วมกับไส้ติ่งอักเสบ",
+   "imageRef": "entero_appendix",
+   "keywords": null,
+   "src": "สไลด์ 72–73"
+  },
+  {
+   "id": "entero-alae",
+   "category": "parasite",
+   "question": "โครงสร้างที่ลูกศรสีเหลืองชี้ (สันที่ยื่นออกด้านข้างทั้งสองข้างของตัวพยาธิ) เรียกว่าอะไร",
+   "answers": [
+    "Lateral alae",
+    "Bilateral alae",
+    "Alae",
+    "Lateral ala",
+    "Ala"
+   ],
+   "explain": "Bilateral (lateral) alae — ลักษณะเฉพาะของ Enterobius เมื่อตัดตามขวาง",
+   "imageRef": "entero_alae",
+   "keywords": null,
+   "src": "สไลด์ 74"
+  },
+  {
+   "id": "entero-org",
+   "category": "parasite",
+   "question": "จงบอกชื่อพยาธิ (ตัดขวางพยาธิตัวเมียที่มีไข่อยู่ภายใน)",
+   "answers": [
+    "Enterobius vermicularis",
+    "Enterobius",
+    "Pinworm",
+    "Pin worm",
+    "E. vermicularis",
+    "Threadworm"
+   ],
+   "explain": "Enterobius with bilateral alae — ภายในมีไข่จำนวนมาก",
+   "imageRef": "entero_eggs",
+   "keywords": null,
+   "src": "สไลด์ 75"
+  },
+  {
+   "id": "entero-common",
+   "category": "parasite",
+   "question": "Enterobius vermicularis มีชื่อสามัญว่าอะไร",
+   "answers": [
+    "Pinworm",
+    "Pin worm",
+    "Threadworm",
+    "Thread worm",
+    "พยาธิเข็มหมุด"
+   ],
+   "explain": "Enterobiasis (pin worm / thread worm)",
+   "imageRef": null,
+   "keywords": null,
+   "src": "สไลด์ 72"
+  },
+  {
+   "id": "entero-cells",
+   "category": "parasite",
+   "question": "บริเวณที่อักเสบจากตัวพยาธิที่ตายหรือไข่พยาธิ (Enterobius) มักพบเซลล์อักเสบชนิดใด",
+   "answers": [
+    "Eosinophils",
+    "Eosinophil"
+   ],
+   "explain": "Microscopy: พบเซลล์ eosinophils พร้อมกับตัวพยาธิที่ตายหรือไข่พยาธิปะปนในบริเวณที่อักเสบ",
+   "imageRef": null,
+   "keywords": null,
+   "src": "สไลด์ 72"
+  },
+  {
+   "id": "entero-sites",
+   "category": "parasite",
+   "question": "นอกจากลำไส้และไส้ติ่งแล้ว พยาธิ Enterobius ตัวเมียอาจพบได้ที่ใด (ตอบ 1)",
+   "answers": [
+    "Perianal",
+    "Perianal region",
+    "Vagina",
+    "Uterus",
+    "Fallopian tube",
+    "Ovary",
+    "รอบทวารหนัก",
+    "ช่องคลอด",
+    "มดลูก",
+    "ปีกมดลูก",
+    "รังไข่"
+   ],
+   "explain": "สไลด์: อาจพบตัวแก่เพศเมียได้ที่รอบทวารหนัก ช่องคลอด มดลูก ปีกมดลูก หรือรังไข่ ทำให้เกิดการอักเสบในอวัยวะเหล่านั้น",
+   "imageRef": null,
+   "keywords": null,
+   "src": "สไลด์ 72"
+  },
+  {
+   "id": "trich-dx",
+   "category": "parasite",
+   "question": "จงให้การวินิจฉัย (ชิ้นเนื้อกล้ามเนื้อลายของผู้ป่วยที่กินเนื้อหมูดิบ มีไข้ ปวดกล้ามเนื้อ)",
+   "answers": [
+    "Trichinellosis",
+    "Trichinosis",
+    "Trichinella spiralis",
+    "Trichinella",
+    "Trichiniasis"
+   ],
+   "explain": "Trichinellosis: encapsulated larvae in striated muscle",
+   "imageRef": "trich_labeled",
+   "keywords": null,
+   "src": "สไลด์ 76, 78"
+  },
+  {
+   "id": "trich-A",
+   "category": "parasite",
+   "question": "สิ่งที่ป้าย A ชี้คืออะไร",
+   "answers": [
+    "Inflammatory cells",
+    "Inflammatory cell",
+    "Inflammatory infiltrate",
+    "Eosinophils",
+    "Lymphocytes",
+    "Eosinophils and lymphocytes"
+   ],
+   "explain": "Inflammatory cells รอบ capsule",
+   "imageRef": "trich_labeled",
+   "keywords": null,
+   "src": "สไลด์ 78"
+  },
+  {
+   "id": "trich-B",
+   "category": "parasite",
+   "question": "สิ่งที่ป้าย B ชี้คืออะไร",
+   "answers": [
+    "Capsule",
+    "Cyst wall",
+    "Capsule of larva",
+    "Nurse cell",
+    "Fibrous capsule"
+   ],
+   "explain": "Capsule ที่หุ้มตัวอ่อน (encapsulated larvae)",
+   "imageRef": "trich_labeled",
+   "keywords": null,
+   "src": "สไลด์ 78"
+  },
+  {
+   "id": "trich-C",
+   "category": "parasite",
+   "question": "สิ่งที่ป้าย C ชี้คืออะไร",
+   "answers": [
+    "Larva",
+    "Larvae",
+    "Trichinella larva",
+    "Coiled larva",
+    "Encysted larva",
+    "Trichinella spiralis larva"
+   ],
+   "explain": "Larvae ของ Trichinella spiralis ขดอยู่ใน capsule",
+   "imageRef": "trich_labeled",
+   "keywords": null,
+   "src": "สไลด์ 78"
+  },
+  {
+   "id": "trich-org",
+   "category": "parasite",
+   "question": "จงบอกชื่อพยาธิ (ชิ้นเนื้อกล้ามเนื้อลาย)",
+   "answers": [
+    "Trichinella spiralis",
+    "Trichinella",
+    "T. spiralis"
+   ],
+   "explain": "Trichinella spiralis — encapsulated larvae in striated muscle",
+   "imageRef": "trich_cyst",
+   "keywords": null,
+   "src": "สไลด์ 76–77"
+  },
+  {
+   "id": "trich-myositis",
+   "category": "parasite",
+   "question": "ในระยะแรก ตัวอ่อนทำลายเส้นใยกล้ามเนื้อลาย ทำให้เกิดภาวะใด",
+   "answers": [
+    "Myositis",
+    "Acute myositis",
+    "กล้ามเนื้ออักเสบ"
+   ],
+   "explain": "Early stage cause myositis, because larvae destroy skeletal muscle fibers and eosinophils, lymphocytes infiltrate",
+   "imageRef": "trich_inflam",
+   "keywords": null,
+   "src": "สไลด์ 76–77"
+  },
+  {
+   "id": "trich-cells",
+   "category": "parasite",
+   "question": "เซลล์อักเสบที่แทรกในกล้ามเนื้อระยะ myositis คือเซลล์ชนิดใด (ตอบ 1)",
+   "answers": [
+    "Eosinophils",
+    "Eosinophil",
+    "Lymphocytes",
+    "Lymphocyte"
+   ],
+   "explain": "Eosinophils และ lymphocytes infiltrate",
+   "imageRef": "trich_inflam",
+   "keywords": null,
+   "src": "สไลด์ 76"
+  },
+  {
+   "id": "trich-dormant",
+   "category": "parasite",
+   "question": "ในระยะสงบ (dormant stage) รอบตัวอ่อนที่มีถุงหุ้ม มีปฏิกิริยาการอักเสบหรือไม่",
+   "answers": [
+    "No",
+    "ไม่มี",
+    "Lack of inflammation",
+    "No inflammation",
+    "Absent",
+    "Lack of inflammatory reaction"
+   ],
+   "explain": "Lack of inflammatory reaction in dormant stage",
+   "imageRef": "trich_cyst",
+   "keywords": null,
+   "src": "สไลด์ 76"
+  },
+  {
+   "id": "cryptospor-dx",
+   "category": "parasite",
+   "question": "จงให้การวินิจฉัย (ชิ้นเนื้อลำไส้เล็กส่วนต้นของผู้ป่วย AIDS ที่ท้องร่วงเป็นน้ำเรื้อรัง)",
+   "answers": [
+    "Cryptosporidiosis",
+    "Cryptosporidium",
+    "Cryptosporidium parvum",
+    "C. parvum"
+   ],
+   "explain": "Duodenum: small organism at luminal border = Cryptosporidium",
+   "imageRef": "cryptospor",
+   "keywords": null,
+   "src": "สไลด์ 79–80"
+  },
+  {
+   "id": "cryptospor-arrow",
+   "category": "parasite",
+   "question": "สิ่งที่ลูกศรสีเขียวชี้ (ตามขอบ luminal border ของเยื่อบุ) คืออะไร",
+   "answers": [
+    "Cryptosporidium",
+    "Cryptosporidium parvum",
+    "Cryptosporidium organisms",
+    "C. parvum"
+   ],
+   "explain": "Small organism at luminal border — Cryptosporidium",
+   "imageRef": "cryptospor",
+   "keywords": null,
+   "src": "สไลด์ 80"
+  },
+  {
+   "id": "cryptospor-stain",
+   "category": "parasite",
+   "question": "การตรวจอุจจาระเพื่อหาเชื้อ Cryptosporidium ใช้การย้อมสีวิธีใด",
+   "answers": [
+    "Modified acid fast",
+    "Modified Ziehl–Neelsen",
+    "Modified ZN",
+    "Modified acid fast stain",
+    "Acid fast",
+    "Kinyoun"
+   ],
+   "explain": "Dx: ตรวจอุจจาระโดยย้อมสี acid fast วิธี modified Ziehl–Neelsen จะพบ oocyst เส้นผ่าศูนย์กลางประมาณ 5 ไมโครเมตร",
+   "imageRef": null,
+   "keywords": null,
+   "src": "สไลด์ 79"
+  },
+  {
+   "id": "cryptospor-oocyst",
+   "category": "parasite",
+   "question": "เมื่อย้อมอุจจาระด้วย modified acid fast จะพบระยะใดของเชื้อ Cryptosporidium",
+   "answers": [
+    "Oocyst",
+    "Oocysts"
+   ],
+   "explain": "Oocyst ขนาดประมาณ 5 µm",
+   "imageRef": null,
+   "keywords": null,
+   "src": "สไลด์ 79"
+  },
+  {
+   "id": "cryptospor-clin",
+   "category": "parasite",
+   "question": "ผู้ป่วยกลุ่มใดมีอาการท้องร่วงจาก Cryptosporidium รุนแรง (ตอบ 1)",
+   "answers": [
+    "Children",
+    "Immunocompromised",
+    "Immunocompromised patients",
+    "AIDS",
+    "HIV",
+    "เด็ก",
+    "ภูมิคุ้มกันบกพร่อง"
+   ],
+   "explain": "คนปกติมักหายเองใน 1–2 สัปดาห์ แต่ในเด็กและคนภูมิคุ้มกันบกพร่องอาการท้องร่วงจะรุนแรง ถ่ายบ่อย (อุจจาระเป็นน้ำหรือมีมูก ไม่มีเลือด)",
+   "imageRef": null,
+   "keywords": null,
+   "src": "สไลด์ 79"
+  },
+  {
+   "id": "cysti-dx",
+   "category": "parasite",
+   "question": "จงให้การวินิจฉัย (ก้อนใต้ผิวหนัง)",
+   "answers": [
+    "Cysticercosis",
+    "Cysticercus",
+    "Cysticercus cellulosae",
+    "Taenia solium cysticercosis"
+   ],
+   "explain": "Cysticercosis in tissue: cyst formation surrounded by mixed inflammatory cells — ตัวอ่อน (cysticerci) ของพยาธิตืดหมู",
+   "imageRef": "cysticercus",
+   "keywords": null,
+   "src": "สไลด์ 81–82"
+  },
+  {
+   "id": "cysti-A",
+   "category": "parasite",
+   "question": "สิ่งที่ป้าย A ชี้คืออะไร",
+   "answers": [
+    "Scolex"
+   ],
+   "explain": "Scolex ติดกับผนังของถุง",
+   "imageRef": "cysticercus",
+   "keywords": null,
+   "src": "สไลด์ 82"
+  },
+  {
+   "id": "cysti-B",
+   "category": "parasite",
+   "question": "สิ่งที่ป้าย B ชี้คืออะไร",
+   "answers": [
+    "Spiral canal",
+    "Convoluted spiral canal",
+    "Folding of spiral canal",
+    "Convoluted folding of spiral canal"
+   ],
+   "explain": "Convoluted/extensive folding of spiral canal",
+   "imageRef": "cysticercus",
+   "keywords": null,
+   "src": "สไลด์ 82"
+  },
+  {
+   "id": "cysti-C",
+   "category": "parasite",
+   "question": "สิ่งที่ป้าย C ชี้คืออะไร",
+   "answers": [
+    "Cyst wall",
+    "Thin cyst wall",
+    "Thin wall of the cyst",
+    "Wall of cyst",
+    "Bladder wall"
+   ],
+   "explain": "Thin wall of the cyst (attached to the host tissue)",
+   "imageRef": "cysticercus",
+   "keywords": null,
+   "src": "สไลด์ 82"
+  },
+  {
+   "id": "cysti-org",
+   "category": "parasite",
+   "question": "Cysticercosis เกิดจากตัวอ่อนของพยาธิชนิดใด",
+   "answers": [
+    "Taenia solium",
+    "T. solium",
+    "Pork tapeworm",
+    "พยาธิตืดหมู"
+   ],
+   "explain": "ตัวอ่อน (cysticerci) ของพยาธิตืดหมู (Taenia solium) ไปฝังตัวตามอวัยวะ เช่น subcutaneous tissue กล้ามเนื้อ สมอง ตับ ปอด และเยื่อบุช่องท้อง",
+   "imageRef": "cysticercus",
+   "keywords": null,
+   "src": "สไลด์ 81"
+  },
+  {
+   "id": "des-cysti-dead",
+   "category": "parasite",
+   "question": "เมื่อตัวอ่อนในถุง (cysticercus) ตาย จะเกิดการเปลี่ยนแปลงรอบถุงอย่างไร",
+   "answers": [
+    "Fibrosis with many inflammatory cells (neutrophils, eosinophils, lymphocytes, epithelioid cells, giant cells) and calcification"
+   ],
+   "explain": "สไลด์: มี fibrous เพิ่มขึ้นรอบถุง มีเซลล์อักเสบ (neutrophils, eosinophils, lymphocytes, epithelioid cell, giant cells) จำนวนมาก และแคลเซียมมาเกาะ ทำให้คลำได้เป็นตุ่มแข็งหรือเห็นได้จากภาพเอกซเรย์",
+   "imageRef": null,
+   "keywords": [
+    [
+     "fibrosis",
+     "fibrous",
+     "fibrous tissue"
+    ],
+    [
+     "inflammatory cells",
+     "eosinophils",
+     "neutrophils",
+     "lymphocytes",
+     "giant cells",
+     "epithelioid"
+    ],
+    [
+     "calcification",
+     "calcified",
+     "แคลเซียม"
+    ]
+   ],
+   "src": "สไลด์ 81"
+  },
+  {
+   "id": "des-cysti-live",
+   "category": "parasite",
+   "question": "จงบรรยายลักษณะของถุง cysticercus ในระยะแรกขณะตัวอ่อนยังมีชีวิต",
+   "answers": [
+    "Thin, clear, white round cyst about 1 cm with clear fluid and a scolex attached to the wall, little inflammation"
+   ],
+   "explain": "สไลด์: ถุงบางใส สีขาว กลม ขนาดประมาณ 1 ซม. ภายในมีน้ำใสพร้อม scolex ติดกับผนังถุง รอบ ๆ มีเซลล์อักเสบเพียงเล็กน้อย",
+   "imageRef": null,
+   "keywords": [
+    [
+     "thin",
+     "clear",
+     "translucent",
+     "บางใส"
+    ],
+    [
+     "scolex"
+    ],
+    [
+     "little inflammation",
+     "minimal inflammation",
+     "few inflammatory cells",
+     "เพียงเล็กน้อย"
+    ]
+   ],
+   "src": "สไลด์ 81"
+  },
+  {
+   "id": "syph-chancre",
+   "category": "syph-clin",
+   "question": "จงให้การวินิจฉัยพร้อมระบุระยะของโรค (แผลที่ถุงอัณฑะ ไม่เจ็บ พื้นแผลสะอาด)",
+   "answers": [
+    "Primary syphilis",
+    "Syphilitic chancre",
+    "Chancre",
+    "Hard chancre",
+    "Primary syphilis chancre"
+   ],
+   "explain": "Primary syphilis: chancre เริ่มจาก painless papule แล้วกลายเป็น clean-based ulcer หายเองใน 3–6 สัปดาห์ ร่วมกับต่อมน้ำเหลืองขาหนีบโต ระยะฟักตัวเฉลี่ย 21 วัน (10–90+ วัน)",
+   "imageRef": "syph_chancre",
+   "keywords": null,
+   "src": "หน้า 1–2",
+   "report": null
+  },
+  {
+   "id": "des-chancre",
+   "category": "syph-clin",
+   "question": "จงบรรยายลักษณะของแผล chancre ใน primary syphilis",
+   "answers": [
+    "Painless papule that becomes a clean-based ulcer"
+   ],
+   "explain": "สไลด์: chancre — painless papule → a clean based ulcer and regresses 3–6 weeks",
+   "imageRef": "syph_chancre",
+   "keywords": [
+    [
+     "painless",
+     "not painful",
+     "ไม่เจ็บ"
+    ],
+    [
+     "clean base",
+     "clean based",
+     "พื้นแผลสะอาด"
+    ],
+    [
+     "ulcer",
+     "แผล"
+    ]
+   ],
+   "src": "หน้า 1",
+   "report": null
+  },
+  {
+   "id": "des-chancre-histo",
+   "category": "syph-clin",
+   "question": "ชิ้นเนื้อจากแผล chancre พบการอักเสบแบบใด และมีเซลล์อะไรบ้าง",
+   "answers": [
+    "Chronic inflammation: plasma cells, lymphocytes and macrophages, with organisms"
+   ],
+   "explain": "สไลด์: microscopic — chronic inflammation (plasma cell, lymphocyte, macrophage) and organisms",
+   "imageRef": null,
+   "keywords": [
+    [
+     "chronic inflammation",
+     "chronic"
+    ],
+    [
+     "plasma cell",
+     "plasma cells"
+    ],
+    [
+     "lymphocyte",
+     "lymphocytes"
+    ],
+    [
+     "macrophage",
+     "macrophages",
+     "histiocytes"
+    ]
+   ],
+   "src": "หน้า 1",
+   "report": null
+  },
+  {
+   "id": "syph-incubation",
+   "category": "syph-clin",
+   "question": "ระยะฟักตัวของ primary syphilis โดยเฉลี่ยประมาณกี่วัน",
+   "answers": [
+    "21 days",
+    "21",
+    "21 วัน",
+    "3 weeks",
+    "3 สัปดาห์",
+    "Three weeks"
+   ],
+   "explain": "Primary syphilis: incubation period 21 days (10–90+)",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 1",
+   "report": null
+  },
+  {
+   "id": "syph-ln",
+   "category": "syph-clin",
+   "question": "ใน primary syphilis ที่อวัยวะเพศ มักพบต่อมน้ำเหลืองบริเวณใดโต",
+   "answers": [
+    "Inguinal lymph nodes",
+    "Inguinal",
+    "Inguinal lymphadenopathy",
+    "ขาหนีบ"
+   ],
+   "explain": "Primary syphilis: inguinal lymphadenopathy",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 1",
+   "report": null
+  },
+  {
+   "id": "syph-palms",
+   "category": "syph-clin",
+   "question": "จงให้การวินิจฉัยพร้อมระบุระยะของโรค (ผื่นที่ฝ่ามือทั้งสองข้างในวัยรุ่นที่มีเพศสัมพันธ์ไม่ป้องกัน)",
+   "answers": [
+    "Secondary syphilis",
+    "Secondary stage syphilis",
+    "Syphilis secondary stage"
+   ],
+   "explain": "Secondary syphilis: ham-colored palmar macules — ผื่นที่ลำตัว แขนขา ฝ่ามือ ฝ่าเท้า ปรากฏ 2 สัปดาห์ถึง 6 เดือนหลังแผล chancre หาย ร่วมกับต่อมน้ำเหลืองโตทั่วตัว ไข้ อ่อนเพลีย",
+   "imageRef": "syph_palms",
+   "keywords": null,
+   "src": "หน้า 1, 3",
+   "report": null
+  },
+  {
+   "id": "syph-trunk",
+   "category": "syph-clin",
+   "question": "จงให้การวินิจฉัยพร้อมระบุระยะของโรค (ผื่นแดงรูปไข่มีขุยกระจายทั่วลำตัว)",
+   "answers": [
+    "Secondary syphilis",
+    "Secondary stage syphilis",
+    "Syphilis secondary stage"
+   ],
+   "explain": "Multiple oval, erythematous, scaling plaques of various sizes over the trunk (secondary syphilis)",
+   "imageRef": "syph_trunk",
+   "keywords": null,
+   "src": "หน้า 3",
+   "report": null
+  },
+  {
+   "id": "syph-clata-perianal",
+   "category": "syph-clin",
+   "question": "จงบอกชื่อรอยโรค (ก้อนนูนแบน ผิวเรียบชื้น รอบทวารหนัก ในผู้ป่วยที่มีผื่นที่ฝ่ามือ)",
+   "answers": [
+    "Condyloma lata",
+    "Condylomata lata",
+    "Condyloma latum"
+   ],
+   "explain": "Perianal condylomata lata ของ secondary syphilis — ต่างจาก condyloma acuminata (หูดหงอนไก่จาก HPV) ที่ผิวขรุขระคล้ายดอกกะหล่ำ",
+   "imageRef": "syph_clata_perianal",
+   "keywords": null,
+   "src": "หน้า 3",
+   "report": null
+  },
+  {
+   "id": "syph-clata-abc",
+   "category": "syph-clin",
+   "question": "จงบอกชื่อรอยโรค (ตุ่มแบนผิวถลอก เรียบ สีชมพูขาว ที่หน้าอก สะดือ และข้อพับเข่า)",
+   "answers": [
+    "Condyloma lata",
+    "Condylomata lata",
+    "Condyloma latum"
+   ],
+   "explain": "Condyloma lata: multiple eroded, smooth, pink-white papules on the chest (A), umbilicus (B), popliteal fossa (C)",
+   "imageRef": "syph_clata_abc",
+   "keywords": null,
+   "src": "หน้า 3",
+   "report": null
+  },
+  {
+   "id": "des-clata-palate",
+   "category": "syph-clin",
+   "question": "จงบอกชื่อรอยโรคที่เพดานปาก (ตุ่ม papillary หลายตุ่ม) และระยะของซิฟิลิส",
+   "answers": [
+    "Condyloma lata of secondary syphilis"
+   ],
+   "explain": "Condyloma lata: multiple papillary nodules of the soft and hard palate (secondary syphilis)",
+   "imageRef": "syph_clata_palate",
+   "keywords": [
+    [
+     "condyloma lata",
+     "condylomata lata",
+     "condyloma latum"
+    ],
+    [
+     "secondary",
+     "secondary syphilis",
+     "ระยะที่ 2"
+    ]
+   ],
+   "src": "หน้า 2",
+   "report": null
+  },
+  {
+   "id": "syph-mpatch-lip",
+   "category": "syph-clin",
+   "question": "จงบอกชื่อรอยโรค (แผ่นสีขาวเป็นทางยาวที่ด้านในริมฝีปากล่าง ในผู้ป่วยที่มีผื่นทั่วตัว)",
+   "answers": [
+    "Mucous patch",
+    "Mucous patches",
+    "Snail track ulcer",
+    "Snail track ulcers",
+    "Mucous patch of secondary syphilis"
+   ],
+   "explain": "Secondary syphilis-related oral mucous patches: whitish mucous patches with a \"snail-track\" appearance — พบได้ถึง 1/3 ของผู้ป่วยระยะที่ 2",
+   "imageRef": "syph_mpatch_lip",
+   "keywords": null,
+   "src": "หน้า 1, 4",
+   "report": null
+  },
+  {
+   "id": "des-mpatch-tongue",
+   "category": "syph-clin",
+   "question": "จงบอกชื่อรอยโรคที่ลิ้น และระยะของซิฟิลิส",
+   "answers": [
+    "Mucous patch of secondary syphilis"
+   ],
+   "explain": "Secondary syphilis lesion: mucous patch lesion",
+   "imageRef": "syph_tongue",
+   "keywords": [
+    [
+     "mucous patch",
+     "mucous patches"
+    ],
+    [
+     "secondary",
+     "secondary syphilis",
+     "ระยะที่ 2"
+    ]
+   ],
+   "src": "หน้า 4",
+   "report": null
+  },
+  {
+   "id": "syph-dfa",
+   "category": "syph-clin",
+   "question": "การตรวจในภาพนี้ (สิ่งส่งตรวจจาก mucous patch ส่องด้วยกล้อง fluorescence) คือการตรวจชนิดใด",
+   "answers": [
+    "Direct fluorescent antibody test",
+    "Direct fluorescent antibody",
+    "DFA",
+    "DFA-TP",
+    "Direct immunofluorescence",
+    "Direct fluorescent antibody test for T. pallidum",
+    "Immunofluorescence"
+   ],
+   "explain": "Direct immunofluorescence for T. pallidum from the mucous patches was positive — DFA-TP เป็น direct test (ตรวจหาตัวเชื้อ/แอนติเจน)",
+   "imageRef": "syph_dfa",
+   "keywords": null,
+   "src": "หน้า 4, 8",
+   "report": null
+  },
+  {
+   "id": "syph-dfa-org",
+   "category": "syph-clin",
+   "question": "เชื้อที่เรืองแสงสีเขียวในภาพนี้คืออะไร",
+   "answers": [
+    "Treponema pallidum",
+    "T. pallidum",
+    "Treponema",
+    "Spirochete",
+    "Spirochetes",
+    "Spirochaete"
+   ],
+   "explain": "Treponema pallidum (spirochete) — รูปเกลียว",
+   "imageRef": "syph_dfa",
+   "keywords": null,
+   "src": "หน้า 1, 4",
+   "report": null
+  },
+  {
+   "id": "syph-direct",
+   "category": "syph-lab",
+   "question": "การตรวจหาตัวเชื้อ T. pallidum จากรอยโรคโดยตรง (direct test) มีวิธีใดบ้าง (ตอบ 1 วิธี)",
+   "answers": [
+    "Dark field microscopy",
+    "Darkfield microscopy",
+    "Dark field",
+    "Darkfield",
+    "DFA",
+    "Direct fluorescent antibody",
+    "DFA-TP",
+    "Immunohistochemistry",
+    "IHC",
+    "NAAT",
+    "Nucleic acid amplification test",
+    "PCR"
+   ],
+   "explain": "Direct tests (organism/antigen/nucleic acid): dark field microscopic test (DF), direct fluorescence-antibody test (DFA-TP), immunohistochemistry (IHC), nucleic acid amplification (NAAT)",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 8",
+   "report": null
+  },
+  {
+   "id": "syph-gumma",
+   "category": "syph-clin",
+   "question": "จงให้การวินิจฉัยพร้อมระบุระยะของโรค (รอยโรคทำลายเนื้อเยื่อจมูกในผู้สูงอายุที่ติดเชื้อมานานไม่เคยรักษา)",
+   "answers": [
+    "Tertiary syphilis",
+    "Gumma",
+    "Gummatous syphilis",
+    "Gummatous tertiary syphilis"
+   ],
+   "explain": "Tertiary syphilis: gummatous syphilis with destructive lesions on the nose — gumma คือ granulomatous inflammation ได้ในทุกอวัยวะ เช่น ผิวหนัง กระดูก ตับ",
+   "imageRef": "syph_gumma",
+   "keywords": null,
+   "src": "หน้า 2, 4",
+   "report": null
+  },
+  {
+   "id": "syph-gumma-histo",
+   "category": "syph-clin",
+   "question": "Gumma ของ tertiary syphilis มีพยาธิสภาพทางจุลพยาธิวิทยาเป็นการอักเสบแบบใด",
+   "answers": [
+    "Granulomatous inflammation",
+    "Granuloma",
+    "Granulomatous"
+   ],
+   "explain": "Gumma: granulomatous inflammation in any organs e.g. skin, bone, liver",
+   "imageRef": "syph_gumma",
+   "keywords": null,
+   "src": "หน้า 2",
+   "report": null
+  },
+  {
+   "id": "syph-aortitis",
+   "category": "syph-clin",
+   "question": "จงให้การวินิจฉัย (aorta ของผู้ป่วยที่มีประวัติซิฟิลิสมานาน)",
+   "answers": [
+    "Syphilitic aortitis",
+    "Syphilitic aortitis with aneurysm",
+    "Syphilitic aortic aneurysm",
+    "Syphilitic aneurysm",
+    "Cardiovascular syphilis",
+    "Luetic aortitis",
+    "Tertiary syphilis"
+   ],
+   "explain": "Tertiary syphilis: syphilitic aortitis with aneurysm",
+   "imageRef": "syph_aortitis",
+   "keywords": null,
+   "src": "หน้า 5",
+   "report": null
+  },
+  {
+   "id": "syph-ar",
+   "category": "syph-clin",
+   "question": "ภาวะแทรกซ้อนต่อลิ้นหัวใจที่เกิดจากพยาธิสภาพในภาพนี้คืออะไร",
+   "answers": [
+    "Aortic regurgitation",
+    "Aortic insufficiency",
+    "AR",
+    "Aortic valve incompetence",
+    "Aortic incompetence"
+   ],
+   "explain": "Syphilitic aortitis → aortic regurgitation, aneurysm — ภาพ (a): ascending aortic aneurysm with dilatation of the aortic sinuses and aortic valve incompetence",
+   "imageRef": "syph_aorta_ab",
+   "keywords": null,
+   "src": "หน้า 2, 5",
+   "report": null
+  },
+  {
+   "id": "syph-intima",
+   "category": "syph-clin",
+   "question": "ผิว intima ของ aorta ในภาพ (a) มีลักษณะอย่างไร",
+   "answers": [
+    "Wrinkling",
+    "Wrinkled intima",
+    "Wrinkling of the intima",
+    "Tree bark",
+    "Tree bark appearance",
+    "Tree barking"
+   ],
+   "explain": "สไลด์: \"Note wrinkling of the intima without superimposed atherosclerosis\" (มักเรียก tree-bark appearance)",
+   "imageRef": "syph_aorta_ab",
+   "keywords": null,
+   "src": "หน้า 5",
+   "report": null
+  },
+  {
+   "id": "syph-tertiary-frac",
+   "category": "syph-clin",
+   "question": "ผู้ป่วยซิฟิลิสที่ไม่ได้รับการรักษา ประมาณกี่ส่วนจะเข้าสู่ระยะ tertiary",
+   "answers": [
+    "1/3",
+    "One third",
+    "33%",
+    "หนึ่งในสาม",
+    "1 ใน 3"
+   ],
+   "explain": "Tertiary syphilis: 1/3 of untreated patients develop tertiary syphilis",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 2",
+   "report": null
+  },
+  {
+   "id": "syph-tabes",
+   "category": "syph-clin",
+   "question": "Tabes dorsalis เกิดพยาธิสภาพที่ส่วนใดของไขสันหลัง",
+   "answers": [
+    "Dorsal columns",
+    "Dorsal column",
+    "Posterior columns",
+    "Posterior column",
+    "Dorsal columns of spinal cord",
+    "Posterior column of spinal cord"
+   ],
+   "explain": "Tabes dorsalis (myelopathy of the dorsal columns): weakness, sensory ataxia (tabetic gait), lancinating pain, hypoesthesia",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 2, 15",
+   "report": null
+  },
+  {
+   "id": "syph-latent",
+   "category": "syph-clin",
+   "question": "ระยะที่ไม่มีอาการหรืออาการแสดงของซิฟิลิสเลย เรียกว่าระยะใด",
+   "answers": [
+    "Latent",
+    "Latent stage",
+    "Latent syphilis",
+    "ระยะแฝง"
+   ],
+   "explain": "Latent stage: period of time when there are no visible signs or symptoms of syphilis",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 2",
+   "report": null
+  },
+  {
+   "id": "syph-early-latent",
+   "category": "syph-clin",
+   "question": "Early latent syphilis หมายถึงติดเชื้อมาไม่เกินกี่เดือน",
+   "answers": [
+    "12 months",
+    "12",
+    "12 เดือน",
+    "1 year",
+    "1 ปี",
+    "24 months",
+    "24"
+   ],
+   "explain": "Early latent syphilis: infection occurred within 12 (24) months; late latent: more than 12 (24) months",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 2",
+   "report": null
+  },
+  {
+   "id": "syph-infectious-stage",
+   "category": "syph-clin",
+   "question": "ตามแผนภาพ stages of syphilis ระยะ latent แบบใดที่ยังจัดเป็นระยะติดต่อ (infectious)",
+   "answers": [
+    "Early latent",
+    "Early latent syphilis"
+   ],
+   "explain": "แผนภาพ BMJ: primary, secondary และ early latent อยู่ในกลุ่ม infectious; late latent และ tertiary เป็น non-infectious",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 7",
+   "report": null
+  },
+  {
+   "id": "cong-infant",
+   "category": "syph-clin",
+   "question": "จงให้การวินิจฉัย (ทารกอายุ 1 เดือน มีผื่นทั่วตัว น้ำมูกไหล ตับโต มารดาไม่ได้ฝากครรภ์)",
+   "answers": [
+    "Early congenital syphilis",
+    "Congenital syphilis",
+    "ซิฟิลิสแต่กำเนิด"
+   ],
+   "explain": "Early congenital syphilis (< 2 ปี): extensive cutaneous rash containing many spirochetes, rhinitis, hepatitis, thrombocytopenia",
+   "imageRef": "syph_infant",
+   "keywords": null,
+   "src": "หน้า 6",
+   "report": null
+  },
+  {
+   "id": "cong-hutch",
+   "category": "syph-clin",
+   "question": "จงบอกชื่อความผิดปกติของฟันในภาพ",
+   "answers": [
+    "Hutchinson teeth",
+    "Hutchinson's teeth",
+    "Hutchinsonian teeth",
+    "Hutchinson incisors",
+    "Notched incisors",
+    "Notched central incisors"
+   ],
+   "explain": "Hutchinson teeth: notched central incisors — หนึ่งใน Hutchinson triad ของ late congenital syphilis",
+   "imageRef": "syph_hutch",
+   "keywords": null,
+   "src": "หน้า 6–7",
+   "report": null
+  },
+  {
+   "id": "des-cong-hutch",
+   "category": "syph-clin",
+   "question": "ฟันลักษณะนี้พบในโรคใด และระยะใด",
+   "answers": [
+    "Late congenital syphilis (> 2 years)"
+   ],
+   "explain": "Late congenital syphilis (> 2 ปี): Hutchinson triad — eighth nerve deafness, interstitial keratitis, notched central incisors",
+   "imageRef": "syph_hutch",
+   "keywords": [
+    [
+     "congenital syphilis",
+     "congenital",
+     "แต่กำเนิด"
+    ],
+    [
+     "late",
+     "late congenital"
+    ]
+   ],
+   "src": "หน้า 6",
+   "report": null
+  },
+  {
+   "id": "cong-saddle",
+   "category": "syph-clin",
+   "question": "จงบอกชื่อความผิดปกติของจมูกในภาพ (ทารกแรกเกิดที่ติดเชื้อจากมารดา)",
+   "answers": [
+    "Saddle nose",
+    "Saddle nose deformity"
+   ],
+   "explain": "Saddle nose in a newborn with congenital syphilis",
+   "imageRef": "syph_saddle",
+   "keywords": null,
+   "src": "หน้า 6–7",
+   "report": null
+  },
+  {
+   "id": "cong-saddle-mech",
+   "category": "syph-clin",
+   "question": "Saddle nose ใน early congenital syphilis เกิดจากพยาธิสภาพใด",
+   "answers": [
+    "Osteochondritis",
+    "Osteochondritis of the nose",
+    "Collapse of the bridge of the nose"
+   ],
+   "explain": "Osteochondritis with collapse of the bridge of the nose (saddle nose)",
+   "imageRef": "syph_saddle",
+   "keywords": null,
+   "src": "หน้า 6",
+   "report": null
+  },
+  {
+   "id": "des-hutch-triad",
+   "category": "syph-clin",
+   "question": "Hutchinson triad ประกอบด้วยอะไรบ้าง",
+   "answers": [
+    "Eighth nerve deafness, interstitial keratitis and notched central incisors (Hutchinson teeth)"
+   ],
+   "explain": "Late congenital syphilis (> 2 ปี): Hutchinson triad — eighth nerve deafness, interstitial keratitis (blindness), notched central incisors (Hutchinson teeth); ร่วมกับ frontal bossing, maxillary hypoplasia",
+   "imageRef": null,
+   "keywords": [
+    [
+     "eighth nerve deafness",
+     "8th nerve deafness",
+     "sensorineural deafness",
+     "deafness",
+     "hearing loss",
+     "หูหนวก"
+    ],
+    [
+     "interstitial keratitis",
+     "keratitis"
+    ],
+    [
+     "notched incisors",
+     "notched central incisors",
+     "hutchinson teeth",
+     "hutchinsons teeth"
+    ]
+   ],
+   "src": "หน้า 6",
+   "report": null
+  },
+  {
+   "id": "cong-tibia",
+   "category": "syph-clin",
+   "question": "ใน early congenital syphilis, periostitis ทำให้กระดูกใดโก่งงอ",
+   "answers": [
+    "Tibia",
+    "Bowing of the tibia",
+    "Saber shin",
+    "Sabre shin",
+    "กระดูกหน้าแข้ง"
+   ],
+   "explain": "Periostitis with bowing of the tibia",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 6",
+   "report": null
+  },
+  {
+   "id": "cong-route",
+   "category": "syph-clin",
+   "question": "เชื้อซิฟิลิสผ่านจากมารดาสู่ทารกในครรภ์ทางใด",
+   "answers": [
+    "Placenta",
+    "Transplacental",
+    "Via placenta",
+    "ทางรก",
+    "รก"
+   ],
+   "explain": "Organisms transferred to fetus by placenta — ทำให้แท้งช่วงท้าย ทารกตายคลอด หรือเสียชีวิตหลังคลอดไม่นาน",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 6",
+   "report": null
+  },
+  {
+   "id": "des-cong-mom",
+   "category": "syph-clin",
+   "question": "มารดาที่เป็นซิฟิลิสระยะใดถ่ายทอดเชื้อสู่ทารกในครรภ์ได้บ่อย",
+   "answers": [
+    "Primary and secondary syphilis (many organisms)"
+   ],
+   "explain": "Common in primary and secondary syphilis (many organisms) of pregnant women",
+   "imageRef": null,
+   "keywords": [
+    [
+     "primary"
+    ],
+    [
+     "secondary"
+    ]
+   ],
+   "src": "หน้า 6",
+   "report": null
+  },
+  {
+   "id": "cong-age",
+   "category": "syph-clin",
+   "question": "การแบ่ง congenital syphilis เป็น early และ late ใช้อายุเท่าใดเป็นเกณฑ์",
+   "answers": [
+    "2 years",
+    "2",
+    "2 ปี",
+    "Two years"
+   ],
+   "explain": "Early < 2 ปี, late > 2 ปี",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 6",
+   "report": null
+  },
+  {
+   "id": "lab-ntt",
+   "category": "syph-lab",
+   "question": "VDRL และ RPR จัดเป็นการตรวจกลุ่มใด",
+   "answers": [
+    "Nontreponemal test",
+    "Nontreponemal",
+    "Nontreponemal tests",
+    "Nontreponemal serologic test"
+   ],
+   "explain": "Nontreponemal serologic test: VDRL, RPR — ตรวจแอนติบอดีต่อ cardiolipin โดยใช้ phospholipid antigen",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 8–9",
+   "report": null
+  },
+  {
+   "id": "lab-tt",
+   "category": "syph-lab",
+   "question": "TPHA, TPPA และ FTA-ABS จัดเป็นการตรวจกลุ่มใด",
+   "answers": [
+    "Treponemal test",
+    "Treponemal",
+    "Treponemal tests",
+    "Antitreponemal test",
+    "Treponemal serologic test"
+   ],
+   "explain": "Treponemal tests: conventional (FTA-ABS, TPPA, TPHA), labeled immunoassay (EIA, CLIA, CMIA, E-CLIA) และ rapid diagnostic tests",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 8–9",
+   "report": null
+  },
+  {
+   "id": "lab-ntt-antigen",
+   "category": "syph-lab",
+   "question": "Nontreponemal test ตรวจหาแอนติบอดีต่อแอนติเจนใด",
+   "answers": [
+    "Cardiolipin",
+    "Anticardiolipin",
+    "Cardiolipin antigen",
+    "Phospholipid",
+    "Phospholipid antigen",
+    "Cardiolipin lecithin cholesterol"
+   ],
+   "explain": "Detect Ab against cardiolipin (found in mitochondria and certain bacterial membranes) — การทดสอบใช้ phospholipid antigen",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 9",
+   "report": null
+  },
+  {
+   "id": "lab-tt-antigen",
+   "category": "syph-lab",
+   "question": "Treponemal test ตรวจหาแอนติบอดีต่ออะไร",
+   "answers": [
+    "Treponema pallidum",
+    "T. pallidum",
+    "T. pallidum antigen",
+    "Treponema pallidum antigens"
+   ],
+   "explain": "Antitreponemal serologic test: detect Ab against T. pallidum",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 9",
+   "report": null
+  },
+  {
+   "id": "des-ntt-use",
+   "category": "syph-lab",
+   "question": "Nontreponemal test (RPR/VDRL) ใช้ประโยชน์หลัก 2 อย่างคืออะไร",
+   "answers": [
+    "Screening and follow-up of treatment"
+   ],
+   "explain": "Nontreponemal: screening test (1–4 wks after primary chancre found), follow-up",
+   "imageRef": null,
+   "keywords": [
+    [
+     "screening",
+     "screen",
+     "คัดกรอง"
+    ],
+    [
+     "follow up",
+     "follow-up",
+     "monitoring",
+     "monitor",
+     "ติดตาม"
+    ]
+   ],
+   "src": "หน้า 9",
+   "report": null
+  },
+  {
+   "id": "lab-bfp-causes",
+   "category": "syph-lab",
+   "question": "จงยกตัวอย่างภาวะที่ทำให้ nontreponemal test ให้ผลบวกปลอม (ตอบ 1)",
+   "answers": [
+    "SLE",
+    "Systemic lupus erythematosus",
+    "Lupus",
+    "Autoimmune disease",
+    "Autoimmune diseases",
+    "Hypergammaglobulinemia",
+    "Leprosy",
+    "Malaria",
+    "Hepatitis",
+    "Infectious mononucleosis",
+    "Viral infection",
+    "Pregnancy",
+    "Acute illness",
+    "Other treponemal diseases",
+    "ตั้งครรภ์"
+   ],
+   "explain": "False positive: SLE, autoimmune diseases, hypergammaglobulinemia, leprosy, acute illness such as malaria, hepatitis, infectious mononucleosis, other viral infection, pregnancy — และโรค treponemal อื่นก็ให้ผลบวกได้",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 9",
+   "report": null
+  },
+  {
+   "id": "lab-ntt-cure",
+   "category": "syph-lab",
+   "question": "หลังรักษาหาย ผล nontreponemal test จะเป็นอย่างไร",
+   "answers": [
+    "Negative",
+    "Nonreactive",
+    "Becomes nonreactive",
+    "Becomes negative",
+    "ผลลบ"
+   ],
+   "explain": "Nontreponemal test: cure → negative result (titer ลดลงจนตรวจไม่พบ)",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 9",
+   "report": null
+  },
+  {
+   "id": "des-tt-after-cure",
+   "category": "syph-lab",
+   "question": "หลังรักษาหายแล้ว treponemal test มักให้ผลอย่างไร และใช้ติดตามผลการรักษาได้หรือไม่",
+   "answers": [
+    "Usually stays reactive after cure, so it cannot be used to follow treatment response"
+   ],
+   "explain": "หมายเหตุข้อ 2 ของ reverse algorithm: \"Treponemal antibodies จะตรวจพบด้วยวิธี TT ต่อไปได้หลังหายจากโรคแล้ว\" และกราฟ treponemal IgG คงที่ราว 100% นานถึง 20 ปี จึงติดตามผลการรักษาด้วย nontreponemal titer แทน — สังเกต: สไลด์หน้า 9 มีบรรทัดเขียนว่า \"positive until cure\" ซึ่งขัดกับส่วนอื่นของบรรยาย ควรยึดตามตารางแปลผลและหมายเหตุ",
+   "imageRef": null,
+   "keywords": [
+    [
+     "remains reactive",
+     "remain reactive",
+     "remains positive",
+     "remain positive",
+     "stays positive",
+     "stays reactive",
+     "persist",
+     "persists",
+     "lifelong",
+     "for life",
+     "ยังเป็นบวก"
+    ],
+    [
+     "cannot",
+     "not useful",
+     "not used",
+     "ไม่ได้"
+    ]
+   ],
+   "src": "หน้า 9–10, 12",
+   "report": null
+  },
+  {
+   "id": "lab-tt-onset",
+   "category": "syph-lab",
+   "question": "Treponemal test เริ่มให้ผลบวกหลังติดเชื้อประมาณกี่สัปดาห์",
+   "answers": [
+    "4-6 weeks",
+    "4-6",
+    "4 to 6 weeks",
+    "4-6 สัปดาห์"
+   ],
+   "explain": "Treponemal: positive after infection 4–6 wks and continuous",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 9",
+   "report": null
+  },
+  {
+   "id": "rpr-A",
+   "category": "syph-lab",
+   "question": "RPR card test: วง A อ่านผลว่าอย่างไร",
+   "answers": [
+    "Reactive",
+    "Positive"
+   ],
+   "explain": "Reactive: เห็นอนุภาคผงถ่านจับกลุ่มเป็นก้อนดำกระจาย — Nonreactive: ผงถ่านกระจายเรียบไม่จับกลุ่ม มักไปรวมเป็นจุดหรือขีดตรงกลางวง",
+   "imageRef": "lab_rpr_qual",
+   "keywords": null,
+   "src": "หน้า 8",
+   "report": null
+  },
+  {
+   "id": "rpr-B",
+   "category": "syph-lab",
+   "question": "RPR card test: วง B อ่านผลว่าอย่างไร",
+   "answers": [
+    "Nonreactive",
+    "Negative"
+   ],
+   "explain": "Nonreactive: ไม่มีการจับกลุ่ม ผงถ่านรวมเป็นจุดหรือขีดตรงกลาง",
+   "imageRef": "lab_rpr_qual",
+   "keywords": null,
+   "src": "หน้า 8",
+   "report": null
+  },
+  {
+   "id": "rpr-titer",
+   "category": "syph-lab",
+   "question": "ทำ RPR แบบ semiquantitative โดยเจือจางซีรัม 1:2 ถึง 1:16 ได้ผลตามภาพ — titer ของผู้ป่วยรายนี้คือเท่าใด",
+   "answers": [
+    "1:8",
+    "1/8"
+   ],
+   "explain": "Endpoint titer = dilution สูงสุดที่ยังเห็นการจับกลุ่ม: 1:2 reactive, 1:4 weak reactive, 1:8 minimally reactive, 1:16 nonreactive → titer = 1:8",
+   "imageRef": "lab_rpr_titer",
+   "keywords": null,
+   "src": "หน้า 8",
+   "report": null
+  },
+  {
+   "id": "tpha-test",
+   "category": "syph-lab",
+   "question": "การทดสอบใน microplate นี้ใช้เม็ดเลือดแดงที่เคลือบแอนติเจนของ T. pallidum — คือการตรวจใด",
+   "answers": [
+    "TPHA",
+    "Treponema pallidum hemagglutination",
+    "Treponema pallidum hemagglutination assay",
+    "Treponema pallidum haemagglutination",
+    "MHA-TP",
+    "Microhemagglutination assay"
+   ],
+   "explain": "Treponema pallidum hemagglutination (TPHA) เป็น conventional treponemal test",
+   "imageRef": "lab_tpha",
+   "keywords": null,
+   "src": "หน้า 8–9",
+   "report": null
+  },
+  {
+   "id": "tpha-A",
+   "category": "syph-lab",
+   "question": "TPHA: หลุม A อ่านผลว่าอย่างไร",
+   "answers": [
+    "Reactive",
+    "Positive"
+   ],
+   "explain": "หลักการอ่าน hemagglutination: เม็ดเลือดแดงจับกลุ่มกระจายเป็นแผ่นทั่วก้นหลุม (mat) = reactive; เม็ดเลือดแดงตกเป็นจุดกลมเล็กกลางหลุม (button) = nonreactive — แถวนี้เป็นการเจือจางซีรัมทีละสองเท่า หลุมแรก ๆ จึงเป็น mat แล้วเปลี่ยนเป็น button",
+   "imageRef": "lab_tpha",
+   "keywords": null,
+   "src": "หน้า 8",
+   "report": null
+  },
+  {
+   "id": "tpha-B",
+   "category": "syph-lab",
+   "question": "TPHA: หลุม B อ่านผลว่าอย่างไร",
+   "answers": [
+    "Nonreactive",
+    "Negative"
+   ],
+   "explain": "Button (จุดกลมเล็กกลางหลุม) = ไม่มีการจับกลุ่ม = nonreactive",
+   "imageRef": "lab_tpha",
+   "keywords": null,
+   "src": "หน้า 8",
+   "report": null
+  },
+  {
+   "id": "rdt-which",
+   "category": "syph-lab",
+   "question": "Rapid test สำหรับซิฟิลิส 3 ตลับในภาพ ตลับใดอ่านผลเป็น reactive (ตอบหมายเลข)",
+   "answers": [
+    "1",
+    "ตลับที่ 1",
+    "ตลับ 1",
+    "Cassette 1",
+    "No 1",
+    "Number 1"
+   ],
+   "explain": "ตลับ 1 มีแถบทั้งที่ C (control) และ B (test) = reactive; ตลับ 3 มีแถบที่ C เท่านั้น = nonreactive — ต้องเห็นแถบ control ทุกครั้งผลจึงใช้ได้",
+   "imageRef": "lab_rdt",
+   "keywords": null,
+   "src": "หน้า 8",
+   "report": null
+  },
+  {
+   "id": "rdt-control",
+   "category": "syph-lab",
+   "question": "แถบที่ตำแหน่ง C ของตลับ rapid test มีหน้าที่อะไร",
+   "answers": [
+    "Control line",
+    "Control",
+    "Control band",
+    "เส้นควบคุม"
+   ],
+   "explain": "C = control line ต้องขึ้นทุกครั้ง ถ้าไม่ขึ้นแปลว่าการทดสอบใช้ไม่ได้ (invalid); A = หลุมใส่ตัวอย่าง",
+   "imageRef": "lab_rdt",
+   "keywords": null,
+   "src": "หน้า 8",
+   "report": null
+  },
+  {
+   "id": "rdt-class",
+   "category": "syph-lab",
+   "question": "Rapid diagnostic test สำหรับซิฟิลิสในภาพ จัดเป็น treponemal หรือ nontreponemal test",
+   "answers": [
+    "Treponemal",
+    "Treponemal test"
+   ],
+   "explain": "แผนภูมิ Laboratory Diagnosis for Syphilis จัด rapid diagnostic tests ไว้ใน treponemal tests",
+   "imageRef": "lab_rdt",
+   "keywords": null,
+   "src": "หน้า 8",
+   "report": null
+  },
+  {
+   "id": "graph-A",
+   "category": "syph-lab",
+   "question": "กราฟร้อยละของผู้ป่วยที่ตรวจพบแอนติบอดีตามเวลาหลังติดเชื้อซิฟิลิส — เส้น A คือแอนติบอดีชนิดใด",
+   "answers": [
+    "Treponemal IgM",
+    "IgM",
+    "Treponemal IgM antibody",
+    "IgM treponemal"
+   ],
+   "explain": "Treponemal IgM ขึ้นเร็วที่สุด สูงสุดช่วงสัปดาห์ที่ 8–10 แล้วลดลงจนหายไป",
+   "imageRef": "graph_syph",
+   "keywords": null,
+   "src": "หน้า 10",
+   "report": null
+  },
+  {
+   "id": "graph-B",
+   "category": "syph-lab",
+   "question": "จากกราฟเดิม เส้น B คือแอนติบอดีชนิดใด",
+   "answers": [
+    "Treponemal IgG",
+    "Treponemal IgG antibody",
+    "IgG treponemal",
+    "Treponemal antibody",
+    "Treponemal"
+   ],
+   "explain": "Treponemal IgG ขึ้นแล้วคงที่ราว 100% ไปตลอดถึง 20 ปี",
+   "imageRef": "graph_syph",
+   "keywords": null,
+   "src": "หน้า 10",
+   "report": null
+  },
+  {
+   "id": "des-graph-C",
+   "category": "syph-lab",
+   "question": "จากกราฟเดิม เส้น C (เส้นประ) คือแอนติบอดีชนิดใด ในผู้ป่วยกลุ่มใด",
+   "answers": [
+    "Nontreponemal IgM/IgG in patients who are untreated, failed treatment, or reinfected"
+   ],
+   "explain": "Nontreponemal IgM/IgG (untreated, failed treatment, or reinfection) — ลดลงเพียงช้า ๆ และคงอยู่",
+   "imageRef": "graph_syph",
+   "keywords": [
+    [
+     "nontreponemal",
+     "rpr",
+     "vdrl"
+    ],
+    [
+     "untreated",
+     "not treated",
+     "failed treatment",
+     "reinfection",
+     "ไม่ได้รักษา"
+    ]
+   ],
+   "src": "หน้า 10",
+   "report": null
+  },
+  {
+   "id": "des-graph-D",
+   "category": "syph-lab",
+   "question": "จากกราฟเดิม เส้น D คือแอนติบอดีชนิดใด ในผู้ป่วยกลุ่มใด",
+   "answers": [
+    "Nontreponemal IgM/IgG in treated patients"
+   ],
+   "explain": "Nontreponemal IgM/IgG (treated) — ลดลงชัดหลังการรักษา จึงใช้ติดตามผลการรักษา",
+   "imageRef": "graph_syph",
+   "keywords": [
+    [
+     "nontreponemal",
+     "rpr",
+     "vdrl"
+    ],
+    [
+     "treated",
+     "after treatment",
+     "หลังรักษา"
+    ]
+   ],
+   "src": "หน้า 10",
+   "report": null
+  },
+  {
+   "id": "sens-secondary",
+   "category": "syph-lab",
+   "question": "Nontreponemal test (VDRL/RPR) มีความไว (sensitivity) สูงสุด 100% ในระยะใด",
+   "answers": [
+    "Secondary",
+    "Secondary syphilis",
+    "Secondary stage"
+   ],
+   "explain": "ตาราง sensitivity: VDRL primary 78%, secondary 100%, latent 96%, late 71%; RPR 86, 100, 95, 73% — และสไลด์ระบุ NTT \"positive in secondary syphilis\"",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 9, 11",
+   "report": null
+  },
+  {
+   "id": "sens-late",
+   "category": "syph-lab",
+   "question": "VDRL มีความไวต่ำที่สุดในระยะใดของซิฟิลิส",
+   "answers": [
+    "Late",
+    "Late syphilis",
+    "Tertiary",
+    "Tertiary syphilis"
+   ],
+   "explain": "VDRL sensitivity: late 71% (37–94) ต่ำกว่าระยะอื่น ส่วน treponemal test ยังไวสูงในระยะ late (TPHA 99%, FTA-ABS 96%)",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 11",
+   "report": null
+  },
+  {
+   "id": "algo-trad",
+   "category": "syph-lab",
+   "question": "การตรวจคัดกรองซิฟิลิสแบบ traditional sequence algorithm เริ่มตรวจด้วยการตรวจกลุ่มใด",
+   "answers": [
+    "Nontreponemal test",
+    "Nontreponemal",
+    "RPR",
+    "VDRL",
+    "RPR or VDRL",
+    "Qualitative RPR"
+   ],
+   "explain": "Traditional: qualitative RPR/VDRL ก่อน → ถ้า reactive ทำ quantitative titer และ treponemal test",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 11",
+   "report": null
+  },
+  {
+   "id": "algo-rev",
+   "category": "syph-lab",
+   "question": "การตรวจคัดกรองซิฟิลิสแบบ reverse sequence algorithm เริ่มตรวจด้วยการตรวจกลุ่มใด",
+   "answers": [
+    "Treponemal test",
+    "Treponemal",
+    "EIA",
+    "CIA",
+    "EIA or CIA",
+    "CLIA",
+    "Treponemal immunoassay"
+   ],
+   "explain": "Reverse: treponemal test (EIA หรือ CIA) ก่อน → ถ้า reactive ทำ qualitative RPR/VDRL",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 12",
+   "report": null
+  },
+  {
+   "id": "algo-rev-next",
+   "category": "syph-lab",
+   "question": "ผลตรวจตาม reverse algorithm เป็นดังรายงาน — ขั้นตอนถัดไปควรตรวจอะไร",
+   "answers": [
+    "Second treponemal test",
+    "Different treponemal test",
+    "Another treponemal test",
+    "Alternative treponemal test",
+    "Treponemal test",
+    "TPPA",
+    "TP-PA",
+    "TPHA"
+   ],
+   "explain": "Reverse algorithm: treponemal reactive แต่ RPR nonreactive → ตรวจ second treponemal test (ต่างวิธีจากครั้งแรก เช่น TPPA)",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 12",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "Treponemal test (CLIA)",
+      "Reactive"
+     ],
+     [
+      "RPR (qualitative)",
+      "Nonreactive"
+     ]
+    ],
+    "note": "หญิง 28 ปี ตรวจคัดกรองก่อนแต่งงาน ไม่มีอาการ"
+   }
+  },
+  {
+   "id": "algo-rev-unlikely",
+   "category": "syph-lab",
+   "question": "จงแปลผลการตรวจตาม reverse algorithm",
+   "answers": [
+    "Syphilis unlikely",
+    "No syphilis",
+    "False positive treponemal test",
+    "False positive initial treponemal test",
+    "False positive CLIA",
+    "False positive",
+    "Not syphilis"
+   ],
+   "explain": "TT ตัวแรก reactive แต่ TT ตัวที่สอง nonreactive → syphilis unlikely (ผลบวกปลอมของ TT ตัวแรก) — reverse algorithm ให้ผลบวกปลอมสูงในประชากรความชุกต่ำ ถ้าผลไม่สอดคล้องให้ปรึกษาผู้เชี่ยวชาญและดูประวัติการรักษาทุกครั้ง",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 12",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "Treponemal test (CLIA)",
+      "Reactive"
+     ],
+     [
+      "RPR (qualitative)",
+      "Nonreactive"
+     ],
+     [
+      "TPPA (second treponemal test)",
+      "Nonreactive"
+     ]
+    ],
+    "note": "ชาย 35 ปี ตรวจสุขภาพประจำปี ไม่มีอาการ ไม่มีประวัติเสี่ยง"
+   }
+  },
+  {
+   "id": "algo-rev-latent",
+   "category": "syph-lab",
+   "question": "ผู้ป่วยรายนี้ไม่ทราบว่าเคยได้รับการรักษาซิฟิลิสหรือไม่ และไม่มีอาการ — แพทย์อาจพิจารณาให้การรักษาเหมือนซิฟิลิสระยะใด",
+   "answers": [
+    "Latent syphilis",
+    "Latent",
+    "Late latent syphilis",
+    "Late latent",
+    "ระยะแฝง",
+    "ซิฟิลิสระยะแฝง"
+   ],
+   "explain": "หมายเหตุ reverse algorithm ข้อ 2: ถ้า initial TT reactive แต่ NTT nonreactive ให้พิจารณาประวัติการรักษาร่วมด้วยทุกครั้ง ถ้าไม่ทราบประวัติแพทย์อาจพิจารณาให้การรักษาเหมือนกับซิฟิลิสระยะแฝง",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 12",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "Treponemal test (CLIA)",
+      "Reactive"
+     ],
+     [
+      "RPR (qualitative)",
+      "Nonreactive"
+     ],
+     [
+      "TPPA (second treponemal test)",
+      "Reactive"
+     ]
+    ],
+    "note": "ชาย 50 ปี จำประวัติการรักษาไม่ได้ ไม่มีอาการ"
+   }
+  },
+  {
+   "id": "algo-active",
+   "category": "syph-lab",
+   "question": "จงแปลผล",
+   "answers": [
+    "Active syphilis",
+    "Syphilis",
+    "Untreated syphilis",
+    "Previously treated or untreated syphilis",
+    "Current syphilis",
+    "Syphilis infection"
+   ],
+   "explain": "NTT reactive + TT reactive = syphilis (active) หรือเพิ่งรักษาที่ titer ยังไม่ลด หรือรักษาแล้วแต่ titer ค้าง — titer สูง 1:128 เข้ากับโรคที่ยัง active",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 11, 13–14",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "RPR (quantitative)",
+      "Reactive 1:128"
+     ],
+     [
+      "TPHA",
+      "Reactive"
+     ]
+    ],
+    "note": "ชาย 24 ปี มีผื่นที่ลำตัวและฝ่ามือ"
+   }
+  },
+  {
+   "id": "algo-bfp",
+   "category": "syph-lab",
+   "question": "จงแปลผล",
+   "answers": [
+    "Biological false positive",
+    "Biologic false positive",
+    "BFP",
+    "False positive nontreponemal test",
+    "False positive RPR",
+    "False positive",
+    "Syphilis unlikely"
+   ],
+   "explain": "NTT reactive แต่ TT nonreactive = biological false positive (BFP) — ภาวะที่ให้ผลบวกปลอม เช่น SLE โรคภูมิต้านตนเอง การตั้งครรภ์ การติดเชื้อไวรัส",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 11, 13–14",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "RPR (quantitative)",
+      "Reactive 1:2"
+     ],
+     [
+      "TPPA",
+      "Nonreactive"
+     ]
+    ],
+    "note": "หญิง 30 ปี เป็น SLE ตรวจก่อนผ่าตัด"
+   }
+  },
+  {
+   "id": "algo-treated",
+   "category": "syph-lab",
+   "question": "จงแปลผล",
+   "answers": [
+    "Previously treated syphilis",
+    "Treated syphilis",
+    "Past syphilis",
+    "Past treated syphilis",
+    "Prior treated syphilis",
+    "Old treated syphilis",
+    "Past infection",
+    "Cured syphilis"
+   ],
+   "explain": "TT reactive + NTT nonreactive ในผู้ที่มีประวัติรักษาครบ = เคยเป็นซิฟิลิสแต่รักษาหายแล้ว (treponemal antibody ยังตรวจพบได้หลังหาย)",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 12–14",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "RPR (qualitative)",
+      "Nonreactive"
+     ],
+     [
+      "TPHA",
+      "Reactive"
+     ]
+    ],
+    "note": "ชาย 45 ปี เคยได้รับ benzathine penicillin รักษาซิฟิลิสครบเมื่อ 5 ปีก่อน"
+   }
+  },
+  {
+   "id": "algo-window",
+   "category": "syph-lab",
+   "question": "ผู้ป่วยมีประวัติเสี่ยงเมื่อ 1 สัปดาห์ก่อน ผลตรวจเป็นดังรายงาน — ขั้นตอนต่อไปที่เหมาะสมคืออะไร",
+   "answers": [
+    "Repeat test in 2 weeks",
+    "Repeat in 2 weeks",
+    "Retest in 2 weeks",
+    "Repeat after 2 weeks",
+    "Repeat serology in 2 weeks",
+    "ตรวจซ้ำใน 2 สัปดาห์",
+    "เจาะเลือดตรวจซ้ำ 2 สัปดาห์"
+   ],
+   "explain": "หมายเหตุ reverse algorithm ข้อ 1: ถ้าผู้ป่วยมีประวัติเสี่ยงสัมผัสโรคมาไม่นาน และตรวจไม่พบแอนติบอดี ให้เจาะเลือดส่งตรวจซ้ำหลังจากตรวจครั้งแรก 2 สัปดาห์ — NTT และ TT nonreactive อาจเป็นระยะฟักตัว หรือ primary syphilis ช่วงแรกที่ยังไม่สร้างแอนติบอดี",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 12–13",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "Treponemal test (CLIA)",
+      "Nonreactive"
+     ],
+     [
+      "RPR (qualitative)",
+      "Nonreactive"
+     ]
+    ],
+    "note": "ชาย 22 ปี มีเพศสัมพันธ์ไม่ป้องกันเมื่อ 1 สัปดาห์ก่อน ไม่มีอาการ"
+   }
+  },
+  {
+   "id": "algo-prozone",
+   "category": "syph-lab",
+   "question": "ผลที่ไม่สอดคล้องกับอาการของผู้ป่วยรายนี้น่าจะเกิดจากปรากฏการณ์ใด",
+   "answers": [
+    "Prozone phenomenon",
+    "Prozone",
+    "Prozone effect",
+    "Prozone reaction"
+   ],
+   "explain": "ตาราง NTT nonreactive / TT reactive: \"โรคซิฟิลิสระยะที่ 2 มี Prozone phenomenon\" — แอนติบอดีปริมาณมากเกินทำให้ซีรัมที่ไม่เจือจางไม่เกิดการจับกลุ่ม แก้ได้ด้วยการเจือจางซีรัมแล้วทดสอบใหม่",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 13",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "RPR (qualitative, undiluted serum)",
+      "Nonreactive"
+     ],
+     [
+      "TPHA",
+      "Reactive"
+     ]
+    ],
+    "note": "ชาย 26 ปี มีผื่นทั่วตัว ฝ่ามือ ฝ่าเท้า และ condyloma lata รอบทวารหนัก"
+   }
+  },
+  {
+   "id": "case-mcq",
+   "category": "syph-lab",
+   "question": "จากผลตรวจนี้ ขั้นตอนต่อไปที่เหมาะสมที่สุดคือข้อใด — A. repeat ทั้ง EIA และ RPR  B. ส่ง nontreponemal test วิธีอื่น  C. ส่ง treponemal test วิธีอื่น  D. ไม่ต้องตรวจเพิ่ม",
+   "answers": [
+    "C",
+    "C.",
+    "Alternative treponemal test",
+    "Send an alternative treponemal test",
+    "Second treponemal test",
+    "Treponemal test",
+    "TPPA",
+    "TP-PA",
+    "TPHA",
+    "FTA-ABS"
+   ],
+   "explain": "ข้อ C — ตาม reverse algorithm: EIA (treponemal) reactive แต่ RPR nonreactive ต้องตรวจ treponemal test ตัวที่สองที่ต่างวิธี (เช่น TPPA) เพื่อแยกผลบวกปลอมของ EIA",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 12, 20",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "T. pallidum EIA",
+      "Positive"
+     ],
+     [
+      "RPR (reflex)",
+      "Nonreactive"
+     ],
+     [
+      "HIV, N. gonorrhoeae, C. trachomatis",
+      "Negative"
+     ]
+    ],
+    "note": "หญิง 31 ปี ตรวจคัดกรอง ไม่มีโรคประจำตัว คู่นอนคนเดียว 3 ปี ไม่เคยเป็น STI หรือรักษาซิฟิลิส ไม่มีอาการ ตรวจร่างกายปกติ"
+   }
+  },
+  {
+   "id": "fu-test",
+   "category": "syph-lab",
+   "question": "หลังรักษาซิฟิลิส ใช้การตรวจใดติดตามผลการรักษา",
+   "answers": [
+    "RPR",
+    "VDRL",
+    "Nontreponemal test",
+    "Quantitative RPR",
+    "RPR titer",
+    "Nontreponemal titer",
+    "Quantitative nontreponemal test"
+   ],
+   "explain": "Follow-up serology (RPR) at (1, 3), 6 and 12, (24) months — titer มักลดลงหลังรักษาได้ผล แต่อาจใช้เวลาหลายเดือนถึงหลายปี",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 14",
+   "report": null
+  },
+  {
+   "id": "fu-4fold",
+   "category": "syph-lab",
+   "question": "เกณฑ์ที่ถือว่ารักษาได้ผล คือ titer ของ nontreponemal test ลดลงอย่างน้อยกี่เท่า",
+   "answers": [
+    "4 fold",
+    "4-fold",
+    "Fourfold",
+    "Four fold",
+    "4",
+    "4 เท่า"
+   ],
+   "explain": "Successful treatment is usually considered with a fourfold decline in titers (e.g., from 1:32 to 1:8)",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 14",
+   "report": null
+  },
+  {
+   "id": "fu-success",
+   "category": "syph-lab",
+   "question": "จงแปลผลการตอบสนองต่อการรักษา",
+   "answers": [
+    "Adequate response",
+    "Successful treatment",
+    "Treatment success",
+    "Good response",
+    "Appropriate response",
+    "Adequate treatment response",
+    "Response to treatment",
+    "Cured"
+   ],
+   "explain": "Titer ลดลง 4 เท่า (1:32 → 1:8) = รักษาได้ผล",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 14",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "RPR ก่อนรักษา",
+      "Reactive 1:32"
+     ],
+     [
+      "RPR 6 เดือนหลังรักษา",
+      "Reactive 1:8"
+     ]
+    ],
+    "note": "Secondary syphilis รักษาด้วย benzathine penicillin G"
+   }
+  },
+  {
+   "id": "fu-failure",
+   "category": "syph-lab",
+   "question": "จงแปลผล",
+   "answers": [
+    "Treatment failure",
+    "Failure",
+    "Inadequate response",
+    "Treatment failure or reinfection",
+    "Reinfection",
+    "Failed treatment"
+   ],
+   "explain": "Failure to decline 4-fold within 6–12 months in 1st or 2nd syphilis may indicate treatment failure — ผู้ที่ titer ยัง reactive หลังรักษาควรตรวจ HIV และพิจารณา serofast, treatment failure (ตรวจ CSF หา neurosyphilis) หรือ reinfection",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 14",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "RPR ก่อนรักษา",
+      "Reactive 1:64"
+     ],
+     [
+      "RPR 6 เดือนหลังรักษา",
+      "Reactive 1:32"
+     ],
+     [
+      "RPR 12 เดือนหลังรักษา",
+      "Reactive 1:32"
+     ]
+    ],
+    "note": "Primary syphilis รักษาด้วย benzathine penicillin G"
+   }
+  },
+  {
+   "id": "fu-failure-next",
+   "category": "syph-lab",
+   "question": "ผู้ป่วยที่ titer ไม่ลดลงตามเกณฑ์หลังรักษา ควรได้รับการตรวจอะไรเพิ่มเติม (ตอบ 1)",
+   "answers": [
+    "HIV test",
+    "HIV",
+    "Anti-HIV",
+    "CSF examination",
+    "CSF",
+    "Lumbar puncture",
+    "CSF-VDRL",
+    "เจาะน้ำไขสันหลัง"
+   ],
+   "explain": "Patients whose nontreponemal antibody titers remain reactive after treatment should be evaluated for HIV infection; treatment failure → consider CSF test for neurosyphilis",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 14",
+   "report": null
+  },
+  {
+   "id": "fu-serofast",
+   "category": "syph-lab",
+   "question": "ภาวะที่ titer ของ nontreponemal test ยังคงเป็นบวกระดับต่ำคงที่ หลังรักษาครบแล้ว เรียกว่าอะไร",
+   "answers": [
+    "Serofast",
+    "Serofast state",
+    "Serofast reaction",
+    "Serofast status"
+   ],
+   "explain": "Serofast — หนึ่งในสาเหตุที่ NTT ยัง reactive หลังรักษา (ร่วมกับ treatment failure และ reinfection)",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 14",
+   "report": null
+  },
+  {
+   "id": "tx-drug",
+   "category": "syph-lab",
+   "question": "ยาหลักในการรักษาซิฟิลิสคืออะไร",
+   "answers": [
+    "Penicillin g",
+    "Penicillin",
+    "Benzathine penicillin g",
+    "Benzathine penicillin",
+    "Penicillin g benzathine"
+   ],
+   "explain": "Tx: Penicillin G (alternatives: ceftriaxone, doxycycline, azithromycin, erythromycin)",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 14",
+   "report": null
+  },
+  {
+   "id": "neuro-csf",
+   "category": "syph-lab",
+   "question": "การตรวจน้ำไขสันหลังที่ใช้ช่วยวินิจฉัย neurosyphilis (nontreponemal test ใน CSF) คืออะไร",
+   "answers": [
+    "CSF-VDRL",
+    "VDRL",
+    "Reactive CSF-VDRL",
+    "VDRL in CSF"
+   ],
+   "explain": "Diagnosis of neurosyphilis depends on a combination of CSF tests (CSF cell count, protein, or reactive CSF-VDRL) in the presence of reactive serologic tests and neurologic signs and symptoms",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 15",
+   "report": null
+  },
+  {
+   "id": "neuro-indication",
+   "category": "syph-lab",
+   "question": "จงบอกข้อบ่งชี้ในการเจาะตรวจ CSF ในผู้ป่วยซิฟิลิส (ตอบ 1)",
+   "answers": [
+    "Neurologic symptoms",
+    "Neurological symptoms",
+    "Symptoms of neurosyphilis",
+    "Ocular symptoms",
+    "Ocular syphilis",
+    "Otosyphilis",
+    "Otic symptoms",
+    "Tertiary syphilis",
+    "Treatment failure",
+    "Inadequate treatment response"
+   ],
+   "explain": "Indication of CSF test: symptoms of neuro-, ocular- or otosyphilis; tertiary syphilis; treatment failure or inadequate treatment response",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 15",
+   "report": null
+  },
+  {
+   "id": "neuro-type",
+   "category": "syph-lab",
+   "question": "Tabes dorsalis และ dementia paralytica จัดเป็น neurosyphilis ชนิดใด",
+   "answers": [
+    "Parenchymatous",
+    "Parenchymatous neurosyphilis",
+    "Parenchymatous sequelae"
+   ],
+   "explain": "Neurosyphilis เกิดได้ทุกระยะ: asymptomatic, meningovascular (meningitis, stroke), parenchymatous (dementia paralytica, tabes dorsalis), ocular/otosyphilis",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 15",
+   "report": null
+  },
+  {
+   "id": "neuro-stage",
+   "category": "syph-lab",
+   "question": "Neurosyphilis เกิดได้ในระยะใดของโรคซิฟิลิส",
+   "answers": [
+    "All stages",
+    "Any stage",
+    "Every stage",
+    "ทุกระยะ"
+   ],
+   "explain": "Neurosyphilis: can occur in all stages",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 15",
+   "report": null
+  },
+  {
+   "id": "hbv-A",
+   "category": "hep",
+   "question": "กราฟการติดเชื้อ HBV เฉียบพลันที่หายเอง — เส้น A คือ marker ใด",
+   "answers": [
+    "HBsAg",
+    "Hepatitis B surface antigen",
+    "Surface antigen"
+   ],
+   "explain": "HBsAg ขึ้นเป็นตัวแรก (ราวสัปดาห์ที่ 4–8) และหายไปก่อนสัปดาห์ที่ 24 ในรายที่หาย",
+   "imageRef": "graph_hbv_acute",
+   "keywords": null,
+   "src": "หน้า 15",
+   "report": null
+  },
+  {
+   "id": "hbv-B",
+   "category": "hep",
+   "question": "จากกราฟเดิม เส้น B คือ marker ใด",
+   "answers": [
+    "IgM anti-HBc",
+    "Anti-HBc IgM",
+    "IgM hbc",
+    "IgM antibody to HBcAg"
+   ],
+   "explain": "IgM anti-HBc ขึ้นในช่วงมีอาการ แล้วค่อย ๆ ลดลงหายไป",
+   "imageRef": "graph_hbv_acute",
+   "keywords": null,
+   "src": "หน้า 15",
+   "report": null
+  },
+  {
+   "id": "hbv-C",
+   "category": "hep",
+   "question": "จากกราฟเดิม เส้น C คือ marker ใด",
+   "answers": [
+    "Total anti-HBc",
+    "Anti-HBc",
+    "Anti-HBc total",
+    "IgG anti-HBc",
+    "Anti-HBc IgG"
+   ],
+   "explain": "Total anti-HBc ขึ้นแล้วคงอยู่ตลอด (เป็นเครื่องหมายของการเคยติดเชื้อ ไม่เกิดจากวัคซีน)",
+   "imageRef": "graph_hbv_acute",
+   "keywords": null,
+   "src": "หน้า 15",
+   "report": null
+  },
+  {
+   "id": "hbv-D",
+   "category": "hep",
+   "question": "จากกราฟเดิม เส้น D คือ marker ใด",
+   "answers": [
+    "Anti-HBs",
+    "HBsAb",
+    "Hbs antibody",
+    "Antibody to HBsAg",
+    "Anti-HBsAg"
+   ],
+   "explain": "Anti-HBs ขึ้นหลัง HBsAg หายไป แสดงว่าหายและมีภูมิคุ้มกัน",
+   "imageRef": "graph_hbv_acute",
+   "keywords": null,
+   "src": "หน้า 15",
+   "report": null
+  },
+  {
+   "id": "hbv-window",
+   "category": "hep",
+   "question": "จากกราฟเดิม ช่วงสัปดาห์ที่ 24–32 ซึ่งตรวจไม่พบทั้ง HBsAg (A) และ anti-HBs (D) เรียกว่าอะไร",
+   "answers": [
+    "Window period",
+    "Core window",
+    "Core window period",
+    "Window phase",
+    "Serologic window"
+   ],
+   "explain": "Window period (core window): HBsAg ลดลงจนตรวจไม่พบ แต่ยังไม่สร้าง anti-HBs ในระดับที่ตรวจพบ ยังตรวจพบ IgM anti-HBc ได้",
+   "imageRef": "graph_hbv_acute",
+   "keywords": null,
+   "src": "หน้า 15–16",
+   "report": null
+  },
+  {
+   "id": "hbv-window-marker",
+   "category": "hep",
+   "question": "ในช่วง window period ของ HBV ตรวจพบ marker ใดที่บ่งชี้การติดเชื้อเฉียบพลัน",
+   "answers": [
+    "IgM anti-HBc",
+    "Anti-HBc IgM",
+    "IgM hbc"
+   ],
+   "explain": "ตาราง 4.2.4: ระยะ core window ยังตรวจพบ anti-HBc IgM ได้ ควรตรวจซ้ำ anti-HBs ในอีก 1–2 เดือน",
+   "imageRef": "graph_hbv_acute",
+   "keywords": null,
+   "src": "หน้า 16",
+   "report": null
+  },
+  {
+   "id": "hbv-chronic-def",
+   "category": "hep",
+   "question": "HBsAg ที่ยังตรวจพบนานเกินกี่เดือน ถือว่าเป็น chronic HBV infection",
+   "answers": [
+    "6 months",
+    "6",
+    "6 เดือน",
+    "More than 6 months",
+    "Six months"
+   ],
+   "explain": "กราฟ chronic HBV: ระยะ acute 6 เดือน — HBsAg ที่คงอยู่เกินนี้เป็น chronic",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 15",
+   "report": null
+  },
+  {
+   "id": "hbv-chronic-A",
+   "category": "hep",
+   "question": "กราฟ chronic HBV infection — เส้น A คือ marker ใด",
+   "answers": [
+    "HBsAg",
+    "Hepatitis B surface antigen"
+   ],
+   "explain": "ใน chronic HBV, HBsAg คงอยู่เป็นปี ๆ (อาจค่อย ๆ ลดลงตามเวลา — เส้นประ)",
+   "imageRef": "graph_hbv_chronic",
+   "keywords": null,
+   "src": "หน้า 15",
+   "report": null
+  },
+  {
+   "id": "hbv-chronic-C",
+   "category": "hep",
+   "question": "จากกราฟ chronic HBV เดิม เส้น C ที่ขึ้นช่วงแรกแล้วกลับมามียอดแหลมเป็นพัก ๆ ในระยะ chronic คือ marker ใด",
+   "answers": [
+    "IgM anti-HBc",
+    "Anti-HBc IgM",
+    "IgM hbc"
+   ],
+   "explain": "IgM anti-HBc associated with flares (often with symptoms) — IgM anti-HBc จึงพบได้ในช่วง flare ของ chronic HBV ไม่ได้มีเฉพาะ acute",
+   "imageRef": "graph_hbv_chronic",
+   "keywords": null,
+   "src": "หน้า 15",
+   "report": null
+  },
+  {
+   "id": "hbv-acute",
+   "category": "hep",
+   "question": "จงแปลผล",
+   "answers": [
+    "Acute HBV infection",
+    "Acute hepatitis B",
+    "Acute infection",
+    "Acute hepatitis B infection",
+    "Acute HBV"
+   ],
+   "explain": "ตาราง 4.2.3: HBsAg + / anti-HBs − / anti-HBc + และตรวจพบ anti-HBc IgM = ติดเชื้อเฉียบพลัน",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 16",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "HBsAg",
+      "Positive"
+     ],
+     [
+      "IgM anti-HBc",
+      "Positive"
+     ],
+     [
+      "Anti-HBs",
+      "Negative"
+     ]
+    ],
+    "note": "ชาย 30 ปี ตัวเหลือง ตาเหลือง ALT สูงมาก 2 สัปดาห์"
+   }
+  },
+  {
+   "id": "hbv-chronic",
+   "category": "hep",
+   "question": "จงแปลผล",
+   "answers": [
+    "Chronic HBV infection",
+    "Chronic hepatitis B",
+    "Chronic infection",
+    "Chronic hepatitis B infection",
+    "Chronic HBV"
+   ],
+   "explain": "HBsAg + / anti-HBc + / anti-HBs − และไม่พบ anti-HBc IgM = ติดเชื้อเรื้อรัง (CDC: HBsAg positive, anti-HBc positive, anti-HBs negative = chronic infection)",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 16–17",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "HBsAg",
+      "Positive"
+     ],
+     [
+      "Anti-HBc (total)",
+      "Positive"
+     ],
+     [
+      "IgM anti-HBc",
+      "Negative"
+     ],
+     [
+      "Anti-HBs",
+      "Negative"
+     ]
+    ],
+    "note": "หญิง 45 ปี HBsAg positive ตั้งแต่ตรวจสุขภาพเมื่อ 3 ปีก่อน"
+   }
+  },
+  {
+   "id": "hbv-recovered",
+   "category": "hep",
+   "question": "จงแปลผล",
+   "answers": [
+    "Recovered from past infection and immune",
+    "Recovered with immunity",
+    "Recovered",
+    "Resolved infection",
+    "Past infection immune",
+    "Past infection",
+    "Immune due to natural infection",
+    "Natural immunity"
+   ],
+   "explain": "HBsAg − / anti-HBs + / anti-HBc + = ฟื้นตัวจากการติดเชื้อและมีภูมิคุ้มกันป้องกันโรคได้ (recovered from past infection and immune)",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 16–17",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "HBsAg",
+      "Negative"
+     ],
+     [
+      "Anti-HBc (total)",
+      "Positive"
+     ],
+     [
+      "Anti-HBs",
+      "Positive"
+     ]
+    ],
+    "note": "ชาย 52 ปี เคยตัวเหลืองตอนเด็ก ตรวจก่อนรับวัคซีน"
+   }
+  },
+  {
+   "id": "hbv-vaccinated",
+   "category": "hep",
+   "question": "จงแปลผล",
+   "answers": [
+    "Immune due to vaccination",
+    "Vaccinated",
+    "Vaccine immunity",
+    "Immune from vaccination",
+    "Vaccinated immune",
+    "Immune after vaccination",
+    "Hepatitis B vaccination"
+   ],
+   "explain": "HBsAg − / anti-HBc − / anti-HBs + = immune ถ้า anti-HBs ≥ 10 mIU/mL หลังได้วัคซีนครบชุด (anti-HBc เป็นลบเพราะวัคซีนมีแค่ HBsAg)",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 17",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "HBsAg",
+      "Negative"
+     ],
+     [
+      "Anti-HBc (total)",
+      "Negative"
+     ],
+     [
+      "Anti-HBs",
+      "Positive (85 mIU/mL)"
+     ]
+    ],
+    "note": "นักศึกษาแพทย์ ได้วัคซีนตับอักเสบบีครบ 3 เข็ม"
+   }
+  },
+  {
+   "id": "hbv-susceptible",
+   "category": "hep",
+   "question": "จงแปลผล",
+   "answers": [
+    "Never infected susceptible",
+    "Susceptible",
+    "Never infected",
+    "Not immune",
+    "Never infected and susceptible",
+    "No infection no immunity"
+   ],
+   "explain": "ทุก marker เป็นลบ = ไม่เคยติดเชื้อและไม่มีภูมิคุ้มกัน (susceptible) ควรได้รับวัคซีน — ข้อควรระวัง: ผู้ที่ได้วัคซีนมานานอาจตรวจไม่พบ anti-HBs",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 16–17",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "HBsAg",
+      "Negative"
+     ],
+     [
+      "Anti-HBc (total)",
+      "Negative"
+     ],
+     [
+      "Anti-HBs",
+      "Negative"
+     ]
+    ],
+    "note": "หญิง 20 ปี ไม่เคยได้รับวัคซีน"
+   }
+  },
+  {
+   "id": "hbv-isolated",
+   "category": "hep",
+   "question": "ผลตรวจแบบนี้เรียกรูปแบบว่าอะไร",
+   "answers": [
+    "Isolated anti-HBc",
+    "Isolated core antibody",
+    "Anti-HBc alone",
+    "Isolated anti-HBc positive"
+   ],
+   "explain": "Isolated anti-HBc (core antibody) — เป็นได้จาก past infection (resolved), false positive, low-level chronic infection หรือ passive transfer จากแม่สู่ทารก",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 16–17",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "HBsAg",
+      "Negative"
+     ],
+     [
+      "Anti-HBc (total)",
+      "Positive"
+     ],
+     [
+      "Anti-HBs",
+      "Negative"
+     ]
+    ],
+    "note": "ชาย 40 ปี ตรวจสุขภาพ ไม่มีอาการ"
+   }
+  },
+  {
+   "id": "hbv-isolated-cause",
+   "category": "hep",
+   "question": "จงบอกสาเหตุที่เป็นไปได้ของผล isolated anti-HBc (HBsAg −, anti-HBs −, anti-HBc +) (ตอบ 1)",
+   "answers": [
+    "Window period",
+    "Core window",
+    "Past infection",
+    "Resolved infection",
+    "False positive",
+    "Occult HBV infection",
+    "Occult HBV",
+    "Low level chronic infection",
+    "Passive transfer",
+    "Maternal antibody",
+    "HBV mutant",
+    "Coinfection with HCV",
+    "Coinfection with HDV"
+   ],
+   "explain": "ตาราง 4.2.4: core window period, เคยติดเชื้อและหายนานแล้วจน anti-HBs ลดลง, occult HBV infection, HBV กลายพันธุ์ที่ \"a\" determinant, ติดเชื้อร่วม HCV/HDV, maternal antibody ในเด็ก < 18–24 เดือน หรือผลบวกปลอม",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 16",
+   "report": null
+  },
+  {
+   "id": "hbv-window-case",
+   "category": "hep",
+   "question": "จงแปลผล",
+   "answers": [
+    "Window period",
+    "Core window period",
+    "Core window",
+    "Window phase",
+    "Resolving acute HBV infection"
+   ],
+   "explain": "HBsAg หายไปแล้วแต่ยังไม่มี anti-HBs ขณะที่ IgM anti-HBc ยังบวก = core window period ของการติดเชื้อเฉียบพลันที่กำลังหาย — ตรวจ anti-HBs ซ้ำใน 1–2 เดือน",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 16",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "HBsAg",
+      "Negative"
+     ],
+     [
+      "IgM anti-HBc",
+      "Positive"
+     ],
+     [
+      "Anti-HBs",
+      "Negative"
+     ]
+    ],
+    "note": "ชาย 28 ปี เป็นตับอักเสบเฉียบพลันเมื่อ 4 เดือนก่อน อาการดีขึ้นแล้ว"
+   }
+  },
+  {
+   "id": "hbv-vaccine-transient",
+   "category": "hep",
+   "question": "จงแปลผล",
+   "answers": [
+    "Transient HBsAg after vaccination",
+    "Transient HBsAg from vaccination",
+    "Recent vaccination",
+    "Post vaccination",
+    "Vaccine",
+    "Transient after vaccination",
+    "From vaccine"
+   ],
+   "explain": "HBsAg อาจตรวจพบชั่วคราวหลังฉีดวัคซีน (ภายใน 18 วัน หรือ 52 วันในผู้ป่วยฟอกไต) — CDC: HBsAg + เดี่ยว ๆ = early acute infection หรือ transient (up to 18 days) after vaccination",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 17",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "HBsAg",
+      "Positive (weak)"
+     ],
+     [
+      "Anti-HBc (total)",
+      "Negative"
+     ],
+     [
+      "Anti-HBs",
+      "Negative"
+     ]
+    ],
+    "note": "พยาบาล 23 ปี ได้วัคซีนตับอักเสบบีเข็มแรกเมื่อ 7 วันก่อน ไม่มีอาการ"
+   }
+  },
+  {
+   "id": "hbv-early-acute",
+   "category": "hep",
+   "question": "จงแปลผล",
+   "answers": [
+    "Early acute infection",
+    "Early acute HBV infection",
+    "Early acute hepatitis B",
+    "Early infection",
+    "Early acute"
+   ],
+   "explain": "ตาราง 4.2.3: HBsAg + / anti-HBs − / anti-HBc − = ติดเชื้อเฉียบพลันในระยะแรก ๆ (ร่างกายยังไม่สร้าง anti-HBc) — ควรตรวจ HBV DNA",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 16–17",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "HBsAg",
+      "Positive"
+     ],
+     [
+      "Anti-HBc (total)",
+      "Negative"
+     ],
+     [
+      "Anti-HBs",
+      "Negative"
+     ]
+    ],
+    "note": "ชาย 26 ปี มีเพศสัมพันธ์กับผู้ติดเชื้อ HBV เมื่อ 5 สัปดาห์ก่อน ไม่เคยฉีดวัคซีน"
+   }
+  },
+  {
+   "id": "hbv-hbig",
+   "category": "hep",
+   "question": "จงแปลผล",
+   "answers": [
+    "Passive transfer",
+    "Passive immunity",
+    "Passive transfer from HBIG",
+    "From HBIG",
+    "Passive antibody",
+    "Passive transfer after HBIG"
+   ],
+   "explain": "Anti-HBs + เดี่ยว ๆ หลังได้ HBIG = passive transfer (อยู่ได้ราว 3–6 เดือน)",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 17",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "HBsAg",
+      "Negative"
+     ],
+     [
+      "Anti-HBc (total)",
+      "Negative"
+     ],
+     [
+      "Anti-HBs",
+      "Positive"
+     ]
+    ],
+    "note": "บุคลากรถูกเข็มตำจากผู้ป่วย HBsAg positive ได้ Hepatitis B immunoglobulin (HBIG) เมื่อ 2 เดือนก่อน ไม่เคยฉีดวัคซีน"
+   }
+  },
+  {
+   "id": "hbv-cutoff",
+   "category": "hep",
+   "question": "หลังฉีดวัคซีนครบชุด anti-HBs ต้องมีระดับเท่าใดขึ้นไปจึงถือว่ามีภูมิคุ้มกัน",
+   "answers": [
+    "10 mIU/mL",
+    "10",
+    ">=10 mIU/mL",
+    "≥10 mIU/mL",
+    "At least 10 mIU/mL"
+   ],
+   "explain": "Immune if anti-HBs concentration is 10 mIU/mL or greater after completing the vaccine series",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 17",
+   "report": null
+  },
+  {
+   "id": "hbv-vaccine-days",
+   "category": "hep",
+   "question": "หลังฉีดวัคซีนตับอักเสบบี อาจตรวจพบ HBsAg ชั่วคราวได้นานถึงประมาณกี่วัน (คนทั่วไป)",
+   "answers": [
+    "18 days",
+    "18",
+    "18 วัน"
+   ],
+   "explain": "Transient (up to 18 days) after vaccination; ในผู้ป่วยฟอกไตอาจนานถึง 52 วัน",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 17",
+   "report": null
+  },
+  {
+   "id": "hbv-screen-old",
+   "category": "hep",
+   "question": "ประชากรกลุ่มเสี่ยงที่เกิดก่อน พ.ศ. 2535 แนะนำตรวจคัดกรองการติดเชื้อ HBV เรื้อรังด้วย marker ใดเพียงชนิดเดียวก็เพียงพอ",
+   "answers": [
+    "HBsAg"
+   ],
+   "explain": "แนวทางระดับชาติ 2568: ตรวจคัดกรองด้วย HBsAg เพียงชนิดเดียวก็เพียงพอ ถ้าพบให้ส่งเข้าระบบการรักษา",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 18",
+   "report": null
+  },
+  {
+   "id": "hbv-post-vaccine",
+   "category": "hep",
+   "question": "ผู้ที่ได้รับวัคซีนครบโดสแล้ว ควรตรวจ marker ใดเพียงชนิดเดียวใน 1 เดือนต่อมาเพื่อดูการตอบสนองต่อวัคซีน",
+   "answers": [
+    "Anti-HBs",
+    "HBsAb",
+    "Anti-HBsAg"
+   ],
+   "explain": "ถ้าเคยได้รับวัคซีนมาแล้ว หลังได้รับวัคซีนครบโดสในเวลา 1 เดือนต่อมา แนะนำตรวจหา anti-HBs เพียงชนิดเดียว",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 18",
+   "report": null
+  },
+  {
+   "id": "des-hbv-nhso",
+   "category": "hep",
+   "question": "ตามนโยบายของคณะกรรมการหลักประกันสุขภาพแห่งชาติ การตรวจสถานภาพการติดเชื้อ HBV แนะนำให้ตรวจ marker ใดบ้าง",
+   "answers": [
+    "HBsAg and anti-HBs"
+   ],
+   "explain": "ตามนโยบาย สปสช. แนะนำให้ตรวจเฉพาะ HBsAg และ anti-HBs (ไม่จำเป็นต้องตรวจ anti-HBc เพราะพบ isolated anti-HBc เพียงราวร้อยละ 3)",
+   "imageRef": null,
+   "keywords": [
+    [
+     "hbsag"
+    ],
+    [
+     "anti hbs",
+     "hbsab"
+    ]
+   ],
+   "src": "หน้า 18",
+   "report": null
+  },
+  {
+   "id": "hbv-one-assay",
+   "category": "hep",
+   "question": "ตรวจคัดกรอง HBsAg ด้วย one assay strategy ได้ผลดังรายงาน — ควรรายงานผลว่าอย่างไร",
+   "answers": [
+    "HBsAg reactive",
+    "Reactive"
+   ],
+   "explain": "แผนภูมิ 4.2.1: A1 reactive → รายงาน HBsAg = \"Reactive\" แล้วทำการทดสอบอื่นเพิ่ม เช่น HBV DNA — one assay strategy ใช้คัดกรองเท่านั้น ก่อนรักษาควรตรวจยืนยันด้วย molecular technique",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 19",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "HBsAg (A1)",
+      "Reactive"
+     ]
+    ],
+    "note": "ตรวจคัดกรองในพื้นที่ความชุกสูง (one assay strategy)"
+   }
+  },
+  {
+   "id": "hbv-one-assay-confirm",
+   "category": "hep",
+   "question": "ผล HBsAg reactive จาก one assay strategy ก่อนเริ่มการรักษาควรตรวจยืนยันด้วยวิธีใด",
+   "answers": [
+    "HBV DNA",
+    "Molecular technique",
+    "Molecular test",
+    "PCR",
+    "HBV viral load",
+    "Nucleic acid test"
+   ],
+   "explain": "คำแนะนำ: ก่อนการรักษาควรตรวจยืนยันด้วย molecular technique (เช่น HBV DNA) ไม่ควรใช้ผลตรวจคัดกรองเพียงอย่างเดียวในการวินิจฉัย",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 18–19",
+   "report": null
+  },
+  {
+   "id": "hbv-two-pos",
+   "category": "hep",
+   "question": "ตรวจ HBsAg ด้วย two assays strategy ได้ผลดังรายงาน — ควรรายงานผลว่าอย่างไร",
+   "answers": [
+    "HBsAg positive",
+    "Positive"
+   ],
+   "explain": "แผนภูมิ 4.2.2: A1 reactive และ A2 reactive → รายงาน HBsAg = Positive",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 19–20",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "HBsAg (A1)",
+      "Reactive"
+     ],
+     [
+      "HBsAg (A2, ชุดตรวจที่ต่างกัน)",
+      "Reactive"
+     ]
+    ],
+    "note": "Two assays strategy"
+   }
+  },
+  {
+   "id": "hbv-two-inconclusive",
+   "category": "hep",
+   "question": "ตรวจ HBsAg ด้วย two assays strategy ได้ผลดังรายงาน — ควรรายงานผลว่าอย่างไร",
+   "answers": [
+    "HBsAg inconclusive",
+    "Inconclusive",
+    "Indeterminate"
+   ],
+   "explain": "A1 reactive แต่ A2 nonreactive → รายงาน HBsAg = Inconclusive แล้วพิจารณาตรวจ anti-HBc, anti-HBs หรือ HBV DNA ประกอบ",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 19–20",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "HBsAg (A1)",
+      "Reactive"
+     ],
+     [
+      "HBsAg (A2, ชุดตรวจที่ต่างกัน)",
+      "Nonreactive"
+     ]
+    ],
+    "note": "Two assays strategy"
+   }
+  },
+  {
+   "id": "hbv-one-assay-when",
+   "category": "hep",
+   "question": "WHO แนะนำให้ใช้ one assay strategy ตรวจ HBsAg ในพื้นที่ที่มีความชุกของ HBsAg ตั้งแต่ร้อยละเท่าใดขึ้นไป",
+   "answers": [
+    "0.4%",
+    "0.4",
+    "≥0.4%",
+    ">=0.4%",
+    "0.4 percent",
+    "ร้อยละ 0.4"
+   ],
+   "explain": "One assay strategy: แนะนำในกรณีที่พื้นที่มีความชุก HBsAg สูงกว่าหรือเท่ากับร้อยละ 0.4 และชุดตรวจมีความไวและความจำเพาะสูง",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 18",
+   "report": null
+  },
+  {
+   "id": "hcv-A",
+   "category": "hep",
+   "question": "กราฟการติดเชื้อ HCV ที่หายเองได้ (self-resolving) — เส้น A คือ marker ใด",
+   "answers": [
+    "HCV RNA",
+    "RNA",
+    "HCV viral load"
+   ],
+   "explain": "HCV RNA ตรวจพบเร็วที่สุดหลัง eclipse phase แล้วหายไปเมื่อ virus clearance",
+   "imageRef": "graph_hcv",
+   "keywords": null,
+   "src": "หน้า 15",
+   "report": null
+  },
+  {
+   "id": "hcv-B",
+   "category": "hep",
+   "question": "จากกราฟเดิม เส้น B คือ marker ใด",
+   "answers": [
+    "HCV Ag",
+    "HCV antigen",
+    "HCV core antigen",
+    "HCV core Ag",
+    "Core antigen"
+   ],
+   "explain": "HCV Ag (core antigen) ขึ้นช่วงสั้น ๆ ในระยะ serological window",
+   "imageRef": "graph_hcv",
+   "keywords": null,
+   "src": "หน้า 15",
+   "report": null
+  },
+  {
+   "id": "hcv-C",
+   "category": "hep",
+   "question": "จากกราฟเดิม เส้น C คือ marker ใด",
+   "answers": [
+    "Anti-HCV",
+    "HCV antibody",
+    "Antibody to HCV"
+   ],
+   "explain": "Anti-HCV ขึ้นช้ากว่า (ราวเดือนที่ 2–3) แล้วค่อย ๆ ลดลง (waning) จนอาจตรวจไม่พบ (seroreversion) ในรายที่หาย",
+   "imageRef": "graph_hcv",
+   "keywords": null,
+   "src": "หน้า 15",
+   "report": null
+  },
+  {
+   "id": "hcv-window",
+   "category": "hep",
+   "question": "ช่วงที่ตรวจพบ HCV RNA แต่ยังตรวจไม่พบ anti-HCV เรียกว่าอะไร",
+   "answers": [
+    "Serological window",
+    "Serologic window",
+    "Window period",
+    "Seronegative window"
+   ],
+   "explain": "Serological window — ช่วงนี้ตรวจ anti-HCV ไม่พบ ต้องอาศัย HCV RNA หรือ HCV Ag",
+   "imageRef": "graph_hcv",
+   "keywords": null,
+   "src": "หน้า 15",
+   "report": null
+  },
+  {
+   "id": "hcv-resolved",
+   "category": "hep",
+   "question": "จงแปลผล",
+   "answers": [
+    "Resolved HCV infection",
+    "Resolved infection",
+    "Past infection",
+    "Past HCV infection",
+    "Self resolving infection",
+    "Cleared infection",
+    "Spontaneous clearance",
+    "Recovered"
+   ],
+   "explain": "กราฟ A (self-resolving): HCV RNA หายไปหลัง virus clearance ขณะที่ anti-HCV ยังอยู่ระยะหนึ่ง = เคยติดเชื้อและหายแล้ว",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 15",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "Anti-HCV",
+      "Reactive"
+     ],
+     [
+      "HCV RNA",
+      "Not detected"
+     ]
+    ],
+    "note": "ชาย 40 ปี ตรวจซ้ำ 2 ครั้งห่างกัน 6 เดือน ผลเหมือนเดิม"
+   }
+  },
+  {
+   "id": "hcv-chronic",
+   "category": "hep",
+   "question": "จงแปลผล",
+   "answers": [
+    "Chronic HCV infection",
+    "Chronic hepatitis C",
+    "Chronic infection",
+    "Chronic HCV"
+   ],
+   "explain": "กราฟ B (chronic): ทั้ง anti-HCV และ HCV RNA ยังคงตรวจพบต่อเนื่อง = chronic HCV infection",
+   "imageRef": null,
+   "keywords": null,
+   "src": "หน้า 15",
+   "report": {
+    "title": "Serology",
+    "rows": [
+     [
+      "Anti-HCV",
+      "Reactive"
+     ],
+     [
+      "HCV RNA",
+      "Detected (2.1 × 10⁶ IU/mL)"
+     ]
+    ],
+    "note": "ชาย 48 ปี เคยใช้ยาเสพติดชนิดฉีด anti-HCV reactive มาแล้วมากกว่า 1 ปี"
+   }
+  }
+ ]
+}

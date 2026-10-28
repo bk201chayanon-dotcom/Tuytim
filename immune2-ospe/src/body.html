@@ -1,0 +1,85 @@
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">IM2</span>
+      <span class="brand-text">OSPE Immune 2<small>Lab infection · Immunodiagnosis</small></span>
+    </div>
+    <nav class="tabs" aria-label="หน้า">
+      <button type="button" data-view="home" aria-current="page">หน้าหลัก</button>
+      <button type="button" data-view="study">ทบทวน</button>
+      <button type="button" data-view="exam">จำลองสอบ</button>
+      <button type="button" data-view="manage">จัดการการ์ด</button>
+      <button type="button" data-view="io">สำรองข้อมูล</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section id="view-home" data-view-panel="home">
+    <div class="home-head">
+      <h1>ติว Lab OSPE — Immune 2</h1>
+      <p>เลือกเรื่องตามบรรยาย ดูภาพหรือใบรายงานผลแล้วพิมพ์คำตอบเอง ระบบตรวจตัวสะกดแบบยืดหยุ่น และจัดคิวทบทวนแบบ SM-2 ให้อัตโนมัติ</p>
+    </div>
+    <div class="slides" id="topicSlides"></div>
+    <label class="switch both-toggle"><input type="checkbox" id="bothTopics"> ทบทวนรวมทั้งสองเรื่อง</label>
+    <div class="panel" id="homePanel"></div>
+    <div class="store-note" id="storeNote" aria-live="polite"><span class="dot"></span><span>กำลังเตรียมที่เก็บความคืบหน้า…</span></div>
+  </section>
+
+  <section id="view-study" data-view-panel="study" hidden></section>
+  <section id="view-exam" data-view-panel="exam" hidden></section>
+
+  <section id="view-manage" data-view-panel="manage" hidden>
+    <div class="toolbar">
+      <input type="search" id="manageSearch" placeholder="ค้นหาคำถาม คำตอบ หรือรหัสการ์ด…" aria-label="ค้นหาการ์ด">
+      <select id="manageTopic" aria-label="เรื่อง"></select>
+      <select id="manageCategory" aria-label="หมวด"></select>
+      <button type="button" class="btn btn-primary" id="btnNewCard">+ การ์ดใหม่</button>
+    </div>
+    <p class="muted small" id="manageCount"></p>
+    <div class="list" id="manageList"></div>
+    <div class="actions" id="manageMore"></div>
+  </section>
+
+  <section id="view-io" data-view-panel="io" hidden>
+    <div class="io">
+      <div class="panel">
+        <h3>บันทึกไฟล์สำรอง</h3>
+        <p>เก็บความคืบหน้า SM-2 การ์ดที่เพิ่มเอง และการ์ดที่แก้ไขไว้ เป็นไฟล์ JSON ไฟล์เดียว ใช้ย้ายไปเครื่องอื่นหรือกู้คืนภายหลัง</p>
+        <div class="row">
+          <button type="button" class="btn btn-primary" id="btnExport">บันทึกไฟล์สำรอง</button>
+          <button type="button" class="btn" id="btnShowExport">แสดงเป็นข้อความ</button>
+        </div>
+        <textarea class="code" id="exportText" hidden readonly aria-label="ข้อมูลสำรองแบบข้อความ"></textarea>
+      </div>
+      <div class="panel">
+        <h3>นำเข้าไฟล์สำรอง</h3>
+        <p>ความคืบหน้าของการ์ดเดียวกันจะเลือกครั้งที่ทบทวนล่าสุดไว้ การ์ดที่เพิ่มเองจะถูกเพิ่มหรืออัปเดตตามรหัส</p>
+        <div class="row">
+          <input type="file" id="importFile" accept="application/json,.json" aria-label="เลือกไฟล์ JSON">
+        </div>
+        <div class="field" style="margin-top:.8rem">
+          <label for="importText">หรือวางข้อความ JSON</label>
+          <textarea class="code" id="importText" placeholder="วาง JSON ที่ได้จากปุ่ม “แสดงเป็นข้อความ”"></textarea>
+        </div>
+        <div class="row" style="margin-top:.6rem"><button type="button" class="btn" id="btnImportText">นำเข้าจากข้อความ</button></div>
+      </div>
+      <div class="panel">
+        <h3>เริ่มใหม่</h3>
+        <p>ล้างความคืบหน้าของเรื่องที่เลือก การ์ดยังอยู่ครบ — หรือคืนการ์ดตั้งต้นที่เคยลบหรือแก้ไขไว้</p>
+        <div class="row">
+          <button type="button" class="btn btn-danger" data-reset="lab">ล้างความคืบหน้า เรื่องที่ 1</button>
+          <button type="button" class="btn btn-danger" data-reset="dx">ล้างความคืบหน้า เรื่องที่ 2</button>
+          <button type="button" class="btn" id="btnRestoreSeed">คืนค่าการ์ดตั้งต้น</button>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>แป้นพิมพ์ลัด</h3>
+        <p><span class="kbd">Enter</span> ตรวจคำตอบ · หลังตรวจแล้ว <span class="kbd">1</span>–<span class="kbd">4</span> ให้คะแนน ลืม/ยาก/จำได้/ง่าย · <span class="kbd">Enter</span> เลือกคะแนนที่แนะนำ · แตะภาพเพื่อขยาย</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="layer"></div>
