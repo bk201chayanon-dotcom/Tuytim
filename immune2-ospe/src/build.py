@@ -24,21 +24,33 @@ TOPICS = [
      'sub': 'พยาธิวิทยาของโรคติดเชื้อ: แบคทีเรีย mycetoma เชื้อรา ไวรัส และปรสิต',
      'by': 'La-or Chompuk, M.D. · ภาควิชาพยาธิวิทยา'},
     {'id': 'dx', 'no': 2, 'label': 'Infectious immunodiagnosis', 'short': 'Immunodiagnosis',
-     'sub': 'ซิฟิลิส ไวรัสตับอักเสบบีและซี: การตรวจทางน้ำเหลืองและการแปลผล',
+     'sub': 'ซิฟิลิส: บอกระยะโรคจากภาพและแปลผลการตรวจ (ไวรัสตับอักเสบบี/ซีเป็นส่วนเสริม)',
      'by': 'Infectious Immunodiag 69 · แนวทางระดับชาติ 2564, 2568'},
 ]
+# Categories follow the old papers (2562–2565): how often a topic was asked, not the lecture order.
+# The "คาดว่าอาจออกปีนี้" categories hold lecture material no paper has used yet (`optional`: drawn with a
+# dashed chip; the real-exam mock takes only one or two stations from them).
 CATEGORIES = [
-    {'id': 'bact', 'label': 'Bacterial infection', 'topic': 'lab'},
-    {'id': 'myc', 'label': 'Mycetoma & Splendore–Hoeppli', 'topic': 'lab'},
-    {'id': 'fungus', 'label': 'Fungal infection', 'topic': 'lab'},
-    {'id': 'virus', 'label': 'Viral infection', 'topic': 'lab'},
-    {'id': 'parasite', 'label': 'Parasitic infection', 'topic': 'lab'},
-    {'id': 'syph-clin', 'label': 'ซิฟิลิส: ระยะโรคและรอยโรค', 'topic': 'dx'},
-    {'id': 'syph-lab', 'label': 'ซิฟิลิส: การตรวจและแปลผล', 'topic': 'dx'},
-    {'id': 'hep', 'label': 'ไวรัสตับอักเสบ บี/ซี', 'topic': 'dx'},
+    {'id': 'lab-hot', 'label': 'ออกบ่อย (2–4 ปี)', 'topic': 'lab',
+     'note': 'Eumycotic mycetoma, pseudomembranous colitis, candidiasis ออกทุกปี · molluscum, aspergillosis, HPV, '
+             'strongyloidiasis ออก 3 ปี · lobar pneumonia, HSV, cryptosporidiosis, trichinellosis ออก 2 ปี'},
+    {'id': 'lab-once', 'label': 'เคยออก 1 ปี', 'topic': 'lab',
+     'note': 'Cryptococcosis, CMV, cysticercosis (65) · talaromycosis (62) · enterobiasis, rabies, mucormycosis (63)'},
+    {'id': 'lab-new', 'label': 'คาดว่าอาจออกปีนี้', 'topic': 'lab', 'optional': True,
+     'note': 'ยังไม่เคยออกในข้อสอบเก่า: ภาพอื่นในบรรยายของหัวข้อที่ออกบ่อย (ป้าย A/B/C, ภาพคลินิก, สีย้อมอื่น) '
+             'และหัวข้อที่ยังไม่เคยถาม — TB, H. pylori/gastric ulcer, histoplasmosis, PCP, verruca'},
+    {'id': 'syph-stage', 'label': 'ซิฟิลิส: บอกระยะจากภาพ', 'topic': 'dx',
+     'note': 'ออกทุกปีที่มีบันทึก (62, 63, 65): ให้ภาพรอยโรคแล้วถามว่าเป็น primary, secondary, tertiary หรือ congenital'},
+    {'id': 'syph-sero', 'label': 'ซิฟิลิส: แปลผลการตรวจ', 'topic': 'dx',
+     'note': 'ออกทุกปีที่มีบันทึก: NTT− TT+ (เคยรักษา), NTT+ TT− (ผลบวกปลอม), RPR ไม่ขึ้นช่วงแรก, รักษาแล้ว RPR ไม่ลด, จัดกลุ่มการตรวจ'},
+    {'id': 'syph-new', 'label': 'ซิฟิลิส: คาดว่าอาจออกปีนี้', 'topic': 'dx', 'optional': True,
+     'note': 'อยู่ในเอกสารปีนี้แต่ยังไม่เคยออก: rapid test, กราฟแอนติบอดี, prozone, window period, DFA และ direct test, '
+             'neurosyphilis และภาพระยะโรคที่ยังไม่เคยใช้ (aortitis, condylomata lata, mucous patch ที่ลิ้น)'},
+    {'id': 'hep', 'label': 'ไวรัสตับอักเสบ บี/ซี (คาดว่าอาจออก)', 'topic': 'dx', 'optional': True,
+     'note': 'อยู่ในเอกสารปีนี้แต่ไม่เคยออกในข้อสอบ Lab เก่า — รูปแบบผลตรวจหลักและกราฟ marker'},
 ]
 
-cards = load('cards_lab') + load('cards_dx')
+cards = load('stations_lab') + load('stations_dx')
 cat_ids = {c['id'] for c in CATEGORIES}
 img_dir = os.path.join(HERE, 'images')
 problems = []
@@ -47,12 +59,21 @@ for c in cards:
     if c['id'] in seen: problems.append(('duplicate id', c['id']))
     seen.add(c['id'])
     if c['category'] not in cat_ids: problems.append(('bad category', c['id']))
-    if not c['answers'] or not all(isinstance(a, str) and a.strip() for a in c['answers']): problems.append(('answers', c['id']))
-    if c.get('imageRef') and not os.path.exists(os.path.join(img_dir, c['imageRef'] + '.webp')):
-        problems.append(('missing image', c['id'], c['imageRef']))
-    kw = c.get('keywords')
-    if kw is not None and not (isinstance(kw, list) and all(isinstance(v, list) and v for v in kw)):
-        problems.append(('keywords', c['id']))
+    if not c['parts'] or len(c['parts']) > 6: problems.append(('parts', c['id']))
+    for p in c['parts']:
+        if not p['answers'] or not all(isinstance(a, str) and a.strip() for a in p['answers']): problems.append(('answers', c['id']))
+        if len(c['parts']) > 1 and not p['q']: problems.append(('part without a question', c['id']))
+        kw = p.get('keywords')
+        if kw is not None and not (isinstance(kw, list) and all(isinstance(v, list) and v for v in kw)):
+            problems.append(('keywords', c['id']))
+    if not c['question'] and not c['parts'][0]['q']: problems.append(('no question', c['id']))
+    for key in c['images']:
+        if not os.path.exists(os.path.join(img_dir, key + '.webp')):
+            problems.append(('missing image', c['id'], key))
+    if not c['images'] and not c.get('report') and c['category'] not in ('syph-sero',):
+        problems.append(('station without picture or report', c['id']))
+    # stations on one topic share a group so the real-exam mock never picks two of them
+    c['group'] = c.get('group') or (c['id'].split('-')[1] if c['category'].startswith('lab') else c['id'])
 if problems:
     for p in problems: print('PROBLEM', p)
     sys.exit(1)
@@ -112,15 +133,16 @@ def pretty(a):
     return t
 
 for c in cards:
-    seen_forms, shown = set(), []
-    for a in c['answers']:
-        p_ = pretty(a)
-        if p_ not in seen_forms:
-            seen_forms.add(p_)
-            shown.append(p_)
-    c['answers'] = shown
+    for p in c['parts']:
+        seen_forms, shown = set(), []
+        for a in p['answers']:
+            p_ = pretty(a)
+            if p_ not in seen_forms:
+                seen_forms.add(p_)
+                shown.append(p_)
+        p['answers'] = shown
 
-used = sorted({c['imageRef'] for c in cards if c.get('imageRef')})
+used = sorted({k for c in cards for k in c['images']})
 images = {}
 for key in used:
     with open(os.path.join(img_dir, key + '.webp'), 'rb') as f:
@@ -128,6 +150,7 @@ for key in used:
 
 def clean(c):
     out = {k: v for k, v in c.items() if v not in (None, [], '')}
+    out['parts'] = [{k: v for k, v in p.items() if v not in (None, [], '')} for p in c['parts']]
     return out
 
 seed = {'topics': TOPICS, 'categories': CATEGORIES, 'cards': [clean(c) for c in cards], 'images': images}
@@ -148,6 +171,6 @@ json.dump({'topics': TOPICS, 'categories': CATEGORIES, 'cards': cards}, open(os.
           ensure_ascii=False, indent=1)
 
 from collections import Counter
-print('cards', len(cards), dict(Counter(c['category'] for c in cards)))
+print('stations', len(cards), dict(Counter(c['category'] for c in cards)), '·', sum(len(c['parts']) for c in cards), 'parts')
 print('images used', len(used), 'of', len([f for f in os.listdir(img_dir) if f.endswith('.webp')]))
 print('artifact.html %.2f MB' % (len(artifact.encode()) / 1e6), '· index.html %.2f MB' % (len(standalone.encode()) / 1e6))

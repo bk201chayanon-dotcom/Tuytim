@@ -1,6 +1,10 @@
 /* ------------------------------------------------------------------
  * OSPE Immune 2 — Lab infection · Infectious immunodiagnosis
  *
+ * Each card is one OSPE station shaped like the old papers: one or more
+ * pictures (or a lab report slip) and one or more parts ก ข ค, each with
+ * its own typed or described answer.
+ *
  * Seed cards and images ship inside this page, so content fixes reach
  * everyone on the next load. Only personal data is stored:
  *   progress  SM-2 state per card (claude.ai account when the page runs
@@ -64,8 +68,24 @@
   const seedById = Object.fromEntries(SEED.cards.map((c) => [c.id, c]));
 
   const topicOf = (card) => card.topic || (catById[card.category] || {}).topic || 'lab';
-  const imageOf = (card) => card.image || (card.imageRef && IMAGES[card.imageRef]) || null;
-  const isStation = (card) => !!(imageOf(card) || card.report);
+  const LETTERS = ['ก', 'ข', 'ค', 'ง', 'จ', 'ฉ'];
+  const MAX_PARTS = LETTERS.length;
+
+  // cards saved before stations had parts keep answers/keywords on the card itself
+  function partsOf(card) {
+    if (Array.isArray(card.parts) && card.parts.length) return card.parts;
+    return [{ q: '', answers: card.answers || [], keywords: card.keywords || null }];
+  }
+  const isDescribe = (part) => !!(part.keywords && part.keywords.length);
+  // an uploaded picture replaces the seed pictures; `images` lists seed image keys
+  function imagesOf(card) {
+    if (card.image) return [card.image];
+    const keys = Array.isArray(card.images) ? card.images : card.imageRef ? [card.imageRef] : [];
+    return keys.map((k) => IMAGES[k]).filter(Boolean);
+  }
+  const isStation = (card) => imagesOf(card).length > 0 || !!card.report;
+  const titleOf = (card) => card.question || partsOf(card).map((p) => p.q).filter(Boolean).join(' · ');
+  const shortYear = (y) => String(y).slice(-2);
 
   /* ================================================================ answer checking
    * Typed answers are compared word by word. Each word may carry a small typo
@@ -92,6 +112,7 @@
     ['qualitative', 'quantitative'], ['latent', 'late'], ['occult', 'acute'],
     ['maduromycosis', 'talaromycosis'], ['mycetoma', 'eumycetoma', 'actinomycetoma'],
     ['aspergilloma', 'aspergillosis'], ['brain', 'grain'],
+    ['trichinellosis', 'trichinosis', 'trichiniasis', 'trichuriasis'], ['trichinella', 'trichuris'],
   ];
   const GROUP = new Map();
   CONFUSABLE.forEach((g, i) => g.forEach((w) => GROUP.set(w, i)));
@@ -235,8 +256,9 @@
     return { kind: 'describe', state, points, hit, total: points.length };
   }
 
-  const gradeCard = (card, input) => (card.keywords && card.keywords.length
-    ? gradeDescribe(card.keywords, input) : gradeTyped(card.answers, input));
+  const gradePart = (part, input) => (isDescribe(part)
+    ? gradeDescribe(part.keywords, input) : gradeTyped(part.answers, input));
+  const gradeCard = (card, inputs) => partsOf(card).map((p, i) => gradePart(p, inputs[i] || ''));
   const passed = (g) => g.state === 'exact' || g.state === 'typo';
 
   /* ================================================================ spaced repetition (SM-2)
@@ -274,15 +296,14 @@
     view: 'home',
     topic: 'lab',            // 'lab' | 'dx' | 'all'
     category: 'all',
-    stationsOnly: false,
     cards: [],
     progress: {},
     custom: [],
     overrides: {},
     hidden: [],
     resetAt: { lab: 0, dx: 0 },
-    study: null,             // { queue, index, reviewed, again: {id: n}, mode, answered }
-    exam: null,              // { queue, index, results, seconds, endsAt, timer, label }
+    study: null,             // { queue, index, reviewed, again: {id: n}, mode, answered: {grades, overridden, inputs} }
+    exam: null,              // { queue, index, results, seconds, endsAt, timer, running, finished }
     manage: { q: '', topic: 'all', category: 'all', limit: 60 },
   };
 
@@ -300,10 +321,9 @@
 
   const cardById = (id) => state.cards.find((c) => c.id === id);
 
-  function pool(topic, category, stationsOnly) {
+  function pool(topic, category) {
     return state.cards.filter((c) => (topic === 'all' || c.topic === topic)
-      && (category === 'all' || c.category === category)
-      && (!stationsOnly || isStation(c)));
+      && (category === 'all' || c.category === category));
   }
 
   /* ================================================================ storage
@@ -459,7 +479,6 @@
     const prefs = m.prefs || {};
     if (prefs.topic && (prefs.topic === 'all' || topicById[prefs.topic])) state.topic = prefs.topic;
     if (prefs.category && (prefs.category === 'all' || catById[prefs.category])) state.category = prefs.category;
-    state.stationsOnly = !!prefs.stationsOnly;
     state.custom = custom || [];
     buildCards();
     state.progress = {};
@@ -519,7 +538,7 @@
   }
 
   function savePrefs() {
-    saveMeta('prefs', { topic: state.topic, category: state.category, stationsOnly: state.stationsOnly });
+    saveMeta('prefs', { topic: state.topic, category: state.category });
   }
 
   function renderStoreNote() {
@@ -634,13 +653,13 @@
     const both = state.topic === 'all';
     $('#bothTopics').checked = both;
     $('#topicSlides').innerHTML = TOPICS.map((t) => {
-      const n = countLine(pool(t.id, 'all', false));
+      const n = countLine(pool(t.id, 'all'));
       const pressed = both || state.topic === t.id;
       return `
         <button type="button" class="slide" data-topic="${t.id}" aria-pressed="${pressed}">
           <span class="slide-label">
             <span class="lec">เรื่องที่ ${t.no}</span>
-            <span class="count">${n.total}<small>การ์ด</small></span>
+            <span class="count">${n.total}<small>สถานี</small></span>
           </span>
           <span class="slide-glass">
             <h2>${esc(t.label)}</h2>
@@ -658,26 +677,27 @@
 
     const cats = catsFor(state.topic);
     if (state.category !== 'all' && !cats.some((c) => c.id === state.category)) state.category = 'all';
-    const current = pool(state.topic, state.category, state.stationsOnly);
+    const current = pool(state.topic, state.category);
     const n = countLine(current);
     const dueNow = current.filter(isDue).length;
     const topicName = both ? 'ทั้งสองเรื่อง' : 'เรื่องที่ ' + topicById[state.topic].no;
+    const cat = catById[state.category];
 
     $('#homePanel').innerHTML = `
-      <h3>${esc(topicName)}${state.category !== 'all' ? ' · ' + esc(catById[state.category].label) : ''}</h3>
+      <h3>${esc(topicName)}${cat ? ' · ' + esc(cat.label) : ''}</h3>
       <div class="stats">
-        <div class="stat"><div class="n">${n.total}</div><div class="l">การ์ดในชุดนี้</div></div>
+        <div class="stat"><div class="n">${n.total}</div><div class="l">สถานีในชุดนี้</div></div>
         <div class="stat"><div class="n">${n.due}</div><div class="l">ถึงกำหนดทบทวน</div></div>
         <div class="stat"><div class="n">${n.fresh}</div><div class="l">ยังไม่เคยทำ</div></div>
         <div class="stat"><div class="n">${n.mastered}</div><div class="l">จำได้แม่น (≥ 21 วัน)</div></div>
       </div>
       <div class="chips" role="group" aria-label="หมวด">
-        <button type="button" class="chip" data-cat="all" aria-pressed="${state.category === 'all'}">ทุกหมวด<span class="k">${pool(state.topic, 'all', state.stationsOnly).length}</span></button>
-        ${cats.map((c) => `<button type="button" class="chip" data-cat="${esc(c.id)}" aria-pressed="${state.category === c.id}">${esc(c.label)}<span class="k">${pool(state.topic, c.id, state.stationsOnly).length}</span></button>`).join('')}
+        <button type="button" class="chip" data-cat="all" aria-pressed="${state.category === 'all'}">ทุกหมวด<span class="k">${pool(state.topic, 'all').length}</span></button>
+        ${cats.map((c) => `<button type="button" class="chip ${c.optional ? 'optional' : ''}" data-cat="${esc(c.id)}" aria-pressed="${state.category === c.id}">${esc(c.label)}<span class="k">${pool(state.topic, c.id).length}</span></button>`).join('')}
       </div>
-      <label class="switch" style="margin-top:.8rem"><input type="checkbox" id="stationsOnly" ${state.stationsOnly ? 'checked' : ''}> เฉพาะข้อแบบสถานี (มีภาพหรือใบรายงานผล)</label>
+      ${cat && cat.note ? `<p class="small muted cat-note">${esc(cat.note)}</p>` : ''}
       <div class="actions">
-        <button type="button" class="btn btn-primary" id="btnStudyDue" ${dueNow ? '' : 'disabled'}>เริ่มทบทวน (${dueNow} ใบ)</button>
+        <button type="button" class="btn btn-primary" id="btnStudyDue" ${dueNow ? '' : 'disabled'}>เริ่มทบทวน (${dueNow} สถานี)</button>
         <button type="button" class="btn" id="btnStudyAll" ${current.length ? '' : 'disabled'}>ทบทวนทั้งหมดในชุดนี้</button>
         <button type="button" class="btn" id="btnGoExam">จำลองสอบ</button>
       </div>`;
@@ -693,7 +713,6 @@
       savePrefs();
       renderHome();
     }));
-    $('#stationsOnly').addEventListener('change', (e) => { state.stationsOnly = e.target.checked; savePrefs(); renderHome(); });
     $('#btnStudyDue').addEventListener('click', () => startStudy('due'));
     $('#btnStudyAll').addEventListener('click', () => startStudy('all'));
     $('#btnGoExam').addEventListener('click', () => { state.exam = state.exam && state.exam.running ? state.exam : null; show('exam'); });
@@ -721,33 +740,73 @@
   }
 
   function mediaHTML(card) {
-    const img = imageOf(card);
-    if (img) {
-      return `<div class="stage"><img src="${img}" alt="ภาพประกอบโจทย์ ${esc(card.id)}" data-zoom><span class="zoom-hint">แตะเพื่อขยาย</span></div>`;
+    const imgs = imagesOf(card);
+    let html = '';
+    if (imgs.length === 1) {
+      html = `<div class="stage"><img src="${imgs[0]}" alt="ภาพประกอบโจทย์" data-zoom><span class="zoom-hint">แตะเพื่อขยาย</span></div>`;
+    } else if (imgs.length > 1) {
+      html = `<div class="stage stage-multi">${imgs.map((src, i) => `
+        <figure><img src="${src}" alt="ภาพ ${LETTERS[i]}" data-zoom><figcaption>ภาพ ${LETTERS[i]}</figcaption></figure>`).join('')}
+        <span class="zoom-hint">แตะเพื่อขยาย</span></div>`;
     }
-    if (card.report) return slipHTML(card.report);
-    return '';
+    if (card.report) html += slipHTML(card.report);
+    return html;
   }
 
-  function kindHTML(card) {
-    if (card.keywords && card.keywords.length) return '<span class="kind k-describe">บรรยาย</span>';
-    if (!isStation(card)) return '<span class="kind k-text">ความรู้</span>';
-    return '';
+  // which old papers asked this topic, and whether this very picture was used
+  function yearsHTML(card) {
+    const cat = catById[card.category];
+    if (card.years && card.years.length) {
+      const pic = card.seen ? ` · ภาพนี้ปี ${shortYear(card.seen)}` : cat && cat.optional ? ' · ภาพหรือคำถามใหม่' : '';
+      return `<span class="years">ข้อสอบเก่า ${card.years.map(shortYear).join(' · ')}${pic ? `<b>${pic}</b>` : ''}</span>`;
+    }
+    return cat && cat.optional ? '<span class="years none">ยังไม่เคยออกสอบ</span>' : '';
   }
 
-  function answerField(card, id) {
-    if (card.keywords && card.keywords.length) {
-      return `<textarea id="${id}" rows="3" placeholder="พิมพ์คำบรรยายเป็นภาษาอังกฤษ… (Enter = ส่ง, Shift+Enter = ขึ้นบรรทัด)" autocomplete="off" spellcheck="false"></textarea>`;
-    }
-    return `<input type="text" id="${id}" placeholder="พิมพ์คำตอบ…" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done">`;
+  function tagHTML(card, right) {
+    const t = topicById[card.topic] || {};
+    return `
+      <div class="station-tag">
+        <span class="tag-left"><span class="tag-topic" data-topic="${esc(card.topic)}">เรื่องที่ ${t.no || ''} · ${esc(t.short || '')}</span>${yearsHTML(card)}</span>
+        <span class="mono">${right}</span>
+      </div>`;
   }
 
-  function bindEnterSubmit(field, form) {
-    if (field.tagName === 'TEXTAREA') {
-      field.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); form.requestSubmit(); }
-      });
-    }
+  function stemHTML(card) {
+    const kind = isStation(card) ? '' : '<span class="kind k-text">ความรู้</span>';
+    return card.question || kind ? `<p class="question">${kind}${esc(card.question || '')}</p>` : '';
+  }
+
+  function fieldHTML(part, id, i, last) {
+    const common = `id="${id}" aria-label="คำตอบข้อ ${LETTERS[i]}" autocomplete="off" spellcheck="false" enterkeyhint="${last ? 'done' : 'next'}"`;
+    if (isDescribe(part)) return `<textarea ${common} rows="2" placeholder="พิมพ์คำบรรยายเป็นภาษาอังกฤษ…"></textarea>`;
+    return `<input type="text" ${common} autocapitalize="off" placeholder="พิมพ์คำตอบ…">`;
+  }
+
+  // every part gets its own field; Enter moves to the next part and submits from the last one
+  function stationFormHTML(card, formId, prefix, submitLabel) {
+    const parts = partsOf(card);
+    const multi = parts.length > 1;
+    const rows = parts.map((p, i) => {
+      const head = (multi ? `<span class="pl">${LETTERS[i]}.</span>` : '')
+        + (isDescribe(p) ? '<span class="kind k-describe">บรรยาย</span>' : '') + esc(p.q || '');
+      const label = multi || p.q || isDescribe(p) ? `<label class="part-q" for="${prefix}${i}">${head}</label>` : '';
+      return `<div class="part">${label}${fieldHTML(p, prefix + i, i, i === parts.length - 1)}</div>`;
+    }).join('');
+    return `
+      <form id="${formId}" class="parts" autocomplete="off">
+        ${rows}
+        <div class="row"><button type="submit" class="btn btn-primary">${submitLabel}</button>${multi ? '<span class="small muted">Enter = ข้อถัดไป · Shift+Enter = ขึ้นบรรทัด</span>' : ''}</div>
+      </form>`;
+  }
+
+  function bindParts(form, fields) {
+    fields.forEach((f, i) => f.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' || e.isComposing || (f.tagName === 'TEXTAREA' && e.shiftKey)) return;
+      e.preventDefault();
+      if (i < fields.length - 1) fields[i + 1].focus();
+      else form.requestSubmit();
+    }));
   }
 
   function diffHTML(input, target) {
@@ -764,34 +823,57 @@
       <div class="diff"><span class="lbl">เทียบกับ</span>${key}</div>`;
   }
 
-  function resultHTML(card, grade, overridden, input) {
-    const ok = overridden || passed(grade);
-    let title;
-    if (overridden) title = '✓ นับว่าถูก (ตัดสินเอง)';
-    else if (grade.kind === 'describe' && grade.state === 'exact') title = '✓ บรรยายครบทุกประเด็น';
-    else if (grade.state === 'partial') title = `△ บรรยายได้ ${grade.hit} จาก ${grade.total} ประเด็น`;
-    else if (grade.state === 'exact') title = '✓ ถูกต้อง';
-    else if (grade.state === 'typo') title = '✓ ถูกต้อง (สะกดคลาดเคลื่อนเล็กน้อย)';
-    else if (grade.state === 'empty') title = '— ไม่ได้ตอบ';
-    else title = '✗ ยังไม่ถูก';
+  function verdictOf(grade, overridden) {
+    if (overridden) return '✓ นับว่าถูก (ตัดสินเอง)';
+    if (grade.kind === 'describe' && grade.state === 'exact') return '✓ บรรยายครบทุกประเด็น';
+    if (grade.state === 'partial') return `△ บรรยายได้ ${grade.hit} จาก ${grade.total} ประเด็น`;
+    if (grade.state === 'exact') return '✓ ถูกต้อง';
+    if (grade.state === 'typo') return '✓ ถูกต้อง (สะกดคลาดเคลื่อนเล็กน้อย)';
+    if (grade.state === 'empty') return '— ไม่ได้ตอบ';
+    return '✗ ยังไม่ถูก';
+  }
 
-    let detail = '';
+  function gradeDetailHTML(grade, input) {
     if (grade.kind === 'describe') {
-      detail = `<ul class="points">${grade.points.map((p) => `<li class="${p.found ? 'got' : 'miss'}"><span class="m">${p.found ? '✓' : '✗'}</span>${esc(p.label)}</li>`).join('')}</ul>`;
-    } else if (grade.state === 'typo' || (grade.state === 'wrong' && grade.dist <= Math.max(2, grade.target.length * 0.45))) {
-      detail = diffHTML(input || '', grade.target);
-    } else if (grade.state === 'wrong') {
-      detail = `<div class="diff"><span class="lbl">คุณตอบ</span>${esc(input)}</div>`;
+      return `<ul class="points">${grade.points.map((p) => `<li class="${p.found ? 'got' : 'miss'}"><span class="m">${p.found ? '✓' : '✗'}</span>${esc(p.label)}</li>`).join('')}</ul>`;
     }
-    const keyLabel = grade.kind === 'describe' ? 'คำตอบตัวอย่าง' : 'คำตอบที่ยอมรับ';
-    const keyText = grade.kind === 'describe' ? esc(card.answers[0]) : card.answers.map(esc).join(' · ');
+    if (grade.state === 'typo' || (grade.state === 'wrong' && grade.dist <= Math.max(2, grade.target.length * 0.45))) {
+      return diffHTML(input || '', grade.target);
+    }
+    if (grade.state === 'wrong') return `<div class="diff"><span class="lbl">คุณตอบ</span>${esc(input)}</div>`;
+    return '';
+  }
+
+  const keyHTML = (part) => (isDescribe(part)
+    ? `<div class="key"><b>คำตอบตัวอย่าง:</b> ${esc(part.answers[0])}</div>`
+    : `<div class="key"><b>คำตอบที่ยอมรับ:</b> ${part.answers.map(esc).join(' · ')}</div>`);
+
+  // answered = { grades, overridden: [bool per part], inputs }; override buttons only while studying
+  function resultHTML(card, answered, allowOverride) {
+    const parts = partsOf(card);
+    const { grades, overridden, inputs } = answered;
+    const oks = grades.map((g, i) => !!overridden[i] || passed(g));
+    const right = oks.filter(Boolean).length;
+    const multi = parts.length > 1;
+    const blocks = parts.map((p, i) => {
+      const g = grades[i];
+      const override = allowOverride && !oks[i] && g.state !== 'empty'
+        ? `<div class="row"><button type="button" class="btn btn-sm" data-override="${i}" title="กดเมื่อมั่นใจว่าความหมายถูก เช่น ใช้คำพ้องที่ไม่อยู่ในรายการ">ตอบถูกแล้ว แต่ระบบตรวจไม่ผ่าน</button></div>` : '';
+      const body = gradeDetailHTML(g, inputs[i]) + keyHTML(p) + override;
+      if (!multi) return `<div class="result-title">${verdictOf(g, overridden[i])}</div>${body}`;
+      return `
+        <div class="part-result ${oks[i] ? 'ok' : 'no'}">
+          <div class="part-head"><span class="pl">${LETTERS[i]}.</span><span class="pq">${esc(p.q || '')}</span></div>
+          <div class="pv">${verdictOf(g, overridden[i])}</div>
+          ${body}
+        </div>`;
+    }).join('');
     const t = topicById[card.topic] || {};
     const cat = catById[card.category];
     return `
-      <div class="result ${ok ? 'ok' : 'no'}" aria-live="polite">
-        <div class="result-title">${title}</div>
-        ${detail}
-        <div class="key"><b>${keyLabel}:</b> ${keyText}</div>
+      <div class="result ${right === parts.length ? 'ok' : 'no'}" aria-live="polite">
+        ${multi ? `<div class="result-title">${right === parts.length ? `✓ ถูกครบทั้ง ${parts.length} ข้อ` : `ถูก ${right} จาก ${parts.length} ข้อ`}</div>` : ''}
+        ${blocks}
         ${card.explain ? `<div class="explain">${esc(card.explain)}</div>` : ''}
         <div class="src">${esc(t.short || '')}${cat ? ' · ' + esc(cat.label) : ''}${card.src ? ' · ' + esc(card.src) : ''}${card.custom ? ' · การ์ดที่เพิ่มเอง' : ''}</div>
       </div>`;
@@ -803,7 +885,7 @@
     let cards;
     if (ids) cards = ids.map(cardById).filter(Boolean);
     else {
-      cards = pool(state.topic, state.category, state.stationsOnly);
+      cards = pool(state.topic, state.category);
       if (mode === 'due') cards = cards.filter(isDue);
     }
     if (!cards.length) { toast('ไม่มีการ์ดให้ทบทวนในชุดนี้'); return; }
@@ -842,61 +924,57 @@
       return;
     }
     const card = cardById(s.queue[s.index]);
-    const t = topicById[card.topic] || {};
     const pct = Math.round((s.index / s.queue.length) * 100);
     area.innerHTML = `
       <div class="station-bar">
-        <span class="station-no">ข้อ ${s.index + 1} / ${s.queue.length}</span>
+        <span class="station-no">สถานี ${s.index + 1} / ${s.queue.length}</span>
         <div class="meter" aria-hidden="true"><span style="width:${pct}%"></span></div>
         <button type="button" class="btn btn-ghost btn-sm" id="btnStudyExit">ออก</button>
       </div>
-      <article class="station">
-        <div class="station-tag"><span class="tag-topic" data-topic="${esc(card.topic)}">เรื่องที่ ${t.no || ''} · ${esc(t.short || '')}</span><span class="mono">${isNew(card) ? 'ใหม่' : 'ทบทวน'}</span></div>
+      <article class="station" data-card="${esc(card.id)}">
+        ${tagHTML(card, isNew(card) ? 'ใหม่' : 'ทบทวน')}
         ${mediaHTML(card)}
         <div class="station-body">
-          <p class="question">${kindHTML(card)}${esc(card.question)}</p>
-          <form id="studyForm" class="answer-row" autocomplete="off">
-            ${answerField(card, 'studyInput')}
-            <button type="submit" class="btn btn-primary">ตรวจคำตอบ</button>
-          </form>
+          ${stemHTML(card)}
+          ${stationFormHTML(card, 'studyForm', 'studyInput', 'ตรวจคำตอบ')}
           <div id="studyResult"></div>
         </div>
       </article>`;
-    const input = $('#studyInput');
     const form = $('#studyForm');
-    bindEnterSubmit(input, form);
+    const fields = $$('input, textarea', form);
+    bindParts(form, fields);
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       if (s.answered) return;
-      const grade = gradeCard(card, input.value);
-      s.answered = { grade, overridden: false, input: input.value };
-      input.readOnly = true;
+      const inputs = fields.map((f) => f.value);
+      s.answered = { grades: gradeCard(card, inputs), overridden: inputs.map(() => false), inputs };
+      fields.forEach((f) => { f.readOnly = true; });
       $('button[type="submit"]', form).disabled = true;
       renderStudyResult(card);
     });
     $('#btnStudyExit').addEventListener('click', () => { state.study = null; show('home'); });
     s.answered = null;
-    if (state.view === 'study') input.focus({ preventScroll: true });
+    if (state.view === 'study' && fields[0]) fields[0].focus({ preventScroll: true });
   }
 
+  // a station counts as remembered only when every part is right
   function renderStudyResult(card) {
     const s = state.study;
-    const { grade, overridden, input } = s.answered;
-    const ok = overridden || passed(grade);
-    const suggested = !ok ? 0 : overridden ? 3 : 4;
+    const { grades, overridden } = s.answered;
+    const ok = grades.every((g, i) => overridden[i] || passed(g));
+    const suggested = !ok ? 0 : overridden.some(Boolean) ? 3 : 4;
     const prev = srsOf(card);
     const defs = [[0, 'again', 'ลืม'], [3, 'hard', 'ยาก'], [4, 'good', 'จำได้'], [5, 'easy', 'ง่าย']];
-    const canOverride = !ok && grade.state !== 'empty';
     $('#studyResult').innerHTML = `
-      ${resultHTML(card, grade, overridden, input)}
-      ${canOverride ? '<div class="row" style="margin-top:.6rem"><button type="button" class="btn btn-sm" id="btnOverride">ตอบถูกแล้ว แต่ระบบตรวจไม่ผ่าน</button><span class="small muted">กดเมื่อมั่นใจว่าความหมายถูก เช่น ใช้คำพ้องที่ไม่อยู่ในรายการ</span></div>' : ''}
+      ${resultHTML(card, s.answered, true)}
       <div class="grades" style="margin-top:.8rem" role="group" aria-label="ให้คะแนนความจำ">
         ${defs.map(([q, cls, label], i) => `<button type="button" class="grade ${cls} ${q === suggested ? 'suggested' : ''}" data-q="${q}">${label}<small>${i + 1} · ${days(sm2(prev, q).interval)}</small></button>`).join('')}
       </div>`;
     $$('.grade', $('#studyResult')).forEach((b) => b.addEventListener('click', () => gradeStudy(card, Number(b.dataset.q))));
-    if (canOverride) {
-      $('#btnOverride').addEventListener('click', () => { s.answered.overridden = true; renderStudyResult(card); });
-    }
+    $$('[data-override]', $('#studyResult')).forEach((b) => b.addEventListener('click', () => {
+      s.answered.overridden[Number(b.dataset.override)] = true;
+      renderStudyResult(card);
+    }));
     const sug = $(`.grade[data-q="${suggested}"]`, $('#studyResult'));
     if (sug) sug.focus({ preventScroll: true });
     $('#studyResult').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
@@ -943,19 +1021,28 @@
       <div class="panel setup">
         <h2>จำลองสอบ OSPE</h2>
         <p class="muted" style="margin:0">จับเวลาทีละสถานี หมดเวลาแล้วไปสถานีถัดไปทันที ไม่เฉลยระหว่างสอบ — สรุปผลพร้อมเฉลยเมื่อครบทุกสถานี และผลจะถูกนำไปจัดคิวทบทวน</p>
-        <div class="setup-grid">
+        <div class="modes" role="radiogroup" aria-label="รูปแบบการสอบ">
+          <label class="mode"><input type="radio" name="exMode" value="real" checked>
+            <span><b>เหมือนข้อสอบจริง · ${REAL_EXAM.reduce((n, r) => n + r.n, 0)} สถานี</b>
+            <small>ซิฟิลิส 5 (บอกระยะ 2 + แปลผล 2 + คาดว่าอาจออก 1) แล้วต่อด้วย Lab infection 10 (ออกบ่อย 6 + เคยออก 2 + คาดว่าอาจออก 2) สุ่มไม่ซ้ำหัวข้อ</small></span></label>
+          <label class="mode"><input type="radio" name="exMode" value="custom">
+            <span><b>กำหนดเอง</b><small>เลือกเรื่อง หมวด และจำนวนสถานี</small></span></label>
+        </div>
+        <div class="setup-grid" id="exCustom" hidden>
           <div class="field"><label for="exTopic">เรื่อง</label>
             <select id="exTopic">${topics.map(([id, l]) => `<option value="${id}" ${id === topic ? 'selected' : ''}>${esc(l)}</option>`).join('')}</select></div>
           <div class="field"><label for="exCat">หมวด</label><select id="exCat"></select></div>
           <div class="field"><label for="exCount">จำนวนสถานี</label>
-            <select id="exCount"><option value="10">10 สถานี</option><option value="20" selected>20 สถานี</option><option value="40">40 สถานี</option><option value="all">ทั้งหมดในชุดนี้</option></select></div>
-          <div class="field"><label for="exSec">เวลาต่อสถานี</label>
-            <select id="exSec"><option value="30">30 วินาที</option><option value="60" selected>60 วินาที</option><option value="90">90 วินาที</option></select></div>
+            <select id="exCount"><option value="10">10 สถานี</option><option value="15" selected>15 สถานี</option><option value="25">25 สถานี</option><option value="all">ทั้งหมดในชุดนี้</option></select></div>
         </div>
-        <label class="switch"><input type="checkbox" id="exStations" checked> เฉพาะข้อแบบสถานี (มีภาพหรือใบรายงานผล)</label>
+        <div class="setup-grid">
+          <div class="field"><label for="exSec">เวลาต่อสถานี</label>
+            <select id="exSec"><option value="60">60 วินาที</option><option value="90" selected>90 วินาที</option><option value="120">2 นาที</option></select></div>
+        </div>
         <p class="small muted" id="exAvail" style="margin:0"></p>
         <div class="row"><button type="button" class="btn btn-primary" id="btnExamStart">เริ่มจับเวลา</button></div>
       </div>`;
+    const mode = () => $('input[name="exMode"]:checked').value;
     const fillCats = () => {
       const tp = $('#exTopic').value;
       $('#exCat').innerHTML = [['all', 'ทุกหมวด']].concat(catsFor(tp).map((c) => [c.id, c.label]))
@@ -963,26 +1050,60 @@
       updateAvail();
     };
     const updateAvail = () => {
-      const n = pool($('#exTopic').value, $('#exCat').value, $('#exStations').checked).length;
-      $('#exAvail').textContent = `มีการ์ดที่ใช้ได้ ${n} ใบ`;
+      const real = mode() === 'real';
+      $('#exCustom').hidden = real;
+      const n = real ? realExamQueue().length : pool($('#exTopic').value, $('#exCat').value).length;
+      $('#exAvail').textContent = real ? `สุ่มได้ ${n} สถานี` : `มีสถานีที่ใช้ได้ ${n} สถานี`;
       $('#btnExamStart').disabled = !n;
     };
+    $$('input[name="exMode"]').forEach((r) => r.addEventListener('change', updateAvail));
     $('#exTopic').addEventListener('change', fillCats);
     $('#exCat').addEventListener('change', updateAvail);
-    $('#exStations').addEventListener('change', updateAvail);
     fillCats();
     $('#btnExamStart').addEventListener('click', () => {
-      const tp = $('#exTopic').value, cat = $('#exCat').value;
-      let cards = shuffle(pool(tp, cat, $('#exStations').checked).slice());
-      const count = $('#exCount').value;
-      if (count !== 'all') cards = cards.slice(0, Number(count));
-      if (!cards.length) { toast('ไม่มีการ์ดในชุดนี้'); return; }
+      let cards;
+      if (mode() === 'real') cards = realExamQueue();
+      else {
+        cards = shuffle(pool($('#exTopic').value, $('#exCat').value).slice());
+        const count = $('#exCount').value;
+        if (count !== 'all') cards = cards.slice(0, Number(count));
+      }
+      if (!cards.length) { toast('ไม่มีสถานีในชุดนี้'); return; }
       state.exam = {
         queue: cards.map((c) => c.id), index: 0, results: [], seconds: Number($('#exSec').value),
         endsAt: 0, timer: null, running: true, finished: false,
       };
       runStation();
     });
+  }
+
+  // the old papers: part 1 syphilis (อ.ทศพล) then part 2 lab infection (อ.ละออ); a station or two
+  // from the predicted categories stands in for the new items each paper has added
+  const REAL_EXAM = [
+    { topic: 'dx', category: 'syph-stage', n: 2 }, { topic: 'dx', category: 'syph-sero', n: 2 },
+    { topic: 'dx', category: 'syph-new', n: 1 },
+    { topic: 'lab', category: 'lab-hot', n: 6 }, { topic: 'lab', category: 'lab-once', n: 2 },
+    { topic: 'lab', category: 'lab-new', n: 2 },
+  ];
+
+  // never two stations on the same topic (two pseudomembranous colitis pictures, say)
+  function realExamQueue() {
+    const used = new Set();
+    const out = [];
+    let section = [];
+    REAL_EXAM.forEach((r, k) => {
+      let taken = 0;
+      for (const c of shuffle(pool(r.topic, r.category).slice())) {
+        if (taken >= r.n) break;
+        const g = c.group || c.id;
+        if (used.has(g)) continue;
+        used.add(g);
+        section.push(c);
+        taken++;
+      }
+      if (!REAL_EXAM[k + 1] || REAL_EXAM[k + 1].topic !== r.topic) { out.push(...shuffle(section)); section = []; }
+    });
+    return out;
   }
 
   function runStation() {
@@ -993,29 +1114,26 @@
     if (!card) { ex.index++; runStation(); return; }
     if (!ex.endsAt) ex.endsAt = now() + ex.seconds * 1000;
     const left = Math.max(0, Math.ceil((ex.endsAt - now()) / 1000));
-    const t = topicById[card.topic] || {};
     area.innerHTML = `
       <div class="station-bar">
         <span class="station-no">สถานี ${ex.index + 1} / ${ex.queue.length}</span>
         <div class="meter" aria-hidden="true"><span style="width:${Math.round((ex.index / ex.queue.length) * 100)}%"></span></div>
         <span class="timer ${left <= 10 ? 'low' : ''}" id="examTimer" aria-label="เวลาที่เหลือ">${left}</span>
       </div>
-      <article class="station">
-        <div class="station-tag"><span class="tag-topic" data-topic="${esc(card.topic)}">เรื่องที่ ${t.no || ''} · ${esc(t.short || '')}</span><span class="mono">${ex.seconds} วินาที</span></div>
+      <article class="station" data-card="${esc(card.id)}">
+        ${tagHTML(card, ex.seconds + ' วินาที')}
         ${mediaHTML(card)}
         <div class="station-body">
-          <p class="question">${kindHTML(card)}${esc(card.question)}</p>
-          <form id="examForm" class="answer-row" autocomplete="off">
-            ${answerField(card, 'examInput')}
-            <button type="submit" class="btn btn-primary">ส่ง → สถานีถัดไป</button>
-          </form>
+          ${stemHTML(card)}
+          ${stationFormHTML(card, 'examForm', 'examInput', 'ส่ง → สถานีถัดไป')}
         </div>
       </article>
       <div class="actions"><button type="button" class="btn btn-ghost" id="btnExamQuit">ยกเลิกการสอบ</button></div>`;
-    const input = $('#examInput');
     const form = $('#examForm');
-    bindEnterSubmit(input, form);
-    form.addEventListener('submit', (e) => { e.preventDefault(); submitStation(card, input.value, false); });
+    const fields = $$('input, textarea', form);
+    const values = () => fields.map((f) => f.value);
+    bindParts(form, fields);
+    form.addEventListener('submit', (e) => { e.preventDefault(); submitStation(card, values(), false); });
     $('#btnExamQuit').addEventListener('click', async () => {
       if (await ask({ title: 'ยกเลิกการสอบ?', body: 'สถานีที่ทำไปแล้วจะไม่ถูกสรุปผล', ok: 'ยกเลิกการสอบ', cancel: 'สอบต่อ', danger: true })) {
         clearInterval(ex.timer);
@@ -1023,7 +1141,7 @@
         show('home');
       }
     });
-    if (state.view === 'exam') input.focus({ preventScroll: true });
+    if (state.view === 'exam' && fields[0]) fields[0].focus({ preventScroll: true });
     clearInterval(ex.timer);
     ex.timer = setInterval(() => {
       const remain = Math.max(0, Math.ceil((ex.endsAt - now()) / 1000));
@@ -1031,19 +1149,20 @@
       if (el) { el.textContent = remain; el.classList.toggle('low', remain <= 10); }
       if (remain <= 0) {
         clearInterval(ex.timer);
-        const field = $('#examInput');
-        submitStation(card, field ? field.value : '', true);
+        submitStation(card, values(), true);
       }
     }, 250);
   }
 
-  async function submitStation(card, raw, timedOut) {
+  // each part scores one point; a station counts as passed (and as remembered) only when all parts are right
+  async function submitStation(card, inputs, timedOut) {
     const ex = state.exam;
     if (!ex || !ex.running || ex.queue[ex.index] !== card.id) return;
     clearInterval(ex.timer);
-    const grade = gradeCard(card, raw);
-    const ok = passed(grade);
-    ex.results.push({ id: card.id, input: raw, ok, timedOut, grade });
+    const grades = gradeCard(card, inputs);
+    const right = grades.filter(passed).length;
+    const ok = right === grades.length;
+    ex.results.push({ id: card.id, inputs, grades, right, total: grades.length, ok, timedOut });
     ex.index++;
     ex.endsAt = 0;
     saveProgress(card, sm2(srsOf(card), ok ? 4 : 0));
@@ -1061,29 +1180,36 @@
   function renderExamSummary() {
     const ex = state.exam;
     const area = $('#view-exam');
-    const total = ex.results.length;
-    const right = ex.results.filter((r) => r.ok).length;
-    const pct = total ? Math.round((right / total) * 100) : 0;
+    const sum = (rs, k) => rs.reduce((n, r) => n + r[k], 0);
+    const points = sum(ex.results, 'right'), possible = sum(ex.results, 'total');
+    const stationsRight = ex.results.filter((r) => r.ok).length;
+    const pct = possible ? Math.round((points / possible) * 100) : 0;
     const byTopic = TOPICS.map((t) => {
       const rs = ex.results.filter((r) => { const c = cardById(r.id); return c && c.topic === t.id; });
-      return rs.length ? `<span>เรื่องที่ ${t.no}: <b class="mono">${rs.filter((r) => r.ok).length}/${rs.length}</b></span>` : '';
+      return rs.length ? `<span>เรื่องที่ ${t.no}: <b class="mono">${sum(rs, 'right')}/${sum(rs, 'total')}</b> ข้อ</span>` : '';
     }).filter(Boolean).join(' · ');
     const items = ex.results.map((r, i) => {
       const c = cardById(r.id);
       if (!c) return '';
-      const img = imageOf(c);
-      const thumb = img ? `<img src="${img}" alt="" loading="lazy">` : `<span class="ph">${c.report ? 'LAB' : 'Q'}</span>`;
-      const given = r.input && r.input.trim() ? esc(r.input) : '<span class="muted">(ไม่ได้ตอบ)</span>';
-      const partial = r.grade.kind === 'describe' && r.grade.state === 'partial' ? ` (${r.grade.hit}/${r.grade.total} ประเด็น)` : '';
+      const imgs = imagesOf(c);
+      const thumb = imgs.length ? `<img src="${imgs[0]}" alt="" loading="lazy">` : `<span class="ph">${c.report ? 'LAB' : 'Q'}</span>`;
+      const parts = partsOf(c);
+      const lines = parts.map((p, k) => {
+        const g = r.grades[k], given = (r.inputs[k] || '').trim();
+        const partial = g.kind === 'describe' && g.state === 'partial' ? ` (${g.hit}/${g.total} ประเด็น)` : '';
+        return `
+          <div class="a"><span class="${passed(g) ? 'ok' : 'no'}">${passed(g) ? '✓' : '✗'}</span>
+            ${parts.length > 1 ? `<b>${LETTERS[k]}.</b> ` : ''}${given ? esc(given) : '<span class="muted">(ไม่ได้ตอบ)</span>'}${partial}
+            <span class="muted"> → ${esc(p.answers[0])}</span></div>`;
+      }).join('');
       return `
         <div class="review-item">
           ${thumb}
           <div>
-            <div class="q">${i + 1}. ${esc(c.question)}</div>
-            <div class="a">คุณตอบ: ${given}${r.timedOut ? ' · หมดเวลา' : ''}${partial}</div>
-            <div class="a">เฉลย: ${esc(c.answers[0])}</div>
+            <div class="q">${i + 1}. ${esc(titleOf(c) || (topicById[c.topic] || {}).short || '')}${r.timedOut ? ' <span class="muted">· หมดเวลา</span>' : ''}</div>
+            ${lines}
           </div>
-          <span class="verdict ${r.ok ? 'ok' : 'no'}">${r.ok ? 'ถูก' : 'ผิด'}</span>
+          <span class="verdict ${r.ok ? 'ok' : 'no'}">${r.right}/${r.total}</span>
         </div>`;
     }).join('');
     const wrong = ex.results.filter((r) => !r.ok).map((r) => r.id);
@@ -1092,11 +1218,11 @@
         <h2>สรุปผลจำลองสอบ</h2>
         <div class="row" style="margin-top:.6rem;align-items:baseline">
           <span class="score">${pct}%</span>
-          <span class="mono">${right}/${total} สถานี</span>
+          <span class="mono">${points}/${possible} ข้อ · ถูกครบ ${stationsRight}/${ex.results.length} สถานี</span>
         </div>
         ${byTopic ? `<p class="small muted" style="margin:.4rem 0 0">${byTopic}</p>` : ''}
         <div class="actions">
-          ${wrong.length ? `<button type="button" class="btn btn-primary" id="btnReviewWrong">ทบทวนข้อที่ผิด (${wrong.length})</button>` : ''}
+          ${wrong.length ? `<button type="button" class="btn btn-primary" id="btnReviewWrong">ทบทวนสถานีที่ยังไม่ครบ (${wrong.length})</button>` : ''}
           <button type="button" class="btn" id="btnExamNew">ตั้งค่าสอบใหม่</button>
           <button type="button" class="btn btn-ghost" id="btnExamHome">กลับหน้าหลัก</button>
         </div>
@@ -1124,24 +1250,28 @@
   function renderManageList() {
     const m = state.manage;
     const q = norm(m.q);
-    let list = pool(m.topic, m.category, false);
+    let list = pool(m.topic, m.category);
     if (q) {
-      list = list.filter((c) => norm(c.question).includes(q) || norm(c.id).includes(q)
-        || c.answers.some((a) => norm(a).includes(q)));
+      list = list.filter((c) => norm(titleOf(c)).includes(q) || norm(c.id).includes(q)
+        || partsOf(c).some((p) => p.answers.some((a) => norm(a).includes(q))));
     }
-    $('#manageCount').textContent = `${list.length} ใบ${state.hidden.length ? ` · ซ่อนการ์ดตั้งต้นไว้ ${state.hidden.length} ใบ` : ''}`;
+    const hidden = state.hidden.filter((id) => seedById[id]).length;
+    $('#manageCount').textContent = `${list.length} สถานี${hidden ? ` · ซ่อนการ์ดตั้งต้นไว้ ${hidden} ใบ` : ''}`;
     const shown = list.slice(0, m.limit);
     $('#manageList').innerHTML = shown.map((c) => {
-      const img = imageOf(c);
-      const thumb = img ? `<img src="${img}" alt="" loading="lazy">` : `<span class="ph">${c.report ? 'LAB' : 'Q'}</span>`;
+      const imgs = imagesOf(c);
+      const thumb = imgs.length ? `<img src="${imgs[0]}" alt="" loading="lazy">` : `<span class="ph">${c.report ? 'LAB' : 'Q'}</span>`;
       const cat = catById[c.category];
       const flag = c.custom ? '<span class="badge">เพิ่มเอง</span> ' : c.edited ? '<span class="badge">แก้ไขแล้ว</span> ' : '';
+      const parts = partsOf(c);
+      const key = parts.map((p, i) => (parts.length > 1 ? LETTERS[i] + '. ' : '') + (p.answers[0] || '')).join(' · ');
+      const years = c.years && c.years.length ? ' · ออกสอบ ' + c.years.map(shortYear).join(' ') : '';
       return `
         <div class="item" data-id="${esc(c.id)}">
           ${thumb}
           <div style="min-width:0">
-            <div class="q">${esc(c.question)}</div>
-            <div class="sub">${flag}<span class="mono">${esc(c.id)}</span> · ${esc(cat ? cat.label : c.category)} · ${esc(c.answers.slice(0, 3).join(', '))}</div>
+            <div class="q">${esc(titleOf(c) || key)}</div>
+            <div class="sub">${flag}<span class="mono">${esc(c.id)}</span> · ${esc(cat ? cat.label : c.category)}${years} · ${esc(key)}</div>
           </div>
           <div class="acts">
             <button type="button" class="btn btn-sm" data-act="edit">แก้ไข</button>
@@ -1171,7 +1301,7 @@
     if (!card) return;
     const ok = await ask({
       title: 'ลบการ์ดนี้?',
-      body: card.custom ? card.question : card.question + ' — การ์ดตั้งต้นจะถูกซ่อน กู้คืนได้ที่ “สำรองข้อมูล › คืนค่าการ์ดตั้งต้น”',
+      body: card.custom ? titleOf(card) : titleOf(card) + ' — การ์ดตั้งต้นจะถูกซ่อน กู้คืนได้ที่ “สำรองข้อมูล › คืนค่าการ์ดตั้งต้น”',
       ok: 'ลบ', danger: true,
     });
     if (!ok) return;
@@ -1192,9 +1322,14 @@
     const layer = $('#layer');
     const topic = card ? card.topic : (state.manage.topic !== 'all' ? state.manage.topic : 'lab');
     let image = card ? (card.image || null) : null;
-    const seedImage = card && !card.custom && card.imageRef ? IMAGES[card.imageRef] : null;
+    const seedImages = card && !card.custom ? imagesOf(Object.assign({}, card, { image: null })) : [];
     let dropSeedImage = false;
-    const kwText = card && card.keywords ? card.keywords.map((v) => (Array.isArray(v) ? v : [v]).join(' | ')).join('\n') : '';
+    // the parts as editable text; read back from the form before every redraw so nothing typed is lost
+    let parts = partsOf(card || { parts: [{ q: '', answers: [], keywords: null }] }).map((p) => ({
+      q: p.q || '',
+      answers: (p.answers || []).join('\n'),
+      keywords: p.keywords ? p.keywords.map((v) => (Array.isArray(v) ? v : [v]).join(' | ')).join('\n') : '',
+    }));
     layer.innerHTML = `
       <div class="overlay" data-backdrop>
         <form class="dialog" id="editor" role="dialog" aria-modal="true" aria-labelledby="edTitle">
@@ -1209,11 +1344,10 @@
             <div class="img-pick" id="edImgBox"></div>
             <input type="file" id="edImg" accept="image/*" hidden>
           </div>
-          <div class="field"><label for="edQ">คำถาม</label><textarea id="edQ" required>${esc(card ? card.question : '')}</textarea></div>
-          <div class="field"><label for="edA">คำตอบที่ยอมรับ <span class="hint">— บรรทัดละ 1 แบบ เช่น ชื่อเต็ม ตัวย่อ ชื่อพ้อง (บรรทัดแรกคือเฉลยหลัก)</span></label>
-            <textarea id="edA" required>${esc(card ? card.answers.join('\n') : '')}</textarea></div>
-          <div class="field"><label for="edK">ประเด็นที่ต้องบรรยาย <span class="hint">— ใส่เฉพาะโจทย์บรรยาย บรรทัดละประเด็น คั่นคำพ้องด้วย |</span></label>
-            <textarea id="edK" placeholder="septate | septate hyphae&#10;acute angle | 45 degree">${esc(kwText)}</textarea></div>
+          <div class="field"><label for="edQ">โจทย์หลัก <span class="hint">— บริบทของสถานี เช่น “ชิ้นเนื้อจาก cervix biopsy” (ไม่บังคับถ้ามีคำถามย่อย)</span></label>
+            <textarea id="edQ" rows="2">${esc(card ? card.question || '' : '')}</textarea></div>
+          <div class="ed-parts" id="edParts"></div>
+          <div class="row"><button type="button" class="btn btn-sm" id="edAddPart">+ เพิ่มข้อย่อย</button></div>
           <div class="field"><label for="edE">คำอธิบายหลังเฉลย <span class="hint">— ไม่บังคับ</span></label>
             <textarea id="edE">${esc(card && card.explain ? card.explain : '')}</textarea></div>
           <div class="dialog-foot">
@@ -1229,16 +1363,37 @@
       $('#edCat').innerHTML = catsFor(tp).map((c) => `<option value="${esc(c.id)}" ${c.id === cur ? 'selected' : ''}>${esc(c.label)}</option>`).join('');
     };
     const drawImage = () => {
-      const src = image || (!dropSeedImage ? seedImage : null);
-      $('#edImgBox').innerHTML = src
-        ? `<img src="${src}" alt="ภาพของการ์ด"><div class="row" style="justify-content:center"><button type="button" class="btn btn-sm" id="edPick">เปลี่ยนรูป</button><button type="button" class="btn btn-sm btn-danger" id="edNoImg">ไม่ใช้รูป</button></div>`
+      const srcs = image ? [image] : !dropSeedImage ? seedImages : [];
+      $('#edImgBox').innerHTML = srcs.length
+        ? `<div class="img-row">${srcs.map((s) => `<img src="${s}" alt="ภาพของการ์ด">`).join('')}</div><div class="row" style="justify-content:center"><button type="button" class="btn btn-sm" id="edPick">เปลี่ยนรูป</button><button type="button" class="btn btn-sm btn-danger" id="edNoImg">ไม่ใช้รูป</button></div>`
         : '<button type="button" class="btn btn-sm" id="edPick">เลือกรูปจากเครื่อง</button>';
       $('#edPick').addEventListener('click', () => $('#edImg').click());
       const none = $('#edNoImg');
       if (none) none.addEventListener('click', () => { image = null; dropSeedImage = true; drawImage(); });
     };
+    const readParts = () => {
+      parts = $$('.ed-part', layer).map((fs) => ({
+        q: $('[data-f="q"]', fs).value, answers: $('[data-f="answers"]', fs).value, keywords: $('[data-f="keywords"]', fs).value,
+      }));
+    };
+    const drawParts = () => {
+      const multi = parts.length > 1;
+      $('#edParts').innerHTML = parts.map((p, i) => `
+        <fieldset class="ed-part">
+          <legend>${multi ? 'ข้อ ' + LETTERS[i] + '.' : 'คำถามและคำตอบ'}</legend>
+          <div class="field"><label for="edPq${i}">คำถามย่อย ${multi ? '' : '<span class="hint">— ไม่บังคับถ้ามีโจทย์หลัก</span>'}</label>
+            <input type="text" id="edPq${i}" data-f="q" value="${esc(p.q)}" placeholder="เช่น จงวินิจฉัยโรค"></div>
+          <div class="field"><label for="edPa${i}">คำตอบที่ยอมรับ <span class="hint">— บรรทัดละ 1 แบบ เช่น ชื่อเต็ม ตัวย่อ ชื่อพ้อง (บรรทัดแรกคือเฉลยหลัก)</span></label>
+            <textarea id="edPa${i}" data-f="answers" rows="3">${esc(p.answers)}</textarea></div>
+          <div class="field"><label for="edPk${i}">ประเด็นที่ต้องบรรยาย <span class="hint">— ใส่เฉพาะข้อบรรยาย บรรทัดละประเด็น คั่นคำพ้องด้วย |</span></label>
+            <textarea id="edPk${i}" data-f="keywords" rows="2" placeholder="septate | septate hyphae&#10;acute angle | 45 degree">${esc(p.keywords)}</textarea></div>
+          ${multi ? `<div class="row"><button type="button" class="btn btn-sm btn-danger" data-remove="${i}">ลบข้อ ${LETTERS[i]}</button></div>` : ''}
+        </fieldset>`).join('');
+      $('#edAddPart').disabled = parts.length >= MAX_PARTS;
+    };
     fillCat();
     drawImage();
+    drawParts();
     $('#edTopic').addEventListener('change', fillCat);
     $('#edImg').addEventListener('change', () => {
       const f = $('#edImg').files[0];
@@ -1247,6 +1402,20 @@
       r.onload = () => { image = r.result; dropSeedImage = false; drawImage(); };
       r.readAsDataURL(f);
     });
+    $('#edAddPart').addEventListener('click', () => {
+      readParts();
+      if (parts.length >= MAX_PARTS) return;
+      parts.push({ q: '', answers: '', keywords: '' });
+      drawParts();
+      $(`#edPq${parts.length - 1}`).focus();
+    });
+    $('#edParts').addEventListener('click', (e) => {
+      const b = e.target.closest('[data-remove]');
+      if (!b) return;
+      readParts();
+      parts.splice(Number(b.dataset.remove), 1);
+      drawParts();
+    });
     const close = () => { document.removeEventListener('keydown', onKey, true); layer.innerHTML = ''; };
     const onKey = (e) => { if (e.key === 'Escape') { e.preventDefault(); close(); } };
     document.addEventListener('keydown', onKey, true);
@@ -1254,23 +1423,30 @@
     if (card) $('#edDel').addEventListener('click', async () => { close(); await deleteCard(card.id); });
     $('#editor').addEventListener('submit', async (e) => {
       e.preventDefault();
+      readParts();
       const question = $('#edQ').value.trim();
-      const answers = $('#edA').value.split('\n').map((s) => s.trim()).filter(Boolean);
-      const keywords = $('#edK').value.split('\n').map((l) => l.split('|').map((s) => s.trim()).filter(Boolean)).filter((v) => v.length);
-      if (!question || !answers.length) { toast('ใส่คำถามและคำตอบอย่างน้อย 1 แบบ'); return; }
+      const out = parts.map((p) => {
+        const keywords = p.keywords.split('\n').map((l) => l.split('|').map((s) => s.trim()).filter(Boolean)).filter((v) => v.length);
+        return { q: p.q.trim(), answers: p.answers.split('\n').map((s) => s.trim()).filter(Boolean), keywords: keywords.length ? keywords : null };
+      });
+      if (out.some((p) => !p.answers.length)) { toast('ทุกข้อต้องมีคำตอบอย่างน้อย 1 แบบ'); return; }
+      if (out.length > 1 && out.some((p) => !p.q)) { toast('ใส่คำถามของทุกข้อย่อย'); return; }
+      if (!question && !out[0].q) { toast('ใส่โจทย์หลักหรือคำถามย่อย'); return; }
       const fields = {
-        topic: $('#edTopic').value, category: $('#edCat').value, question, answers,
-        explain: $('#edE').value.trim() || null, keywords: keywords.length ? keywords : null,
+        topic: $('#edTopic').value, category: $('#edCat').value, question, parts: out,
+        answers: null, keywords: null, explain: $('#edE').value.trim() || null,
       };
       if (card && !card.custom) {
         const o = Object.assign({}, state.overrides[card.id] || {}, fields);
         if (image) o.image = image;
         else delete o.image;
-        if (dropSeedImage) o.imageRef = null;
+        if (dropSeedImage) { o.images = []; o.imageRef = null; }
         state.overrides[card.id] = o;
         await saveMeta('overrides', state.overrides);
       } else {
-        const rec = Object.assign({ id: card ? card.id : uid(), src: null, report: null, imageRef: null }, fields, { image: image || null });
+        const rec = Object.assign({ id: card ? card.id : uid(), src: null, report: null, images: card && card.images ? card.images : [] },
+          fields, { image: image || null });
+        if (dropSeedImage) rec.images = [];
         state.custom = state.custom.filter((c) => c.id !== rec.id).concat(rec);
         await localSafe((l) => l.put('custom', rec));
       }
@@ -1286,7 +1462,7 @@
 
   function exportPayload() {
     return {
-      app: 'ospe-immune2', version: 1, exportedAt: new Date().toISOString(),
+      app: 'ospe-immune2', version: 2, exportedAt: new Date().toISOString(),
       progress: state.progress, custom: state.custom, overrides: state.overrides,
       hidden: state.hidden, resetAt: state.resetAt,
     };
@@ -1353,7 +1529,9 @@
     });
     if (toLocal.length) await localSafe((l) => l.putMany('progress', toLocal));
     if (Array.isArray(p.custom)) {
-      const valid = p.custom.filter((c) => c && c.id && c.question && Array.isArray(c.answers) && c.answers.length);
+      const hasAnswers = (x) => x && Array.isArray(x.answers) && x.answers.length;
+      const valid = p.custom.filter((c) => c && c.id
+        && (Array.isArray(c.parts) && c.parts.length ? c.parts.every(hasAnswers) : hasAnswers(c)));
       const ids = new Set(valid.map((c) => c.id));
       state.custom = state.custom.filter((c) => !ids.has(c.id)).concat(valid);
       if (valid.length) await localSafe((l) => l.putMany('custom', valid));
