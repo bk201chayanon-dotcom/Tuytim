@@ -466,6 +466,15 @@ kbd {
   overflow-wrap: break-word;
 }
 
+/* คำถามท้ายโจทย์ แบบข้อสอบ */
+.ask {
+  margin: -4px 0 0;
+  padding-left: 10px;
+  border-left: 3px solid var(--stain);
+  font: 600 1rem/1.5 var(--f-body);
+  color: var(--ink);
+}
+
 .clue b {
   font-weight: 600;
   background: linear-gradient(transparent 60%, color-mix(in srgb, var(--stain) 24%, transparent) 0);

@@ -2,7 +2,7 @@
  * app.js — ตัวควบคุมหน้าเว็บ Pathogen Dx Recall
  *
  * โหมด
- *   card   อ่านอาการแล้วนึกชื่อเชื้อ → ดูคำตอบ → ให้คะแนนตัวเอง
+ *   card   อ่าน case scenario ภาษาอังกฤษแล้วนึกชื่อเชื้อ → ดูคำตอบ → ให้คะแนนตัวเอง
  *   quiz   เลือกเชื้อจาก 5 ตัวเลือกแบบข้อสอบ (ตัวลวงมาจากหัวข้อเดียวกันก่อน)
  *   list   รายการทั้งหมดพร้อมค้นหา ใช้ทวนก่อนสอบ
  *
@@ -215,8 +215,9 @@
       <article class="slide d-${c.deck}" aria-label="การ์ด ${c.no}">
         ${labelHTML(c)}
         <div class="glass">
-          <p class="eyebrow">อาการ · keyword</p>
-          <div class="clue">${c.clue}</div>
+          <p class="eyebrow">Case scenario</p>
+          <div class="clue" lang="en">${c.clue}</div>
+          <p class="ask" lang="en">${c.ask || PDX_ASK.card}</p>
           ${run.shown ? answerHTML(c) : ''}
           <div class="actions">
             ${grade}
@@ -343,8 +344,9 @@
       <article class="slide d-${c.deck}" aria-label="ข้อ ${quiz.i + 1}" tabindex="-1" ${answered ? '' : 'data-autofocus'}>
         ${labelHTML(c)}
         <div class="glass">
-          <p class="eyebrow">เลือกเชื้อที่ตรงที่สุด</p>
-          <div class="clue">${c.clue}</div>
+          <p class="eyebrow">Case scenario</p>
+          <div class="clue" lang="en">${c.clue}</div>
+          <p class="ask" lang="en">${PDX_ASK.quiz}</p>
           <ol class="options">${options}</ol>
           ${answered ? answerHTML(c) : ''}
           ${answered ? `<div class="actions"><button type="button" class="btn btn-primary" data-act="next" data-autofocus>${quiz.i + 1 < total ? 'ข้อต่อไป' : 'ดูคะแนน'} <kbd>Enter</kbd></button></div>` : ''}
@@ -417,7 +419,8 @@
           <span class="row-meta">${meta}</span>
         </summary>
         <div class="row-body">
-          <div class="clue">${c.clue}</div>
+          <div class="clue" lang="en">${c.clue}</div>
+          ${c.ask ? `<p class="ask" lang="en">${c.ask}</p>` : ''}
           ${c.tax ? `<p class="tax">${c.tax}</p>` : ''}
           ${factsHTML(c, ['dz'])}
           ${keysHTML(c)}

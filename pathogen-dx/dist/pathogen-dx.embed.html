@@ -1,6 +1,6 @@
 <title>Pathogen Dx Recall</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="แฟลชการ์ดทายเชื้อจากอาการและ keyword สำคัญ แยก Viral · Bacteria · Parasite จากสไลด์บรรยายและโจทย์เก่า MED23–29">
+<meta name="description" content="แฟลชการ์ด case scenario ภาษาอังกฤษแบบข้อสอบ ทายเชื้อจากอาการและ keyword สำคัญ แยก Viral · Bacteria · Parasite จากสไลด์บรรยายและโจทย์เก่า MED23–29">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;1,8..60,500;1,8..60,600&display=swap">
@@ -473,6 +473,15 @@ kbd {
   overflow-wrap: break-word;
 }
 
+/* คำถามท้ายโจทย์ แบบข้อสอบ */
+.ask {
+  margin: -4px 0 0;
+  padding-left: 10px;
+  border-left: 3px solid var(--stain);
+  font: 600 1rem/1.5 var(--f-body);
+  color: var(--ink);
+}
+
 .clue b {
   font-weight: 600;
   background: linear-gradient(transparent 60%, color-mix(in srgb, var(--stain) 24%, transparent) 0);
@@ -915,7 +924,7 @@ kbd {
   <header class="masthead">
     <div>
       <h1 class="wordmark">Pathogen <span class="dx">Dx</span> Recall</h1>
-      <p class="tagline">ทายชื่อเชื้อจากอาการและ keyword ที่ใช้วินิจฉัย · สรุปจากสไลด์บรรยายและโจทย์เก่า <span class="nowrap">MED23–29</span></p>
+      <p class="tagline">ทายชื่อเชื้อจาก case scenario ภาษาอังกฤษแบบข้อสอบ · keyword ที่ใช้วินิจฉัยไฮไลต์ไว้ · สรุปจากสไลด์บรรยายและโจทย์เก่า <span class="nowrap">MED23–29</span></p>
     </div>
     <p class="library" id="library"></p>
   </header>
@@ -963,13 +972,16 @@ kbd {
  *
  * สรุปจากสไลด์บรรยาย Viral diseases 69, Bacterial disease 69,
  * Parasitic infection และโจทย์เก่า MED23–MED29 (หัวข้อ 5–7)
+ * ด้านหน้าเป็น case scenario ภาษาอังกฤษล้วนแบบข้อสอบ (ไม่มีภาษาไทย)
  * keyword ทุกคำใช้ medical term ภาษาอังกฤษตามที่สไลด์และโจทย์ใช้
- * ภาษาไทยใช้เป็นคำเชื่อม หรือคำอธิบายในวงเล็บ เช่น (ปูน้ำตก)
+ * ด้านหลังใช้ภาษาไทยเป็นคำเชื่อม หรือคำอธิบายในวงเล็บ เช่น (ปูน้ำตก)
  *
  * รูปแบบการ์ด
  *   id     รหัสถาวรของการ์ด ใช้เก็บความคืบหน้า — ห้ามเปลี่ยนเมื่อมีผู้ใช้แล้ว
  *   g      รหัสหัวข้อย่อย (ดู groups ของแต่ละสำรับ)
- *   clue   ด้านหน้า: อาการ + keyword ที่ใช้วินิจฉัย (<b> = keyword ภาษาอังกฤษ)
+ *   clue   ด้านหน้า: case scenario ภาษาอังกฤษ — ผู้ป่วย พื้นที่ ประวัติสัมผัส
+ *          อาการ sign และผลตรวจ (<b> = keyword) ห้ามมีชื่อเชื้อหรือภาษาไทย
+ *   ask    คำถามท้ายโจทย์ (ไม่ระบุ = ใช้ PDX_ASK ท้ายไฟล์) ใช้กับการ์ดสรุป
  *   org    ด้านหลัง: ชื่อเชื้อ (<i> = ชื่อวิทยาศาสตร์แบบ binomial)
  *   tax    กลุ่มเชื้อ / การจัดจำแนก เช่น family, Gram stain (แสดงใต้ชื่อเชื้อ)
  *   dz     โรค
@@ -1009,7 +1021,7 @@ const PDX_DECKS = [
     cards: [
       {
         id: 'v-flu', g: 'resp',
-        clue: '<b>Abrupt onset of fever</b>, <b>myalgia</b>, <b>headache</b>, <b>generalized weakness</b> ร่วมกับ URTI symptoms (incubation ~2 วัน); complications: <b>secondary bacterial pneumonia</b>, <b>Reye syndrome</b>; รักษาด้วย <b>neuraminidase inhibitor</b>',
+        clue: 'A 34-year-old teacher develops an <b>abrupt onset of high fever</b>, chills, <b>myalgia</b>, <b>headache</b>, and <b>generalized weakness</b>, followed by sore throat and dry cough, about <b>2 days</b> after several colleagues fell ill. Six days later she has a new productive cough with lobar consolidation (<b>secondary bacterial pneumonia</b>). The virus escapes immunity by <b>antigenic drift and shift</b>, and she is treated with a <b>neuraminidase inhibitor</b>.',
         org: 'Influenza virus (A, B)', opt: 'Influenza virus',
         dz: '<b>Influenza</b> (ไข้หวัดใหญ่)',
         tax: 'Orthomyxoviridae · segmented (−)ssRNA',
@@ -1027,7 +1039,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-piv', g: 'resp',
-        clue: 'เด็กเล็กมี URTI นำมา แล้วเกิด <b>barking cough</b> + <b>inspiratory stridor</b> = <b>croup (laryngotracheitis)</b> — เชื้อที่เป็นสาเหตุของ <b>nearly half of croup cases</b>',
+        clue: 'A 2-year-old boy has had rhinorrhea and low-grade fever for 2 days. Tonight he developed a <b>barking, seal-like cough</b>, a hoarse voice, and <b>inspiratory stridor</b> that worsens when he cries; he is not drooling. A frontal neck radiograph shows <b>subglottic narrowing (steeple sign)</b>. The responsible virus causes <b>nearly half of all cases of laryngotracheitis (croup)</b>.',
         org: 'Parainfluenza virus (PIV-1)', opt: 'Parainfluenza virus',
         dz: '<b>Croup</b> (laryngotracheitis) · bronchiolitis & pneumonia (PIV-3)',
         tax: 'Paramyxoviridae · 4 species',
@@ -1045,7 +1057,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-rsv', g: 'resp',
-        clue: '<b>Premature infant</b> มี tachypnea + <b>wheezing</b> = <b>bronchiolitis</b>; histo: <b>multinucleated syncytial giant cells</b> ที่มี <b>round pink intracytoplasmic inclusion</b>; high-risk infants ป้องกันด้วย <b>palivizumab</b>',
+        clue: 'A 3-month-old boy born at <b>32 weeks’ gestation</b> develops rhinorrhea and cough, followed by <b>tachypnea</b>, nasal flaring, chest retractions, and diffuse <b>wheezing</b> (<b>bronchiolitis</b>). He caught it through <b>large droplets</b> from his sibling’s nasal secretions. Lung tissue from a fatal case of the same infection shows <b>multinucleated syncytial giant cells</b> with <b>round pink intracytoplasmic inclusions</b>. High-risk infants can receive <b>palivizumab</b> prophylaxis.',
         org: 'Respiratory syncytial virus (RSV)', opt: 'Respiratory syncytial virus',
         dz: '<b>Bronchiolitis</b> / pneumonia in infants',
         tax: 'Pneumoviridae · (−)ssRNA',
@@ -1062,7 +1074,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-hmpv', g: 'resp',
-        clue: 'Respiratory virus ที่ติดได้ <b>all age groups</b> ส่วนใหญ่ <b>asymptomatic</b> หรือ <b>self-limited URTI</b> แต่พบใน <b>13% of severe LRTIs</b> ในเด็กที่ต้อง admit (US); no targeted therapeutics',
+        clue: 'A 4-year-old girl is admitted with fever, cough, wheezing, and hypoxemia from <b>severe lower respiratory tract infection</b>, while her parents had only <b>mild self-limited cold symptoms</b>. A multiplex respiratory NAAT is negative for RSV and influenza but positive for a <b>pneumovirus closely related to RSV</b> that infects <b>all age groups</b> and is found in about <b>13% of severe pediatric LRTIs requiring hospitalization</b>. No targeted antiviral is available.',
         org: 'Human metapneumovirus (hMPV)', opt: 'Human metapneumovirus',
         dz: 'URTI → severe LRTI in children',
         tax: 'Pneumoviridae (closely related to RSV)',
@@ -1077,7 +1089,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-rhino', g: 'resp',
-        clue: '<b>Common cold</b>: <b>pronounced watery nasal discharge</b> หลัง incubation 2–3 วัน; common complications: <b>acute otitis media</b> และ <b>sinusitis</b>',
+        clue: 'A 25-year-old office worker has sneezing, sore throat, and <b>profuse watery nasal discharge</b> beginning <b>2–3 days</b> after his daughter had a cold; he is afebrile. A week later he develops ear pain from <b>acute otitis media</b> and facial pressure from <b>sinusitis</b>. The responsible virus is the <b>most common cause of the common cold</b> worldwide, and one species (type C) causes severe lower respiratory infection in children with <b>asthma</b>.',
         org: 'Rhinovirus',
         dz: '<b>Common cold</b>',
         tax: 'Picornaviridae',
@@ -1092,7 +1104,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-adeno-pcf', g: 'resp', k: 'adeno',
-        clue: '<b>Outbreak</b> ใน <b>boarding school dormitory / military recruits / swimming pool</b>: low-grade fever + <b>pharyngitis</b> + <b>bilateral follicular conjunctivitis</b> + rhinitis, <b>preauricular lymphadenopathy</b>',
+        clue: 'Twenty students at a <b>boarding school</b> become ill within a week of using the same <b>swimming pool</b>. A 14-year-old presents with low-grade fever, <b>pharyngitis</b>, rhinitis, and red watery eyes. Examination shows <b>bilateral follicular conjunctivitis</b> and tender <b>preauricular lymphadenopathy</b>. The non-enveloped dsDNA virus spreads by aerosolized droplets or <b>direct conjunctival inoculation</b> and also causes outbreaks among <b>military recruits</b>.',
         org: 'Adenovirus',
         dz: '<b>Pharyngoconjunctival fever</b>',
         tax: 'Adenoviridae · dsDNA, non-enveloped',
@@ -1110,7 +1122,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-adeno-smudge', g: 'resp', k: 'adeno',
-        clue: 'เด็ก 2 ปี low-grade fever, rhinorrhea, tachypnea, <b>wheezing</b>; biopsy: <b>necrotizing bronchiolitis</b> + epithelial cells มี <b>large basophilic intranuclear inclusions</b> ที่บดบัง nuclear border (<b>smudge cells</b>)',
+        clue: 'A 2-year-old boy has had low-grade fever, rhinorrhea, <b>tachypnea</b>, and <b>wheezing</b> for 5 days and dies of respiratory failure despite intensive care. Autopsy lung shows <b>necrotizing bronchiolitis</b>; the bronchiolar epithelial cells contain <b>large basophilic intranuclear inclusions</b> that obscure the nuclear border (<b>smudge cells</b>). No syncytial giant cells or intracytoplasmic inclusions are seen.',
         org: 'Adenovirus',
         dz: '<b>Necrotizing bronchiolitis</b> / pneumonia',
         tax: 'Adenoviridae · dsDNA, non-enveloped',
@@ -1128,7 +1140,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-covid', g: 'resp',
-        clue: 'Cough, headache, myalgia + <b>loss of smell / taste (anosmia, ageusia)</b> ± diarrhea; severe: pneumonia, <b>ARDS</b>, <b>thromboembolic events</b>, <b>MIS-C</b> (Kawasaki-like); lab: <b>lymphopenia</b>, ↑CRP, ↑procalcitonin ในรายรุนแรง',
+        clue: 'A 58-year-old man with diabetes and obesity (BMI 32) develops fever, cough, myalgia, headache, and a <b>sudden loss of smell and taste (anosmia, ageusia)</b> 5 days after a family gathering. On day 8 he becomes short of breath with <b>hypoxemia</b> and bilateral ground-glass opacities, progressing to <b>ARDS</b> and a <b>pulmonary embolism</b>. Labs show <b>lymphopenia</b> and a raised CRP. Electron microscopy of the virus shows <b>crown-like surface spikes</b>.',
         org: 'SARS-CoV-2',
         dz: '<b>COVID-19</b>',
         tax: 'Coronaviridae · crown-like spikes on EM',
@@ -1147,7 +1159,7 @@ const PDX_DECKS = [
 
       {
         id: 'v-measles', g: 'kids',
-        clue: 'เด็ก <b>unimmunized</b> มี high fever + <b>3Cs: cough, coryza, conjunctivitis</b> → <b>Koplik spots</b> (white punctate papules บน buccal mucosa ตรง lower molars) → <b>maculopapular rash</b> เริ่มที่ face / behind the ears แล้ว <b>coalesces and spreads downwards</b> สู่ trunk & extremities',
+        clue: 'An <b>unimmunized</b> 5-year-old girl has high fever with <b>cough, coryza, and conjunctivitis</b> for 3 days. Examination shows <b>white punctate papules on the buccal mucosa opposite the lower molars</b> (<b>Koplik spots</b>). The next day a <b>maculopapular rash</b> appears <b>behind the ears and on the face</b>, then <b>spreads downward</b> to the trunk and limbs and becomes confluent. A lymph node biopsy would show <b>Warthin-Finkeldey giant cells</b>; she is given <b>vitamin A</b>.',
         org: 'Measles virus (Measles morbillivirus)', opt: 'Measles virus',
         dz: '<b>Measles</b> (หัด, rubeola)',
         tax: 'Paramyxoviridae (Morbillivirus) · enveloped (−)ssRNA',
@@ -1167,7 +1179,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-rubella', g: 'kids',
-        clue: '<b>Fine pink-red non-coalescing maculopapular rash</b> เริ่มที่ face & neck ลามทั่วตัวใน 24 ชม. และหายใน <b>3 days</b>; <b>Forchheimer spots</b> บน soft palate; ถ้าแม่ติดใน <b>first trimester</b> → ทารกมี <b>cataracts + sensorineural hearing loss + cardiac defects</b>',
+        clue: 'A 24-year-old woman at <b>10 weeks of pregnancy</b> has mild fever and tender <b>postauricular lymphadenopathy</b>, followed by a <b>fine, pink, non-coalescing maculopapular rash</b> that starts on the face, spreads to the trunk within <b>24 hours</b>, and fades after <b>3 days</b>. Small red spots are seen on the <b>soft palate</b> (<b>Forchheimer spots</b>). Her baby is born small for gestational age with <b>cataracts</b>, <b>sensorineural hearing loss</b>, and a <b>cardiac defect</b>.',
         org: 'Rubella virus',
         dz: '<b>Rubella</b> (หัดเยอรมัน, German measles, three-day measles) · <b>congenital rubella syndrome</b>',
         tax: 'Matonaviridae (เดิม Togaviridae) · enveloped (+)ssRNA',
@@ -1184,7 +1196,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-hhv6', g: 'kids',
-        clue: 'Infant / young child มี <b>high fever</b> หลายวัน แล้วเมื่อ <b>fever subsides</b> จึงเกิด <b>nonpruritic blanching macular / maculopapular rash</b> ที่เริ่มจาก <b>trunk</b> แล้วลามไป neck, face, extremities',
+        clue: 'A 10-month-old boy has had a <b>high fever (39.8 °C) for 4 days</b> but looks well apart from one febrile seizure. When the <b>fever suddenly resolves</b>, a <b>nonpruritic, blanching macular rash</b> appears <b>on the trunk</b> and then spreads to the neck, face, and extremities. In transplant recipients, reactivation of the same latent virus causes posttransplant fever, encephalitis, and pneumonitis.',
         org: 'Human herpesvirus 6 (HHV-6; HHV-7 พบน้อยกว่า)', opt: 'Human herpesvirus 6',
         dz: '<b>Roseola infantum</b> (exanthem subitum, sixth disease)',
         tax: 'Herpesviridae (beta) · dsDNA',
@@ -1201,7 +1213,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-b19', g: 'kids', k: 'b19',
-        clue: 'เด็ก low-grade fever แล้วมี <b>“slapped-cheek” rash</b> (bright red confluent rash ที่แก้มทั้งสองข้าง) ตามด้วย <b>lacy reticular rash</b> ที่ trunk & extremities; ผู้ใหญ่มี <b>arthralgia</b>',
+        clue: 'A 7-year-old girl has a few days of low-grade fever and malaise, followed by a bright red, confluent rash on both cheeks (<b>“slapped-cheek” appearance</b>) and, days later, a <b>lacy reticular rash</b> on the trunk and limbs. Her mother develops <b>symmetric arthralgia</b> of the small joints of the hands. The virus targets <b>erythroid progenitor cells</b> through the <b>P antigen</b>, and infection during pregnancy can cause <b>hydrops fetalis</b>.',
         org: 'Parvovirus B19',
         dz: '<b>Erythema infectiosum</b> (fifth disease)',
         tax: 'Parvoviridae · ssDNA, non-enveloped',
@@ -1218,7 +1230,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-b19-crisis', g: 'kids', k: 'b19',
-        clue: 'ชาย 60 ปีเป็น <b>hereditary spherocytosis</b> มี progressive fatigue, <b>pallor</b>, exertional dyspnea; lab: <b>severe normocytic normochromic anemia + absolute reticulocytopenia</b>; หลานเพิ่งหายจากไข้ที่มี <b>bright red erythema on both cheeks</b> + <b>lacy macular rash</b>',
+        clue: 'A 60-year-old man with <b>hereditary spherocytosis</b> has 1 week of progressive fatigue, pallor, and exertional dyspnea. Hemoglobin is 5.8 g/dL with a <b>normocytic normochromic anemia</b> and an <b>absolute reticulocytopenia</b>; bone marrow shows <b>giant pronormoblasts</b>. Two weeks earlier his grandson had fever with <b>bright red erythema on both cheeks</b> followed by a <b>lacy macular rash</b> on the limbs.',
         org: 'Parvovirus B19',
         dz: '<b>Transient aplastic crisis</b> in chronic hemolytic anemia',
         tax: 'Parvoviridae · ssDNA',
@@ -1235,7 +1247,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-hfmd', g: 'kids', k: 'coxsackie',
-        clue: 'เด็กเล็กมี fever + <b>oral vesicular enanthem</b> + <b>macular / maculopapular / vesicular exanthem</b> ที่ <b>hands, feet</b>, arms, legs และ <b>buttocks</b>',
+        clue: 'A 3-year-old girl at a <b>daycare center</b> where several children are sick has fever, poor feeding, and painful <b>oral vesicles and ulcers</b> on the tongue and buccal mucosa. Examination shows <b>vesicles on the palms and soles</b> and papules on the <b>buttocks</b>. The virus spreads by the <b>fecal-oral route</b>, respiratory droplets, and vesicle fluid; serotypes <b>A71</b> and <b>A6</b> are linked to neurologic and cardiovascular complications.',
         org: 'Coxsackievirus A16 / A6, Enterovirus A71', opt: 'Coxsackievirus / Enterovirus A71',
         dz: '<b>Hand, foot, and mouth disease</b> (HFMD)',
         tax: 'Picornaviridae (Enterovirus) · Coxsackie A16, A6, EV-A71',
@@ -1251,7 +1263,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-coxsackie-myo', g: 'kids', k: 'coxsackie',
-        clue: 'เด็ก 4 ขวบมี fever + <b>vesicular lesions with erythematous halos</b> ที่ buccal mucosa, palms, soles → <b>2 weeks later</b> lethargy, dyspnea, tachycardia; echo: <b>diffuse LV hypokinesia (acute myocarditis)</b> — เชื้อตัวเดียวที่อธิบายได้ทั้ง rash และ myocarditis',
+        clue: 'A 4-year-old boy had fever with <b>vesicles surrounded by erythematous halos on the buccal mucosa, palms, and soles</b>. Two weeks later he develops lethargy, poor feeding, <b>dyspnea</b>, and <b>tachycardia</b> out of proportion to fever. Chest radiograph shows cardiomegaly, and echocardiography reveals <b>diffuse left ventricular hypokinesia</b> (<b>acute myocarditis</b>). A single virus explains both the rash and the heart disease.',
         org: 'Coxsackievirus',
         dz: 'HFMD → <b>acute viral myocarditis</b>',
         tax: 'Picornaviridae (Enterovirus) · Coxsackie B > A',
@@ -1268,7 +1280,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-herpangina', g: 'kids', k: 'coxsackie',
-        clue: 'เด็กมี <b>abrupt onset high fever</b> + <b>pharyngeal hyperemia</b> + <b>painful yellow-grey oral papulovesicular lesions</b> <b>without cutaneous lesions</b>',
+        clue: 'In early summer, a 5-year-old boy has an <b>abrupt onset of high fever</b>, sore throat, and refusal to eat. Examination shows <b>pharyngeal hyperemia</b> with several <b>painful yellow-grey papulovesicles</b> on the soft palate and tonsillar pillars. There are <b>no cutaneous lesions</b> on the hands, feet, or buttocks.',
         org: 'Enterovirus (เช่น Coxsackievirus A)', opt: 'Enterovirus (Coxsackie A)',
         dz: '<b>Herpangina</b>',
         tax: 'Picornaviridae (Enterovirus, e.g. Coxsackie A)',
@@ -1284,7 +1296,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-mumps', g: 'kids',
-        clue: 'เด็ก 10 ปี <b>unimmunized</b> มี low-grade fever + <b>painful bilateral parotid swelling</b> (<b>obliterating the angle of the mandible</b>) → 10 วันต่อมามี <b>severe testicular swelling & tenderness (acute orchitis)</b>',
+        clue: 'An <b>unimmunized</b> 10-year-old boy has low-grade fever and <b>painful bilateral swelling in front of the ears</b> that <b>obliterates the angle of the mandible</b>; the pain worsens when he eats sour food. Ten days later he develops fever with severe <b>testicular swelling and tenderness</b> (<b>acute orchitis</b>), and his parents are warned about later <b>testicular atrophy</b> and <b>subfertility</b>.',
         org: 'Mumps virus',
         dz: '<b>Mumps</b> (คางทูม) → <b>orchitis</b>',
         tax: 'Paramyxoviridae · (−)ssRNA',
@@ -1302,7 +1314,7 @@ const PDX_DECKS = [
 
       {
         id: 'v-varicella', g: 'skin', k: 'vzv',
-        clue: 'เด็กมี low-grade fever + <b>pruritic vesicular rash</b> เริ่มที่ trunk & face แล้วกระจายออก; <b>lesions in various stages</b> (macules, papules, vesicles, crusts) พร้อมกัน — vesicles บน erythematous base “<b>dewdrops on a rose petal</b>”',
+        clue: 'A 10-year-old girl has low-grade fever and an <b>intensely pruritic rash</b> that began on the <b>trunk and face</b> and spread outward to the limbs. Examination shows <b>lesions in different stages at the same time</b>: macules, papules, <b>clear vesicles on an erythematous base (“dewdrops on a rose petal”)</b>, and crusts. A Tzanck smear shows <b>multinucleated giant cells</b>. The virus will remain <b>latent in the dorsal root ganglia</b>.',
         org: 'Varicella-zoster virus (VZV, HHV-3)', opt: 'Varicella-zoster virus',
         dz: '<b>Varicella</b> (chickenpox, อีสุกอีใส)',
         tax: 'Herpesviridae (alpha) · HHV-3, dsDNA',
@@ -1319,7 +1331,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-zoster', g: 'skin', k: 'vzv',
-        clue: 'ผู้ใหญ่มี <b>pain & paresthesia</b> ตาม <b>unilateral dermatome</b> นำมา แล้วเกิด <b>grouped vesicles on an erythematous base</b>; ถ้าขึ้นที่ forehead, upper eyelid และ <b>tip of the nose (Hutchinson sign)</b> = <b>V1 (ophthalmic) branch</b>',
+        clue: 'A 72-year-old man has 3 days of burning pain and paresthesia over the right forehead, followed by <b>grouped vesicles on an erythematous base</b> in the distribution of the <b>ophthalmic division (V1)</b> of the trigeminal nerve, involving the upper eyelid and the <b>tip of the nose</b> (<b>Hutchinson sign</b>). The rash stops at the midline. The virus reactivated from the <b>trigeminal ganglion</b>, and early antivirals reduce <b>postherpetic neuralgia</b>.',
         org: 'Varicella-zoster virus (reactivation)', opt: 'Varicella-zoster virus',
         dz: '<b>Herpes zoster</b> (shingles, งูสวัด) · <b>herpes zoster ophthalmicus</b> (V1)',
         tax: 'Herpesviridae (alpha) · VZV reactivation',
@@ -1338,7 +1350,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-ramsay', g: 'skin', k: 'vzv',
-        clue: '<b>Ipsilateral facial paralysis</b> + <b>otalgia</b> + <b>vesicles near the ear and auditory canal</b>',
+        clue: 'A 65-year-old woman develops severe <b>right ear pain (otalgia)</b>, followed by <b>vesicles on the external ear and auditory canal</b> and an <b>ipsilateral lower motor neuron facial paralysis</b> with hearing loss and vertigo. The virus reactivated in the <b>geniculate ganglion of cranial nerve VII</b>.',
         org: 'Varicella-zoster virus',
         dz: '<b>Ramsay Hunt syndrome</b> (herpes zoster oticus)',
         tax: 'Herpesviridae (alpha) · VZV reactivation',
@@ -1353,7 +1365,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-hsv1', g: 'skin', k: 'hsv1',
-        clue: '<b>Painful clustered vesicles on an erythematous base</b> ที่ <b>vermilion border</b> ของริมฝีปาก, <b>recurs with stress</b>; unroofed lesion ทำ <b>Tzanck smear</b> พบ <b>multinucleated giant cells</b>',
+        clue: 'A 22-year-old woman has recurrent episodes of tingling followed by <b>painful clustered vesicles on an erythematous base</b> at the <b>vermilion border of the lip</b>, usually during exam <b>stress</b> or fever. A <b>Tzanck smear</b> of an unroofed vesicle shows <b>multinucleated giant cells</b> with <b>Cowdry type A intranuclear inclusions</b>. She had <b>gingivostomatitis</b> as a toddler, and the virus is latent in the <b>trigeminal ganglion</b>.',
         org: 'Herpes simplex virus type 1 (HSV-1)', opt: 'Herpes simplex virus type 1',
         dz: '<b>Herpes labialis</b> (cold sore, เริม) · primary: gingivostomatitis',
         tax: 'Herpesviridae (alpha) · HHV-1, dsDNA',
@@ -1372,7 +1384,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-hsv2', g: 'skin', k: 'hsv2',
-        clue: 'วัยรุ่น/ผู้ใหญ่ที่ sexually active มี <b>painful genital vesicles & ulceration</b>; <b>recurrent</b> symptomatic outbreaks (milder than initial presentation)',
+        clue: 'A 21-year-old sexually active man has fever, dysuria, and <b>multiple painful grouped vesicles</b> on the penile shaft that rupture into <b>shallow painful ulcers</b>, with tender bilateral inguinal lymphadenopathy. Over the next year he has <b>recurrent, milder outbreaks</b>. His pregnant partner is told that <b>perinatal transmission</b> can cause neonatal encephalitis. The virus is latent in the <b>sacral ganglia</b>.',
         org: 'Herpes simplex virus type 2 (HSV-2)', opt: 'Herpes simplex virus type 2',
         dz: '<b>Genital herpes</b> · neonatal herpes',
         tax: 'Herpesviridae (alpha) · HHV-2, dsDNA',
@@ -1388,7 +1400,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-molluscum', g: 'skin',
-        clue: 'เด็กนักเรียนมี <b>firm, dome-shaped, flesh-colored (pearly) papules</b> with <b>central umbilication</b>; gentle extrusion ได้ <b>curd-like, cheesy central core</b>, painless, เป็นมา 6 เดือน เพื่อนที่โรงเรียนเป็นด้วย',
+        clue: 'A 10-year-old boy has had multiple painless bumps on his trunk for <b>6 months</b>, and several classmates have similar lesions. Examination shows firm, <b>dome-shaped, flesh-colored pearly papules</b> 3–5 mm across with <b>central umbilication</b>; gentle pressure expresses a <b>curd-like, cheesy core</b>. The poxvirus has a <b>human-only reservoir</b>, replicates only in the <b>epidermis</b>, and spreads by direct contact and <b>autoinoculation</b>.',
         org: 'Molluscum contagiosum virus',
         dz: '<b>Molluscum contagiosum</b> (หูดข้าวสุก)',
         tax: 'Poxviridae · dsDNA',
@@ -1407,7 +1419,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-hpv-wart', g: 'skin', k: 'hpv',
-        clue: '<b>Sexually transmitted</b>: <b>granular papillations</b> ที่มี <b>verrucous / cauliflower appearance</b> บริเวณ anogenital area = <b>condyloma acuminata</b> (หูดหงอนไก่)',
+        clue: 'A 26-year-old sexually active man has multiple painless, soft, <b>verrucous, cauliflower-like papillations</b> on the perianal skin and penile shaft (<b>condylomata acuminata</b>). Biopsy shows papillary epidermal hyperplasia with <b>koilocytes</b>. The low-risk virus types responsible (6 and 11) can also pass through the <b>birth canal</b>, causing <b>recurrent respiratory papillomatosis</b> in children.',
         org: 'Human papillomavirus type 6, 11 (low-risk)', opt: 'Human papillomavirus',
         dz: '<b>Condyloma acuminata</b> (anogenital warts, หูดหงอนไก่) · common wart',
         tax: 'Papillomaviridae · dsDNA · low-risk HPV-6, 11',
@@ -1424,7 +1436,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-hpv-ca', g: 'skin', k: 'hpv',
-        clue: 'Oncogenic virus ของ <b>cervical carcinoma</b>, anogenital dysplasia และ <b>oropharyngeal carcinoma</b> ผ่าน viral proteins <b>E6 (inhibits p53)</b> และ <b>E7 (inhibits Rb)</b>; cervical cancer screening ด้วย <b>PCR-based test</b>',
+        clue: 'A 38-year-old woman with HIV infection and multiple sexual partners has <b>postcoital bleeding</b>. Pap smear shows <b>koilocytes</b> and high-grade dysplasia, and biopsy of the <b>cervical transformation zone</b> shows invasive squamous cell carcinoma. A <b>PCR-based screening test</b> detects an oncogenic virus whose <b>E6</b> and <b>E7</b> proteins inactivate <b>p53</b> and <b>Rb</b>; types 16 and 18 also cause anogenital and <b>oropharyngeal carcinoma</b>.',
         org: 'High-risk HPV (16, 18 …)', opt: 'Human papillomavirus',
         dz: '<b>Cervical carcinoma</b> · anogenital dysplasia · oropharyngeal carcinoma',
         tax: 'Papillomaviridae · high-risk HPV-16, 18 …',
@@ -1442,7 +1454,7 @@ const PDX_DECKS = [
 
       {
         id: 'v-hse', g: 'cns', k: 'hsv1',
-        clue: '<b>Rapid onset of fever</b> + <b>focal neurologic signs</b>: <b>altered mental status</b>, cranial nerve palsies, <b>seizures</b>, <b>language & behavioral abnormalities</b>; CSF: <b>lymphocytic pleocytosis</b>, ↑protein และ <b>↑RBC that does not normalize with subsequent CSF tube draws</b>',
+        clue: 'A 45-year-old previously healthy man has a <b>rapid onset of fever</b>, headache, <b>confusion</b>, bizarre behavior, word-finding difficulty, and a <b>generalized seizure</b>. MRI shows <b>hemorrhagic necrosis of both temporal lobes</b>. CSF shows <b>lymphocytic pleocytosis</b>, raised protein, and <b>red blood cells that do not decrease in later tubes</b>. CSF PCR confirms the leading cause of <b>sporadic fatal encephalitis</b>, and <b>IV acyclovir</b> is started.',
         org: 'Herpes simplex virus type 1 (HSV-1)', opt: 'Herpes simplex virus type 1',
         dz: '<b>HSV encephalitis</b> (HSE)',
         tax: 'Herpesviridae (alpha) · HSV-1 (neonates: HSV-2)',
@@ -1459,7 +1471,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-jev', g: 'cns',
-        clue: '<b>Rice farmer</b>: <b>sudden onset of fever, headache, vomiting</b> → <b>altered mental status</b>, <b>seizures</b>, focal neurologic deficits, <b>movement disorders</b>; enzootic cycle: <b>Culex tritaeniorhynchus</b> (ยุงรำคาญ) — <b>wading birds</b> — <b>pigs (amplifying hosts)</b>',
+        clue: 'A 9-year-old boy from a <b>rice-farming village</b> beside a <b>pig farm</b> in rural Thailand develops <b>sudden high fever</b>, headache, and vomiting, followed by <b>altered consciousness</b>, seizures, tremor, and a <b>parkinsonian movement disorder</b>. CSF shows lymphocytic pleocytosis with normal glucose, and <b>virus-specific IgM in CSF</b> is positive. The flavivirus is spread by <b>Culex mosquitoes</b>, with <b>pigs and wading birds</b> as amplifying hosts; humans are dead-end hosts.',
         org: 'Japanese encephalitis virus (JEV)', opt: 'Japanese encephalitis virus',
         dz: '<b>Japanese encephalitis</b>',
         tax: 'Flaviviridae · (+)ssRNA',
@@ -1478,7 +1490,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-nipah', g: 'cns',
-        clue: 'Fever + <b>encephalitis</b> และ/หรือ <b>severe pulmonary disease</b>, mortality 40–90%; first isolated <b>1999 in Malaysia & Singapore</b> จาก <b>close contact with infected pigs</b>; primary reservoir: <b>Pteropus bats</b>',
+        clue: 'In 1999, a 35-year-old <b>pig farmer in Malaysia</b> develops fever, headache, and drowsiness progressing to <b>encephalitis</b> with myoclonus and coma; co-workers and abattoir workers in <b>Singapore</b> are similarly affected, and some have <b>severe pneumonia</b>. The paramyxovirus’s natural reservoir is the <b>Pteropus fruit bat</b>, and pigs were the intermediate hosts. Case fatality is <b>40–90%</b>.',
         org: 'Nipah virus (Henipavirus)', opt: 'Nipah virus',
         dz: '<b>Nipah virus encephalitis</b> / severe respiratory disease',
         tax: 'Paramyxoviridae (Henipavirus) · zoonosis',
@@ -1492,7 +1504,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-rabies', g: 'cns',
-        clue: 'Encephalitis หลัง <b>dog / bat bite</b> (หรือ raccoon, fox — <b>exposure to saliva is sufficient</b>) มี <b>hydrophobia</b>; brain: <b>Negri bodies</b> = eosinophilic <b>intracytoplasmic inclusions</b> ใน <b>cerebellar Purkinje cells</b>',
+        clue: 'A 40-year-old man is admitted with fever, agitation, and <b>hydrophobia</b>—attempts to drink cause painful <b>pharyngeal spasms</b>—with aerophobia and <b>hypersalivation</b>. Six weeks earlier he was <b>bitten on the hand by a stray dog</b> and did not receive post-exposure prophylaxis; the illness began with <b>paresthesia at the bite site</b>. He dies, and brain histology shows <b>eosinophilic intracytoplasmic inclusions (Negri bodies)</b> in <b>cerebellar Purkinje cells</b>.',
         org: 'Rabies virus',
         dz: '<b>Rabies</b> (โรคพิษสุนัขบ้า) — encephalitis',
         tax: 'Rhabdoviridae (Lyssavirus) · bullet-shaped (−)ssRNA',
@@ -1507,7 +1519,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-dengue', g: 'cns',
-        clue: '<b>Acute high fever 2–7 days</b>, <b>facial flushing</b>, <b>retro-orbital headache</b>, <b>severe myalgia</b>, <b>positive tourniquet test</b>, <b>petechiae</b> → <b>defervescence</b> แต่มี persistent abdominal pain, vomiting, <b>cold clammy extremities</b>, <b>narrow pulse pressure</b>; lab: <b>hemoconcentration (Hct ↑ ≥20%)</b>, <b>thrombocytopenia</b>, <b>leukopenia</b>',
+        clue: 'A 16-year-old girl in Bangkok has had <b>high fever for 5 days</b>, facial flushing, <b>retro-orbital headache</b>, severe myalgia, and a <b>positive tourniquet test</b> with petechiae. On day 6 her <b>fever subsides</b>, but she develops persistent <b>abdominal pain</b>, vomiting, <b>cold clammy extremities</b>, and a <b>narrow pulse pressure</b>. Labs show platelets 25,000/µL, leukopenia, and a <b>hematocrit rise of 22%</b> with a pleural effusion (<b>plasma leakage</b>). The vector is <b>Aedes aegypti</b>.',
         org: 'Dengue virus (DENV)', opt: 'Dengue virus',
         dz: '<b>Dengue hemorrhagic fever</b> → <b>dengue shock syndrome</b> (ไข้เลือดออก)',
         tax: 'Flaviviridae · DENV-1–4',
@@ -1526,7 +1538,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-zika', g: 'cns',
-        clue: 'ทารก <b>microcephaly</b> + <b>intracranial periventricular & subcortical calcifications</b> + <b>retinal scarring</b>; แม่ใน <b>first trimester</b> ไป tropical region มี self-limiting <b>rash</b>, low-grade fever, <b>retro-orbital pain</b> หลัง mosquito bites',
+        clue: 'A newborn has severe <b>microcephaly</b>; CT shows <b>periventricular and subcortical calcifications</b>, and the eye examination shows <b>retinal scarring</b>. In the <b>first trimester</b>, the mother traveled to a tropical region and had a <b>self-limited rash</b>, low-grade fever, conjunctivitis, and retro-orbital pain after <b>mosquito bites</b>. The flavivirus can also spread <b>sexually</b> and destroys <b>neural progenitor cells</b>; TORCHS serology is negative.',
         org: 'Zika virus (ZIKV)', opt: 'Zika virus',
         dz: '<b>Congenital Zika syndrome</b> · Zika fever',
         tax: 'Flaviviridae',
@@ -1544,7 +1556,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-chik', g: 'cns',
-        clue: '<b>Returning traveler</b>: <b>high fever</b> + <b>severe polyarthralgia</b> หลัง average <b>incubation 3 days</b> จาก <b>Aedes</b> mosquito bite',
+        clue: 'A 30-year-old traveler returns from southern Thailand with <b>sudden high fever</b> and <b>severe, incapacitating, symmetric polyarthralgia</b> of the wrists, hands, and ankles, beginning about <b>3 days after mosquito bites</b>, with a transient maculopapular rash. The joint pain persists for months after the fever settles. <b>RT-PCR in the first week</b> is positive; the alphavirus shares its <b>Aedes</b> vector with dengue and Zika.',
         org: 'Chikungunya virus (CHIKV)', opt: 'Chikungunya virus',
         dz: '<b>Chikungunya</b> (ไข้ปวดข้อยุงลาย)',
         tax: 'Togaviridae (Alphavirus)',
@@ -1561,7 +1573,7 @@ const PDX_DECKS = [
 
       {
         id: 'v-ebv', g: 'mono', k: 'ebv',
-        clue: '<b>College freshman</b> (<b>deep kissing / saliva</b>): fatigue, fever, <b>pharyngitis with tonsillar exudates</b> + <b>posterior cervical lymphadenopathy</b> + <b>palatal petechiae</b> + <b>splenomegaly</b>; <b>rash after β-lactam antibiotics</b> (amoxicillin)',
+        clue: 'A 19-year-old <b>college freshman</b> has 1 week of fatigue, fever, and severe sore throat. Examination shows <b>tonsillar exudates</b>, <b>palatal petechiae</b>, <b>posterior cervical lymphadenopathy</b>, and <b>splenomegaly</b>. After taking <b>amoxicillin</b> for presumed pharyngitis, he develops a diffuse <b>maculopapular rash</b>. The blood smear shows <b>atypical lymphocytes >10%</b>, and a <b>heterophile antibody (Monospot) test</b> is positive. He recently started <b>deep kissing</b> with a new partner.',
         org: 'Epstein-Barr virus (EBV, HHV-4)', opt: 'Epstein-Barr virus',
         dz: '<b>Infectious mononucleosis</b> (glandular fever)',
         tax: 'Herpesviridae (gamma) · HHV-4, dsDNA',
@@ -1582,7 +1594,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-ebv-ca', g: 'mono', k: 'ebv',
-        clue: 'Latent virus ที่สัมพันธ์กับ <b>Burkitt lymphoma</b>, <b>Hodgkin lymphoma</b>, <b>nasopharyngeal carcinoma</b>, peripheral T-cell lymphoma, <b>gastric carcinoma</b> และ <b>posttransplant lymphoproliferative disorder (PTLD)</b>',
+        clue: 'A 45-year-old man from <b>southern China</b> has unilateral nasal obstruction, recurrent epistaxis, and a painless upper neck mass. Biopsy shows undifferentiated <b>nasopharyngeal carcinoma</b>, and serum IgA against the <b>viral capsid antigen</b> is high. The same latent herpesvirus is linked to <b>Burkitt lymphoma</b>, <b>Hodgkin lymphoma</b>, gastric carcinoma, and <b>posttransplant lymphoproliferative disorder</b>, which is monitored with <b>blood qPCR viral load</b>.',
         org: 'Epstein-Barr virus (EBV)', opt: 'Epstein-Barr virus',
         dz: 'EBV-associated malignancies: <b>Burkitt</b>, <b>Hodgkin lymphoma</b>, <b>nasopharyngeal carcinoma</b>, gastric carcinoma, <b>PTLD</b>',
         tax: 'Herpesviridae (gamma) · latent EBV',
@@ -1596,7 +1608,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-cmv-cong', g: 'mono', k: 'cmv',
-        clue: 'Neonate <b>small for gestational age</b> + <b>microcephaly</b> + <b>chorioretinitis</b> + <b>sensorineural hearing loss (SNHL)</b>; แม่มี primary infection / reactivation / reinfection ระหว่างตั้งครรภ์; <b>~85–90% asymptomatic at birth</b>',
+        clue: 'A newborn is <b>small for gestational age</b>, with jaundice, hepatosplenomegaly, petechiae, <b>microcephaly</b>, and <b>chorioretinitis</b>. Head CT shows <b>periventricular calcifications</b>, and he fails the newborn hearing screen (<b>sensorineural hearing loss</b>). His mother, a daycare worker, had a mild <b>mononucleosis-like illness</b> early in pregnancy. The infant’s urine and saliva PCR are positive, and <b>valganciclovir</b> is started.',
         org: 'Cytomegalovirus (CMV, HHV-5)', opt: 'Cytomegalovirus',
         dz: '<b>Congenital CMV</b> (cCMV) — TORCH',
         tax: 'Herpesviridae (beta) · HHV-5',
@@ -1613,7 +1625,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-cmv-tx', g: 'mono', k: 'cmv',
-        clue: '<b>Transplant recipient</b> มี <b>undifferentiated fever</b> + <b>pneumonitis</b> / enteritis / hepatitis / <b>retinitis</b>; infected cells <b>enlarged (cytomegaly)</b> มี <b>owl’s eye intranuclear inclusion</b> + <b>perinuclear halo</b>',
+        clue: 'A 50-year-old man <b>6 weeks after kidney transplantation</b> develops <b>undifferentiated fever</b>, then dyspnea with bilateral interstitial infiltrates (<b>pneumonitis</b>) and diarrhea. Lung biopsy shows <b>markedly enlarged cells</b> with a large <b>“owl’s eye” intranuclear inclusion</b> surrounded by a <b>clear perinuclear halo</b>. A rising viral load guides preemptive <b>ganciclovir</b>; similar inclusions occur in renal tubules, and AIDS patients may develop <b>retinitis</b>.',
         org: 'Cytomegalovirus (CMV)', opt: 'Cytomegalovirus',
         dz: '<b>CMV disease</b> in transplant / immunocompromised: pneumonitis, enteritis, hepatitis, retinitis',
         tax: 'Herpesviridae (beta) · HHV-5',
@@ -1630,7 +1642,8 @@ const PDX_DECKS = [
       },
       {
         id: 'v-mono-other', g: 'mono', mcq: false,
-        clue: '<b>Mononucleosis-like illness</b> ที่ <b>not caused by EBV</b> (~10% of IM cases) — มีเชื้ออะไรบ้าง?',
+        clue: 'A 20-year-old woman has fever, sore throat, cervical lymphadenopathy, fatigue, and atypical lymphocytosis, but the <b>heterophile antibody test is negative</b> and <b>EBV serology shows only past infection</b>. About <b>10% of infectious mononucleosis</b> cases are caused by pathogens other than EBV.',
+        ask: 'Besides EBV, which viruses, bacterium, and parasite can cause this mononucleosis-like illness?',
         org: 'CMV · HHV-6 · HSV-1 · Adenovirus · HIV-1 · <i>S. pyogenes</i> · <i>Toxoplasma gondii</i>',
         dz: 'Mononucleosis-like illness (heterophile-negative)',
         sx: 'Fever, pharyngitis, lymphadenopathy, fatigue',
@@ -1643,7 +1656,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-hiv', g: 'mono',
-        clue: 'Acute phase หลังติดเชื้อ: <b>fever, lymphadenopathy, pharyngitis, rash, weight loss</b> (mono-like); <b>high viremia</b> และตรวจพบ <b>p24 antigen</b> ก่อน antibody',
+        clue: 'A 28-year-old man presents <b>3 weeks after unprotected sex</b> with a new partner with fever, <b>pharyngitis</b>, generalized <b>lymphadenopathy</b>, a <b>maculopapular rash</b>, mouth ulcers, and weight loss. A rapid antibody test is negative, but a 4th-generation assay detects <b>p24 antigen</b>, and plasma viral load is very high. Without treatment, progressive <b>CD4+ T-cell depletion</b> leads to AIDS-defining illnesses after a median of about 10 years.',
         org: 'Human immunodeficiency virus (HIV-1)', opt: 'Human immunodeficiency virus',
         dz: '<b>Acute retroviral syndrome</b> → AIDS',
         tax: 'Retroviridae (Lentivirus) · (+)ssRNA',
@@ -1660,7 +1673,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-bk', g: 'mono',
-        clue: '<b>Kidney transplant recipient</b> มี graft dysfunction จาก <b>nephropathy</b> หรือ <b>HCT recipient</b> มี <b>hemorrhagic cystitis</b>',
+        clue: 'A 45-year-old man <b>8 months after kidney transplantation</b> has a rising serum creatinine without fever. Allograft biopsy shows tubulointerstitial nephritis with <b>intranuclear viral inclusions in tubular epithelial cells</b>, and urine cytology shows <b>decoy cells</b>. The <b>plasma qPCR viral load</b> is high. In hematopoietic cell transplant recipients, the same virus causes <b>hemorrhagic cystitis</b>.',
         org: 'BK polyomavirus',
         dz: '<b>BK virus nephropathy</b> · <b>hemorrhagic cystitis</b>',
         tax: 'Polyomaviridae · dsDNA',
@@ -1676,7 +1689,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-jc', g: 'mono',
-        clue: 'Immunocompromised host (เช่น HIV, <b>immune reconstitution after starting ART</b>) มี progressive <b>focal neurologic deficits</b>: limb weakness, <b>hemiparesis</b>, <b>aphasia</b> จาก <b>focal demyelination</b>',
+        clue: 'A 38-year-old man with AIDS (CD4 count 45/µL) develops <b>progressive right-sided weakness</b>, <b>aphasia</b>, and visual field loss over 6 weeks; his symptoms worsened soon after <b>starting antiretroviral therapy (immune reconstitution)</b>. MRI shows <b>multifocal non-enhancing white matter lesions</b> without mass effect (<b>focal demyelination</b>). <b>Viral DNA PCR in the CSF</b> is positive; the virus destroys <b>oligodendrocytes</b>.',
         org: 'JC polyomavirus (John Cunningham virus)', opt: 'JC polyomavirus',
         dz: '<b>Progressive multifocal leukoencephalopathy</b> (PML)',
         tax: 'Polyomaviridae · dsDNA',
@@ -1693,7 +1706,7 @@ const PDX_DECKS = [
 
       {
         id: 'v-rota', g: 'liver',
-        clue: '<b>Children &lt;5 years</b>: <b>vomiting + fever 2–3 days</b> นำมาก่อน แล้ว <b>profuse watery diarrhea 4–5 days</b> → <b>dehydration</b>; principal cause of <b>diarrhea-related mortality</b> ใน children &lt;5 y ทั่วโลก',
+        clue: 'A 9-month-old unvaccinated infant at daycare has <b>vomiting and fever for 2–3 days</b>, followed by <b>profuse watery, non-bloody diarrhea for 4–5 days</b>. She is lethargic with sunken eyes, dry mucosa, and decreased skin turgor (<b>dehydration</b>). The non-enveloped dsRNA virus is the <b>leading cause of diarrheal death in children under 5</b> worldwide, spreads by the <b>fecal-oral route and fomites</b>, and shortens the intestinal villi. A rare vaccine complication is <b>intussusception</b>.',
         org: 'Rotavirus',
         dz: '<b>Viral gastroenteritis</b> in children',
         tax: 'Reoviridae · dsRNA, non-enveloped',
@@ -1711,7 +1724,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-noro', g: 'liver',
-        clue: '<b>Nosocomial</b> และ community <b>foodborne outbreaks</b> ของ acute vomiting / diarrhea; hospital outbreaks มี <b>airborne transmission</b>; อาจ fatal ใน <b>older adults</b> และเป็น <b>chronic infection</b> ใน immunocompromised',
+        clue: 'Within 24–48 hours of a buffet, more than 100 passengers on a <b>cruise ship</b> develop <b>abrupt vomiting</b>, watery non-bloody diarrhea, and abdominal cramps lasting 1–3 days; an outbreak also spreads through a <b>nursing home</b> and a hospital ward via contaminated surfaces and <b>airborne particles</b>. Stool bacterial cultures are negative. Frail elderly residents can die, and immunocompromised patients may develop <b>chronic infection</b>.',
         org: 'Norovirus (Norwalk virus)', opt: 'Norovirus',
         dz: '<b>Acute gastroenteritis</b> outbreaks',
         tax: 'Caliciviridae · non-enveloped (+)ssRNA',
@@ -1726,7 +1739,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-hav', g: 'liver',
-        clue: '<b>Acute hepatitis</b> (jaundice) หลัง <b>contaminated food / water (fecal-oral)</b> หรือ person-to-person spread; <b>chronic infection does not occur</b>, most cases <b>resolve spontaneously</b>; มี <b>monovalent vaccine</b> และ <b>postexposure prophylaxis</b> ภายใน 2 สัปดาห์',
+        clue: 'A 24-year-old traveler returns from Southeast Asia with fever, malaise, nausea, and right upper quadrant pain, followed by <b>jaundice</b> and dark urine. He ate <b>raw shellfish and street food</b> 4 weeks earlier, and two travel companions are also ill (<b>fecal-oral</b> spread). ALT is 2,400 U/L. The illness is <b>self-limited and never becomes chronic</b>; it is preventable with a <b>monovalent vaccine</b>, and contacts receive <b>post-exposure prophylaxis within 2 weeks</b>.',
         org: 'Hepatitis A virus (HAV)', opt: 'Hepatitis A virus',
         dz: '<b>Hepatitis A</b> — acute viral hepatitis',
         tax: 'Picornaviridae · (+)ssRNA',
@@ -1743,7 +1756,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-hbv-carrier', g: 'liver', k: 'hbv',
-        clue: 'Asymptomatic health screening: <b>HBsAg (+)</b>, <b>total anti-HBc (+)</b>, <b>anti-HBs (−)</b>; HBsAg positive <b>>6 months</b>',
+        clue: 'A 35-year-old asymptomatic Thai man has routine <b>health screening</b>. Serology shows <b>surface antigen positive</b>, <b>total core antibody positive</b>, and <b>surface antibody negative</b>; the surface antigen was also positive <b>more than 6 months ago</b>. ALT is mildly raised. His mother carries the same virus, and he was probably infected <b>at birth</b>.',
         org: 'Hepatitis B virus — chronic infection (carrier)', opt: 'Hepatitis B virus',
         dz: '<b>Chronic hepatitis B</b> (carrier)',
         tax: 'Hepadnaviridae · partially dsDNA',
@@ -1762,7 +1775,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-hbv-age', g: 'liver', k: 'hbv',
-        clue: 'Hepatotropic virus ที่ <b>progression to chronicity</b> ขึ้นกับ <b>age at infection / host immune maturity</b>: neonates ~90% vs adults ~5%; <b>oncogenic → hepatocellular carcinoma (HCC)</b>; transmission: <b>vertical, sexual, IV drug use</b>; mean incubation 90 วัน',
+        clue: 'A 28-year-old pregnant woman is a chronic carrier of a hepatotropic <b>partially double-stranded DNA virus</b>. She asks why her newborn needs a specific <b>immune globulin within 12 hours of birth</b> plus vaccine. She is told that <b>progression to chronic infection depends on age at infection</b>—about <b>90% of infected neonates</b> versus about <b>5% of adults</b>—and that chronic infection can lead to <b>hepatocellular carcinoma</b>. The virus also spreads <b>sexually</b> and by <b>IV drug use</b>.',
         org: 'Hepatitis B virus (HBV)', opt: 'Hepatitis B virus',
         dz: '<b>Hepatitis B</b> → chronic infection, cirrhosis, <b>HCC</b>',
         tax: 'Hepadnaviridae · DNA, oncogenic',
@@ -1781,7 +1794,8 @@ const PDX_DECKS = [
       },
       {
         id: 'v-hbv-tolerant', g: 'liver', mcq: false,
-        clue: 'หญิง asymptomatic ติด HBV <b>perinatally</b>: <b>HBsAg (+), HBeAg (+)</b>, <b>HBV DNA >10<sup>7</sup> IU/mL</b> แต่ <b>persistently normal ALT</b> และ <b>minimal inflammation / fibrosis</b> — อยู่ phase ใด?',
+        clue: 'A 24-year-old asymptomatic woman acquired chronic hepatitis B <b>perinatally</b>. Tests show <b>HBsAg positive</b>, <b>HBeAg positive</b>, and <b>HBV DNA >10<sup>7</sup> IU/mL</b>, but <b>persistently normal ALT</b>, and liver biopsy shows <b>minimal inflammation and no fibrosis</b>.',
+        ask: 'Which phase of chronic hepatitis B infection is she in?',
         org: 'HBV — Immune-tolerant phase',
         dz: 'HBeAg-positive chronic infection (<b>immune-tolerant phase</b>)',
         sx: 'Asymptomatic',
@@ -1800,7 +1814,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-hcv', g: 'liver',
-        clue: 'History <b>shared unsterile needles (IVDU)</b> 10 ปีก่อน; fatigue, anorexia, <b>RUQ discomfort</b>, <b>mild scleral icterus</b>; <b>anti-HAV IgM (−)</b>, <b>HBsAg (−)</b>, <b>anti-HBs (+) / anti-HBc (−)</b> (= HBV vaccinated); <b>detectable serum viral RNA</b>',
+        clue: 'A 40-year-old man has fatigue, anorexia, <b>right upper quadrant discomfort</b>, and <b>mild scleral icterus</b>. He <b>shared unsterile needles</b> while injecting drugs 10 years ago. Serology: <b>anti-HAV IgM negative</b>, <b>HBsAg negative</b>, <b>anti-HBs positive with anti-HBc negative</b> (vaccinated), and <b>serum viral RNA detectable</b>. About <b>55–85%</b> of infections with this virus become chronic, and he is offered <b>direct-acting antivirals</b>.',
         org: 'Hepatitis C virus (HCV)', opt: 'Hepatitis C virus',
         dz: '<b>Hepatitis C</b> → chronic hepatitis, cirrhosis, HCC',
         tax: 'Flaviviridae · (+)ssRNA',
@@ -1818,7 +1832,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-hdv', g: 'liver',
-        clue: '<b>Defective (satellite) virus</b> ที่ต้องใช้ <b>HBV envelope proteins (HBsAg)</b> ในการ replicate; <b>acute HBV/HDV coinfection</b> = highest risk of <b>fulminant hepatic failure</b>',
+        clue: 'A 32-year-old man who injects drugs and has known <b>chronic HBsAg-positive infection</b> suddenly develops severe hepatitis with jaundice and coagulopathy (<b>superinfection</b>). The agent is a <b>defective (satellite) RNA virus</b> that uses the <b>surface antigen of its helper virus as its envelope</b>. Simultaneous <b>coinfection</b> with both viruses carries the <b>highest risk of fulminant hepatic failure</b>. Diagnosis is by <b>total antibody (IgM + IgG)</b> and PCR.',
         org: 'Hepatitis D virus (HDV, delta)', opt: 'Hepatitis D virus',
         dz: '<b>Hepatitis D</b> (delta) — coinfection / superinfection with HBV',
         tax: 'Defective (satellite) RNA virus — needs HBsAg envelope',
@@ -1835,7 +1849,7 @@ const PDX_DECKS = [
       },
       {
         id: 'v-hev', g: 'liver',
-        clue: '<b>Acute hepatitis</b> จาก <b>contaminated food / water</b>; severe ใน <b>pregnant women (third trimester)</b> และ pre-existing liver disease; <b>chronic infection</b> ใน immunocompromised (<b>genotypes 3, 4</b>)',
+        clue: 'A 26-year-old woman in her <b>third trimester of pregnancy</b> in a flood-affected area of South Asia develops fever and jaundice, then confusion, rapidly progressing to <b>fulminant hepatic failure</b>. Several neighbors have self-limited hepatitis after drinking <b>contaminated water</b> (<b>waterborne outbreak</b>). Genotypes 3 and 4 of this virus are acquired from <b>undercooked pork</b> and cause <b>chronic infection</b> in transplant recipients. Diagnosis is by IgM antibody, confirmed by viral RNA.',
         org: 'Hepatitis E virus (HEV)', opt: 'Hepatitis E virus',
         dz: '<b>Hepatitis E</b> — enterically transmitted hepatitis',
         tax: 'Hepeviridae · (+)ssRNA',
@@ -1874,7 +1888,7 @@ const PDX_DECKS = [
     cards: [
       {
         id: 'b-sa-skin', g: 'gpc', k: 'saureus',
-        clue: '<b>Furuncles</b> รอบ hair follicles (scalp, face, axilla) · <b>carbuncle</b> = complicated abscess ที่ nape of neck มี <b>draining sinuses</b> · <b>hidradenitis suppurativa</b> (sweat glands) · <b>breast abscess</b> ใน breastfeeding mother',
+        clue: 'A 30-year-old man with diabetes has a painful, fluctuant red nodule centered on a <b>hair follicle</b> in the axilla (<b>furuncle</b>) and a larger indurated lesion on the <b>nape of the neck</b> with <b>multiple draining sinuses</b> (<b>carbuncle</b>). Gram stain of the pus shows <b>Gram-positive cocci in clusters</b> that are <b>catalase-positive</b> and <b>coagulase-positive</b>. The same organism causes osteomyelitis, septic arthritis in children, and breast abscess in breastfeeding women.',
         org: '<i>Staphylococcus aureus</i>',
         dz: '<b>Furuncle</b>, <b>carbuncle</b>, hidradenitis suppurativa, skin abscess, breast abscess',
         tax: 'Gram+ cocci in clusters · catalase+ · coagulase+',
@@ -1891,7 +1905,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-sa-tss', g: 'gpc', k: 'saureus',
-        clue: '<b>Tampons</b> / <b>nasal packing</b> / surgical wound infection → <b>high fever</b>, <b>nausea & vomiting</b>, <b>shock</b>',
+        clue: 'A 17-year-old girl on day 4 of her period, using <b>high-absorbency tampons</b>, develops <b>high fever</b>, vomiting, watery diarrhea, and <b>hypotension</b>. Examination shows a <b>diffuse sunburn-like erythroderma</b>, and 2 weeks later the skin of her <b>palms and soles desquamates</b>. Blood cultures are negative; the illness is caused by a <b>superantigen exotoxin</b> from <b>coagulase-positive Gram-positive cocci in clusters</b> colonizing the tampon. Similar cases follow <b>nasal packing</b> and surgical wounds.',
         org: '<i>Staphylococcus aureus</i>',
         dz: '<b>Toxic shock syndrome</b> (TSS)',
         tax: 'Gram+ cocci in clusters · TSST-1 superantigen',
@@ -1907,7 +1921,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-sa-food', g: 'gpc', k: 'saureus',
-        clue: '<b>Food poisoning</b>: <b>nausea, vomiting, diarrhea</b> with <b>rapid onset 4–6 hrs</b> หลังกินอาหาร (<b>preformed toxin</b>)',
+        clue: 'Six guests at a picnic develop severe <b>nausea and vomiting</b>, abdominal cramps, and some diarrhea <b>4–6 hours</b> after eating cream-filled pastries and ham sandwiches left in the sun. None has a high fever, and all recover within 24 hours. The food handler has an infected cut on his hand. The illness is due to a <b>preformed heat-stable enterotoxin</b> made by <b>catalase-positive, coagulase-positive Gram-positive cocci</b>.',
         org: '<i>Staphylococcus aureus</i>',
         dz: '<b>Staphylococcal food poisoning</b>',
         tax: 'Gram+ cocci in clusters · heat-stable enterotoxin',
@@ -1922,7 +1936,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-ssss', g: 'gpc', k: 'saureus',
-        clue: 'Neonate / young child มี <b>erythema</b> → <b>flaccid bullae</b> → <b>denuded areas</b> (exfoliative phase); <b>positive Nikolsky sign</b>',
+        clue: 'A 2-week-old neonate has fever and irritability, followed by tender <b>generalized erythema</b> that progresses to <b>large flaccid bullae</b>; these rupture, leaving <b>moist denuded areas</b> as the upper epidermis sheds. Gentle lateral pressure makes the skin separate (<b>positive Nikolsky sign</b>), and the mucous membranes are spared. The disease is caused by an <b>exfoliative toxin (exfoliatin)</b> that cleaves <b>desmoglein-1</b>.',
         org: '<i>Staphylococcus aureus</i>',
         dz: '<b>Staphylococcal scalded skin syndrome</b> (Ritter disease)',
         tax: 'Gram+ cocci in clusters · exfoliatin (exfoliative toxin)',
@@ -1937,7 +1951,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-sepi', g: 'gpc',
-        clue: '<b>Mechanical prosthetic aortic valve</b> 9 เดือน: low-grade fever, anorexia, weight loss, <b>splenomegaly</b>; TEE: <b>vegetation around the sewing ring</b>; blood culture: GPC in clusters <b>coagulase-negative</b>, <b>novobiocin-sensitive</b>, producing <b>slime / biofilm</b>',
+        clue: 'A 64-year-old man with a <b>mechanical prosthetic aortic valve placed 9 months ago</b> has 6 weeks of <b>low-grade fever</b>, anorexia, weight loss, and <b>splenomegaly</b>. TEE shows a <b>vegetation around the sewing ring</b>. Blood cultures grow <b>Gram-positive cocci in clusters</b> that are <b>catalase-positive</b>, <b>coagulase-negative</b>, and <b>novobiocin-sensitive</b>, producing <b>slime (biofilm)</b> on the prosthetic material.',
         org: '<i>Staphylococcus epidermidis</i>',
         dz: '<b>Prosthetic valve endocarditis</b> · catheter / device infection',
         tax: 'Gram+ cocci in clusters · coagulase− · <b>novobiocin-sensitive</b> · slime / biofilm',
@@ -1955,7 +1969,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-ssap', g: 'gpc',
-        clue: '<b>Young sexually active woman</b>: <b>dysuria</b>, <b>urinary frequency</b>, <b>suprapubic tenderness</b>, no vaginal discharge; <b>pyuria</b>, microscopic hematuria; culture: non-hemolytic GPC in clusters <b>catalase +</b>, <b>coagulase −</b>, <b>novobiocin-resistant</b>',
+        clue: 'A 20-year-old <b>sexually active woman</b> has dysuria, urinary frequency, and suprapubic tenderness, without fever or vaginal discharge. Urinalysis shows pyuria and microscopic hematuria. Urine culture grows non-hemolytic <b>Gram-positive cocci in clusters</b> that are <b>catalase-positive</b>, <b>coagulase-negative</b>, and <b>novobiocin-resistant</b>.',
         org: '<i>Staphylococcus saprophyticus</i>',
         dz: '<b>Uncomplicated UTI (cystitis)</b>',
         tax: 'Gram+ cocci in clusters · coagulase− · <b>novobiocin-resistant</b>',
@@ -1972,7 +1986,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-spn-mening', g: 'gpc', k: 'spn',
-        clue: '<b>Basilar skull fracture</b> + <b>traumatic CSF rhinorrhea</b> 3 สัปดาห์ก่อน → high fever, <b>altered consciousness</b>, <b>neck stiffness</b>; CSF: cloudy, <b>neutrophilic pleocytosis</b>, ↑protein, <b>↓glucose</b>; Gram stain: <b>Gram+ lancet-shaped diplococci</b>',
+        clue: 'A 32-year-old man had a <b>basilar skull fracture</b> with <b>clear fluid leaking from the nose (CSF rhinorrhea)</b> after a motorcycle accident 3 weeks ago. He now has high fever, severe headache, <b>altered consciousness</b>, and <b>nuchal rigidity</b>. CSF is cloudy with neutrophilic pleocytosis, raised protein, and low glucose. Gram stain shows <b>Gram-positive lancet-shaped diplococci</b>; colonies are α-hemolytic, <b>optochin-sensitive</b>, and <b>bile-soluble</b>.',
         org: '<i>Streptococcus pneumoniae</i>',
         dz: '<b>Bacterial meningitis</b> (post-traumatic CSF leak)',
         tax: 'Gram+ <b>lancet-shaped diplococci</b> · α-hemolytic · optochin-sensitive · capsule',
@@ -1990,7 +2004,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-spn-opsi', g: 'gpc', k: 'spn',
-        clue: '<b>Asplenic</b> (splenectomy หลัง trauma) หรือ <b>sickle cell anemia</b>: high fever, chills, <b>purulent productive cough</b>, <b>lobar consolidation</b> → <b>fulminant bacteremia</b> — most common organism?',
+        clue: 'A 25-year-old man who had a <b>splenectomy after a car accident</b> 2 years ago presents with high fever, rigors, and <b>purulent rust-colored sputum</b>; within hours he develops septic shock and DIC. Chest radiograph shows <b>lobar consolidation</b>. Blood cultures grow <b>encapsulated Gram-positive diplococci</b> whose capsule swells with type-specific antiserum (<b>Quellung reaction</b>). Patients with <b>sickle cell anemia</b> share the same risk.',
         org: '<i>Streptococcus pneumoniae</i>',
         dz: '<b>Overwhelming post-splenectomy infection</b> (OPSI) · lobar pneumonia',
         tax: 'Gram+ lancet-shaped diplococci · <b>polysaccharide capsule</b> (Quellung)',
@@ -2007,7 +2021,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-viridans', g: 'gpc',
-        clue: '<b>Mitral valve prolapse</b> + <b>dental extraction without antibiotic prophylaxis</b> → 4 สัปดาห์ต่อมา <b>low-grade fever</b>, <b>night sweats</b>, fatigue, <b>new holosystolic murmur</b>; blood culture: GPC in chains <b>α-hemolytic</b>, <b>optochin-resistant</b>, catalase-negative',
+        clue: 'A 45-year-old woman with known <b>mitral valve prolapse</b> had a <b>dental extraction without antibiotic prophylaxis</b>. Four weeks later she has <b>low-grade fever</b>, <b>night sweats</b>, fatigue, a <b>new holosystolic murmur</b>, and <b>splinter hemorrhages</b>. Blood cultures grow <b>α-hemolytic, catalase-negative Gram-positive cocci in chains</b> that are <b>optochin-resistant</b> and bile-insoluble. These <b>normal oral flora</b> stick to damaged valves by producing <b>dextran</b>.',
         org: 'Viridans group streptococci (เช่น <i>S. mitis</i>, <i>S. sanguinis</i>)', opt: 'Viridans group streptococci',
         dz: '<b>Subacute bacterial endocarditis</b> · dental caries (S. mutans)',
         tax: 'Gram+ cocci in chains · α-hemolytic · <b>optochin-resistant</b>',
@@ -2026,7 +2040,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-ssuis', g: 'gpc',
-        clue: '<b>Raw pork</b> consumption (ลาบหมูดิบ) / pig handling → <b>meningitis</b> (มัก <b>sensorineural hearing loss</b> ตามมา), <b>arthritis</b>, <b>endocarditis</b>, pneumonia และ <b>septicemia with sudden death</b>',
+        clue: 'A 55-year-old <b>pig farmer</b> from <b>northern Thailand</b> presents with high fever, severe headache, neck stiffness, and confusion 2 days after eating <b>raw pork larb and a raw pig blood dish</b> at a village festival; he also has septic arthritis of the knee. After recovery he is left with permanent <b>bilateral sensorineural hearing loss</b>. Blood and CSF cultures grow α-hemolytic Gram-positive cocci in chains acquired from <b>pigs</b>.',
         org: '<i>Streptococcus suis</i>',
         dz: '<b>Streptococcus suis</b> meningitis / septicemia',
         tax: 'Gram+ cocci (α-hemolytic group ในสไลด์) · zoonosis',
@@ -2042,7 +2056,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-gas-pharyn', g: 'gpc', k: 'spy',
-        clue: 'Adult: <b>intense nasopharyngitis, tonsillitis</b> + <b>intense redness with exudate</b>, fever, <b>enlarged cervical lymph nodes</b> · infants & small children: <b>subacute nasopharyngitis</b> ที่ลามไป middle ear, mastoid, meninges',
+        clue: 'A 9-year-old girl has a <b>sudden sore throat</b>, painful swallowing, and fever of 39 °C without cough. Examination shows <b>intensely red tonsils with exudate</b>, palatal petechiae, and <b>tender, enlarged anterior cervical lymph nodes</b>. Throat culture grows <b>β-hemolytic</b>, catalase-negative Gram-positive cocci in chains that are <b>bacitracin-sensitive</b> (Lancefield group A). Untreated, she is at risk of <b>acute rheumatic fever</b>.',
         org: '<i>Streptococcus pyogenes</i> (Group A)', opt: '<i>Streptococcus pyogenes</i>',
         dz: '<b>Streptococcal pharyngitis</b> (tonsillitis)',
         tax: 'Gram+ cocci in chains · β-hemolytic · <b>bacitracin-sensitive</b> · group A',
@@ -2058,7 +2072,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-scarlet', g: 'gpc', k: 'spy',
-        clue: 'Acute fever, sore throat → 1–3 วัน <b>diffuse blanching erythematous rash</b> with <b>sandpapery consistency</b> + <b>Pastia lines</b> + <b>white → red strawberry tongue</b> → <b>desquamation</b>',
+        clue: 'A 6-year-old boy has <b>acute fever and sore throat</b> with exudative tonsillitis. One to two days later a <b>diffuse, blanching, fine erythematous rash with a sandpaper-like texture</b> appears, accentuated in skin folds (<b>Pastia lines</b>), with <b>circumoral pallor</b>. His tongue is first coated white and then turns <b>bright red with prominent papillae (strawberry tongue)</b>, and the skin later <b>desquamates</b>. The rash is caused by an <b>erythrogenic (pyrogenic) exotoxin</b>.',
         org: '<i>Streptococcus pyogenes</i> (Group A)', opt: '<i>Streptococcus pyogenes</i>',
         dz: '<b>Scarlet fever</b> (ไข้อีดำอีแดง)',
         tax: 'Group A Streptococcus · <b>erythrogenic (pyrogenic) toxin</b>',
@@ -2074,7 +2088,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-erysipelas', g: 'gpc', k: 'spy',
-        clue: 'Acute infection of the dermis: <b>erythematous rash</b> with a <b>rapidly advancing margin</b>, rapid distribution ที่ face โดยเฉพาะ <b>both cheeks</b>; risk: elderly, infants, DM, alcoholism, skin ulcer, <b>impaired lymphatic drainage</b>',
+        clue: 'A 70-year-old woman with diabetes and <b>chronic lymphedema</b> has abrupt fever, chills, and a <b>bright red, painful, raised plaque with a sharply demarcated, rapidly advancing border</b> spreading across <b>both cheeks</b> and the bridge of the nose. The infection involves the <b>superficial dermis and its lymphatics</b>; a deeper, less sharply demarcated infection (cellulitis) can follow skin wounds. Culture grows <b>β-hemolytic, bacitracin-sensitive Gram-positive cocci in chains</b>.',
         org: '<i>Streptococcus pyogenes</i> (Group A)', opt: '<i>Streptococcus pyogenes</i>',
         dz: '<b>Erysipelas</b> (superficial dermis) · cellulitis (deep dermis)',
         tax: 'Group A Streptococcus · β-hemolytic',
@@ -2090,7 +2104,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-impetigo', g: 'gpc', k: 'spy',
-        clue: 'เด็ก 4 ปีมี <b>erythematous papules</b> รอบ nose & mouth ที่แตกเป็น <b>honey-colored crusts</b> over superficial erosions, no systemic symptoms (<b>non-bullous impetigo</b>) — post-infectious complication ที่สัมพันธ์มากที่สุด?',
+        clue: 'A 4-year-old boy in a hot, humid region has several <b>red papules around the nose and mouth</b> that rupture and form <b>honey-colored crusts over superficial erosions</b>, with no systemic symptoms (<b>non-bullous impetigo</b>). Three weeks later he develops <b>cola-colored urine</b>, periorbital edema, hypertension, and a low serum C3 (<b>acute post-infectious glomerulonephritis</b>). The responsible <b>nephritogenic strains</b> rarely cause rheumatic fever after skin infection.',
         org: '<i>Streptococcus pyogenes</i> → APSGN', opt: '<i>Streptococcus pyogenes</i>',
         dz: '<b>Impetigo</b> (non-bullous) → <b>APSGN</b>',
         tax: 'Group A Streptococcus · <b>nephritogenic strains</b> (M protein)',
@@ -2108,7 +2122,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-arf', g: 'gpc', k: 'spy',
-        clue: 'เด็ก 8 ปีมี <b>migratory polyarthritis</b> + <b>subcutaneous nodules</b> + <b>choreiform movements</b> + low-grade fever ~2 สัปดาห์หลัง <b>untreated pharyngitis</b>',
+        clue: 'An 8-year-old girl has fever, <b>migratory polyarthritis</b> of the knees and ankles, <b>painless subcutaneous nodules</b> over the elbows, <b>involuntary choreiform movements (Sydenham chorea)</b>, and a new apical systolic murmur (<b>carditis</b>) about <b>2 weeks after an untreated sore throat</b>. Her ASO titer is high. Antibodies against the bacterial <b>M protein</b> cross-react with heart tissue (<b>molecular mimicry</b>), and she needs <b>long-term penicillin prophylaxis</b>.',
         org: '<i>Streptococcus pyogenes</i> → acute rheumatic fever', opt: '<i>Streptococcus pyogenes</i>',
         dz: '<b>Acute rheumatic fever</b> → rheumatic heart disease',
         tax: 'Group A Streptococcus · molecular mimicry',
@@ -2126,7 +2140,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-gbs', g: 'gpc',
-        clue: '<b>Neonate (&lt;1 month)</b> มี <b>meningitis</b> / <b>septicemia</b>; แม่มี <b>chorioamnionitis</b>',
+        clue: 'A 5-day-old neonate, born after <b>prolonged rupture of membranes</b> to a mother with intrapartum fever and <b>chorioamnionitis</b>, develops temperature instability, poor feeding, lethargy, and a <b>bulging anterior fontanelle</b>. CSF Gram stain shows <b>Gram-positive cocci in chains</b>; colonies are <b>β-hemolytic</b>, <b>bacitracin-resistant</b>, and CAMP-positive (<b>Lancefield group B</b>). The mother was never screened for <b>vaginal–rectal colonization</b>.',
         org: '<i>Streptococcus agalactiae</i> (Group B)', opt: '<i>Streptococcus agalactiae</i>',
         dz: '<b>Neonatal sepsis / meningitis</b> · chorioamnionitis',
         tax: 'Gram+ cocci in chains · β-hemolytic · <b>bacitracin-resistant</b> · group B (CAMP+)',
@@ -2142,7 +2156,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-entero', g: 'gpc',
-        clue: '<b>UTI</b> และ <b>subacute endocarditis</b> จาก <b>normal colonic flora</b> (Lancefield group D) ที่มี <b>intrinsic resistance to cephalosporins</b>, penicillinase-resistant penicillins และ monobactam',
+        clue: 'A 75-year-old man with an <b>indwelling urinary catheter</b> after prostate surgery develops fever and a new regurgitant murmur (<b>subacute endocarditis</b>). Blood cultures grow Gram-positive cocci in pairs and short chains that are usually <b>non-hemolytic (γ)</b>, grow in <b>6.5% NaCl</b> and bile esculin, and belong to <b>Lancefield group D</b>. The organism is <b>normal colonic flora</b> with <b>intrinsic resistance to cephalosporins</b>, and some strains are vancomycin-resistant.',
         org: '<i>Enterococcus</i> spp. (<i>E. faecalis</i>, <i>E. faecium</i>)', opt: '<i>Enterococcus faecalis</i>',
         dz: '<b>UTI</b>, <b>subacute endocarditis</b>, intra-abdominal infection',
         tax: 'Gram+ cocci · Lancefield group D · usually γ-hemolysis',
@@ -2158,7 +2172,7 @@ const PDX_DECKS = [
 
       {
         id: 'b-cperf', g: 'gpr',
-        clue: 'Wound ปนเปื้อน <b>soil / feces</b> → spread ใน 1–3 วัน: <b>rapidly progressing necrosis with gas formation</b>, <b>crepitation</b> ใน subcutaneous tissue & muscle, <b>foul-smelling discharge</b>, fever, <b>shock</b>',
+        clue: 'A 25-year-old man has an open leg fracture from a <b>farm accident</b>, with the wound <b>contaminated by soil and manure</b>. Within 24–48 hours he develops <b>severe pain</b>, swelling, bronze skin discoloration, <b>crepitus</b> in the subcutaneous tissue and muscle, a <b>foul-smelling discharge</b>, fever, and shock (<b>myonecrosis with gas formation</b>). Tissue Gram stain shows <b>large, boxcar-shaped Gram-positive rods</b>; the main virulence factor is a <b>lecithinase (α-toxin)</b>.',
         org: '<i>Clostridium perfringens</i>',
         dz: '<b>Gas gangrene</b> (clostridial myonecrosis) · food poisoning · necrotizing enteritis',
         tax: 'Large anaerobic Gram+ rods · spore-former · α-toxin (lecithinase)',
@@ -2175,7 +2189,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-ctet', g: 'gpr',
-        clue: '<b>Deep puncture wound from a rusty nail</b> 10 วันก่อน → <b>trismus (lockjaw)</b>, <b>risus sardonicus</b>, <b>painful muscle spasms</b>, <b>opisthotonus</b>, <b>hyperreflexia</b> + <b>autonomic instability (dysautonomia)</b>: fluctuating BP, alternating bradycardia / tachycardia, <b>diaphoresis</b>',
+        clue: 'A 45-year-old unvaccinated gardener stepped on a <b>rusty nail</b> 10 days ago, causing a <b>deep puncture wound</b>. He now has <b>trismus (lockjaw)</b>, a fixed grimace (<b>risus sardonicus</b>), painful generalized spasms with <b>opisthotonus</b>, and hyperreflexia, plus <b>autonomic instability</b> with fluctuating blood pressure, alternating bradycardia and tachycardia, and sweating. The toxin blocks release of <b>GABA and glycine</b> from inhibitory interneurons.',
         org: '<i>Clostridium tetani</i>',
         dz: '<b>Tetanus</b> (บาดทะยัก) — spastic paralysis',
         tax: 'Anaerobic Gram+ rod · terminal spore (drumstick) · tetanospasmin',
@@ -2194,7 +2208,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-cbot', g: 'gpr',
-        clue: '<b>Improperly processed canned food</b> / <b>home-preserved food</b> (เช่น หน่อไม้ปี๊บ) → <b>descending flaccid paralysis</b> (cranial nerves → <b>respiratory & skeletal muscles</b>) → respiratory failure',
+        clue: 'Ten villagers in <b>northern Thailand</b> develop blurred vision, <b>diplopia</b>, <b>ptosis</b>, dysphagia, and dysarthria 12–36 hours after eating <b>home-canned bamboo shoots</b>, followed by <b>symmetric descending flaccid paralysis</b> and respiratory failure. They are <b>afebrile and alert</b>, with dilated pupils. A <b>preformed toxin</b> from an anaerobic, spore-forming Gram-positive rod blocks <b>acetylcholine release</b> at the neuromuscular junction; infants can develop a <b>“floppy baby”</b> illness after eating honey.',
         org: '<i>Clostridium botulinum</i>',
         dz: '<b>Botulism</b> — descending flaccid paralysis',
         tax: 'Anaerobic Gram+ rod · spore-former · botulinum toxin (blocks ACh release)',
@@ -2211,7 +2225,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-cdiff', g: 'gpr',
-        clue: 'หลังได้ <b>clindamycin</b> หรือ <b>broad-spectrum antibiotics</b> (piperacillin-tazobactam, cephalosporin) ~10 วัน → <b>watery diarrhea</b>, fecal urgency, crampy abdominal pain, <b>leukocytosis</b>; sigmoidoscopy: <b>raised yellowish-white mucosal plaques</b>',
+        clue: 'A 70-year-old woman receiving <b>piperacillin–tazobactam</b> for pneumonia, after an earlier course of <b>clindamycin</b>, develops profuse <b>watery diarrhea</b>, crampy lower abdominal pain, fever, and marked <b>leukocytosis</b> on day 10. Sigmoidoscopy shows <b>raised yellow-white plaques</b> on the colonic mucosa (<b>pseudomembranes</b>). Stool tests detect <b>glutamate dehydrogenase (GDH)</b> and <b>toxins A and B</b>. The spore-forming anaerobe spreads <b>fecal-orally</b> in hospitals; she is treated with oral <b>vancomycin</b>.',
         org: '<i>Clostridioides difficile</i>',
         dz: '<b>Pseudomembranous colitis</b> (antibiotic-associated diarrhea)',
         tax: 'Anaerobic Gram+ rod · spore-former · toxin A (enterotoxin) + toxin B (cytotoxin)',
@@ -2229,7 +2243,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-bcereus', g: 'gpr',
-        clue: '<b>Sudden vomiting</b>, profuse watery diarrhea, cramping <b>1–6 hrs</b> หลังกิน <b>reheated fried rice</b>, normal vital signs, <b>resolves within 24 hrs</b>',
+        clue: 'Two hours after eating <b>reheated fried rice</b> from a buffet that had been left at room temperature, a family of four develops sudden nausea, <b>vomiting</b>, and abdominal cramps with some diarrhea; vital signs are normal, and symptoms resolve <b>within 24 hours</b>. The illness is caused by a <b>preformed heat-stable emetic toxin</b> from a <b>spore-forming aerobic Gram-positive rod</b> whose spores survive cooking.',
         org: '<i>Bacillus cereus</i> (emetic type)', opt: '<i>Bacillus cereus</i>',
         dz: '<b>Bacillus cereus food poisoning</b> (emetic type)',
         tax: 'Aerobic Gram+ rod · spore-former · <b>cereulide</b> (heat-stable)',
@@ -2246,7 +2260,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-anthrax-cut', g: 'gpr', k: 'anthrax',
-        clue: 'คนเลี้ยง/ชำแหละ <b>goats, sheep, cattle</b>: spores invade wound → <b>painless papule & vesicle</b> → <b>ulcer with black eschar</b> + <b>regional lymphadenopathy</b>',
+        clue: 'A 40-year-old <b>goat and sheep butcher</b> notices a <b>painless papule</b> on his forearm 3 days after handling the <b>hide of a dead animal</b>; it becomes a vesicle and then an <b>ulcer covered by a black eschar</b>, with marked surrounding edema and regional lymphadenopathy. Gram stain of the vesicle fluid shows <b>large Gram-positive rods in chains</b> with a polypeptide capsule. The organism forms <b>spores in soil</b>, and colonies are non-hemolytic.',
         org: '<i>Bacillus anthracis</i>',
         dz: '<b>Cutaneous anthrax</b> (~95%)',
         tax: 'Large aerobic Gram+ rod · spore-former · polypeptide capsule',
@@ -2263,7 +2277,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-anthrax-inh', g: 'gpr', k: 'anthrax',
-        clue: '<b>Inhaled spores</b> → <b>hemorrhagic mediastinitis</b> (<b>widened mediastinum</b> on CXR) → <b>sudden death</b>',
+        clue: 'A 48-year-old <b>wool-sorting worker</b> develops a flu-like illness with fever, malaise, and dry cough, followed 3 days later by abrupt severe dyspnea, chest pain, and shock. Chest radiograph shows a <b>widened mediastinum</b> from <b>hemorrhagic mediastinitis</b>, and he dies within 24 hours. The disease followed <b>inhalation of spores</b> from imported animal hair; the spores also contaminate soil around dead <b>goats, sheep, and cattle</b>.',
         org: '<i>Bacillus anthracis</i>',
         dz: '<b>Inhalational anthrax</b> · GI anthrax',
         tax: 'Large aerobic Gram+ rod · spore-former',
@@ -2278,7 +2292,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-actino', g: 'gpr',
-        clue: 'Severe swelling & induration ที่ mandible 2 สัปดาห์หลัง <b>dental trauma</b>: <b>indurated cervicofacial mass</b> + <b>sinus tract</b> discharging purulent exudate with <b>yellow sulfur granules</b>; Gram: <b>Gram+, non-acid-fast, branching filamentous rods</b>',
+        clue: 'A 35-year-old man develops a slowly enlarging, hard, painless swelling over the <b>mandible</b> 2 weeks after a <b>dental extraction</b> following jaw trauma. Examination shows an indurated cervicofacial mass with a <b>draining sinus tract</b> discharging pus containing <b>yellow “sulfur granules”</b>. Gram stain shows <b>Gram-positive branching filamentous rods</b> that are <b>non-acid-fast</b>; the organism is an <b>anaerobe of the normal oral flora</b>, not found in the environment.',
         org: '<i>Actinomyces israelii</i>',
         dz: '<b>Actinomycosis</b> (cervicofacial, “lumpy jaw”)',
         tax: 'Gram+ <b>branching filaments</b> · anaerobe · <b>non-acid-fast</b>',
@@ -2296,7 +2310,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-nocardia', g: 'gpr',
-        clue: '<b>Immunocompromised host</b>: <b>pneumonia</b> + <b>brain & kidney abscesses</b>; long branching filaments จาก <b>soil</b>, <b>partial (modified) acid-fast positive</b>',
+        clue: 'A 55-year-old kidney transplant recipient on high-dose <b>corticosteroids</b> has fever, cough, and cavitating <b>lung nodules</b>, followed by headache and left hemiparesis from a <b>ring-enhancing brain abscess</b>; a kidney abscess is also found. Sputum shows <b>branching filamentous Gram-positive rods</b> that are <b>partially (modified) acid-fast</b>. The aerobic organism lives in <b>soil</b> and was inhaled while he was gardening.',
         org: '<i>Nocardia asteroides</i>',
         dz: '<b>Nocardiosis</b>: pneumonia, <b>brain & kidney abscess</b>',
         tax: 'Gram+ branching filaments · <b>aerobe</b> · <b>partial (modified) acid-fast</b>',
@@ -2311,7 +2325,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-listeria', g: 'gpr',
-        clue: '<b>Meningitis</b> ใน <b>neonates</b> หรือ <b>elderly / immunocompromised host</b> (~10% ของ community-acquired bacterial meningitis) จาก Gram+ rod',
+        clue: 'A 72-year-old man on immunosuppressive therapy develops fever, headache, neck stiffness, and confusion after eating <b>unpasteurized soft cheese</b> and deli meats. CSF Gram stain shows <b>Gram-positive rods</b>; the organism shows <b>tumbling motility</b>, grows at <b>refrigerator temperature (4 °C)</b>, and is β-hemolytic. It causes about 10% of community-acquired meningitis, also affects <b>neonates</b>, and infection during <b>pregnancy</b> can cause stillbirth.',
         org: '<i>Listeria monocytogenes</i>',
         dz: '<b>Listeriosis</b>: neonatal & elderly <b>meningitis</b>, sepsis',
         tax: 'Gram+ rod · <b>tumbling motility</b> · grows at 4 °C · facultative intracellular',
@@ -2328,7 +2342,7 @@ const PDX_DECKS = [
 
       {
         id: 'b-diphtheria', g: 'resp',
-        clue: '<b>Unimmunized child</b>: fever, sore throat, <b>hoarseness</b>, <b>stridor</b>; <b>bull-neck</b> appearance (cervical lymphadenopathy); <b>adherent dirty-greyish pseudomembrane</b> ที่ tonsils & posterior pharynx ที่ <b>bleeds profusely upon dislodgement</b>',
+        clue: 'An <b>unimmunized</b> 6-year-old girl has fever, sore throat, <b>hoarseness</b>, and <b>inspiratory stridor</b>. Massive <b>cervical lymphadenopathy</b> with soft-tissue swelling gives a <b>“bull-neck” appearance</b>. A thick, <b>adherent, dirty-grey pseudomembrane</b> covers the tonsils and posterior pharynx and <b>bleeds when dislodged</b>. The <b>club-shaped Gram-positive rods</b> produce an AB exotoxin that <b>ADP-ribosylates EF-2</b> (toxigenicity shown by the <b>Elek test</b>); she later develops myocarditis.',
         org: '<i>Corynebacterium diphtheriae</i>',
         dz: '<b>Diphtheria</b> (คอตีบ)',
         tax: '<b>Club-shaped</b> Gram+ rods · toxigenic (Elek test)',
@@ -2348,7 +2362,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-pertussis', g: 'resp',
-        clue: 'เด็ก &lt;5 ปี, incubation ~2 wk: <b>catarrhal stage</b> (mild coughing, sneezing) → <b>paroxysmal stage</b>: explosive cough with <b>“whoop”</b>, <b>vomiting</b>, <b>cyanosis</b>, convulsion',
+        clue: 'A 3-month-old unimmunized infant has 1 week of mild cough, sneezing, and rhinorrhea (<b>catarrhal stage</b>), followed by <b>paroxysms of explosive coughing</b> that end in an <b>inspiratory “whoop”</b>, <b>post-tussive vomiting</b>, cyanosis, and apnea (<b>paroxysmal stage</b>). Her WBC count is 32,000/µL with marked <b>lymphocytosis</b>. A nasopharyngeal culture on <b>Regan-Lowe medium</b> grows small <b>Gram-negative coccobacilli</b>.',
         org: '<i>Bordetella pertussis</i>',
         dz: '<b>Pertussis</b> (whooping cough, ไอกรน)',
         tax: 'Gram− <b>coccobacilli</b> · Regan-Lowe / Bordet-Gengou medium',
@@ -2366,7 +2380,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-hib', g: 'resp',
-        clue: '<b>Unimmunized</b> 4-year-old: high fever, sore throat, <b>drooling</b>, <b>inspiratory stridor</b>, severe <b>dysphagia</b>, <b>tripod position</b>; lateral neck X-ray: <b>thumb sign</b>',
+        clue: 'An <b>unimmunized</b> 4-year-old boy has an abrupt high fever, severe sore throat, <b>drooling</b>, a muffled voice, severe <b>dysphagia</b>, and <b>inspiratory stridor</b>; he sits leaning forward in a <b>tripod position</b>. A lateral neck radiograph shows a swollen epiglottis (<b>thumb sign</b>). Blood culture grows <b>Gram-negative coccobacilli</b> that require <b>factors X and V</b> and have a <b>type b polysaccharide capsule</b>.',
         org: '<i>Haemophilus influenzae</i> type b (Hib)', opt: '<i>Haemophilus influenzae</i> type b',
         dz: '<b>Acute epiglottitis</b> · meningitis, pneumonia, otitis media',
         tax: 'Gram− coccobacilli · <b>capsule type b</b> · needs factors X & V',
@@ -2384,7 +2398,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-nmen', g: 'resp',
-        clue: 'Children & young adults (2–20 y): fever, <b>nuchal rigidity</b> + <b>petechial / purpuric skin lesions</b> → <b>ecchymoses</b>, <b>digital necrosis</b>, shock; <b>hemorrhagic adrenals</b>; smear: <b>intracellular Gram− diplococci</b>',
+        clue: 'A 17-year-old <b>boarding-school student</b> develops fever, headache, vomiting, and <b>nuchal rigidity</b> with a <b>non-blanching petechial and purpuric rash</b> on the legs that rapidly spreads into <b>ecchymoses</b> and digital necrosis, followed by <b>shock</b>. Autopsy shows <b>bilateral adrenal hemorrhage</b>. CSF Gram stain shows <b>intracellular Gram-negative diplococci</b> that ferment glucose and maltose, and close contacts receive chemoprophylaxis.',
         org: '<i>Neisseria meningitidis</i>',
         dz: '<b>Meningococcemia</b> / meningitis → <b>Waterhouse-Friderichsen syndrome</b>',
         tax: 'Gram− <b>diplococci</b> (intracellular) · capsule',
@@ -2401,7 +2415,8 @@ const PDX_DECKS = [
       },
       {
         id: 'b-mening-age', g: 'resp', mcq: false,
-        clue: 'Bacterial meningitis by age: <b>neonates (&lt;1 month)</b> · <b>children & young adults (2–20 y)</b> · <b>adults (>20 y)</b> · <b>elderly / immunocompromised</b>',
+        clue: 'Four patients have acute bacterial meningitis: (1) a <b>5-day-old neonate</b>; (2) a <b>16-year-old dormitory student</b> with a <b>petechial rash</b>; (3) a <b>45-year-old man</b> who recently had <b>lobar pneumonia</b>; (4) a <b>78-year-old woman</b> taking long-term <b>corticosteroids</b>.',
+        ask: 'What is the most likely bacterial cause in each age group?',
         org: 'GBS + <i>Listeria</i> → <i>N. meningitidis</i> → <i>S. pneumoniae</i> → <i>Listeria</i>',
         dz: 'Bacterial meningitis by age group',
         keys: [
@@ -2412,7 +2427,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-mpneu', g: 'resp',
-        clue: 'Young adult: <b>nonproductive cough</b>, low-grade fever, malaise 3 wk (<b>walking pneumonia</b>); CXR: <b>bilateral reticulonodular infiltrates out of proportion to physical findings</b>; blood ใน tube แช่ ice → <b>RBC clumping that reverses upon rewarming to 37°C</b>',
+        clue: 'A 20-year-old <b>military recruit</b> has had 3 weeks of <b>nonproductive cough</b>, low-grade fever, sore throat, headache, and malaise but keeps training (<b>walking pneumonia</b>). He looks well with few chest signs, yet the radiograph shows <b>bilateral reticulonodular infiltrates out of proportion to the examination</b>. His blood <b>clumps when placed on ice</b> and the clumps <b>disperse on rewarming to 37 °C</b> (<b>cold agglutinins</b>, titer 1:128). The organism <b>lacks a cell wall</b>.',
         org: '<i>Mycoplasma pneumoniae</i>',
         dz: '<b>Atypical (walking) pneumonia</b>',
         tax: '<b>No cell wall</b> → not seen on Gram stain; β-lactams ineffective',
@@ -2431,7 +2446,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-psittaci', g: 'resp',
-        clue: '<b>Airborne bird excreta</b> (pet birds) → mild inapparent infection, URI, <b>atypical pneumonia</b> จนถึง severe pneumonia & sepsis (incubation ~10 d)',
+        clue: 'A 50-year-old woman who keeps <b>pet parrots</b>, one of which recently died, develops high fever, severe headache, dry cough, and myalgia about <b>10 days</b> later. Chest radiograph shows patchy infiltrates (<b>atypical pneumonia</b>), and she has <b>splenomegaly</b> and relative bradycardia. The obligate intracellular bacterium was acquired by <b>inhaling dried bird droppings</b>; diagnosis is by serology or PCR.',
         org: '<i>Chlamydophila psittaci</i>',
         dz: '<b>Psittacosis</b> (parrot fever)',
         tax: 'Obligate intracellular bacterium',
@@ -2446,7 +2461,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-cpneu', g: 'resp',
-        clue: '<b>Atypical pneumonia</b> ที่ติดต่อ <b>airborne person to person</b>; Dx ด้วย <b>microimmunofluorescence (MIF) serology</b> หรือ direct detection of <b>elementary bodies</b>',
+        clue: 'A 15-year-old boy has sore throat and <b>hoarseness</b>, followed 2 weeks later by a <b>prolonged dry cough</b> and low-grade fever; chest radiograph shows a patchy infiltrate (<b>atypical pneumonia</b>). Several classmates are affected, because the organism spreads <b>person to person by the airborne route</b> and has <b>no animal reservoir</b>. The obligate intracellular bacterium is diagnosed by <b>microimmunofluorescence (MIF) serology</b> or by detecting <b>elementary bodies</b>.',
         org: '<i>Chlamydophila pneumoniae</i>',
         dz: '<b>Atypical pneumonia</b> · pharyngitis, sinusitis, bronchitis',
         tax: 'Obligate intracellular bacterium (elementary bodies)',
@@ -2461,7 +2476,7 @@ const PDX_DECKS = [
 
       {
         id: 'b-gc', g: 'std',
-        clue: 'Male: <b>purulent urethritis</b>, epididymitis · Female: <b>cervicitis</b>, salpingitis, <b>PID</b> · Neonate: <b>conjunctivitis</b> (can lead to blindness); Gram: <b>Gram− diplococci</b>, culture บน <b>Thayer-Martin agar</b>',
+        clue: 'A 22-year-old man has 3 days of dysuria and a <b>profuse purulent urethral discharge</b> after unprotected intercourse. His partner has cervicitis and pelvic pain (<b>PID</b>), and their newborn later develops <b>purulent conjunctivitis 3 days after birth</b>. Gram stain of the discharge shows <b>intracellular Gram-negative diplococci within neutrophils</b>, and culture grows on <b>Thayer-Martin agar</b>. Rising tetracycline and quinolone resistance makes <b>ceftriaxone</b> the treatment.',
         org: '<i>Neisseria gonorrhoeae</i>',
         dz: '<b>Gonorrhea</b> (หนองใน): urethritis, cervicitis, PID · neonatal conjunctivitis',
         tax: 'Gram− <b>diplococci</b> (intracellular in PMNs) · Thayer-Martin agar',
@@ -2477,7 +2492,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-chancroid', g: 'std',
-        clue: '<b>Painful multiple genital ulcers</b> with <b>dirty base</b> (soft chancre) + <b>suppurative inguinal lymphadenitis (bubo)</b> ~50%',
+        clue: 'A 30-year-old man has <b>multiple painful genital ulcers</b> with <b>ragged, undermined edges and a dirty necrotic base</b> (<b>soft chancre</b>), plus a <b>painful, fluctuant inguinal bubo</b> that is beginning to suppurate. Gram stain shows <b>Gram-negative bacilli</b> arranged in parallel chains (<b>“school of fish”</b>), and dark-field microscopy is negative. He is treated with <b>IM ceftriaxone</b>.',
         org: '<i>Haemophilus ducreyi</i>',
         dz: '<b>Chancroid</b> (soft chancre, แผลริมอ่อน)',
         tax: 'Gram− bacilli · “<b>school of fish</b>” on Gram stain',
@@ -2493,7 +2508,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-donovan', g: 'std',
-        clue: '<b>Painless papule</b> ที่ genital area ที่ <b>enlarges slowly</b>; inguinal lymphadenopathy <b>rare (pseudobubo)</b>; Giemsa stain ของ tissue smear: <b>black intracellular Donovan bodies</b>',
+        clue: 'A 35-year-old man from Papua New Guinea has a <b>painless genital papule</b> that has slowly enlarged over months into a <b>beefy-red, friable, granulomatous ulcer</b> that bleeds easily. True inguinal lymphadenopathy is absent, but subcutaneous granulomas mimic buboes (<b>pseudobuboes</b>). A Giemsa-stained tissue smear shows <b>dark intracytoplasmic bodies inside macrophages (Donovan bodies)</b>. The <b>uncultivatable Gram-negative coccobacillus</b> is sexually transmitted.',
         org: '<i>Klebsiella</i> (<i>Calymmatobacterium</i>) <i>granulomatis</i>', opt: '<i>Klebsiella granulomatis</i>',
         dz: '<b>Granuloma inguinale</b> (Donovanosis)',
         tax: 'Uncultivatable Gram− coccobacilli · intracellular',
@@ -2508,7 +2523,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-syphilis', g: 'std',
-        clue: '<b>Single painless genital ulcer</b> with <b>indurated border (hard chancre)</b>; <b>dark-field microscopy</b>: spirochetes',
+        clue: 'A 24-year-old man has a <b>single painless genital ulcer</b> with a <b>clean base and a firm, indurated border</b> (<b>hard chancre</b>) that appeared 3 weeks after unprotected sex, with painless, rubbery bilateral inguinal lymphadenopathy. The ulcer heals on its own within 4 weeks. <b>Dark-field microscopy</b> of the ulcer exudate shows <b>motile spirochetes</b>, and the RPR test is reactive.',
         org: '<i>Treponema pallidum</i>',
         dz: '<b>Primary syphilis</b> (hard chancre)',
         tax: 'Spirochete · dark-field microscopy',
@@ -2524,7 +2539,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-lgv', g: 'std', k: 'ct',
-        clue: '<b>Small painless genital ulcer</b> ที่ <b>heals spontaneously</b> → ต่อมามี <b>suppurative inguinal lymphadenopathy</b>; เกิดจาก <b>serovars L1–L3</b> ของ obligate intracellular bacterium ตัวเดียวกับที่ทำให้ trachoma',
+        clue: 'A 28-year-old man who has sex with men had a <b>small painless genital ulcer that healed on its own</b> within days. Three weeks later he develops painful, matted <b>suppurative inguinal lymphadenopathy</b> above and below the inguinal ligament (<b>groove sign</b>), and later proctocolitis. The <b>obligate intracellular bacterium</b> (serovars <b>L1–L3</b>) also causes trachoma and neonatal conjunctivitis through other serovars.',
         org: '<i>Chlamydia trachomatis</i> L1–L3', opt: '<i>Chlamydia trachomatis</i>',
         dz: '<b>Lymphogranuloma venereum</b> (LGV)',
         tax: 'Obligate intracellular · C. trachomatis serovars <b>L1–L3</b>',
@@ -2540,7 +2555,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-ct-neonate', g: 'std', k: 'ct',
-        clue: 'Pregnant 38 wk มี <b>mucopurulent vaginal discharge</b> & dysuria; Gram: abundant PMNs แต่ <b>no intracellular diplococci</b>, <b>Thayer-Martin: no growth</b>; DFA: <b>intracytoplasmic inclusions containing elementary bodies</b> — newborn เสี่ยงอะไรที่สุด?',
+        clue: 'A 24-year-old woman at <b>38 weeks’ gestation</b> has mucopurulent vaginal discharge and dysuria. Gram stain of the cervical discharge shows many <b>neutrophils but no intracellular Gram-negative diplococci</b>, and <b>Thayer-Martin culture shows no growth</b>. <b>Direct fluorescent antibody</b> staining shows <b>intracytoplasmic inclusions containing elementary bodies</b>. Her newborn is at risk of <b>inclusion conjunctivitis at 5–14 days</b> and <b>afebrile pneumonia with a staccato cough</b>.',
         org: '<i>Chlamydia trachomatis</i> (serovar D–K)', opt: '<i>Chlamydia trachomatis</i>',
         dz: '<b>Neonatal inclusion conjunctivitis</b> (5–14 days) + <b>interstitial pneumonia</b> · maternal cervicitis',
         tax: 'Obligate intracellular · serovars <b>D–K</b> · elementary bodies',
@@ -2558,7 +2573,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-trachoma', g: 'std', k: 'ct',
-        clue: '<b>Granular conjunctivitis</b> → <b>fibrosis & scarring of the tarsal plate</b> → <b>in-turning of the eyelashes (trichiasis)</b> → corneal abrasion → <b>corneal opacity</b> → <b>blindness</b>',
+        clue: 'A 40-year-old woman from a dry, poor rural village in East Africa, where many children have chronic eye discharge and <b>flies</b> crowd around their faces, has progressive loss of vision. Examination shows <b>follicular conjunctivitis</b>, <b>scarring of the upper tarsal plate</b>, <b>in-turned eyelashes rubbing the cornea (trichiasis)</b>, and <b>corneal opacity</b>. The obligate intracellular bacterium (serovars <b>A–C</b>) is the leading infectious cause of blindness worldwide.',
         org: '<i>Chlamydia trachomatis</i> (serovar A, B, Ba, C)', opt: '<i>Chlamydia trachomatis</i>',
         dz: '<b>Trachoma</b> (granular conjunctivitis) — infectious blindness',
         tax: 'Obligate intracellular · serovars <b>A, B, Ba, C</b>',
@@ -2574,7 +2589,7 @@ const PDX_DECKS = [
 
       {
         id: 'b-typhoid', g: 'gi',
-        clue: '<b>Sustained high remittent fever</b> (gradual → high plateau), severe frontal headache, <b>relative bradycardia</b>, <b>rose spots</b> บน abdomen; <b>3rd week</b>: acute severe lower abdominal pain + <b>peritoneal signs</b> จาก <b>perforation of ulcerated Peyer patches</b> ที่ <b>terminal ileum</b>',
+        clue: 'A 22-year-old traveler returns from South Asia with a <b>stepwise rising fever</b> that reaches a <b>sustained high plateau</b>, severe frontal headache, abdominal pain, and constipation. Examination shows <b>relative bradycardia</b>, hepatosplenomegaly, and faint <b>2–4-mm pink macules on the abdomen (rose spots)</b>. In the <b>third week</b> he develops sudden severe abdominal pain with peritoneal signs from <b>perforation of ulcerated Peyer patches</b> in the <b>terminal ileum</b>. The organism has a <b>human-only reservoir</b> and persists in the <b>gallbladder</b> of carriers.',
         org: '<i>Salmonella enterica</i> serovar Typhi', opt: '<i>Salmonella</i> Typhi',
         dz: '<b>Typhoid (enteric) fever</b> (ไข้ไทฟอยด์)',
         tax: 'Gram− bacilli · motile · Vi capsule · <b>human-only</b> reservoir',
@@ -2592,7 +2607,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-nts', g: 'gi',
-        clue: 'N/V + <b>profuse diarrhea with few leukocytes</b>, <b>resolves in 2–3 days</b>; <b>bacteremia rare</b> ยกเว้น immunodeficiency; source: food หรือ <b>reptile</b> exposure / bites',
+        clue: 'A 30-year-old woman develops fever, nausea, vomiting, abdominal cramps, and <b>profuse watery diarrhea</b> 18 hours after eating a <b>homemade dessert made with raw eggs</b>; her son, who keeps a <b>pet turtle</b>, had a similar illness. The stool has <b>few leukocytes</b>, and she recovers in <b>2–3 days</b> without antibiotics. Stool culture grows motile, lactose-nonfermenting, <b>H₂S-producing Gram-negative bacilli</b>; bacteremia occurs mainly in immunocompromised or sickle cell patients.',
         org: 'Non-typhoidal <i>Salmonella</i> (<i>S.</i> Enteritidis, <i>S.</i> Typhimurium)', opt: '<i>Salmonella</i> Enteritidis',
         dz: '<b>Salmonella enterocolitis</b> (non-typhoidal)',
         tax: 'Gram− bacilli · motile · H₂S+',
@@ -2608,7 +2623,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-cholera', g: 'gi',
-        clue: 'หลังกิน <b>raw seafood</b>: <b>sudden onset</b> N/V + <b>profuse watery “rice-water stools”</b> + abdominal cramps → <b>severe dehydration</b>; stool: <b>comma-shaped, highly motile Gram− rods</b>',
+        clue: 'During a <b>post-flood outbreak</b>, a 30-year-old man develops a <b>sudden onset of massive, painless, watery diarrhea</b> with flecks of mucus (<b>“rice-water” stools</b>), vomiting, and leg cramps 2 days after eating <b>raw seafood</b>. He has sunken eyes, wrinkled fingertips (<b>washerwoman’s hands</b>), and hypotension from <b>severe dehydration</b>. Stool shows <b>comma-shaped, highly motile Gram-negative rods</b>, and the toxin <b>ADP-ribosylates Gs α</b>, raising cAMP.',
         org: '<i>Vibrio cholerae</i> (O1, O139)', opt: '<i>Vibrio cholerae</i>',
         dz: '<b>Cholera</b> (อหิวาตกโรค)',
         tax: '<b>Comma-shaped</b>, flagellated Gram− rod · O1, O139 · TCBS agar',
@@ -2626,7 +2641,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-vpara', g: 'gi',
-        clue: '<b>Gastroenteritis</b> (ไม่รุนแรงเท่า cholera) หลังกิน <b>undercooked seafood</b>; <b>halophilic</b> bacteria',
+        clue: 'Eight hours after eating <b>raw oysters and undercooked shellfish</b> at a seaside restaurant, a 35-year-old man develops watery diarrhea, abdominal cramps, nausea, and low-grade fever that resolve within 3 days—a milder illness than cholera. Stool culture on TCBS agar grows curved Gram-negative rods that need <b>high salt to grow (halophilic)</b>.',
         org: '<i>Vibrio parahaemolyticus</i>',
         dz: '<b>Seafood-associated gastroenteritis</b>',
         tax: 'Curved Gram− rod · <b>halophilic</b>',
@@ -2640,7 +2655,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-vvul', g: 'gi',
-        clue: '<b>Alcoholic liver cirrhosis</b> (iron overload) + <b>raw oysters</b> 18 ชม. → high fever, <b>hemorrhagic bullae</b>, <b>necrotizing cellulitis</b> ของขาทั้งสองข้าง, <b>septic shock</b>; blood culture: <b>curved, motile, halophilic Gram− bacilli</b> that <b>ferment lactose</b>',
+        clue: 'A 55-year-old man with <b>alcoholic liver cirrhosis and iron overload</b> develops high fever, chills, and very painful <b>hemorrhagic bullae</b> on both legs with <b>necrotizing cellulitis</b> 18 hours after eating <b>raw oysters</b>, rapidly progressing to <b>septic shock</b>. Blood cultures grow <b>curved, motile, halophilic Gram-negative bacilli that ferment lactose</b>. The same infection can follow an <b>open wound exposed to warm seawater</b>.',
         org: '<i>Vibrio vulnificus</i>',
         dz: '<b>Primary septicemia</b> · <b>necrotizing wound infection</b>',
         tax: 'Curved Gram− bacilli · <b>halophilic</b> · <b>lactose-fermenting</b>',
@@ -2656,7 +2671,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-etec', g: 'gi',
-        clue: '<b>Traveler’s diarrhea</b>: <b>watery diarrhea</b> จาก contaminated food / water; <b>cholera-like toxin</b>, <b>no invasion</b>',
+        clue: 'A 24-year-old traveler develops <b>watery diarrhea</b> 5–8 times a day with abdominal cramps, but <b>no fever and no blood</b>, 2 days after arriving in a developing country and drinking local tap water (<b>traveler’s diarrhea</b>). The organism produces a <b>heat-labile cholera-like toxin</b> that raises cAMP and a <b>heat-stable toxin</b>, but it does <b>not invade</b> the mucosa.',
         org: 'Enterotoxigenic <i>E. coli</i> (ETEC)',
         dz: '<b>Traveler’s diarrhea</b> (watery)',
         tax: 'Gram− bacilli · heat-labile (cholera-like) & heat-stable toxins',
@@ -2671,7 +2686,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-ehec', g: 'gi',
-        clue: '<b>Undercooked homemade hamburger / beef products</b> → <b>bloody diarrhea</b> → 5 วันต่อมามี <b>oliguria</b>, generalized edema, severe hypertension, <b>seizures</b>; lab: <b>acute renal failure + thrombocytopenia + schistocytes</b>',
+        clue: 'A 6-year-old girl develops <b>bloody diarrhea</b> without high fever 3 days after eating an <b>undercooked homemade hamburger</b>. Five days later she has <b>oliguria</b>, generalized edema, severe hypertension, and a seizure. Labs show <b>acute renal failure</b>, <b>thrombocytopenia</b>, and <b>schistocytes</b> (<b>microangiopathic hemolytic anemia</b>). The strain <b>does not ferment sorbitol</b>, makes a <b>Shiga-like toxin (verotoxin)</b>, and comes from <b>cattle</b>.',
         org: 'Enterohemorrhagic <i>E. coli</i> (EHEC) O157:H7', opt: 'Enterohemorrhagic <i>E. coli</i> O157:H7',
         dz: '<b>Hemorrhagic colitis</b> → <b>hemolytic uremic syndrome</b> (HUS)',
         tax: 'Gram− bacilli · O157:H7 · <b>sorbitol non-fermenter</b> · Shiga-like toxin',
@@ -2689,7 +2704,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-epec', g: 'gi',
-        clue: '<b>Watery diarrhea</b> ใน <b>infants & toddlers</b> จาก <b>weaning foods</b> / water; <b>attachment & enterocyte effacement</b>, <b>no invasion</b>',
+        clue: 'An 8-month-old infant in a rural area of a developing country develops watery, non-bloody diarrhea, vomiting, and low-grade fever after starting <b>weaning foods</b> prepared with untreated water. Intestinal biopsy shows bacteria <b>attached to enterocytes with effacement of the microvilli (attaching-and-effacing lesions)</b>, with <b>no toxin and no invasion</b>.',
         org: 'Enteropathogenic <i>E. coli</i> (EPEC)',
         dz: '<b>Infant watery diarrhea</b>',
         tax: 'Gram− bacilli · attaching & effacing (no toxin, no invasion)',
@@ -2703,7 +2718,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-eiec', g: 'gi',
-        clue: 'Fever, abdominal pain, <b>dysentery</b> (shigellosis-like); <b>invasion & local spread</b>; source: <b>cheese</b>, water, person-to-person',
+        clue: 'A 25-year-old man develops fever, cramping lower abdominal pain, tenesmus, and <b>bloody mucoid diarrhea (dysentery)</b> after eating <b>unpasteurized cheese</b>, and a family member then falls ill (<b>person-to-person spread</b>). The stool contains many leukocytes. The lactose-fermenting Gram-negative rod <b>invades the colonic epithelium and spreads locally</b>, causing a <b>Shigella-like</b> illness.',
         org: 'Enteroinvasive <i>E. coli</i> (EIEC)',
         dz: '<b>Dysentery</b> (Shigella-like)',
         tax: 'Gram− bacilli · invasive',
@@ -2717,7 +2732,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-campy', g: 'gi',
-        clue: '<b>Unpasteurized milk</b> / soft artisan cheese (หรือ undercooked poultry) 3 วันก่อน: high fever, <b>cramping lower abdominal pain</b>, profuse diarrhea with <b>tenesmus</b>; stool: abundant <b>PMNs & RBCs</b>; Gram: <b>curved, gull-wing-shaped Gram− bacilli</b> with <b>darting motility</b>',
+        clue: 'A 28-year-old woman develops high fever, <b>cramping lower abdominal pain</b>, and <b>profuse diarrhea with tenesmus</b> 3 days after drinking <b>unpasteurized milk</b> and eating <b>undercooked poultry</b>. The stool shows abundant <b>neutrophils and red blood cells</b>. Gram stain shows <b>curved, comma- or “gull-wing”-shaped Gram-negative rods</b> with <b>darting motility</b> that grow best at 42 °C. Three weeks later she develops ascending paralysis (<b>Guillain-Barré syndrome</b>).',
         org: '<i>Campylobacter jejuni</i>',
         dz: '<b>Campylobacter enteritis</b> (inflammatory diarrhea)',
         tax: '<b>Comma / gull-wing</b> Gram− rod · darting motility · grows at 42 °C',
@@ -2734,7 +2749,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-hpylori', g: 'gi',
-        clue: '<b>Antral gastritis</b>, <b>duodenal (peptic) ulcer</b> (~90% of DU), gastric ulcer, <b>gastric carcinoma</b> และ <b>gastric lymphoma</b>; curvilinear Gram− bacilli, <b>strong producer of urease</b>',
+        clue: 'A 45-year-old man has recurrent <b>burning epigastric pain</b> that eases with meals and wakes him at night. Endoscopy shows a <b>duodenal ulcer</b> and <b>antral gastritis</b>. A <b>rapid urease test</b> on an antral biopsy turns positive within an hour, and a <b>silver (Steiner) stain</b> shows <b>curvilinear Gram-negative bacilli</b> on the gastric mucosa. He receives <b>triple therapy</b> (PPI, amoxicillin, clarithromycin); the organism also predisposes to <b>gastric carcinoma</b> and <b>MALT lymphoma</b>.',
         org: '<i>Helicobacter pylori</i>',
         dz: '<b>Antral gastritis</b>, <b>peptic ulcer</b>, gastric carcinoma, <b>MALT lymphoma</b>',
         tax: 'Curvilinear Gram− bacilli · <b>urease+</b> · flagellated',
@@ -2752,7 +2767,7 @@ const PDX_DECKS = [
 
       {
         id: 'b-pa-burn', g: 'gnb', k: 'pa',
-        clue: '<b>Extensive third-degree flame burns (45% TBSA)</b> วันที่ 4: high-spiking fever, hypotension, tachypnea; burn wound: purulent drainage with <b>sweet grape-like odor</b> + <b>blue-green discoloration</b>; Gram− bacilli <b>oxidase-positive</b>',
+        clue: 'A 35-year-old man with <b>extensive third-degree flame burns</b> (45% of body surface area) develops high-spiking fever, hypotension, and tachypnea on hospital day 4. The burn wounds show <b>purulent drainage with blue-green discoloration</b> and a <b>sweet, grape-like odor</b>. Blood cultures grow <b>oxidase-positive</b>, non-lactose-fermenting <b>Gram-negative bacilli</b> that produce <b>pyocyanin and pyoverdine</b>, and black necrotic skin lesions (<b>ecthyma gangrenosum</b>) appear.',
         org: '<i>Pseudomonas aeruginosa</i>',
         dz: '<b>Burn wound infection / sepsis</b> · ecthyma gangrenosum',
         tax: 'Gram− bacilli · <b>oxidase+</b> · non-lactose fermenter · pyocyanin + pyoverdine',
@@ -2771,7 +2786,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-pa-kerat', g: 'gnb', k: 'pa',
-        clue: '<b>Contact lens wearer</b>: acute severe eye redness, <b>rapid loss of vision</b>, <b>copious thick purulent greenish discharge</b> ภายใน 24 ชม.; slit-lamp: <b>rapidly progressing corneal stromal ulcer</b> with <b>central liquefactive necrosis</b>; Gram− oxidase-positive rods producing <b>blue-green pigment</b>',
+        clue: 'A 22-year-old <b>soft contact lens wearer</b> who sleeps in her lenses develops <b>acute severe eye pain</b>, redness, photophobia, and <b>rapid loss of vision</b> with <b>copious thick greenish purulent discharge within 24 hours</b>. Slit-lamp examination shows a <b>rapidly progressing corneal stromal ulcer with central liquefactive necrosis</b>. Corneal scrapings grow <b>oxidase-positive Gram-negative rods</b> with a blue-green pigment that secrete <b>elastase</b> and <b>exotoxin A</b>.',
         org: '<i>Pseudomonas aeruginosa</i>',
         dz: '<b>Bacterial keratitis</b> (fulminant corneal ulcer)',
         tax: 'Gram− bacilli · oxidase+ · blue-green pigment',
@@ -2788,7 +2803,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-pa-ear', g: 'gnb', k: 'pa',
-        clue: '<b>Otitis externa</b> หลัง <b>swimming (swimmer’s ear)</b> มี yellowish-green discharge; immunocompromised → <b>malignant otitis externa</b>',
+        clue: 'A 16-year-old <b>competitive swimmer</b> has ear pain, itching, and a <b>yellowish-green discharge</b> from the external ear canal; pulling the pinna or pressing the tragus is very painful. His 70-year-old grandfather with poorly controlled <b>diabetes</b> has severe otalgia, granulation tissue in the canal, and osteomyelitis of the skull base (<b>malignant otitis externa</b>). Both cultures grow <b>oxidase-positive Gram-negative rods</b>.',
         org: '<i>Pseudomonas aeruginosa</i>',
         dz: '<b>Otitis externa</b> (swimmer’s ear) · <b>malignant otitis externa</b>',
         tax: 'Gram− bacilli · oxidase+',
@@ -2803,7 +2818,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-acineto', g: 'gnb',
-        clue: '<b>Ventilator-associated pneumonia (VAP)</b> และ UTI จาก <b>indwelling catheters</b> ใน hospitalized patients; small coccobacillary Gram− rod, <b>highly antibiotic-resistant</b>',
+        clue: 'A 68-year-old man on <b>mechanical ventilation</b> in the ICU for 10 days develops new fever, purulent tracheal secretions, worsening oxygenation, and a new infiltrate (<b>ventilator-associated pneumonia</b>); his <b>indwelling urinary catheter</b> grows the same organism. Cultures show small, plump <b>Gram-negative coccobacilli</b> that are oxidase-negative, non-fermenting, and resistant to nearly all antibiotics including carbapenems. The organism contaminates <b>respiratory therapy equipment</b>.',
         org: '<i>Acinetobacter baumannii</i>',
         dz: '<b>Ventilator-associated pneumonia</b> (VAP), catheter-associated UTI',
         tax: 'Small Gram− <b>coccobacilli</b> · <b>highly antibiotic-resistant</b>',
@@ -2817,7 +2832,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-melioid', g: 'gnb',
-        clue: 'Rice farmer จาก <b>Southeast Asia / Northern Australia</b> (มัก <b>diabetes</b>) มี <b>contaminated skin abrasion</b> กับ soil / water: fever, <b>leukocytosis</b>, <b>upper lobe consolidation</b> → afebrile แต่ CXR <b>similar to tuberculosis</b> หรือ <b>fulminant sepsis</b>',
+        clue: 'A 50-year-old <b>rice farmer from northeastern Thailand</b> with poorly controlled <b>diabetes</b> develops high fever, cough, and septic shock in the <b>rainy season</b> after working barefoot in <b>flooded rice paddies</b> with skin abrasions. Chest radiograph shows <b>upper lobe consolidation with cavitation that mimics tuberculosis</b>, and CT shows multiple <b>liver and splenic abscesses</b>. Blood culture grows a small aerobic <b>Gram-negative bacillus with bipolar “safety-pin” staining</b>, a <b>soil saprophyte</b>.',
         org: '<i>Burkholderia pseudomallei</i>',
         dz: '<b>Melioidosis</b> (Whitmore’s disease)',
         tax: 'Small aerobic Gram− bacillus · natural saprophyte',
@@ -2833,7 +2848,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-kleb', g: 'gnb',
-        clue: '<b>Alcoholics & diabetics</b>: <b>aspiration pneumonia</b> (classic <b>“currant jelly” sputum</b>), CAP, nosocomial infection, UTI; Gram− rod with <b>capsule</b>',
+        clue: 'A 60-year-old man with chronic <b>alcoholism</b> and diabetes has abrupt fever, rigors, pleuritic chest pain, and thick, bloody, mucoid <b>“currant jelly” sputum</b> after vomiting while drunk (<b>aspiration</b>). Chest radiograph shows a dense <b>right upper lobe consolidation with a bulging fissure</b> and early cavitation. Sputum grows <b>non-motile, lactose-fermenting Gram-negative rods with a large polysaccharide capsule</b> (very mucoid colonies).',
         org: '<i>Klebsiella pneumoniae</i>',
         dz: '<b>Klebsiella pneumonia</b> (aspiration, lobar) · UTI · nosocomial infection',
         tax: 'Gram− rod · <b>large capsule</b> (mucoid colonies) · lactose fermenter',
@@ -2848,7 +2863,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-hacek', g: 'gnb',
-        clue: '<b>Infective endocarditis</b> จาก <b>fastidious, slow-growing Gram− bacteria</b> กลุ่มตัวย่อ 5 ตัว (culture ขึ้นช้า)',
+        clue: 'A 55-year-old man with <b>poor dental hygiene</b> has 2 months of low-grade fever, malaise, and weight loss with a new aortic regurgitation murmur, a <b>large vegetation</b> on echocardiography, and a splenic infarct. Routine blood cultures are <b>negative after 5 days</b> (<b>culture-negative endocarditis</b>); prolonged incubation finally grows a <b>fastidious, slow-growing Gram-negative bacillus</b> from the <b>oropharyngeal flora</b>, one of a five-member group known by an acronym.',
         org: 'HACEK group',
         dz: '<b>Culture-negative infective endocarditis</b>',
         tax: 'Fastidious Gram− bacilli: <b>H</b>aemophilus, <b>A</b>ctinobacillus, <b>C</b>ardiobacterium, <b>E</b>ikenella, <b>K</b>ingella',
@@ -2864,7 +2879,7 @@ const PDX_DECKS = [
 
       {
         id: 'b-plague', g: 'zoo',
-        clue: 'Recent travel to an <b>endemic area</b>: high fever, chills, <b>hypotension</b> + <b>exquisitely tender, markedly enlarged inguinal lymph node (bubo)</b>; blood culture: Gram− bacilli <b>oxidase-negative</b> with <b>bipolar “safety-pin” staining</b>',
+        clue: 'A 30-year-old man returns from a hunting trip in an <b>endemic area</b> where he handled dead <b>rodents</b>, and develops sudden high fever, chills, headache, extreme weakness, and hypotension. Examination shows an <b>exquisitely tender, markedly enlarged inguinal lymph node (bubo)</b> with overlying edema and flea bites on his legs. Blood culture grows oxidase-negative <b>Gram-negative bacilli with bipolar “safety-pin” staining</b>. The vector is the <b>rat flea (Xenopsylla cheopis)</b>.',
         org: '<i>Yersinia pestis</i>',
         dz: '<b>Plague</b> (กาฬโรค): bubonic, septicemic, pneumonic',
         tax: 'Gram− bacilli · <b>bipolar “safety-pin”</b> staining · oxidase−',
@@ -2880,7 +2895,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-lepto', g: 'zoo',
-        clue: 'Farmer ที่ <b>wading through floodwater</b> ปนเปื้อน <b>rodent / cattle urine</b> 1–2 wk: high fever, headache, <b>myalgia (calf pain)</b>, <b>conjunctival suffusion</b>; severe: <b>severe jaundice + acute renal failure + bleeding</b>',
+        clue: 'A 35-year-old <b>rice farmer from northeastern Thailand</b> develops high fever, severe headache, and <b>intense calf pain</b> 10 days after <b>wading through floodwater</b> contaminated with <b>rodent and cattle urine</b> in the rainy season. Examination shows <b>conjunctival suffusion</b> and marked <b>calf tenderness</b>. A week later he has <b>severe jaundice</b>, <b>acute renal failure</b> with oliguria, and pulmonary hemorrhage. <b>Dark-field microscopy</b> shows thin, motile <b>spirochetes with hooked ends</b>.',
         org: '<i>Leptospira interrogans</i>',
         dz: '<b>Leptospirosis</b> (โรคฉี่หนู) · <b>Weil’s syndrome</b>',
         tax: '<b>Spirochete</b> with hooked ends · dark-field',
@@ -2897,7 +2912,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-bartonella', g: 'zoo',
-        clue: '<b>Scratched by a kitten</b> 3–4 wk ก่อน: <b>erythematous papule</b> ที่ scratch site + low-grade fever + <b>single, tender, enlarged regional lymph node</b> (submandibular / axillary); LN biopsy: <b>stellate necrotizing granulomas</b> + palisading histiocytes + <b>central neutrophil microabscesses</b>',
+        clue: 'A 9-year-old boy was <b>scratched by a new kitten</b> 3 weeks ago, and a small <b>red papule</b> formed at the scratch site on his forearm. He now has low-grade fever and a <b>single, tender, enlarged axillary lymph node</b>. Lymph node biopsy shows <b>stellate necrotizing granulomas</b> with <b>palisading histiocytes</b> around central <b>neutrophilic microabscesses</b>. A Warthin-Starry silver stain shows small pleomorphic Gram-negative bacilli.',
         org: '<i>Bartonella henselae</i>',
         dz: '<b>Cat-scratch disease</b>',
         tax: 'Small Gram− bacilli · Warthin-Starry silver stain',
@@ -2914,7 +2929,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-pasteurella', g: 'zoo',
-        clue: '<b>Domestic cat / dog bite</b> → intense pain, erythema, <b>marked swelling</b> ที่ <b>develops rapidly within 8 hrs (classic 2–24 hrs)</b>, serosanguinous discharge, <b>ascending lymphangitis</b>; Gram: <b>small pleomorphic Gram− coccobacilli</b> with <b>bipolar staining</b>',
+        clue: 'A 40-year-old woman is <b>bitten on the hand by her cat</b>. Within <b>8 hours</b> she develops intense pain, redness, and <b>rapidly spreading swelling</b> with a <b>serosanguineous discharge</b> and <b>red streaks up the forearm (ascending lymphangitis)</b>. Gram stain shows small pleomorphic <b>Gram-negative coccobacilli with bipolar staining</b>, and she is treated with <b>amoxicillin–clavulanate</b>.',
         org: '<i>Pasteurella multocida</i>',
         dz: '<b>Animal bite cellulitis</b>',
         tax: 'Small Gram− coccobacilli · <b>bipolar staining</b>',
@@ -2931,7 +2946,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-eikenella', g: 'zoo',
-        clue: '<b>Human bite</b> wound infection (รวม <b>clenched-fist injury</b>) — oral Gram− bacillus ที่มักพบร่วมกับ <b>anaerobes, streptococci, staphylococci</b>',
+        clue: 'A 25-year-old man has a swollen, painful, red knuckle with purulent drainage 2 days after <b>punching another man in the mouth</b> (<b>clenched-fist injury</b>); the infection extends into the <b>metacarpophalangeal joint</b>. Culture grows mixed anaerobes and streptococci plus a <b>Gram-negative bacillus from human oral flora</b> that <b>pits (corrodes) the agar</b>. This organism also belongs to the culture-negative endocarditis group.',
         org: '<i>Eikenella corrodens</i>',
         dz: '<b>Human bite infection</b> · clenched-fist injury · HACEK endocarditis',
         tax: 'Gram− bacillus · HACEK',
@@ -2946,7 +2961,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-rmsf', g: 'zoo',
-        clue: '<b>Tick bite</b>: fever, myalgia + <b>maculopapular rash</b> ที่เริ่มที่ <b>extremities (wrists, ankles, palms & soles)</b> แล้วลาม <b>centrally</b> → sepsis',
+        clue: 'A 12-year-old boy from North Carolina develops fever, severe headache, and myalgia a week after a camping trip during which he removed a <b>tick</b> from his scalp. On day 3, a maculopapular rash starts on the <b>wrists and ankles</b>, spreads to the <b>palms and soles</b>, and then moves <b>centrally to the trunk</b>, becoming petechial. The obligate intracellular organism infects endothelial cells, causing <b>necrotizing vasculitis</b>, and is treated with <b>doxycycline</b>.',
         org: '<i>Rickettsia rickettsii</i>',
         dz: '<b>Rocky Mountain spotted fever</b>',
         tax: 'Obligate intracellular Gram− · spotted fever group · necrotizing vasculitis',
@@ -2963,7 +2978,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-akari', g: 'zoo',
-        clue: '<b>Spotted fever group</b> ที่ติดจาก <b>mite bite</b> (house mouse mite) ไม่ใช่ tick — มี <b>eschar</b> ได้',
+        clue: 'A 30-year-old woman living in an apartment building with a <b>house mouse infestation</b> develops a <b>painless papule that turns into a black eschar</b> at the site of a <b>mite bite</b>. A few days later she has fever, headache, and a generalized <b>papulovesicular rash resembling chickenpox</b>. The organism belongs to the <b>spotted fever group</b>, but its vector is a <b>mite rather than a tick</b>.',
         org: '<i>Rickettsia akari</i>',
         dz: '<b>Rickettsialpox</b>',
         tax: 'Spotted fever group Rickettsia',
@@ -2978,7 +2993,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-prowazekii', g: 'zoo',
-        clue: 'Typhus ที่ติดจาก <b>louse feces</b> (<i>Pediculus humanus</i>, body louse); recrudescence หลายปีต่อมา = <b>Brill-Zinsser disease</b>; <b>no eschar</b>',
+        clue: 'In an overcrowded <b>refugee camp</b> in winter, with poor hygiene and <b>body lice infestation</b>, many people develop sudden high fever, severe headache, and a maculopapular rash that <b>starts on the trunk and spreads outward</b>, sparing the face, palms, and soles; <b>no eschar</b> is found. Infection occurs when <b>louse feces</b> are scratched into the skin. Decades later, a survivor has a milder <b>recrudescence</b> of the same illness.',
         org: '<i>Rickettsia prowazekii</i>',
         dz: '<b>Epidemic typhus</b> · <b>Brill-Zinsser disease</b> (recrudescence)',
         tax: 'Typhus group Rickettsia',
@@ -2993,7 +3008,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-rtyphi', g: 'zoo',
-        clue: 'Typhus ที่ติดจาก <b>rat flea feces</b>; typhus group → <b>no eschar</b>',
+        clue: 'A 40-year-old market worker in an <b>urban port area infested with rats</b> develops fever, headache, myalgia, and a faint <b>truncal maculopapular rash</b>; <b>no eschar</b> is found. He has been exposed to <b>rat flea feces</b>. The illness is milder than the louse-borne disease of the same group.',
         org: '<i>Rickettsia typhi</i>',
         dz: '<b>Murine (endemic) typhus</b>',
         tax: 'Typhus group Rickettsia',
@@ -3008,7 +3023,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-scrub', g: 'zoo',
-        clue: '<b>Forest ranger</b> กลับจาก trek ใน <b>rural scrub jungle</b> 10 วัน: high fever, severe headache, <b>generalized lymphadenopathy</b>, diffuse <b>maculopapular rash on trunk</b> + <b>solitary painless 6-mm crusted black eschar with erythematous halo</b> ที่ groin',
+        clue: 'A 32-year-old <b>forest ranger</b> returns from a 10-day <b>trek through rural scrub jungle</b> in Thailand with high fever, <b>severe headache</b>, myalgia, generalized lymphadenopathy, and a diffuse <b>maculopapular rash on the trunk</b>. Examination shows a <b>solitary painless 6-mm crusted black eschar with an erythematous halo</b> in the <b>groin</b>. The vector is a <b>larval trombiculid mite (chigger)</b>, and diagnosis is by the <b>indirect fluorescent antibody (IFA)</b> test.',
         org: '<i>Orientia tsutsugamushi</i>',
         dz: '<b>Scrub typhus</b> (ไข้รากสาดใหญ่)',
         tax: 'Obligate intracellular · Orientia (เดิมอยู่ใน Rickettsia)',
@@ -3027,7 +3042,7 @@ const PDX_DECKS = [
 
       {
         id: 'b-tb-primary', g: 'myco', k: 'mtb',
-        clue: 'Primary infection ที่ปอด: <b>subpleural gray-white parenchymal focus</b> ที่ <b>lower part of upper lobe / upper part of lower lobe (Ghon focus)</b> + <b>hilar lymph nodes with caseation</b> = <b>Ghon complex</b>; 90% ไม่ progress',
+        clue: 'A 6-year-old girl whose grandfather has a <b>chronic cough with cavitary lung disease</b> has a positive interferon-γ release assay but no symptoms. Chest radiograph shows a small <b>subpleural nodule in the lower part of the upper lobe</b> with enlarged <b>hilar lymph nodes</b>; biopsy would show <b>caseating granulomas</b> (<b>Ghon complex</b>). In about 90% of children this primary infection heals as a calcified scar. It spreads by <b>airborne droplet nuclei</b>.',
         org: '<i>Mycobacterium tuberculosis</i>',
         dz: '<b>Primary pulmonary tuberculosis</b> (Ghon complex)',
         tax: 'Acid-fast bacilli · M. tuberculosis complex · caseating granuloma',
@@ -3044,7 +3059,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-tb-secondary', g: 'myco', k: 'mtb',
-        clue: 'Low-grade fever, <b>chronic productive cough</b> (± <b>blood-stained sputum</b>), <b>night sweats</b>, <b>weight loss</b>, anorexia; CXR: <b>cavities in bilateral upper lung zones (apex)</b>',
+        clue: 'A 55-year-old man with diabetes has 3 months of <b>chronic productive cough</b> with <b>blood-streaked sputum (hemoptysis)</b>, <b>low-grade evening fever</b>, <b>night sweats</b>, anorexia, and an 8-kg <b>weight loss</b>. Chest radiograph shows <b>cavities in the apices of both upper lobes</b>. Sputum Ziehl-Neelsen stain shows <b>acid-fast bacilli</b>, and biopsy would show <b>caseating granulomas</b>. The disease is a <b>reactivation</b> of a latent primary infection.',
         org: '<i>Mycobacterium tuberculosis</i>',
         dz: '<b>Secondary (reactivation) pulmonary TB</b>',
         tax: 'Acid-fast bacilli · caseating granuloma',
@@ -3060,7 +3075,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-mac', g: 'myco',
-        clue: '<b>Advanced HIV (CD4 &lt;50 cells/µL)</b>: disseminated infection ที่ lung, GI, bone; mesenteric LN: <b>histiocytes filled with acid-fast bacilli</b>',
+        clue: 'A 35-year-old man with advanced <b>AIDS (CD4 count 30/µL)</b> who is not taking prophylaxis has fever, night sweats, weight loss, chronic diarrhea, abdominal pain, hepatosplenomegaly, and anemia. Mesenteric lymph node biopsy shows sheets of <b>foamy histiocytes stuffed with acid-fast bacilli</b> and poorly formed granulomas. The organisms come from the <b>environment (soil and water)</b>, are not spread person to person, and are treated with <b>clarithromycin plus ethambutol</b>.',
         org: '<i>Mycobacterium avium</i> complex (MAC)', opt: '<i>Mycobacterium avium</i> complex',
         dz: '<b>Disseminated MAC</b> (nontuberculous mycobacteria)',
         tax: 'Acid-fast bacilli · M. avium, M. intracellulare',
@@ -3075,7 +3090,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-lep-tuberc', g: 'myco', k: 'leprae',
-        clue: '<b>Asymmetric erythematous plaque</b> with <b>sharp outer margins</b> fading centrally to a flattened clear zone ที่ <b>rough, anhidrotic, hairless, hypopigmented, anesthetic</b>; micro: <b>granulomatous inflammation, rare organisms</b>',
+        clue: 'A 30-year-old man from rural India has a single, well-demarcated, <b>hypopigmented plaque</b> on his thigh with a raised red border; the lesion is <b>dry, hairless, anhidrotic</b>, and <b>completely anesthetic</b> to touch and temperature, and a nearby superficial nerve is <b>thickened</b>. Skin biopsy shows well-formed <b>granulomas with rare acid-fast bacilli</b>, reflecting strong cell-mediated immunity. Infection was acquired through <b>respiratory droplets</b> from a relative.',
         org: '<i>Mycobacterium leprae</i>',
         dz: '<b>Tuberculoid leprosy</b> (โรคเรื้อน)',
         tax: 'Acid-fast bacilli · strong cell-mediated immunity',
@@ -3092,7 +3107,7 @@ const PDX_DECKS = [
       },
       {
         id: 'b-lep-leprom', g: 'myco', k: 'leprae',
-        clue: '<b>Multiple, symmetrically distributed, erythematous ill-defined macules & papules</b>, <b>leonine facies</b>, muscle atrophy; micro: <b>clusters of macrophages containing organisms (AFB)</b>',
+        clue: 'A 45-year-old man has <b>multiple, symmetric, ill-defined erythematous macules, papules, and nodules</b> on the face, ears, and limbs, with <b>thickened facial skin and loss of the eyebrows (leonine facies)</b>, nasal stuffiness, and <b>glove-and-stocking sensory loss</b>. Skin biopsy shows sheets of <b>foamy macrophages packed with acid-fast bacilli</b> and no granulomas. He is treated with <b>dapsone, rifampin, and clofazimine</b>.',
         org: '<i>Mycobacterium leprae</i>',
         dz: '<b>Lepromatous leprosy</b> (more severe)',
         tax: 'Acid-fast bacilli · weak cell-mediated immunity',
@@ -3129,7 +3144,7 @@ const PDX_DECKS = [
     cards: [
       {
         id: 'p-naegleria', g: 'cns',
-        clue: '<b>Swimming in warm fresh water</b> → ไม่กี่วันต่อมา <b>fulminant meningoencephalitis</b> (rare but fatal); CSF เหมือน <b>bacterial meningitis</b> (↓glucose, ↑protein, ↑WBC) แต่พบ <b>trophozoites</b>',
+        clue: 'A previously healthy 12-year-old boy develops severe frontal headache, fever, an altered sense of smell, vomiting, and neck stiffness 5 days after <b>swimming and diving in a warm freshwater pond</b> during a hot summer, then rapidly deteriorates with seizures and coma. CSF shows neutrophilic pleocytosis with <b>low glucose and high protein</b>, resembling bacterial meningitis, but the Gram stain is negative and a wet mount shows <b>motile trophozoites</b>. The organism entered through the <b>cribriform plate</b>.',
         org: '<i>Naegleria fowleri</i>',
         dz: '<b>Primary amebic meningoencephalitis</b> (PAM) — rare but fatal',
         tax: 'Free-living ameba · trophozoite, flagellate, cyst forms',
@@ -3145,7 +3160,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-acanth-gae', g: 'cns', k: 'acanth',
-        clue: '<b>Immunocompromised host</b>: <b>granulomatous encephalitis</b> แบบ <b>mass lesion</b> จาก <b>hematogenous spread</b> (lower respiratory tract, skin, ulcer)',
+        clue: 'A 40-year-old man with AIDS develops headache, confusion, personality change, and left hemiparesis that progress over <b>several weeks</b>; he has had chronic <b>nodular skin ulcers</b>. Brain imaging shows <b>multiple space-occupying lesions</b>, and biopsy shows <b>granulomatous encephalitis</b> with trophozoites and double-walled cysts. The free-living organism lives in <b>soil and water</b> and reached the brain by <b>hematogenous spread</b> from the skin or lower respiratory tract.',
         org: '<i>Acanthamoeba</i> spp.',
         dz: '<b>Granulomatous amebic encephalitis</b> (GAE)',
         tax: 'Free-living ameba',
@@ -3160,7 +3175,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-acanth-kerat', g: 'cns', k: 'acanth',
-        clue: '<b>Contact lens wearer</b> ที่ rinse / store lens ด้วย <b>tap water</b>: severe eye pain (<b>pain out of proportion</b>), <b>photophobia</b>, foreign-body sensation; slit-lamp: <b>ring-shaped stromal infiltrate</b> + satellite lesions; Gram: no bacteria; Giemsa: <b>polygonal double-walled cysts</b> + motile trophozoites (<b>acanthopodia</b>)',
+        clue: 'A 25-year-old <b>soft contact lens wearer</b> who <b>rinses and stores her lenses in tap water</b> has 3 weeks of <b>severe eye pain out of proportion</b> to the findings, photophobia, and a <b>foreign-body sensation</b> that do not respond to antibacterial drops. Slit-lamp examination shows a <b>ring-shaped corneal stromal infiltrate</b> with satellite lesions. Gram stain shows <b>no bacteria</b>, while Giemsa stain of corneal scrapings shows <b>polygonal double-walled cysts</b> and motile trophozoites with spine-like pseudopods.',
         org: '<i>Acanthamoeba castellanii</i>',
         dz: '<b>Acanthamoeba keratitis</b>',
         tax: 'Free-living ameba · double-walled polygonal cysts',
@@ -3178,7 +3193,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-toxo-cong', g: 'cns', k: 'toxo', hl: true,
-        clue: 'Neonate: <b>hydrocephalus + chorioretinitis + cerebral calcification</b> (classic triad); แม่ <b>asymptomatic</b> ขณะตั้งครรภ์ และสัมผัส <b>cat feces / sandbox</b>',
+        clue: 'A newborn has <b>hydrocephalus</b>, <b>chorioretinitis</b>, and diffuse <b>intracranial calcifications</b> on CT (the <b>classic triad</b>). His mother had no symptoms in pregnancy, but she cleaned the family <b>cat’s litter box</b>, and her older children play in a <b>sandbox</b> used by cats. The parasite crossed the placenta as <b>tachyzoites</b>, making this one of the TORCH infections.',
         org: '<i>Toxoplasma gondii</i>',
         dz: '<b>Congenital toxoplasmosis</b> — TORCH “T”',
         tax: 'Obligate intracellular protozoan (Apicomplexa) · tachyzoites cross the placenta',
@@ -3195,7 +3210,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-toxo-hiv', g: 'cns', k: 'toxo', hl: true,
-        clue: '<b>HIV-infected patient</b>: <b>focal neurological signs</b>; MRI: <b>ring-enhancing lesion</b> with surrounding <b>edema & mass effect</b> (<b>reactivation</b>)',
+        clue: 'A 35-year-old man with AIDS (CD4 count 60/µL) who is not taking prophylaxis has 2 weeks of headache, fever, confusion, and new right hemiparesis with a focal seizure. MRI shows <b>multiple ring-enhancing lesions</b> with <b>surrounding edema and mass effect</b> in the basal ganglia. Serology is <b>IgG positive and IgM negative</b>, indicating <b>reactivation of a latent infection</b>, and brain biopsy shows <b>free crescent-shaped tachyzoites</b> and tissue cysts.',
         org: '<i>Toxoplasma gondii</i>',
         dz: '<b>Toxoplasmic encephalitis</b> (reactivation)',
         tax: 'Obligate intracellular protozoan · crescent-shaped tachyzoites',
@@ -3212,7 +3227,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-toxo-acute', g: 'cns', k: 'toxo', hl: true,
-        clue: 'Immunocompetent host: <b>infectious mononucleosis-like</b> illness — <b>lymphadenitis</b>, fever, headache, fatigue หลัง ingest <b>tissue cysts (undercooked meat)</b> หรือ <b>oocysts (sandboxes contaminated with cat feces)</b>',
+        clue: 'A 28-year-old previously healthy woman has 2 weeks of fatigue, low-grade fever, headache, and painless <b>posterior cervical lymphadenopathy</b> (a <b>mononucleosis-like illness</b>), but the heterophile test is negative. She often eats <b>undercooked lamb and pork</b> and gardens in soil visited by stray <b>cats</b>. The parasite’s definitive hosts are <b>felines</b>, and humans are infected by ingesting <b>oocysts</b> or <b>tissue cysts</b>.',
         org: '<i>Toxoplasma gondii</i>',
         dz: '<b>Acute toxoplasmosis</b> (IM-like) — often asymptomatic',
         tax: 'Obligate intracellular protozoan · tachyzoites / bradyzoites',
@@ -3229,7 +3244,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-angio', g: 'cns',
-        clue: 'Ingest <b>raw freshwater snails (Pila)</b> (หอยโข่ง) / freshwater shrimp, crab → 2 wk: <b>severe headache</b>, vomiting, <b>neck stiffness</b>; LP: ↑opening pressure, CSF <b>45% eosinophils</b>, ↑protein, <b>normal glucose</b> = <b>eosinophilic meningitis</b>',
+        clue: 'A 30-year-old man from <b>northeastern Thailand</b> develops a <b>severe headache</b>, vomiting, neck stiffness, and paresthesia 2 weeks after eating <b>raw Pila (apple) snails</b> in a spicy salad. Lumbar puncture shows a <b>raised opening pressure</b> and CSF WBC 600/µL with <b>45% eosinophils</b>, raised protein, and <b>normal glucose</b> (<b>eosinophilic meningitis</b>). The <b>rat</b> is the definitive host, and humans are incidental hosts.',
         org: '<i>Angiostrongylus cantonensis</i>',
         dz: '<b>Eosinophilic meningitis</b> (rat lungworm, พยาธิปอดหนู)',
         tax: 'Nematode (lungworm of rats)',
@@ -3248,7 +3263,8 @@ const PDX_DECKS = [
       },
       {
         id: 'p-csf', g: 'cns', mcq: false,
-        clue: 'CSF patterns: <b>eosinophil predominance + normal glucose</b> · <b>neutrophils ≥1,000/µL + glucose ≤40</b> · <b>lymphocytes &lt;100/µL + normal glucose</b> · <b>lymphocytes + low glucose</b> — แต่ละแบบคือเชื้อกลุ่มใด?',
+        clue: 'Four patients with meningitis have these CSF findings: (A) <b>eosinophil predominance</b>, raised protein, <b>normal glucose</b>; (B) WBC <b>≥1,000/µL, mostly neutrophils</b>, glucose <b>≤40 mg/dL</b>; (C) WBC <b>&lt;100/µL, mostly lymphocytes</b>, <b>normal glucose</b>, normal opening pressure; (D) <b>lymphocytes</b>, raised protein, and <b>low glucose (&lt;45 mg/dL)</b>.',
+        ask: 'Which category of pathogen best fits each CSF profile?',
         org: 'Parasite · Bacterial · Viral · TB/Fungal',
         dz: 'Typical CSF findings in meningitis',
         keys: [
@@ -3263,7 +3279,7 @@ const PDX_DECKS = [
 
       {
         id: 'p-chagas', g: 'blood', hl: true,
-        clue: 'Returning from <b>rural South / Central America, Mexico</b>: high fever, chills, <b>myalgia</b> + <b>erythematous painful nodule (chagoma)</b> หรือ <b>unilateral lid edema + conjunctivitis (Romaña sign)</b> + <b>acute myocarditis</b>; peripheral blood: <b>flagellated trypomastigotes</b>, cardiac biopsy: <b>intracellular amastigotes</b>',
+        clue: 'A 9-year-old boy from a rural <b>mud-walled house in Bolivia</b> develops high fever, malaise, and painless <b>swelling of one eyelid with conjunctivitis (Romaña sign)</b> after being bitten near the eye at night; he also has a painful indurated red nodule on the cheek. A week later he has tachycardia and heart failure (<b>acute myocarditis</b>). Giemsa-stained blood shows <b>flagellated trypomastigotes</b>, and cardiac biopsy shows <b>intracellular amastigotes</b>. The insect vector passes the parasite in its <b>feces</b>.',
         org: '<i>Trypanosoma cruzi</i>',
         dz: '<b>Chagas disease</b> (American trypanosomiasis)',
         tax: 'Hemoflagellate · trypomastigote in blood / <b>intracellular amastigote</b> in tissue',
@@ -3281,7 +3297,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-sleeping', g: 'blood', hl: true,
-        clue: 'Returning from <b>sub-Saharan Africa</b>, ถูก <b>tsetse fly</b> กัด: <b>chancre at the site of the fly bite</b>, <b>intermittent fever</b>, myalgia, <b>posterior cervical lymphadenopathy (Winterbottom’s sign)</b> → <b>neuropsychiatric symptoms</b>, <b>disruption of the sleep cycle</b> → coma',
+        clue: 'A 35-year-old aid worker returns from rural <b>West Africa</b> with a painful indurated nodule at the site of a <b>tsetse fly bite</b>, followed by <b>intermittent fever</b>, headache, myalgia, and <b>enlarged posterior cervical lymph nodes</b> (<b>Winterbottom’s sign</b>). Months later he develops personality change, <b>daytime somnolence with nighttime insomnia</b>, and progressive coma. Blood smear shows extracellular flagellated <b>trypomastigotes</b> that evade immunity by <b>antigenic variation</b>.',
         org: '<i>Trypanosoma brucei</i> (<i>gambiense</i> / <i>rhodesiense</i>)', opt: '<i>Trypanosoma brucei</i>',
         dz: '<b>African trypanosomiasis</b> (sleeping sickness)',
         tax: 'Hemoflagellate · extracellular trypomastigote · <b>antigenic variation</b>',
@@ -3299,7 +3315,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-leish-cut', g: 'blood', k: 'leish',
-        clue: 'Soldier กลับจาก <b>Iraq / Middle East</b>: <b>painless indurated erythematous nodule</b> → <b>shallow ulcer with raised border (central crater)</b> ที่ auricle / face; biopsy: <b>intracellular oval non-flagellated amastigotes</b> with <b>rod-like kinetoplasts</b> ใน dermal macrophages',
+        clue: 'A 26-year-old soldier returns from deployment in <b>Iraq</b> with a lesion on his ear that began as a <b>painless red papule</b> at the site of an <b>insect bite</b> 2 months earlier, enlarged into an <b>indurated nodule</b>, and then formed a <b>shallow ulcer with a raised border and central crater</b>. Biopsy shows dermal macrophages filled with <b>oval, non-flagellated amastigotes with rod-shaped kinetoplasts</b>. The vector is the <b>phlebotomine sandfly</b>.',
         org: '<i>Leishmania</i> spp.',
         dz: '<b>Cutaneous leishmaniasis</b> (Oriental sore)',
         tax: 'Hemoflagellate · amastigote with kinetoplast in macrophages',
@@ -3316,7 +3332,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-leish-visc', g: 'blood', k: 'leish',
-        clue: 'Chronic fever, <b>weight loss</b>, <b>internal organ enlargement (hepatosplenomegaly)</b>, lymphadenopathy + <b>pancytopenia</b> + <b>hypoalbuminemia</b>; bone marrow: amastigotes ใน macrophages',
+        clue: 'A 30-year-old migrant worker from <b>Bihar, India</b> has 3 months of <b>irregular fever</b>, weight loss, abdominal fullness, and <b>darkening of the skin</b>. Examination shows <b>massive splenomegaly</b>, hepatomegaly, and lymphadenopathy, and labs show <b>pancytopenia</b>, <b>hypoalbuminemia</b>, and hypergammaglobulinemia. A <b>bone marrow aspirate</b> shows macrophages packed with <b>amastigotes</b>. He was bitten by <b>sandflies</b> while sleeping outdoors.',
         org: '<i>Leishmania</i> spp. (visceral)', opt: '<i>Leishmania</i> spp.',
         dz: '<b>Visceral leishmaniasis</b> (kala-azar)',
         tax: 'Hemoflagellate · amastigotes in reticuloendothelial cells',
@@ -3332,7 +3348,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-pf', g: 'blood',
-        clue: '<b>Abrupt fever & chills</b> (spike ถึง 41°C) ~2 wk หลัง mosquito bite, fever <b>continuous / briefly remittent</b>, anemia, splenomegaly + <b>altered consciousness, seizures (cerebral malaria)</b>, <b>dark urine (blackwater fever)</b>, <b>acute lung injury</b>',
+        clue: 'A 25-year-old soldier returns from a jungle patrol on the <b>Thai–Myanmar border</b> with <b>abrupt high fever (41 °C) and shaking chills</b>, headache, vomiting, and myalgia about <b>2 weeks after mosquito bites</b>. Two days later he becomes confused and has a seizure (<b>cerebral malaria</b>), passes <b>dark cola-colored urine</b> (<b>blackwater fever</b>), and is jaundiced and anemic with splenomegaly. Thin smear shows <b>multiple small ring forms per RBC</b>, high parasitemia, and <b>banana-shaped gametocytes</b>.',
         org: '<i>Plasmodium falciparum</i>',
         dz: '<b>Severe (falciparum) malaria</b>: cerebral malaria, blackwater fever',
         tax: 'Apicomplexa · multiple ring forms, banana-shaped gametocytes',
@@ -3349,7 +3365,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-pv', g: 'blood', hl: true,
-        clue: '<b>Tertian malaria</b> (fever every 2nd day) ที่หายแล้วแต่ <b>relapse</b> ได้หลายปีต่อมา จาก <b>hypnozoites latent in the liver</b>',
+        clue: 'A 30-year-old forest worker from the Thai–Myanmar border has paroxysms of chills, high fever, and <b>drenching sweats every 48 hours</b> (<b>tertian</b>) and feels well between attacks. He has <b>another attack 8 months after</b> treatment with chloroquine alone, without re-exposure. Thin smear shows ameboid trophozoites in <b>enlarged RBCs with Schüffner dots</b>. The relapse comes from dormant <b>hypnozoites in the liver</b>, so <b>primaquine</b> is needed.',
         org: '<i>Plasmodium vivax</i> / <i>P. ovale</i>',
         dz: '<b>Relapsing tertian malaria</b>',
         tax: 'Apicomplexa · <b>hypnozoites</b> in liver · enlarged RBCs with Schüffner dots',
@@ -3365,7 +3381,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-pm', g: 'blood',
-        clue: '<b>Quartan malaria</b> — fever <b>every 3rd day (72 hrs)</b>: Monday fever → Thursday fever',
+        clue: 'A 40-year-old woman from West Africa has recurring fever with chills <b>every 72 hours</b> (<b>quartan</b>)—Monday, then Thursday, then Sunday—and feels fairly well in between, but she later develops <b>nephrotic syndrome</b>. Thin smear shows <b>band-form trophozoites</b> and <b>rosette schizonts</b> in normal-sized RBCs.',
         org: '<i>Plasmodium malariae</i>',
         dz: '<b>Quartan malaria</b>',
         tax: 'Apicomplexa · band forms, rosette schizonts',
@@ -3380,7 +3396,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-babesia', g: 'blood',
-        clue: '<b>Malaria-like illness</b> + <b>hemolytic anemia</b> + <b>thrombocytopenia</b> ใน <b>splenectomy</b> / elderly หลังถูก <b>deer tick (Ixodes scapularis)</b> กัด (US); Giemsa: <b>tetrad of merozoites (Maltese cross)</b>, <b>ring trophozoites but no brownish deposits</b>',
+        clue: 'A 70-year-old man from <b>Massachusetts, USA</b>, who had a <b>splenectomy</b>, develops fever, fatigue, dark urine, and jaundice 2 weeks after hiking in woods where <b>deer ticks (Ixodes scapularis)</b> are common. Labs show <b>hemolytic anemia</b> and <b>thrombocytopenia</b>. A Giemsa-stained blood film shows intraerythrocytic ring forms and <b>tetrads of merozoites (Maltese cross)</b> with <b>no brown pigment</b>. The reservoir is the <b>white-footed mouse</b>.',
         org: '<i>Babesia microti</i>',
         dz: '<b>Babesiosis</b> (malaria-like illness)',
         tax: 'Apicomplexa · intraerythrocytic rings, <b>tetrad (Maltese cross)</b>, no pigment',
@@ -3395,7 +3411,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-wb', g: 'blood', hl: true,
-        clue: '<b>Thai–Myanmar border</b>; vectors <b>Aedes niveus group</b> (ยุงลายป่า), Mansonia dives, Culex quinquefasciatus: <b>elephantiasis</b> ที่ <b>above the knee</b>; Dx: <b>nocturnal thick blood smear</b> → <b>microfilariae</b>',
+        clue: 'A 45-year-old man from a village on the <b>Thai–Myanmar border</b> has had recurrent fever with painful lymphangitis for years and now has massive swelling of the <b>whole leg extending above the knee</b> (<b>elephantiasis</b>) and a hydrocele. A <b>thick blood smear taken at night</b> shows sheathed <b>microfilariae</b>. Local vectors include <b>Aedes niveus</b>, <b>Mansonia dives</b>, and <b>Culex quinquefasciatus</b>, and the adult worms live in the <b>lymphatics</b>.',
         org: '<i>Wuchereria bancrofti</i>',
         dz: '<b>Lymphatic filariasis</b> (bancroftian) — elephantiasis',
         tax: 'Filarial nematode · sheathed microfilaria, nocturnal periodicity',
@@ -3411,7 +3427,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-bm', g: 'blood',
-        clue: '<b>Southern Thailand</b>; vectors <b>Mansonia spp.</b> (ยุงลายเสือ), Anopheles: <b>elephantiasis below the knee</b>; <b>nocturnal blood smear</b> → microfilariae',
+        clue: 'A 40-year-old rubber tapper from a swampy area of <b>southern Thailand (Narathiwat)</b> has recurrent fever and lymphadenitis followed by chronic swelling of the <b>leg below the knee</b> (<b>elephantiasis</b>). A <b>night-time thick blood smear</b> shows sheathed <b>microfilariae</b>. The vectors are <b>Mansonia</b> and <b>Anopheles</b> mosquitoes.',
         org: '<i>Brugia malayi</i>',
         dz: '<b>Lymphatic filariasis</b> (brugian)',
         tax: 'Filarial nematode · sheathed microfilaria, nocturnal periodicity',
@@ -3427,7 +3443,7 @@ const PDX_DECKS = [
 
       {
         id: 'p-ascaris', g: 'nema',
-        clue: 'เด็ก ingest <b>embryonated eggs</b> จาก <b>contaminated soil</b>: abdominal pain, <b>intestinal / appendix / bile duct obstruction</b> by worms; larval migration through lung → <b>Löffler’s syndrome</b>; egg: <b>scalloped (mammillated) edge</b>',
+        clue: 'A 6-year-old girl from a rural village who plays in <b>soil contaminated with human feces</b> has colicky abdominal pain, distension, and vomiting; an abdominal radiograph shows a bolus of worms causing <b>small-bowel obstruction</b>, and she vomits a 20-cm <b>pink roundworm</b>. Weeks earlier she had cough, wheeze, and eosinophilia with transient lung infiltrates (<b>Löffler’s syndrome</b>). Stool shows eggs with a thick, <b>scalloped (mammillated) outer shell</b>.',
         org: '<i>Ascaris lumbricoides</i>',
         dz: '<b>Ascariasis</b> (roundworm, พยาธิไส้เดือน)',
         tax: 'Intestinal nematode (small bowel) · egg with <b>scalloped (mammillated)</b> coat',
@@ -3443,7 +3459,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-hook', g: 'nema',
-        clue: 'เด็กที่ <b>walks barefoot</b> on rural soil: progressive <b>pallor</b>, lethargy, <b>epigastric discomfort</b>; <b>microcytic hypochromic iron-deficiency anemia</b> (Hb 7.2); <b>ground itch</b>; stool: <b>transparent, thin-shelled oval eggs</b>',
+        clue: 'An 8-year-old boy in <b>rural southern Thailand</b> who <b>walks barefoot</b> on moist soil has progressive pallor, lethargy, epigastric discomfort, and pica, and recalls an <b>itchy rash on his feet (ground itch)</b> months ago. Hemoglobin is 7.2 g/dL with a <b>microcytic hypochromic (iron-deficiency) anemia</b> and eosinophilia. Stool shows <b>oval, thin-shelled, transparent eggs</b> with a segmented embryo. Infection began when <b>filariform larvae penetrated the skin</b>.',
         org: 'Hookworm (<i>Necator americanus</i> / <i>Ancylostoma duodenale</i>)', opt: 'Hookworm (<i>Necator</i> / <i>Ancylostoma</i>)',
         dz: '<b>Hookworm infection</b> (พยาธิปากขอ) → <b>iron-deficiency anemia</b>',
         tax: 'Intestinal nematode (small bowel) · thin-shelled oval egg · filariform larva',
@@ -3460,7 +3476,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-strongy', g: 'nema',
-        clue: 'ผู้ป่วยได้ <b>corticosteroids / immunosuppressive therapy</b>: abdominal pain, diarrhea, N/V + <b>larva currens</b> → <b>hyperinfection / disseminated disease</b> (lung, brain) + <b>gut translocation of bacteria</b>; stool: <b>rhabditiform larvae</b>',
+        clue: 'A 60-year-old man from <b>northeastern Thailand</b> on <b>high-dose corticosteroids</b> for COPD develops abdominal pain, diarrhea, vomiting, cough, and wheeze, followed by fever and <b>Gram-negative bacteremia with meningitis</b> (<b>hyperinfection syndrome</b>). For years he has had recurrent <b>fast-moving serpiginous urticarial tracks on the buttocks (larva currens)</b>. Stool and sputum show <b>rhabditiform larvae</b>, and the parasite has persisted for decades through <b>autoinfection</b>.',
         org: '<i>Strongyloides stercoralis</i>',
         dz: '<b>Strongyloidiasis</b> → <b>hyperinfection / disseminated</b> syndrome',
         tax: 'Intestinal nematode · <b>rhabditiform larvae</b> in stool · <b>autoinfection</b>',
@@ -3477,7 +3493,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-entero', g: 'nema',
-        clue: 'เด็กอนุบาลมี <b>nocturnal perianal pruritus</b>, restless sleep, irritability และเพื่อนในห้องเป็นด้วย; <b>cellophane (scotch) tape test</b> ตอนเช้า: <b>asymmetric oval eggs flattened on one side</b> containing developed larvae',
+        clue: 'A 4-year-old girl at <b>kindergarten</b> has <b>intense perianal itching at night</b>, restless sleep, and irritability, and several classmates and her older brother have the same symptoms. Her mother has seen tiny white threadlike worms around the anus at night. A <b>cellophane (scotch) tape test</b> done early in the morning shows <b>asymmetric oval eggs flattened on one side</b> containing developed larvae.',
         org: '<i>Enterobius vermicularis</i>',
         dz: '<b>Enterobiasis</b> (pinworm, พยาธิเข็มหมุด)',
         tax: 'Intestinal nematode (large bowel) · egg <b>flattened on one side</b>',
@@ -3494,7 +3510,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-trichuris', g: 'nema',
-        clue: 'เด็กใน rural community: crampy lower abdominal pain, <b>tenesmus</b>, <b>blood- and mucus-streaked stools (dysentery)</b>, pallor, malnutrition + <b>rectal prolapse</b>; egg: <b>barrel-shaped with bipolar plugs</b>',
+        clue: 'A 7-year-old boy from a <b>rural community</b> with poor sanitation has chronic crampy lower abdominal pain, <b>tenesmus</b>, and <b>blood- and mucus-streaked stools (dysentery)</b>, with pallor and poor growth. When he strains, he has a <b>rectal prolapse</b> with small worms visible on the mucosa. Stool shows <b>barrel-shaped eggs with bipolar plugs</b>; he often eats soil.',
         org: '<i>Trichuris trichiura</i>',
         dz: '<b>Trichuriasis</b> (whipworm, พยาธิแส้ม้า)',
         tax: 'Intestinal nematode (large bowel) · <b>barrel-shaped egg with bipolar plugs</b>',
@@ -3510,7 +3526,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-capillaria', g: 'nema',
-        clue: 'กิน <b>raw freshwater fish</b> (ก้อยปลา, “koi pla”): <b>intractable watery diarrhea</b>, severe weight loss, peripheral edema จาก <b>protein-losing enteropathy</b> → cachexia / death; egg: <b>peanut-shaped</b>, <b>thick striated shell</b>, <b>flattened bipolar plugs</b>',
+        clue: 'A 55-year-old man from <b>northeastern Thailand</b> who often eats <b>koi pla (raw freshwater fish salad)</b> has months of <b>intractable watery diarrhea</b>, loud borborygmi, severe <b>weight loss</b>, and <b>peripheral edema with ascites</b> (albumin 1.6 g/dL; <b>protein-losing enteropathy</b>). Stool shows <b>peanut-shaped eggs with flattened bipolar plugs and a thick striated shell</b>, plus larvae and adult worms. The parasite naturally infects <b>fish-eating birds</b> and multiplies by <b>autoinfection</b>.',
         org: '<i>Capillaria philippinensis</i>',
         dz: '<b>Intestinal capillariasis</b> — protein-losing enteropathy',
         tax: 'Intestinal nematode (small bowel) · <b>peanut-shaped egg</b>, flattened bipolar plugs',
@@ -3528,7 +3544,7 @@ const PDX_DECKS = [
 
       {
         id: 'p-tsolium', g: 'cest', hl: true,
-        clue: 'Ingest <b>undercooked pork</b> / eggs → <b>cysticercosis</b> (cysts ใน muscle / brain); <b>scolex with suckers and hooks</b>; gravid proglottid มี <b>fewer uterine branches</b> กว่า beef tapeworm',
+        clue: 'A 28-year-old pig farmer from a rural area with poor sanitation has his <b>first generalized seizure</b> and chronic headaches. Brain CT shows multiple small <b>cysts each containing an eccentric dot (scolex)</b> and several <b>calcified cysts</b>, and he has painless subcutaneous nodules. He often eats <b>undercooked pork</b>, and a household member passes tapeworm segments. The adult scolex has <b>suckers and a crown of hooks</b>, and gravid segments have few uterine branches.',
         org: '<i>Taenia solium</i>',
         dz: '<b>Taeniasis</b> (pork tapeworm, พยาธิตืดหมู) · <b>cysticercosis / neurocysticercosis</b>',
         tax: 'Cestode · scolex with <b>suckers + hooks</b> · gravid proglottid: few uterine branches',
@@ -3546,7 +3562,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-tsaginata', g: 'cest',
-        clue: 'Ingest <b>uncooked beef</b> containing <b>cysticerci</b> (ลาบ / ก้อยเนื้อ) → adult worm ใน small intestine: N/V, abdominal pain, diarrhea (or asymptomatic); <b>proglottids passed in stool</b>',
+        clue: 'A 35-year-old man from <b>northeastern Thailand</b> who often eats <b>raw beef larb (laab neua)</b> notices <b>motile white flat segments crawling out of his anus</b> and in his stool, with mild abdominal discomfort and nausea. Stool shows eggs with radially striated shells; a gravid segment has <b>15–20 uterine branches per side</b>, and the scolex has <b>four suckers and no hooks</b>. There is <b>no cysticercosis</b>.',
         org: '<i>Taenia saginata</i>',
         dz: '<b>Taeniasis</b> (beef tapeworm, พยาธิตืดวัว)',
         tax: 'Cestode · scolex <b>without hooks</b> · gravid proglottid: many uterine branches',
@@ -3562,7 +3578,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-hnana', g: 'cest', hl: true,
-        clue: '<b>Dwarf tapeworm</b> — <b>most frequently found tapeworm in the US</b>; <b>eggs directly infectious → autoinfection</b>; หรือ ingest <b>cysticercoids</b> ใน intermediate hosts (<b>flea, grain beetles</b>)',
+        clue: 'A 5-year-old child in an <b>orphanage</b> has mild abdominal pain, diarrhea, and poor appetite, and several other children are infected. Stool shows small, thin-shelled eggs with a hooked embryo and <b>polar filaments</b>. This <b>dwarf tapeworm</b>, the most common tapeworm in the US, needs <b>no intermediate host</b> because its eggs are <b>directly infectious</b> and allow <b>autoinfection</b>, though it can also be acquired by swallowing infected <b>fleas or grain beetles</b>.',
         org: '<i>Hymenolepis nana</i>',
         dz: '<b>Hymenolepiasis</b> (dwarf tapeworm)',
         tax: 'Cestode · egg with <b>polar filaments</b> · intermediate host not required',
@@ -3577,7 +3593,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-echino', g: 'cest',
-        clue: '<b>Dog & sheep</b> contact, ingest food contaminated with <b>dog feces containing eggs</b> → <b>hydatid cyst</b> ใน <b>liver</b> (lungs, bones, brain); cyst rupture → <b>fatal anaphylactic shock</b>; <b>brood capsules containing multiple protoscoleces</b>',
+        clue: 'A 40-year-old <b>sheep herder</b> from the Middle East who keeps several <b>dogs</b> has dull right upper quadrant pain and hepatomegaly. CT shows a large <b>liver cyst containing multiple daughter cysts</b>. During aspiration he suddenly develops hypotension and urticaria (<b>anaphylaxis after cyst rupture</b>). The cyst fluid contains <b>brood capsules with many protoscoleces</b>. Humans are <b>accidental intermediate hosts</b> who swallow eggs from dog feces.',
         org: '<i>Echinococcus granulosus</i>',
         dz: '<b>Hydatid disease</b> (cystic echinococcosis)',
         tax: 'Cestode (dog tapeworm) · <b>brood capsules with protoscoleces</b>',
@@ -3593,7 +3609,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-dlatum', g: 'cest', hl: true,
-        clue: 'Ingest <b>undercooked fish</b> containing <b>plerocercoid larvae (sparganum)</b> → abdominal discomfort, diarrhea + <b>megaloblastic anemia (vitamin B12 deficiency)</b>',
+        clue: 'A 50-year-old man from <b>Finland</b> who regularly eats <b>raw or lightly salted freshwater fish</b> has fatigue, glossitis, numb feet, mild abdominal discomfort, and diarrhea. Labs show a <b>megaloblastic anemia</b> with low <b>vitamin B12</b>. Stool shows <b>operculated eggs</b>, and he has passed long segments of a broad tapeworm. He was infected by <b>plerocercoid larvae (sparganum)</b> in fish muscle.',
         org: '<i>Diphyllobothrium latum</i>',
         dz: '<b>Diphyllobothriasis</b> (fish tapeworm)',
         tax: 'Cestode · scolex with bothria (grooves) · operculated egg',
@@ -3610,7 +3626,7 @@ const PDX_DECKS = [
 
       {
         id: 'p-ehisto', g: 'proto', k: 'ehisto',
-        clue: 'Crampy lower abdominal pain, <b>tenesmus</b>, <b>frequent loose stools with blood and mucus</b> 2 wk; colonoscopy: <b>flask-shaped ulcers</b> with necrosis ที่ <b>cecum</b>; stool: <b>motile trophozoites with ingested erythrocytes (erythrophagocytosis)</b>',
+        clue: 'A 30-year-old man has 2 weeks of crampy lower abdominal pain, <b>tenesmus</b>, and frequent loose stools with <b>blood and mucus</b>. Colonoscopy shows multiple <b>flask-shaped ulcers</b> with undermined edges in the <b>cecum</b> and ascending colon, and biopsy shows extensive <b>liquefactive necrosis with few inflammatory cells</b>. Stool shows <b>motile trophozoites with ingested red blood cells (erythrophagocytosis)</b> and cysts with <b>four nuclei</b>.',
         org: '<i>Entamoeba histolytica</i>',
         dz: '<b>Amebic dysentery</b> (amebic colitis)',
         tax: 'Ameba · trophozoite with <b>ingested RBCs</b> · cyst with <b>4 nuclei</b>',
@@ -3627,7 +3643,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-ehisto-liver', g: 'proto', k: 'ehisto',
-        clue: 'Fever, <b>RUQ pain</b>, <b>hepatomegaly</b> + <b>liver abscess</b> (หรือ brain abscess) — intestinal protozoan ที่ spread ไป liver หลังมี dysentery',
+        clue: 'A 38-year-old man has 10 days of fever and <b>right upper quadrant pain</b> radiating to the right shoulder, with <b>tender hepatomegaly</b>; he had bloody diarrhea after a trip 3 months ago. Ultrasound shows a <b>single large abscess in the right lobe of the liver</b>, and aspiration yields odorless, reddish-brown <b>“anchovy paste” pus</b>. Serology is strongly positive. The intestinal protozoan reached the liver through the <b>portal vein</b>.',
         org: '<i>Entamoeba histolytica</i>',
         dz: '<b>Amebic liver abscess</b>',
         tax: 'Ameba — spreads via the portal vein',
@@ -3642,7 +3658,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-giardia', g: 'proto',
-        clue: '<b>Drinking unboiled mountain stream water</b> (camping) 3 wk ก่อน: <b>foul-smelling, greasy watery diarrhea (steatorrhea)</b>, abdominal distension, <b>flatulence</b>, <b>malabsorption</b>; stool: <b>pear-shaped, binucleated, flagellated trophozoites</b> with a <b>central sucking disk</b>',
+        clue: 'A 32-year-old man went <b>camping</b> and drank <b>unboiled mountain stream water</b> 3 weeks ago. He now has <b>foul-smelling, greasy, watery diarrhea (steatorrhea)</b>, abdominal distension, bloating, <b>flatulence</b>, and weight loss, with <b>no blood</b> in the stool. Stool shows <b>pear-shaped, binucleate, flagellated trophozoites with a ventral sucking disk</b> and oval cysts with four nuclei, and duodenal biopsy shows villous blunting.',
         org: '<i>Giardia duodenalis</i> (<i>lamblia</i>)', opt: '<i>Giardia duodenalis</i>',
         dz: '<b>Giardiasis</b> (malabsorption)',
         tax: 'Flagellate · pear-shaped trophozoite, 2 nuclei, <b>suction disk</b> · cyst: 4 nuclei',
@@ -3660,7 +3676,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-balantidium', g: 'proto',
-        clue: '<b>Pig</b> contact (pigs = reservoir): diarrhea, <b>intestinal necrosis & inflammation with ulceration</b>; stool: <b>large ciliated trophozoites</b> หรือ large cysts with a <b>V-shaped nucleus</b>',
+        clue: 'A 45-year-old <b>pig farmer</b> in rural Asia has diarrhea that progresses to <b>dysentery</b> with abdominal pain. Colonoscopy shows colonic <b>ulcers</b> resembling amebiasis, but there are no lesions outside the intestine. Stool shows <b>very large ciliated trophozoites</b> and large cysts with a <b>V-shaped nucleus</b>. <b>Pigs are the reservoir</b>.',
         org: '<i>Balantidium coli</i>',
         dz: '<b>Balantidiasis</b> (ciliate dysentery)',
         tax: '<b>Ciliate</b> — large ciliated trophozoite · cyst with V-shaped nucleus',
@@ -3675,7 +3691,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-blasto', g: 'proto',
-        clue: 'Diarrhea, <b>flatulence</b>; stool <b>trichrome stain</b>: <b>cyst-like form with a large central vacuole</b>; role in human disease not fully understood',
+        clue: 'A 30-year-old woman has had intermittent diarrhea, bloating, and <b>flatulence</b> for several weeks. Stool examination with <b>trichrome stain</b> shows round, cyst-like forms with a <b>large central vacuole</b> that pushes a thin rim of cytoplasm and nuclei to the edge. The <b>role of this organism in human disease is still not fully understood</b>; infection follows ingestion of cysts.',
         org: '<i>Blastocystis hominis</i>',
         dz: '<b>Blastocystosis</b>',
         tax: 'Protist · vacuolar (central body) form on trichrome',
@@ -3689,7 +3705,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-crypto', g: 'proto',
-        clue: '<b>Watery diarrhea</b>, N/V, dehydration — outbreaks จาก <b>swimming pools (chlorine-tolerant)</b>; <b>chronic & life-threatening in AIDS</b>; modified AFB: <b>small oocysts 4–5 µm</b>, variable staining (“<b>ghost oocysts</b>”)',
+        clue: 'A 35-year-old man with AIDS (CD4 count 40/µL) has 2 months of <b>profuse watery diarrhea</b>, nausea, abdominal cramps, and <b>severe dehydration</b>. In the same city, many children developed self-limited diarrhea after swimming in a <b>public pool</b>, because the oocysts are <b>chlorine-tolerant</b>. A <b>modified acid-fast stain</b> of his stool shows <b>small round oocysts 4–5 µm</b> with variable staining (“ghost oocysts”), which are <b>infective as soon as they are passed</b>.',
         org: '<i>Cryptosporidium</i> spp. (<i>C. parvum</i>, <i>C. hominis</i>)', opt: '<i>Cryptosporidium parvum</i>',
         dz: '<b>Cryptosporidiosis</b>',
         tax: 'Apicomplexa · oocyst <b>4–5 µm</b>, modified acid-fast',
@@ -3705,7 +3721,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-cyclospora', g: 'proto',
-        clue: '<b>Outbreak after an outdoor banquet</b> (fresh produce) ~7 วันต่อมา: <b>watery diarrhea</b>, abdominal cramps, fatigue, low-grade fever; modified AFB: <b>round oocysts 8–10 µm</b> with <b>variable acid-fast staining</b> + <b>autofluorescence under UV</b>',
+        clue: 'One week after an outdoor <b>wedding banquet</b> that served <b>fresh raspberries and basil</b>, 30 guests develop prolonged <b>watery diarrhea</b>, abdominal cramps, fatigue, anorexia, and low-grade fever. A <b>modified acid-fast stain</b> of stool shows <b>round oocysts 8–10 µm</b> with <b>variable acid-fast staining</b> that <b>autofluoresce under UV light</b>. Person-to-person spread is unlikely because the oocysts must <b>sporulate outside the host</b>.',
         org: '<i>Cyclospora cayetanensis</i>',
         dz: '<b>Cyclosporiasis</b>',
         tax: 'Apicomplexa · oocyst <b>8–10 µm</b>, variable acid-fast, <b>autofluorescent</b>',
@@ -3721,7 +3737,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-cystoiso', g: 'proto',
-        clue: 'Immunocompromised host: <b>non-bloody diarrhea</b>, <b>fatty stool</b>, malabsorption + <b>eosinophilia</b> (≠ other protozoan infections); modified AFB: <b>large oval oocysts 20–30 µm</b>',
+        clue: 'A 40-year-old man with AIDS has chronic <b>non-bloody watery diarrhea</b>, fatty stools, <b>malabsorption</b>, and weight loss. His blood count shows <b>peripheral eosinophilia</b>, which is unusual for a protozoan infection. A <b>modified acid-fast stain</b> of stool shows <b>large oval oocysts 20–30 µm</b> containing sporoblasts, and the oocyst wall <b>autofluoresces under UV light</b>. He acquired it from contaminated food or water.',
         org: '<i>Cystoisospora</i> (<i>Isospora</i>) <i>belli</i>', opt: '<i>Cystoisospora belli</i>',
         dz: '<b>Cystoisosporiasis</b> (isosporiasis)',
         tax: 'Apicomplexa · large oval oocyst <b>20–30 µm</b>, acid-fast',
@@ -3736,7 +3752,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-sarco', g: 'proto',
-        clue: 'Ingest <b>undercooked beef / pork with sarcocysts</b> (SEA, Malaysia): self-limited diarrhea, mild fever (human = definitive host) หรือ <b>myositis, myalgia, fever</b> (human = intermediate host); <b>muscle biopsy: sarcocysts</b>',
+        clue: 'Weeks after a holiday on a <b>Malaysian island</b>, 30 tourists develop fever, <b>severe myalgia</b>, and muscle tenderness (<b>myositis</b>); muscle biopsy shows elongated <b>intramuscular cysts filled with bradyzoites</b> and eosinophilic myositis. Other travelers who ate <b>undercooked beef or pork</b> in Southeast Asia have only <b>self-limited diarrhea</b>, and their stools contain autofluorescent <b>sporocysts</b>.',
         org: '<i>Sarcocystis</i> spp.',
         dz: '<b>Sarcocystosis</b> — intestinal / muscular',
         tax: 'Apicomplexa · sporocysts in stool · sarcocysts in muscle',
@@ -3753,7 +3769,7 @@ const PDX_DECKS = [
 
       {
         id: 'p-ov', g: 'trem',
-        clue: '<b>Northeast Thailand, Laos, Cambodia</b>: ingest <b>undercooked or salted freshwater fish</b> (ก้อยปลา, ปลาร้า): dyspepsia, abdominal pain → <b>cholangitis</b>, cholecystitis, hepatomegaly → <b>cholangiocarcinoma</b>',
+        clue: 'A 58-year-old man from <b>Khon Kaen, northeastern Thailand</b>, who has eaten <b>koi pla (raw fish salad)</b> and <b>pla ra (fermented fish)</b> made from <b>freshwater cyprinoid fish</b> since childhood, has dyspepsia, right upper quadrant pain, weight loss, and progressive <b>painless jaundice</b>. Imaging shows dilated intrahepatic bile ducts and a hilar mass (<b>cholangiocarcinoma</b>). Stool shows <b>small operculated eggs with opercular shoulders and an abopercular knob</b>; the adult flukes live in the <b>bile ducts</b>.',
         org: '<i>Opisthorchis viverrini</i>',
         dz: '<b>Opisthorchiasis</b> (liver fluke, พยาธิใบไม้ตับ) → <b>cholangiocarcinoma</b>',
         tax: 'Trematode · small egg with <b>opercular shoulder + abopercular knob</b>',
@@ -3770,7 +3786,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-fasciola', g: 'trem',
-        clue: 'Farmer จาก <b>northern Thailand</b> กิน <b>raw watercress / aquatic vegetables</b> (ผักบุ้ง, ผักกระเฉด): <b>RUQ pain</b>, low-grade fever, <b>progressive jaundice</b> (↑direct bilirubin, ↑ALP); stool: <b>large operculated yellowish-brown eggs ~140 × 70 µm</b>',
+        clue: 'A 45-year-old farmer from <b>northern Thailand</b> has fever, <b>right upper quadrant pain</b>, tender hepatomegaly, an urticarial rash, and progressive <b>jaundice</b> with raised direct bilirubin and ALP; his blood count shows marked <b>eosinophilia</b>. He regularly eats <b>raw watercress and other aquatic vegetables</b> from ponds where <b>cattle</b> graze. Stool shows <b>large operculated yellowish-brown eggs</b> about <b>140 × 70 µm</b>, and the adult fluke lives in the <b>bile ducts</b>.',
         org: '<i>Fasciola hepatica</i> / <i>F. gigantica</i>', opt: '<i>Fasciola hepatica</i>',
         dz: '<b>Fascioliasis</b> (large liver fluke)',
         tax: 'Trematode · <b>large operculated egg</b> ~140 × 70 µm',
@@ -3787,7 +3803,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-fbuski', g: 'trem', hl: true,
-        clue: 'Ingest <b>metacercariae on aquatic plants</b> เช่น <b>water chestnuts</b> (กระจับ) → asymptomatic, abdominal pain, <b>chronic diarrhea</b>, <b>intestinal obstruction</b>; adult อยู่ใน <b>small intestine of pigs & humans</b>',
+        clue: 'A 12-year-old boy from a pig-raising village in <b>central Thailand</b>, who often peels raw <b>water caltrop and water chestnuts</b> with his teeth, has abdominal pain, chronic diarrhea, facial edema, and later signs of <b>intestinal obstruction</b>. Stool shows <b>very large operculated eggs</b> similar to those of the sheep liver fluke. The adult, the <b>largest intestinal fluke</b> of humans, lives in the <b>small intestine of pigs and humans</b>.',
         org: '<i>Fasciolopsis buski</i>',
         dz: '<b>Fasciolopsiasis</b> (giant intestinal fluke, พยาธิใบไม้ลำไส้ขนาดใหญ่)',
         tax: 'Trematode — largest intestinal fluke · large operculated egg',
@@ -3801,7 +3817,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-echinostoma', g: 'trem',
-        clue: 'Ingest <b>metacercariae</b> ใน <b>raw snails, raw clams, raw fish</b>: asymptomatic, abdominal pain, diarrhea, fever; egg: operculated with <b>abopercular end often thickened</b>',
+        clue: 'A 35-year-old man from northern Thailand who eats <b>raw snails, clams, and freshwater fish</b> has mild abdominal pain, diarrhea, and low-grade fever. Stool shows <b>operculated eggs with a thickened abopercular end</b>, similar to those of the giant intestinal fluke. The small adult flukes have a <b>collar of spines</b> around the oral sucker, and reservoir hosts include <b>aquatic birds, rodents, and carnivores</b>.',
         org: '<i>Echinostoma</i> spp.',
         dz: '<b>Echinostomiasis</b> (intestinal fluke)',
         tax: 'Trematode · collar of spines · operculated egg with thickened abopercular end',
@@ -3815,7 +3831,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-paragonimus', g: 'trem',
-        clue: 'Rural Southeast Asia: ingest <b>uncooked freshwater crabs / crayfish</b> (ปูน้ำตก, ปูป่า): <b>chronic productive cough</b>, <b>pleuritic chest pain</b>, low-grade fever, <b>rusty-colored sputum</b>; CXR: <b>ring shadow mimicking tuberculosis</b> แต่ <b>AFB negative</b>; sputum: <b>large golden-brown operculated eggs</b>',
+        clue: 'A 40-year-old man from <b>rural northern Thailand</b> has 4 months of <b>chronic productive cough</b> with <b>rusty, reddish-brown sputum</b>, <b>pleuritic chest pain</b>, and low-grade fever. He often eats <b>raw freshwater crabs</b> from mountain streams in a spicy papaya salad. Chest radiograph shows <b>ring shadows that mimic tuberculosis</b>, but sputum <b>AFB smears are repeatedly negative</b>, and he has <b>eosinophilia</b>. Sputum shows <b>large golden-brown operculated eggs</b> with a thickened abopercular shell.',
         org: '<i>Paragonimus</i> spp. (<i>P. heterotremus</i>, <i>P. westermani</i>)', opt: '<i>Paragonimus westermani</i>',
         dz: '<b>Paragonimiasis</b> (lung fluke, พยาธิใบไม้ปอด) · pulmonary distomiasis',
         tax: 'Trematode · large golden-brown operculated egg, thickened abopercular shell',
@@ -3833,7 +3849,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-smansoni', g: 'trem',
-        clue: 'Farmer จาก <b>rural Egypt</b> (Africa, South America): abdominal distension, <b>massive splenomegaly</b>, <b>recurrent upper GI bleeding from esophageal varices</b>; liver biopsy: dense <b>periportal fibrosis</b> = <b>Symmers pipe-stem fibrosis</b>',
+        clue: 'A 40-year-old <b>farmer from rural Egypt</b> who irrigates fields along the <b>Nile</b> has abdominal distension, <b>massive splenomegaly</b>, and recurrent <b>hematemesis from esophageal varices</b>, with normal liver synthetic function (<b>presinusoidal portal hypertension</b>). Liver biopsy shows <b>dense periportal fibrosis around eggs</b> (<b>Symmers pipe-stem fibrosis</b>) with granulomas. Stool shows eggs with a <b>large lateral spine</b>. Infection began when <b>cercariae penetrated his skin</b> in fresh water.',
         org: '<i>Schistosoma mansoni</i>',
         dz: '<b>Hepatosplenic (intestinal) schistosomiasis</b> → presinusoidal portal hypertension',
         tax: 'Trematode (blood fluke) · egg with <b>large lateral spine</b>',
@@ -3850,7 +3866,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-shaem', g: 'trem',
-        clue: 'เคยอยู่ <b>sub-Saharan Africa</b> และ <b>bathed / swam in freshwater lakes & rivers</b>: <b>terminal hematuria</b>, <b>dysuria</b>, suprapubic discomfort; urine: <b>non-operculated oval eggs with a prominent terminal spine</b>',
+        clue: 'A 22-year-old exchange student who lived in <b>sub-Saharan Africa (Malawi)</b> and <b>swam and bathed in freshwater lakes</b> has <b>terminal hematuria</b>, dysuria, and suprapubic discomfort. Cystoscopy shows sandy patches and granulomas in the bladder wall. <b>Urine</b> microscopy shows large <b>non-operculated oval eggs with a prominent terminal spine</b>. Chronic infection predisposes to <b>squamous cell carcinoma of the bladder</b>.',
         org: '<i>Schistosoma haematobium</i>',
         dz: '<b>Urinary schistosomiasis</b> · ↑risk of bladder squamous cell carcinoma',
         tax: 'Trematode (blood fluke) · egg with <b>terminal spine</b>',
@@ -3866,7 +3882,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-sjapon', g: 'trem',
-        clue: '<b>Mekong basin (Laos, Cambodia)</b>, China, Philippines: <b>GI hemorrhage</b>, <b>hepatomegaly</b>, <b>massive splenomegaly</b>; blood fluke ใน <b>mesenteric venules of the colon</b>',
+        clue: 'A 35-year-old fisherman from the <b>Mekong River basin (southern Laos and Cambodia)</b> has chronic abdominal pain, bloody diarrhea, <b>hepatomegaly</b>, and <b>massive splenomegaly</b> with esophageal varices. Stool shows small, roundish eggs with a <b>tiny lateral knob</b>. The adult blood flukes live in the <b>mesenteric venules</b>, and a closely related species occurs in <b>China, the Philippines, and Indonesia</b>.',
         org: '<i>Schistosoma japonicum</i> / <i>S. mekongi</i>', opt: '<i>Schistosoma japonicum</i>',
         dz: '<b>Intestinal / hepatosplenic schistosomiasis</b> (Asian)',
         tax: 'Trematode · roundish egg with <b>small lateral knob</b>',
@@ -3883,7 +3899,7 @@ const PDX_DECKS = [
 
       {
         id: 'p-trichinella', g: 'tissue',
-        clue: 'Ingest <b>raw pork (larb moo)</b> / <b>undercooked wild boar</b>: <b>watery diarrhea & crampy abdominal pain</b> 1–2 wk ก่อน → high-grade fever, <b>bilateral periorbital edema</b>, <b>severe myalgia</b>, maculopapular rash, <b>subungual splinter hemorrhages</b>; <b>marked eosinophilia (35%)</b>',
+        clue: 'A 40-year-old man from a hill-tribe village in <b>northern Thailand</b> had watery diarrhea and crampy abdominal pain after a festival where he ate <b>raw pork larb (larb moo)</b> made from a <b>wild boar</b>. Two weeks later he has high fever, <b>bilateral periorbital edema</b>, <b>severe myalgia</b> with muscle tenderness, a maculopapular rash, and <b>subungual splinter hemorrhages</b>. His blood shows <b>35% eosinophils</b> and a raised CK, and a <b>deltoid muscle biopsy</b> shows <b>coiled larvae inside nurse cells</b>.',
         org: '<i>Trichinella spiralis</i>',
         dz: '<b>Trichinellosis</b>',
         tax: 'Tissue nematode · encysted larvae in <b>nurse cells</b> (striated muscle)',
@@ -3901,7 +3917,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-gnatho', g: 'tissue',
-        clue: 'Ingest <b>raw freshwater fish</b> (ปลาดุก, ปลาช่อน), <b>frog, snake, poultry</b>: <b>intermittent, migratory, painful, pruritic swellings</b> / <b>serpiginous creeping eruption</b> + <b>marked eosinophilia (40%)</b>',
+        clue: 'A 30-year-old woman from <b>central Thailand</b> who often eats <b>raw or undercooked freshwater fish</b> (catfish, snakehead), frogs, and chicken has <b>intermittent, migratory, painful, itchy swellings</b> on the abdomen and arm that move a few centimeters a day, and a <b>serpiginous creeping eruption</b>. Her blood shows <b>40% eosinophils</b>. The <b>third-stage larvae</b> have a head bulb with hooklets, <b>cats and dogs</b> are the definitive hosts, and larvae can invade the CNS.',
         org: '<i>Gnathostoma spinigerum</i>',
         dz: '<b>Gnathostomiasis</b> (พยาธิตัวจี๊ด) — cutaneous / visceral larva migrans',
         tax: 'Tissue nematode · L3 larva with head-bulb hooklets',
@@ -3918,7 +3934,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-scabies', g: 'tissue',
-        clue: '<b>Intense itching (worse at night)</b>, rash, <b>burrows</b> ที่ <b>finger webs, flexor surface of the wrists, elbows, buttocks, axilla, breast</b>; household contacts เป็นด้วย; elderly / immunocompromised → <b>crusted (Norwegian) scabies</b>',
+        clue: 'A 75-year-old <b>nursing home</b> resident and several staff members have <b>intense itching that is worse at night</b>. Examination shows small papules, excoriations, and thin <b>wavy grey burrows</b> in the <b>finger webs</b>, on the flexor wrists, elbows, axillae, and buttocks. An immunocompromised resident has <b>thick hyperkeratotic crusts</b> teeming with mites (the crusted, Norwegian form). A <b>skin scraping</b> of a burrow shows the female mite and her eggs.',
         org: '<i>Sarcoptes scabiei</i>',
         dz: '<b>Scabies</b> (หิด) · crusted (Norwegian) scabies',
         tax: 'Mite — female burrows in the stratum corneum',
@@ -3933,7 +3949,7 @@ const PDX_DECKS = [
       },
       {
         id: 'p-trichomonas', g: 'tissue',
-        clue: 'Female: <b>greenish-yellow, frothy vaginal discharge</b> with a <b>strong odor</b>, itching, irritation, <b>dysuria</b>; <b>strawberry cervix</b>; male ส่วนใหญ่เป็น <b>asymptomatic carriers</b>',
+        clue: 'A 27-year-old woman has a <b>profuse, frothy, greenish-yellow vaginal discharge with a strong odor</b>, vulvar itching, irritation, and dysuria. Speculum examination shows <b>punctate hemorrhages on the cervix (strawberry cervix)</b>, and vaginal pH is 6.0. A <b>wet mount</b> shows <b>motile, pear-shaped flagellated trophozoites</b> with jerky movement. Her male partner has <b>no symptoms</b>, but <b>both partners must be treated</b>.',
         org: '<i>Trichomonas vaginalis</i>',
         dz: '<b>Trichomoniasis</b> (STD)',
         tax: 'Flagellate · pear-shaped trophozoite, <b>no cyst stage</b>',
@@ -3961,7 +3977,13 @@ const PDX_FACTS = [
   ['where', 'ที่พบ', 'Where found']
 ];
 
-if (typeof module !== 'undefined') module.exports = { PDX_DECKS, PDX_FACTS };
+/* คำถามท้ายโจทย์เมื่อการ์ดไม่ได้กำหนด ask เอง */
+const PDX_ASK = {
+  card: 'What is the most likely causative pathogen?',
+  quiz: 'Which of the following is the most likely causative pathogen?'
+};
+
+if (typeof module !== 'undefined') module.exports = { PDX_DECKS, PDX_FACTS, PDX_ASK };
 
 </script>
 <script>
@@ -3969,7 +3991,7 @@ if (typeof module !== 'undefined') module.exports = { PDX_DECKS, PDX_FACTS };
  * app.js — ตัวควบคุมหน้าเว็บ Pathogen Dx Recall
  *
  * โหมด
- *   card   อ่านอาการแล้วนึกชื่อเชื้อ → ดูคำตอบ → ให้คะแนนตัวเอง
+ *   card   อ่าน case scenario ภาษาอังกฤษแล้วนึกชื่อเชื้อ → ดูคำตอบ → ให้คะแนนตัวเอง
  *   quiz   เลือกเชื้อจาก 5 ตัวเลือกแบบข้อสอบ (ตัวลวงมาจากหัวข้อเดียวกันก่อน)
  *   list   รายการทั้งหมดพร้อมค้นหา ใช้ทวนก่อนสอบ
  *
@@ -4182,8 +4204,9 @@ if (typeof module !== 'undefined') module.exports = { PDX_DECKS, PDX_FACTS };
       <article class="slide d-${c.deck}" aria-label="การ์ด ${c.no}">
         ${labelHTML(c)}
         <div class="glass">
-          <p class="eyebrow">อาการ · keyword</p>
-          <div class="clue">${c.clue}</div>
+          <p class="eyebrow">Case scenario</p>
+          <div class="clue" lang="en">${c.clue}</div>
+          <p class="ask" lang="en">${c.ask || PDX_ASK.card}</p>
           ${run.shown ? answerHTML(c) : ''}
           <div class="actions">
             ${grade}
@@ -4310,8 +4333,9 @@ if (typeof module !== 'undefined') module.exports = { PDX_DECKS, PDX_FACTS };
       <article class="slide d-${c.deck}" aria-label="ข้อ ${quiz.i + 1}" tabindex="-1" ${answered ? '' : 'data-autofocus'}>
         ${labelHTML(c)}
         <div class="glass">
-          <p class="eyebrow">เลือกเชื้อที่ตรงที่สุด</p>
-          <div class="clue">${c.clue}</div>
+          <p class="eyebrow">Case scenario</p>
+          <div class="clue" lang="en">${c.clue}</div>
+          <p class="ask" lang="en">${PDX_ASK.quiz}</p>
           <ol class="options">${options}</ol>
           ${answered ? answerHTML(c) : ''}
           ${answered ? `<div class="actions"><button type="button" class="btn btn-primary" data-act="next" data-autofocus>${quiz.i + 1 < total ? 'ข้อต่อไป' : 'ดูคะแนน'} <kbd>Enter</kbd></button></div>` : ''}
@@ -4384,7 +4408,8 @@ if (typeof module !== 'undefined') module.exports = { PDX_DECKS, PDX_FACTS };
           <span class="row-meta">${meta}</span>
         </summary>
         <div class="row-body">
-          <div class="clue">${c.clue}</div>
+          <div class="clue" lang="en">${c.clue}</div>
+          ${c.ask ? `<p class="ask" lang="en">${c.ask}</p>` : ''}
           ${c.tax ? `<p class="tax">${c.tax}</p>` : ''}
           ${factsHTML(c, ['dz'])}
           ${keysHTML(c)}

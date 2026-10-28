@@ -55,8 +55,8 @@ if (/<(!doctype|html|head|body)\b/i.test(fragment)) {
 
 fs.writeFileSync(path.join(dist, 'pathogen-dx.embed.html'), fragment);
 
-// 3) ไฟล์นำเข้า Anki — ด้านหน้า = อาการ, ด้านหลัง = เชื้อ + กล่องข้อมูล + ข้อมูลสำคัญ
-const { PDX_DECKS: decks, PDX_FACTS: facts } = require('./assets/cards.js');
+// 3) ไฟล์นำเข้า Anki — ด้านหน้า = case scenario + คำถาม, ด้านหลัง = เชื้อ + กล่องข้อมูล + ข้อมูลสำคัญ
+const { PDX_DECKS: decks, PDX_FACTS: facts, PDX_ASK: ask } = require('./assets/cards.js');
 const oneLine = s => String(s).replace(/[\t\r\n]+/g, ' ').trim();
 const examText = list => list.map(e => e.replace('-', ' ข้อ ')).join(' · ');
 const th = 'text-align:left;vertical-align:top;padding:2px 10px 2px 0;white-space:nowrap';
@@ -76,7 +76,8 @@ decks.forEach(deck => {
     ].join('');
     const tags = [`PathogenDx::${deck.name}::${c.g}`, ...(c.exam || []), c.hl ? 'ไฮไลต์ในชีท' : '']
       .filter(Boolean).join(' ');
-    lines.push([c.clue, back, tags].map(oneLine).join('\t'));
+    const front = `${c.clue}<br><br><b>${c.ask || ask.card}</b>`;
+    lines.push([front, back, tags].map(oneLine).join('\t'));
     count++;
   });
 });
