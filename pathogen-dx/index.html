@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pathogen Dx Recall</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="แฟลชการ์ดทายเชื้อจากอาการและ keyword สำคัญ แยก Viral · Bacteria · Parasite จากสไลด์บรรยายและโจทย์เก่า MED23–29">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;1,8..60,500;1,8..60,600&display=swap">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<div class="app d-viral" id="app">
+
+  <header class="masthead">
+    <div>
+      <h1 class="wordmark">Pathogen <span class="dx">Dx</span> Recall</h1>
+      <p class="tagline">ทายชื่อเชื้อจากอาการและ keyword ที่ใช้วินิจฉัย · สรุปจากสไลด์บรรยายและโจทย์เก่า <span class="nowrap">MED23–29</span></p>
+    </div>
+    <p class="library" id="library"></p>
+  </header>
+
+  <nav class="decks" id="decks" role="tablist" aria-label="เลือกสำรับ"></nav>
+
+  <section class="toolbar" aria-label="ตัวเลือกการทบทวน">
+    <div class="modes" id="modes" role="tablist" aria-label="รูปแบบการทบทวน">
+      <button type="button" role="tab" data-mode="card" id="mode-card">การ์ด</button>
+      <button type="button" role="tab" data-mode="quiz" id="mode-quiz">5 ตัวเลือก</button>
+      <button type="button" role="tab" data-mode="list" id="mode-list">รายการ</button>
+    </div>
+    <div class="chips" id="chips" aria-label="หัวข้อย่อย"></div>
+    <div class="filters">
+      <button type="button" class="toggle" id="examOnly" aria-pressed="false">★ เฉพาะที่เคยออกสอบ</button>
+      <button type="button" class="toggle" id="weakOnly" aria-pressed="false">↺ เฉพาะที่ยังไม่แม่น</button>
+      <button type="button" class="toggle" id="shuffle" aria-pressed="true">สุ่มลำดับ</button>
+      <span class="shown-count" id="shownCount"></span>
+    </div>
+  </section>
+
+  <main>
+    <section id="cardView" class="view" aria-live="polite"></section>
+    <section id="quizView" class="view" aria-live="polite" hidden></section>
+    <section id="listView" class="view" hidden>
+      <div class="listbar">
+        <input type="search" id="search" class="search" placeholder="ค้นหาเชื้อ อาการ หรือ keyword เช่น eschar, ปูน้ำตก, MED27" aria-label="ค้นหาการ์ด" autocomplete="off">
+        <span class="shown-count" id="listCount"></span>
+      </div>
+      <div id="rows"></div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p><b>★</b> = เชื้อนี้เคยเป็นคำตอบในโจทย์เก่า (ระบุปีและข้อ) · <b>✎</b> = ข้อความที่ไฮไลต์ไว้ในชีท Parasite · เลขหน้าอ้างอิงหน้าในไฟล์ PDF สไลด์ของแต่ละสำรับ</p>
+    <p class="keys-hint">แป้นพิมพ์: <kbd>Space</kbd> ดูคำตอบ แล้วกดซ้ำ = จำได้ · <kbd>1</kbd> ยังไม่แม่น · <kbd>2</kbd> จำได้ · <kbd>←</kbd> <kbd>→</kbd> เลื่อนการ์ด · โหมด 5 ตัวเลือกกด <kbd>A</kbd>–<kbd>E</kbd></p>
+    <p>ความคืบหน้าเก็บไว้ในเบราว์เซอร์เครื่องนี้เท่านั้น <button type="button" class="linkish" id="resetBtn">ล้างความคืบหน้าของสำรับนี้</button></p>
+  </footer>
+
+</div>
+
+<script src="assets/cards.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
