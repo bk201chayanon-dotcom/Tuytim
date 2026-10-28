@@ -17,7 +17,9 @@
   const LETTERS = 'ABCDE';
 
   const $ = (sel, root = document) => root.querySelector(sel);
-  const strip = html => String(html || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+  const strip = html => String(html || '').replace(/<[^>]*>/g, ' ')
+    .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&')
+    .replace(/\s+/g, ' ').trim();
   const esc = s => String(s).replace(/[&<>"]/g, m =>
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
 
@@ -43,7 +45,8 @@
         groupName: deck.groups[c.g],
         // เชื้อเดียวกันใช้ key เดียวกัน เพื่อไม่ให้โผล่เป็นตัวลวงของกันและกัน
         key: (c.k || strip(c.opt || c.org)).toLowerCase(),
-        plain: strip([c.clue, c.org, c.opt, c.dz, ...(c.keys || []), ...(c.exam || [])].join(' ')).toLowerCase()
+        plain: strip([c.clue, c.org, c.opt, c.tax, ...PDX_FACTS.map(([f]) => c[f]),
+          ...(c.keys || []), ...(c.exam || [])].join(' ')).toLowerCase()
       });
     });
   });
@@ -123,12 +126,30 @@
   }
 
   // เนื้อหาการ์ดมาจาก cards.js ของเราเอง จึงแทรกเป็น HTML ได้ตรง ๆ
+
+  /* กล่องข้อมูล โรค · อาการ · Sign · พาหะ · ที่พบ — แสดงเฉพาะช่องที่การ์ดมีข้อมูล */
+  function factsHTML(c, skip = []) {
+    const rows = PDX_FACTS
+      .filter(([f]) => c[f] && !skip.includes(f))
+      .map(([f, name, sub]) => `
+        <div class="fact fact-${f}"><dt>${name}<small>${sub}</small></dt><dd>${c[f]}</dd></div>`)
+      .join('');
+    return rows ? `<dl class="facts">${rows}</dl>` : '';
+  }
+
+  const keysHTML = c => c.keys && c.keys.length
+    ? `<ul class="keys" aria-label="ข้อมูลสำคัญที่มักออกสอบ">${c.keys.map(k => `<li>${k}</li>`).join('')}</ul>`
+    : '';
+
   function answerHTML(c) {
     return `
       <div class="answer">
-        <p class="org">${c.org}</p>
-        <p class="dz">${c.dz}</p>
-        <ul class="keys">${c.keys.map(k => `<li>${k}</li>`).join('')}</ul>
+        <div class="org-block">
+          <p class="org">${c.org}</p>
+          ${c.tax ? `<p class="tax">${c.tax}</p>` : ''}
+        </div>
+        ${factsHTML(c)}
+        ${keysHTML(c)}
         ${sourceHTML(c)}
       </div>`;
   }
@@ -397,7 +418,9 @@
         </summary>
         <div class="row-body">
           <div class="clue">${c.clue}</div>
-          <ul class="keys">${c.keys.map(k => `<li>${k}</li>`).join('')}</ul>
+          ${c.tax ? `<p class="tax">${c.tax}</p>` : ''}
+          ${factsHTML(c, ['dz'])}
+          ${keysHTML(c)}
           ${sourceHTML(c)}
         </div>
       </details>`;

@@ -55,19 +55,23 @@ if (/<(!doctype|html|head|body)\b/i.test(fragment)) {
 
 fs.writeFileSync(path.join(dist, 'pathogen-dx.embed.html'), fragment);
 
-// 3) ไฟล์นำเข้า Anki — ด้านหน้า = อาการ, ด้านหลัง = เชื้อ + ข้อมูลสำคัญ
-const decks = require('./assets/cards.js');
+// 3) ไฟล์นำเข้า Anki — ด้านหน้า = อาการ, ด้านหลัง = เชื้อ + กล่องข้อมูล + ข้อมูลสำคัญ
+const { PDX_DECKS: decks, PDX_FACTS: facts } = require('./assets/cards.js');
 const oneLine = s => String(s).replace(/[\t\r\n]+/g, ' ').trim();
 const examText = list => list.map(e => e.replace('-', ' ข้อ ')).join(' · ');
+const th = 'text-align:left;vertical-align:top;padding:2px 10px 2px 0;white-space:nowrap';
 
 const lines = ['#separator:tab', '#html:true', '#tags column:3'];
 let count = 0;
 decks.forEach(deck => {
   deck.cards.forEach(c => {
+    const rows = facts.filter(([f]) => c[f])
+      .map(([f, name]) => `<tr><th style="${th}">${name}</th><td>${c[f]}</td></tr>`).join('');
     const back = [
       `<b>${c.org}</b>`,
-      `<div>${c.dz}</div>`,
-      `<ul>${c.keys.map(k => `<li>${k}</li>`).join('')}</ul>`,
+      c.tax ? `<div><small>${c.tax}</small></div>` : '',
+      rows ? `<table>${rows}</table>` : '',
+      c.keys.length ? `<ul>${c.keys.map(k => `<li>${k}</li>`).join('')}</ul>` : '',
       `<small>${deck.lecture} · ${c.src}${c.exam ? ` · ★ โจทย์เก่า ${examText(c.exam)}` : ''}</small>`
     ].join('');
     const tags = [`PathogenDx::${deck.name}::${c.g}`, ...(c.exam || []), c.hl ? 'ไฮไลต์ในชีท' : '']
