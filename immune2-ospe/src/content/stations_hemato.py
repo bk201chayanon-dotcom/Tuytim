@@ -67,6 +67,8 @@ REACTIVE = ['Reactive lymphoid hyperplasia', 'Reactive follicular hyperplasia', 
             'Follicular hyperplasia', 'Reactive hyperplasia', 'Reactive lymph node']
 SMALL = ['Small', 'Small cell', 'Small cells', 'Small lymphoid cells', 'ขนาดเล็ก', 'เล็ก']
 LARGE = ['Large', 'Large cell', 'Large cells', 'Large lymphoid cells', 'ขนาดใหญ่', 'ใหญ่']
+CLASS_SMALL = SMALL + ['Small cell lymphoma', 'Small B-cell lymphoma', 'Small lymphoid cell lymphoma']
+CLASS_HL = HL + ['Hodgkin', "Hodgkin's"]
 EFFACED = [['effaced', 'effacement', 'loss', 'lost', 'obliterated', 'destroyed', 'disappeared', 'diffuse', 'หายไป', 'ไม่เหลือ']]
 
 # ================================================================== ไขกระดูก · ออกทุกปี (CML, myeloma)
@@ -152,6 +154,64 @@ station('h-cll', 'bm-new', [
 ], 'CLL: neoplastic small lymphoid cells เพิ่มขึ้นมากในไขกระดูก นิวเคลียสขนาดเท่าความกว้างของ endothelial cell (ลูกศร) '
    'โครมาตินติดสีเข้ม มองไม่เห็น nucleoli ขอบนิวเคลียสไม่เรียบ — ข้อสอบปี 62 ถามว่าใช้ cell ใดเทียบขนาด: endothelial cell',
    img='h_cll_high', stem='ชิ้นเนื้อไขกระดูก', src='สไลด์ 17–20', group='cll')
+
+station('h-bm-parts', 'bm-new', [
+    part('ภาพ ก ส่วนที่ติดสีชมพูซึ่งลูกศรสีเหลืองชี้คืออะไร', ['Bone trabecula', 'Bone trabeculae', 'Bony trabecula',
+                                                             'Bony trabeculae', 'Trabecular bone', 'Bone', 'Trabecula',
+                                                             'Trabeculae', 'Bone spicule', 'กระดูก']),
+    part('ภาพ ข ช่องว่างกลมใสที่ลูกศรสีเขียวชี้คืออะไร', ['Fat', 'Fat cell', 'Fat cells', 'Adipocyte', 'Adipocytes', 'Fat space',
+                                                       'Fat spaces', 'Fat vacuole', 'Adipose tissue', 'Marrow fat', 'ไขมัน',
+                                                       'เซลล์ไขมัน']),
+    part('ภาพ ข เซลล์ที่อยู่ระหว่างช่องไขมันทั้งหมดเรียกรวมว่าอะไร', ['Hematopoietic elements', 'Hematopoietic cells',
+                                                                'Hematopoietic tissue', 'Hematopoietic marrow',
+                                                                'Hematopoietic precursors', 'Marrow tissue',
+                                                                'เซลล์สร้างเม็ดเลือด']),
+], 'ไขกระดูกปกติประกอบด้วยกระดูก (bone trabeculae, ลูกศรเหลือง) และ marrow ซึ่งอยู่ระหว่าง bone trabeculae — marrow มี '
+   'hematopoietic elements (เซลล์ติดสีม่วง) และ fat (ช่องกลมใส, ลูกศรเขียว) · hematopoietic elements มี 3 กลุ่มหลัก: '
+   'granulocytic cells, erythroid cells และ megakaryocytes',
+   img=['h_bm_parts_bone', 'h_bm_parts_fat'], stem='ไขกระดูกปกติ', src='สไลด์ 4–6', group='normal')
+station('h-cml-low', 'bm-new', [
+    part('ภาพ ก (กำลังขยายต่ำ) บริเวณที่ลูกศรชี้พบอะไร',
+         ['Hematopoietic cells packed throughout the marrow (hypercellular marrow)'],
+         kw=[['hematopoietic cells', 'hematopoietic', 'hypercellular', 'packed', 'myeloid cells', 'granulocytic cells',
+              'increased cells', 'increased cellularity', 'เซลล์เม็ดเลือด', 'เต็มไขกระดูก']]),
+    part('ภาพ ข เซลล์กลุ่มใดพบน้อยหรือไม่พบเลยในโรคนี้', ['Erythroid cells', 'Erythroid cell', 'Erythroid precursors',
+                                                      'Erythroid series', 'Erythroid', 'Normoblasts', 'Erythroblasts',
+                                                      'Red cell precursors']),
+    part('myeloblasts ในโรคนี้พบมากหรือน้อย', ['Few', 'Fewer', 'Less', 'Rare', 'Low', 'Not increased', 'Less than 20%',
+                                           'น้อย', 'พบน้อย', 'ไม่มาก']),
+    part(DX, CML),
+], 'CML: กำลังขยายต่ำพบ hematopoietic cells จำนวนมากเต็มไขกระดูก (ลูกศร) · กำลังขยายสูงพบ granulocytic cells ระยะ mature '
+   'และ band form เป็นส่วนใหญ่ ตัวอ่อน (myeloblasts, metamyelocytes) พบน้อย ต่างจาก AML ที่ myeloblasts มากกว่า 20% · '
+   'megakaryocytes มักเล็กกว่าปกติ · erythroid cells พบน้อยหรือไม่พบเลย',
+   img=['h_cml_low', 'h_cml_high'], stem='ชิ้นเนื้อไขกระดูก', years=ALL3, src='สไลด์ 14–16', group='cml')
+station('h-cll-cells', 'bm-new', [
+    part('ขอบนิวเคลียสของเซลล์มะเร็งเป็นอย่างไร', ['Irregular nuclear contour', 'Irregular nuclear contours', 'Irregular',
+                                              'Irregular nuclear membrane', 'Irregular nuclear border', 'Irregular nuclei',
+                                              'Irregular nucleus', 'ขอบไม่เรียบ', 'ขอบนิวเคลียสไม่เรียบ', 'ไม่เรียบ']),
+    part('โครมาตินและนิวคลีโอไลของเซลล์มะเร็งเป็นอย่างไร', ['Dark (condensed) chromatin; nucleoli not seen'],
+         kw=[['dark', 'condensed', 'coarse', 'clumped', 'hyperchromatic', 'dense', 'เข้ม'],
+             ['no nucleoli', 'no nucleolus', 'no visible nucleoli', 'nucleoli not seen', 'nucleoli not visible',
+              'inconspicuous nucleoli', 'inconspicuous nucleolus', 'absent nucleoli', 'without nucleoli',
+              'ไม่เห็นนิวคลีโอไล', 'ไม่มีนิวคลีโอไล', 'ไม่เห็น nucleoli', 'ไม่มี nucleoli']]),
+    part('ไซโทพลาซึมของเซลล์มะเร็งเป็นอย่างไร', ['Scant', 'Scanty', 'Scant cytoplasm', 'Inconspicuous', 'Inconspicuous cytoplasm',
+                                             'Not clearly seen', 'Not visible', 'Indistinct', 'Minimal', 'Little',
+                                             'มองไม่ชัด', 'เห็นไม่ชัด', 'ไม่ชัด', 'น้อย']),
+    part(DX, CLL),
+], 'CLL: neoplastic small lymphoid cells ขอบนิวเคลียสไม่เรียบ (irregular nuclear contour) โครมาตินติดสีเข้ม มองไม่เห็น '
+   'nucleoli และมองเห็นไซโทพลาซึมไม่ชัดเจน · ขนาดนิวเคลียสเทียบเท่าความกว้างของ endothelial cell',
+   img='h_cll_high2', stem='ชิ้นเนื้อไขกระดูก (กำลังขยายสูง)', src='สไลด์ 19–20', group='cll')
+station('h-myeloblast', 'bm-new', [
+    part('เซลล์ที่เพิ่มขึ้นคือเซลล์ใด', ['Myeloblasts', 'Myeloblast']),
+    part('จงบรรยายลักษณะนิวเคลียสของเซลล์นี้', ['Large nucleus with fine pale chromatin and small pink nucleoli'],
+         kw=[['large', 'big', 'ใหญ่'], ['fine', 'pale', 'vesicular', 'open', 'จาง', 'ละเอียด'],
+             ['nucleoli', 'nucleolus', 'นิวคลีโอไล']]),
+    part('จงบรรยายไซโทพลาซึมของเซลล์นี้', ['Moderate pink cytoplasm that may contain granules'],
+         kw=[['moderate', 'ปานกลาง'], ['granule', 'granules', 'granular', 'แกรนูล']]),
+    part(DX, AML),
+], 'AML: myeloblasts เป็นเซลล์ขนาดใหญ่ นิวเคลียสใหญ่ โครมาตินติดสีจาง มี nucleoli สีชมพูขนาดเล็ก ไซโทพลาซึมปริมาณปานกลาง '
+   'ติดสีชมพู พบแกรนูลภายในได้ · ต่างจาก lymphoblasts ที่ไซโทพลาซึมน้อยและไม่มีแกรนูล',
+   img='h_aml_high', stem='ชิ้นเนื้อไขกระดูก (กำลังขยายสูง)', src='สไลด์ 10', group='aml')
 
 # ================================================================== ต่อมน้ำเหลือง · ออกบ่อย (2–3 ปี)
 
@@ -312,6 +372,8 @@ station('h-malt-cells', 'ln-new', [
     part('เซลล์มะเร็งในภาพ ข (ขนาดเล็กถึงกลาง ไซโทพลาซึมใส) เรียกว่าเซลล์อะไร',
          ['Monocytoid cells', 'Monocytoid cell', 'Monocytoid B cells', 'Marginal zone cells', 'Marginal zone B cells']),
     part(DX, MALT),
+    part('MALT ย่อมาจากอะไร', ['Mucosa-associated lymphoid tissue', 'Mucosa associated lymphoid tissue',
+                               'Mucosal-associated lymphoid tissue']),
 ], 'MALT lymphoma: lymphoma cells แทรกผนังลำไส้ตั้งแต่ mucosa, submucosa, muscular layer จนถึง serosa · เซลล์ขนาดเล็กถึงกลาง '
    'ไซโทพลาซึมใส เรียก monocytoid cells หรือ marginal zone cells',
    img=['h_malt_low', 'h_malt_high'], years=(2563, 2564), src='สไลด์ 54–55', group='malt')
@@ -342,3 +404,78 @@ station('h-met-low', 'ln-new', [
 ], 'Metastatic carcinoma to lymph node: normal lymphoid tissue เหลืออยู่บริเวณขอบของต่อมน้ำเหลือง (เหลือง) บริเวณอื่นมี'
    'เซลล์มะเร็งลุกลามเป็นผืนใหญ่ (เขียว) — ปี 62 ให้ภาพนี้แล้วเฉลย metastatic squamous cell carcinoma',
    img=['h_met_scan', 'h_met_low'], years=(2562, 2564), seen=2562, src='สไลด์ 56–57', group='met')
+station('h-kikuchi-low', 'ln-new', [
+    part('หย่อมสีจางที่ลูกศรชี้คืออะไร', ['Necrosis', 'Necrotic area', 'Necrotic areas', 'Necrotic foci', 'Necrotic focus',
+                                       'Patchy necrosis', 'Necrotic patches', 'Necrotic patch', 'Area of necrosis',
+                                       'Areas of necrosis', 'Foci of necrosis', 'เนื้อตาย', 'หย่อมเนื้อตาย']),
+    part(DX, KIKUCHI),
+    part('โรคนี้มีอีกชื่อหนึ่งว่าอะไร', ['Histiocytic necrotizing lymphadenitis', 'Necrotizing histiocytic lymphadenitis']),
+], 'Kikuchi lymphadenopathy (histiocytic necrotizing lymphadenitis): กำลังขยายต่ำพบหย่อมเนื้อตายเป็นหย่อมสีจางกระจายทั่วไป '
+   '(ลูกศร) · กำลังขยายสูงพบ karyorrhectic bodies, macrophages นิวเคลียสรูปพระจันทร์เสี้ยว และ transformed lymphoid cells · '
+   'เป็น benign',
+   img='h_kikuchi_low', years=(2562, 2564), src='สไลด์ 31–32', group='kikuchi')
+station('h-kimura-low', 'ln-new', [
+    part('ภาพ ก (กำลังขยายต่ำ) พยาธิสภาพที่พบคืออะไร', REACTIVE),
+    part('ภาพ ข การรวมกลุ่มของเซลล์ที่ติดสีชมพูจำนวนมากเรียกว่าอะไร', ['Eosinophilic microabscess', 'Eosinophilic microabscesses',
+                                                                 'Eosinophilic abscess', 'Eosinophilic abscesses']),
+    part('ภาพ ข พบในบริเวณใดของต่อมน้ำเหลือง', ['Interfollicular area', 'Interfollicular areas', 'Interfollicular region',
+                                             'Interfollicular', 'Interfollicular zone', 'Perifollicular area', 'Paracortex',
+                                             'Paracortical area']),
+    part(DX, KIMURA),
+], 'Kimura lymphadenopathy: กำลังขยายต่ำเป็น reactive follicular hyperplasia (ภาพ ก) · eosinophils จำนวนมากรวมกลุ่มกันเป็น '
+   'eosinophilic microabscess ใน interfollicular area (ภาพ ข)',
+   img=['h_kimura_low', 'h_kimura_eos'], years=(2562,), src='สไลด์ 34–36', group='kimura')
+station('h-classify', 'ln-new', [
+    part('Mantle cell lymphoma เป็น small cell หรือ large cell lymphoma', CLASS_SMALL),
+    part('Follicular lymphoma เป็น small cell หรือ large cell lymphoma', CLASS_SMALL),
+    part('MALT lymphoma เป็น small cell หรือ large cell lymphoma', CLASS_SMALL),
+    part('lymphoma ชนิดใดในกลุ่มนี้เป็น large cell lymphoma', DLBCL),
+    part('lymphoma ทั้ง 5 ชนิดนี้เป็น B-cell หรือ T-cell lymphoma', ['B-cell', 'B cell', 'B cells', 'B-cell lymphoma',
+                                                                  'B-cell lymphomas', 'B', 'B lymphocyte']),
+    part('lymphoma ที่พบ Reed–Sternberg cell เป็น Hodgkin หรือ non-Hodgkin lymphoma', CLASS_HL),
+], 'สไลด์ 37: แบ่ง lymphoma เป็น Hodgkin กับ non-Hodgkin, B-cell กับ T-cell และ small cell กับ large cell — small B-cell '
+   'lymphoma: mantle cell lymphoma, follicular lymphoma, small lymphocytic lymphoma, marginal zone lymphoma/MALT lymphoma · '
+   'large B-cell lymphoma: DLBCL · Hodgkin lymphoma มี Reed–Sternberg cell ส่วนที่เหลือเป็น non-Hodgkin lymphoma',
+   stem='การแบ่งกลุ่ม lymphoma: mantle cell lymphoma, follicular lymphoma, small lymphocytic lymphoma, MALT lymphoma, DLBCL',
+   src='สไลด์ 37', group='classify')
+station('h-tbm', 'ln-new', [
+    part('ภาวะ reactive ที่พบ tingible-body macrophages คือบริเวณใด',
+         GC + ['Germinal center of reactive lymphoid follicles', 'Reactive germinal center', 'Reactive germinal centers',
+               'Reactive lymphoid follicles', 'Reactive follicles']),
+    part('tumor ที่มี tingible-body macrophages กระจายทั่วไปเรียกลักษณะนี้ว่าอะไร', ['Starry sky pattern', 'Starry sky',
+                                                                                'Starry sky appearance']),
+    part('follicles ของ follicular lymphoma มักพบ tingible-body macrophages หรือไม่', ['ไม่พบ', 'มักไม่พบ', 'ไม่มี', 'มักไม่มี',
+                                                                                    'Absent', 'Usually absent', 'Not found',
+                                                                                    'Not present', 'No', 'Rare', 'Rarely',
+                                                                                    'Lacking']),
+], 'สไลด์ 51–52: tingible-body macrophages (เซลล์ใหญ่ ไซโทพลาซึมใส มีเศษนิวเคลียสอยู่ภายใน) พบใน germinal center ของ reactive '
+   'lymphoid follicles และใน tumor ที่เป็น starry sky pattern (Burkitt lymphoma, DLBCL, lymphoblastic lymphoma) · '
+   'follicular lymphoma มักไม่พบ tingible-body macrophages ซึ่งช่วยแยกจาก reactive follicular hyperplasia',
+   stem='Tingible-body macrophages', years=(2562, 2563), src='สไลด์ 51–52', group='starry')
+station('h-follicle', 'ln-new', [
+    part('lymphoid follicle แบ่งเป็น 2 ส่วน คืออะไรบ้าง', ['Mantle zone and germinal center'],
+         kw=[['mantle', 'mantle zone'], ['germinal center', 'germinal centre', 'germinal']]),
+    part('เซลล์ใน germinal center มี 3 ชนิด คืออะไรบ้าง', ['Centrocytes, centroblasts and tingible-body macrophages'],
+         kw=[['centrocyte', 'centrocytes'], ['centroblast', 'centroblasts'],
+             ['tingible body macrophage', 'tingible body macrophages', 'tingible', 'macrophage', 'macrophages']]),
+    part('centrocytes เป็นต้นกำเนิดของ lymphoma ชนิดใด', FL),
+    part('immunoblasts เป็นต้นกำเนิดของ lymphoma ชนิดใด', DLBCL),
+    part('T-cells อยู่บริเวณใดของต่อมน้ำเหลือง', ['Paracortical area', 'Paracortex', 'Paracortical', 'Paracortical region',
+                                              'Paracortical zone', 'Interfollicular area', 'Interfollicular']),
+], 'สไลด์ 29–30: lymphoid follicle = mantle zone (mantle cells → mantle cell lymphoma) + germinal center (centrocytes → FL, '
+   'centroblasts → FL, DLBCL, Burkitt และ tingible-body macrophages) · interfollicular และ paracortical areas: memory B-cells → '
+   'SLL, marginal zone B-cells → marginal zone/MALT lymphoma, immunoblasts → DLBCL, T-cells → peripheral T-cell lymphoma',
+   stem='โครงสร้างของต่อมน้ำเหลืองและต้นกำเนิดของ lymphoma', years=ALL3, src='สไลด์ 29–30', group='origin')
+station('h-rs-describe', 'ln-new', [
+    part('จงบรรยายลักษณะของเซลล์ที่ลูกศรชี้', ['Large cell with abundant cytoplasm and two nuclei, each with a large nucleolus'],
+         kw=[['large cell', 'large', 'big', 'giant', 'ใหญ่'],
+             ['abundant cytoplasm', 'abundant', 'plentiful', 'much cytoplasm', 'ไซโทพลาซึมมาก', 'ไซโทพลาสซึมมาก'],
+             ['two nuclei', '2 nuclei', 'binucleate', 'binucleated', 'bilobed', 'bilobate', 'double nuclei', 'mirror image',
+              '2 นิวเคลียส', 'สองนิวเคลียส'],
+             ['large nucleoli', 'large nucleolus', 'prominent nucleoli', 'prominent nucleolus', 'macronucleoli', 'nucleoli',
+              'nucleolus', 'owl eye', 'owls eye', 'นิวคลีโอไล']]),
+    part('เซลล์นี้คือเซลล์ใด', RS),
+    part(DX, HL),
+], 'Reed–Sternberg cell (classic type): เซลล์ขนาดใหญ่ ไซโทพลาซึมปริมาณมาก มี 2 นิวเคลียส แต่ละนิวเคลียสมี nucleolus ขนาดใหญ่ '
+   '(owl-eye) · background มี eosinophils, lymphocytes และ plasma cells',
+   img='h_hl_rs', years=(2562, 2564), src='สไลด์ 40', group='hl')

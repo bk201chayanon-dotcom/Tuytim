@@ -123,6 +123,7 @@
     ['centrocyte', 'centroblast'], ['centrocytes', 'centroblasts'], ['cleaved', 'noncleaved'],
     ['hodgkin', 'nonhodgkin'], ['hodgkins', 'nonhodgkins'], ['mantle', 'marginal'],
     ['hyperplasia', 'hypoplasia', 'aplasia'], ['hypercellular', 'hypocellular', 'normocellular'],
+    ['regular', 'irregular'], ['interfollicular', 'intrafollicular'],
   ];
   const GROUP = new Map();
   CONFUSABLE.forEach((g, i) => g.forEach((w) => GROUP.set(w, i)));

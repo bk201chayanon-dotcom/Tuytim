@@ -16,13 +16,13 @@
 | | | ไวรัสตับอักเสบ บี/ซี (คาดว่าอาจออก) | 12 |
 | **Hemato II** | ส่วนที่ 1 · Bone marrow (อ.พีรยุทธ) | ออกทุกปี (CML, myeloma) | 3 |
 | | | เคยออก 1 ปี | 1 |
-| | | คาดว่าอาจออกปีนี้ | 7 |
+| | | คาดว่าอาจออกปีนี้ | 11 |
 | | ส่วนที่ 2 · Lymph node | ออกบ่อย (2–3 ปี) | 11 |
 | | | เคยออก 1 ปี | 3 |
-| | | คาดว่าอาจออกปีนี้ | 9 |
-| **รวม** | | | **131 สถานี · 298 ข้อย่อย** |
+| | | คาดว่าอาจออกปีนี้ | 15 |
+| **รวม** | | | **141 สถานี · 338 ข้อย่อย** |
 
-Immune 2 มี 97 สถานี (207 ข้อย่อย) และ Hemato II มี 34 สถานี (91 ข้อย่อย)
+Immune 2 มี 97 สถานี (207 ข้อย่อย) และ Hemato II มี 44 สถานี (131 ข้อย่อย)
 
 ## Immune 2: สิ่งที่ข้อสอบเก่าถาม
 
@@ -89,11 +89,20 @@ Immune 2 มี 97 สถานี (207 ข้อย่อย) และ Hemato 
 
 อยู่ในเอกสาร Lab ปี 2567 แต่ยังไม่เคยออก หรือเคยออกด้วยภาพอื่น
 
-- **ไขกระดูก**: ไขกระดูกปกติ (megakaryocyte, erythroid, granulocytic) · AML กับ ALL (myeloblast เทียบ lymphoblast, เกณฑ์ 20%)
-  · CLL (เซลล์เล็ก เทียบกับ endothelial cell) · ภาพกำลังขยายสูงของ CML และ myeloma
-- **ต่อมน้ำเหลือง**: reactive lymphoid hyperplasia · Reed–Sternberg variants (mononuclear, lacunar) และ fibrosis ใน HL
-  · follicles ของ FL เทียบ reactive · monocytoid cells และการแทรกผนังลำไส้ของ MALT lymphoma
-  · ต้นกำเนิดของ lymphoma แต่ละชนิด · ภาพกำลังขยายต่ำของ DLBCL และ metastasis
+- **ไขกระดูก**
+  - ไขกระดูกปกติ: bone trabeculae, fat, hematopoietic elements และเซลล์ 3 กลุ่ม (megakaryocyte, erythroid, granulocytic)
+  - AML กับ ALL: ลักษณะ myeloblast (นิวเคลียส ไซโทพลาซึม แกรนูล) เทียบ lymphoblast และเกณฑ์ 20%
+  - CLL: เซลล์เล็กเทียบกับ endothelial cell, ขอบนิวเคลียสไม่เรียบ, โครมาตินเข้ม, ไม่เห็น nucleoli
+  - CML กำลังขยายต่ำ (hematopoietic cells เต็มไขกระดูก) และเซลล์ที่ลดลง (erythroid, myeloblasts น้อย) · ภาพอื่นของ myeloma
+- **ต่อมน้ำเหลือง**
+  - การแบ่งกลุ่ม lymphoma: Hodgkin/non-Hodgkin, B/T cell, small/large cell (สไลด์ 37)
+  - ส่วนประกอบของ lymphoid follicle, เซลล์ใน germinal center และต้นกำเนิดของ lymphoma แต่ละชนิด
+  - tingible-body macrophages: พบใน germinal center ของ reactive follicle และ starry sky แต่มักไม่พบใน FL
+  - reactive lymphoid hyperplasia · follicles ของ FL เทียบ reactive
+  - Reed–Sternberg cell: บรรยายลักษณะ, variants (mononuclear, lacunar) และ fibrosis ใน HL
+  - Kikuchi กำลังขยายต่ำ (หย่อมเนื้อตาย, histiocytic necrotizing lymphadenitis) · Kimura กำลังขยายต่ำ
+    (reactive follicular hyperplasia, eosinophilic microabscess ใน interfollicular area)
+  - MALT lymphoma: monocytoid cells, การแทรกผนังลำไส้ และชื่อเต็มของ MALT · ภาพกำลังขยายต่ำของ DLBCL และ metastasis
 
 ## คุณสมบัติ
 
@@ -112,7 +121,8 @@ Immune 2 มี 97 สถานี (207 ข้อย่อย) และ Hemato 
     - Immune 2: reactive/nonreactive, treponemal/nontreponemal, IgM/IgG, septate/nonseptate, aspergilloma/aspergillosis,
       trichinellosis/trichuriasis
     - Hemato II: acute/chronic, lymphoblastic/lymphocytic, myeloblast/lymphoblast, centrocyte/centroblast,
-      mantle/marginal, Hodgkin/non-Hodgkin, ALL/ANLL/AML/CML/CLL, hyperplasia/hypoplasia
+      mantle/marginal, Hodgkin/non-Hodgkin, ALL/ANLL/AML/CML/CLL, hyperplasia/hypoplasia, regular/irregular,
+      interfollicular/intrafollicular
   - ตัวเลขต้องตรงทุกตัว เช่น t(9;22) กับ t(14;18)
 - **SM-2** สถานีจะนับว่าจำได้เมื่อถูกครบทุกข้อย่อย ข้อไหนตอบถูกแต่ระบบไม่ผ่าน กด “ตอบถูกแล้ว” เป็นรายข้อได้
 - **จำลองสอบเหมือนข้อสอบจริง** สุ่มไม่ซ้ำหัวข้อ คิดคะแนนเป็นรายข้อย่อย
@@ -157,11 +167,14 @@ Immune 2 มี 97 สถานี (207 ข้อย่อย) และ Hemato 
 
 **Hemato II**
 
-- 34 ภาพ (`images/h_*.webp`) จากเอกสาร Lab ปี 2567
+- 40 ภาพ (`images/h_*.webp`) จากเอกสาร Lab ปี 2567
   - เรนเดอร์จาก PDF ที่ 200 dpi แล้วตัดเฉพาะภาพ ลูกศรสีในเอกสารยังอยู่ และคำถามอ้างถึงสีของลูกศร
   - ภาพสแกนทั้งสไลด์ตัดขอบให้เหลือแต่ชิ้นเนื้อ
+  - 2 ภาพไขกระดูกปกติ (`h_bm_parts_*`) เติมลูกศรแบบเดียวกับในเอกสาร ชี้ bone trabecula และช่องไขมัน
 - 4 ภาพ (`images/x_h_*.webp`) จากไฟล์ข้อสอบเก่า: myeloma ปี 62 และ 63, mantle zone, germinal center
-- 3 สถานีเป็นคำถามล้วนไม่มีภาพ ตามข้อสอบเดิม: starry sky, Richter syndrome, ต้นกำเนิดของ lymphoma
+- 6 สถานีเป็นคำถามล้วนไม่มีภาพ
+  - ตามข้อสอบเดิม: starry sky, Richter syndrome
+  - จากสไลด์ข้อความ: ต้นกำเนิดของ lymphoma, ส่วนประกอบของ follicle, การแบ่งกลุ่ม lymphoma, tingible-body macrophages
 
 ## หมายเหตุเนื้อหา
 

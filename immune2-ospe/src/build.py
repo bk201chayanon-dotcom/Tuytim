@@ -77,15 +77,18 @@ CATEGORIES = [
     {'id': 'bm-once', 'label': 'เคยออก 1 ปี', 'topic': 'bm',
      'note': 'ปี 64: ภาพ lymphoblast ที่ย้อม TdT และ CD3 ติด → lymphoblastic lymphoma'},
     {'id': 'bm-new', 'label': 'คาดว่าอาจออกปีนี้', 'topic': 'bm', 'optional': True,
-     'note': 'อยู่ในเอกสารแต่ยังไม่เคยออก: ไขกระดูกปกติ, AML, ALL, CLL และภาพอื่นของ CML กับ myeloma'},
+     'note': 'อยู่ในเอกสารแต่ยังไม่เคยออก: ไขกระดูกปกติ (bone trabeculae, fat, เซลล์ 3 กลุ่ม), AML (ลักษณะ myeloblast, '
+             'เกณฑ์ 20%), ALL, CLL (ขนาดและลักษณะเซลล์) และภาพอื่นของ CML กับ myeloma'},
     {'id': 'ln-hot', 'label': 'ออกบ่อย (2–3 ปี)', 'topic': 'ln',
      'note': 'DLBCL และ mantle zone → mantle cell lymphoma ออกทุกปี · germinal center, follicular lymphoma, starry sky, Kikuchi, '
              'Reed–Sternberg cell, metastatic SCC, MALT lymphoma ออก 2 ปี'},
     {'id': 'ln-once', 'label': 'เคยออก 1 ปี', 'topic': 'ln',
      'note': 'ปี 62: Kimura lymphadenopathy, Richter syndrome และเซลล์ใน germinal center (centroblast เป็น large lymphoid cell)'},
     {'id': 'ln-new', 'label': 'คาดว่าอาจออกปีนี้', 'topic': 'ln', 'optional': True,
-     'note': 'ยังไม่เคยออก: reactive lymphoid hyperplasia, Reed–Sternberg variants, fibrosis ใน HL, follicles ของ FL เทียบ reactive, '
-             'monocytoid cells ของ MALT, ต้นกำเนิดของ lymphoma แต่ละชนิด และภาพอื่นของ DLBCL กับ metastasis'},
+     'note': 'ยังไม่เคยออก: reactive lymphoid hyperplasia, การแบ่งกลุ่ม lymphoma (Hodgkin/non-Hodgkin, B/T, small/large), '
+             'ส่วนประกอบของ follicle และต้นกำเนิดของ lymphoma, tingible-body macrophages, ลักษณะและ variants ของ Reed–Sternberg '
+             'cell, fibrosis ใน HL, follicles ของ FL เทียบ reactive, monocytoid cells ของ MALT และภาพกำลังขยายต่ำของ Kikuchi, '
+             'Kimura, DLBCL, metastasis'},
 ]
 
 cards = load('stations_lab') + load('stations_dx') + load('stations_hemato')
