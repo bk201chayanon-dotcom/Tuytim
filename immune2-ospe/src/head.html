@@ -1,6 +1,6 @@
-<title>OSPE Flashcards — Immune 2</title>
+<title>OSPE Lab Practice</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="ติว Lab OSPE วิชา Immune 2 จัดตามข้อสอบเก่าปี 2562–2565 พร้อมหมวดคาดว่าอาจออกปีนี้: Lab infection, ซิฟิลิส (ระยะโรคจากภาพ การแปลผลการตรวจ) และไวรัสตับอักเสบบี/ซี — สถานีแบบ ก/ข พิมพ์คำตอบเอง ตรวจแบบยืดหยุ่น ทบทวนแบบ SM-2 และจำลองสอบแบบข้อสอบจริง">
+<meta name="description" content="ติว Lab OSPE จัดตามข้อสอบเก่า แยกเป็นบล็อก — Immune 2 (Lab infection, ซิฟิลิส, ไวรัสตับอักเสบบี/ซี) และ Hemato II (ไขกระดูก, ต่อมน้ำเหลือง) พร้อมหมวดคาดว่าอาจออกปีนี้ — สถานีแบบ ก/ข พิมพ์คำตอบเอง ตรวจแบบยืดหยุ่น ทบทวนแบบ SM-2 และจำลองสอบแบบข้อสอบจริง">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap">
@@ -8,7 +8,8 @@
 /* Layout concept: each card is an OSPE station — the specimen sits on a dark microscope
    stage (or a lab report slip for serology), the instruction below it, then one answer line
    per part (ก ข ค), as in the old papers.
-   Topics are picked from two glass-slide labels on the home screen.
+   Blocks (Immune 2, Hemato II) switch from the top bar; each block's two topics are picked
+   from glass-slide labels on the home screen, coloured by their slot in the block.
    Colour: methylene-blue ink marks everything you can press; carbol-fuchsin marks
    specimen labels and the topic-1 slide; the paper is a cool lab white. */
 :root {
@@ -197,6 +198,24 @@ h1, h2, h3 {
   letter-spacing: .06em;
   text-transform: uppercase;
 }
+.blocks {
+  display: inline-flex; gap: 2px; padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-2);
+}
+.blocks[hidden] { display: none; }
+.blocks button {
+  padding: .28rem .7rem;
+  border-radius: 7px;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--step--1);
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.blocks button:hover { color: var(--ink); }
+.blocks button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0, 0, 0, .14); }
 .tabs { display: flex; gap: .2rem; margin-left: auto; }
 .tabs button {
   padding: .45rem .75rem;
@@ -285,7 +304,7 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: var(--a
   display: flex; flex-direction: column; justify-content: space-between; gap: .4rem;
   background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.07) 0 2px, transparent 2px 7px);
 }
-.slide[data-topic="dx"] .slide-label { background-color: var(--teal); color: var(--on-teal); }
+.slide[data-slot="2"] .slide-label { background-color: var(--teal); color: var(--on-teal); }
 .slide-label .lec { font-family: var(--mono); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; opacity: .9; }
 .slide-label .count { font-family: var(--display); font-size: 1.8rem; font-weight: 700; line-height: 1; }
 .slide-label .count small { display: block; font-family: var(--body); font-size: .7rem; font-weight: 500; opacity: .9; margin-top: .15rem; }
@@ -377,8 +396,8 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: var(--a
   color: var(--ink-3);
 }
 .tag-topic { font-weight: 600; }
-.tag-topic[data-topic="lab"] { color: var(--fuchsin); }
-.tag-topic[data-topic="dx"] { color: var(--teal); }
+.tag-topic[data-slot="1"] { color: var(--fuchsin); }
+.tag-topic[data-slot="2"] { color: var(--teal); }
 .tag-left { display: flex; flex-wrap: wrap; align-items: baseline; gap: .1rem .7rem; min-width: 0; }
 .years { font-family: var(--mono); font-size: .72rem; color: var(--warn); }
 .years b { font-weight: 600; }
@@ -652,9 +671,17 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: var(--a
 .io p { margin: .2rem 0 .7rem; color: var(--ink-2); font-size: var(--step--1); }
 textarea.code { font-family: var(--mono); font-size: .78rem; min-height: 9rem; }
 
-@media (max-width: 720px) {
+@media (max-width: 900px) {
   .topbar-inner { flex-wrap: wrap; row-gap: .35rem; }
+  .blocks { margin-left: auto; }
   .tabs { margin-left: 0; width: 100%; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+
+@media (max-width: 520px) {
+  .brand-text small { display: none; }
+}
+
+@media (max-width: 720px) {
   .tabs button { padding: .4rem .2rem; font-size: .74rem; white-space: normal; line-height: 1.25; text-align: center; }
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .grades { grid-template-columns: repeat(2, minmax(0, 1fr)); }

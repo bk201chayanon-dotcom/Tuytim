@@ -1,5 +1,6 @@
 /* ------------------------------------------------------------------
- * OSPE Immune 2 — Lab infection · Infectious immunodiagnosis
+ * OSPE lab practice — one block per course (Immune 2, Hemato II), each
+ * with its own topics, categories and real-exam recipe.
  *
  * Each card is one OSPE station shaped like the old papers: one or more
  * pictures (or a lab report slip) and one or more parts ก ข ค, each with
@@ -61,10 +62,14 @@
     catch (e) { return { topics: [], categories: [], cards: [], images: {} }; }
   })();
   const TOPICS = SEED.topics;
+  const BLOCKS = SEED.blocks && SEED.blocks.length ? SEED.blocks
+    : [{ id: 'main', label: '', mark: '', topics: TOPICS.map((t) => t.id), intro: '', exam: null }];
+  const blockById = Object.fromEntries(BLOCKS.map((b) => [b.id, b]));
   const CATS = SEED.categories;
   const IMAGES = SEED.images || {};
   const catById = Object.fromEntries(CATS.map((c) => [c.id, c]));
   const topicById = Object.fromEntries(TOPICS.map((t) => [t.id, t]));
+  const zeroResets = () => Object.fromEntries(TOPICS.map((t) => [t.id, 0]));
   const seedById = Object.fromEntries(SEED.cards.map((c) => [c.id, c]));
 
   const topicOf = (card) => card.topic || (catById[card.category] || {}).topic || 'lab';
@@ -110,9 +115,14 @@
     ['hyperkeratosis', 'parakeratosis'], ['rna', 'dna'], ['ag', 'ab'], ['tpha', 'tppa'],
     ['hyperchromatic', 'hypochromatic'], ['eosinophilic', 'basophilic'], ['adequate', 'inadequate'],
     ['qualitative', 'quantitative'], ['latent', 'late'], ['occult', 'acute'],
-    ['maduromycosis', 'talaromycosis'], ['mycetoma', 'eumycetoma', 'actinomycetoma'],
+    ['maduromycosis', 'talaromycosis'], ['mycetoma', 'eumycetoma', 'actinomycetoma', 'myeloma'],
     ['aspergilloma', 'aspergillosis'], ['brain', 'grain'],
     ['trichinellosis', 'trichinosis', 'trichiniasis', 'trichuriasis'], ['trichinella', 'trichuris'],
+    ['lymphoblastic', 'lymphocytic', 'nonlymphocytic'], ['lymphoid', 'myeloid'], ['all', 'anll', 'aml', 'cml', 'cll', 'sll'],
+    ['lymphoblast', 'lymphocyte', 'myeloblast', 'myelocyte'], ['lymphoblasts', 'lymphocytes', 'myeloblasts', 'myelocytes'],
+    ['centrocyte', 'centroblast'], ['centrocytes', 'centroblasts'], ['cleaved', 'noncleaved'],
+    ['hodgkin', 'nonhodgkin'], ['hodgkins', 'nonhodgkins'], ['mantle', 'marginal'],
+    ['hyperplasia', 'hypoplasia', 'aplasia'], ['hypercellular', 'hypocellular', 'normocellular'],
   ];
   const GROUP = new Map();
   CONFUSABLE.forEach((g, i) => g.forEach((w) => GROUP.set(w, i)));
@@ -294,14 +304,16 @@
 
   const state = {
     view: 'home',
-    topic: 'lab',            // 'lab' | 'dx' | 'all'
+    block: BLOCKS[0].id,
+    topic: BLOCKS[0].topics[0],  // a topic of the current block, or 'all' for the whole block
     category: 'all',
+    blockPrefs: {},          // { blockId: { topic, category } } — restored when switching back
     cards: [],
     progress: {},
     custom: [],
     overrides: {},
     hidden: [],
-    resetAt: { lab: 0, dx: 0 },
+    resetAt: zeroResets(),
     study: null,             // { queue, index, reviewed, again: {id: n}, mode, answered: {grades, overridden, inputs} }
     exam: null,              // { queue, index, results, seconds, endsAt, timer, running, finished }
     manage: { q: '', topic: 'all', category: 'all', limit: 60 },
@@ -321,9 +333,14 @@
 
   const cardById = (id) => state.cards.find((c) => c.id === id);
 
+  const curBlock = () => blockById[state.block] || BLOCKS[0];
+  const blockTopics = () => curBlock().topics.map((id) => topicById[id]).filter(Boolean);
+  const slotOf = (topicId) => curBlock().topics.indexOf(topicId) + 1;
+
+  // 'all' means every topic of the current block
   function pool(topic, category) {
-    return state.cards.filter((c) => (topic === 'all' || c.topic === topic)
-      && (category === 'all' || c.category === category));
+    const topics = topic === 'all' ? curBlock().topics : [topic];
+    return state.cards.filter((c) => topics.includes(c.topic) && (category === 'all' || c.category === category));
   }
 
   /* ================================================================ storage
@@ -475,9 +492,11 @@
     const m = Object.fromEntries((meta || []).map((r) => [r.id, r.value]));
     state.overrides = m.overrides || {};
     state.hidden = m.hidden || [];
-    state.resetAt = Object.assign({ lab: 0, dx: 0 }, m.resetAt || {});
+    state.resetAt = Object.assign(zeroResets(), m.resetAt || {});
     const prefs = m.prefs || {};
-    if (prefs.topic && (prefs.topic === 'all' || topicById[prefs.topic])) state.topic = prefs.topic;
+    if (prefs.block && blockById[prefs.block]) state.block = prefs.block;
+    if (prefs.blocks && typeof prefs.blocks === 'object') state.blockPrefs = prefs.blocks;
+    state.topic = prefs.topic === 'all' || curBlock().topics.includes(prefs.topic) ? prefs.topic : curBlock().topics[0];
     if (prefs.category && (prefs.category === 'all' || catById[prefs.category])) state.category = prefs.category;
     state.custom = custom || [];
     buildCards();
@@ -538,7 +557,8 @@
   }
 
   function savePrefs() {
-    saveMeta('prefs', { topic: state.topic, category: state.category });
+    state.blockPrefs[state.block] = { topic: state.topic, category: state.category };
+    saveMeta('prefs', { block: state.block, topic: state.topic, category: state.category, blocks: state.blockPrefs });
   }
 
   function renderStoreNote() {
@@ -636,6 +656,39 @@
 
   $$('.tabs button').forEach((b) => b.addEventListener('click', () => show(b.dataset.view)));
 
+  /* ================================================================ blocks */
+
+  function renderBlockChrome() {
+    const b = curBlock();
+    $('#brandMark').textContent = b.mark || 'OSPE';
+    $('#brandSub').textContent = blockTopics().map((t) => t.short).join(' · ');
+    const sw = $('#blockSwitch');
+    sw.hidden = BLOCKS.length < 2;
+    sw.innerHTML = BLOCKS.map((x) => `<button type="button" data-block="${esc(x.id)}" aria-pressed="${x.id === b.id}">${esc(x.label)}</button>`).join('');
+  }
+
+  // study queues, exam results and manage filters belong to one block, so a switch starts them over
+  function setBlock(id) {
+    if (!blockById[id] || id === state.block) return;
+    if (state.exam && state.exam.running) { toast('จบหรือออกจากการจำลองสอบก่อน แล้วค่อยเปลี่ยนบล็อก'); return; }
+    state.blockPrefs[state.block] = { topic: state.topic, category: state.category };
+    state.block = id;
+    const p = state.blockPrefs[id] || {};
+    state.topic = p.topic === 'all' || curBlock().topics.includes(p.topic) ? p.topic : curBlock().topics[0];
+    state.category = p.category && catsFor(state.topic).some((c) => c.id === p.category) ? p.category : 'all';
+    state.study = null;
+    state.exam = null;
+    state.manage = { q: '', topic: 'all', category: 'all', limit: 60 };
+    savePrefs();
+    renderBlockChrome();
+    show(state.view === 'study' ? 'home' : state.view);
+  }
+
+  $('#blockSwitch').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-block]');
+    if (b) setBlock(b.dataset.block);
+  });
+
   /* ================================================================ home */
 
   function countLine(cards) {
@@ -647,18 +700,21 @@
     };
   }
 
-  function catsFor(topic) { return CATS.filter((c) => topic === 'all' || c.topic === topic); }
+  function catsFor(topic) { return CATS.filter((c) => (topic === 'all' ? curBlock().topics.includes(c.topic) : c.topic === topic)); }
 
   function renderHome() {
     const both = state.topic === 'all';
     $('#bothTopics').checked = both;
-    $('#topicSlides').innerHTML = TOPICS.map((t) => {
+    $('#homeTitle').textContent = 'ติว Lab OSPE — ' + curBlock().label;
+    $('#homeIntro').textContent = curBlock().intro + ' ทำเป็นสถานีแบบ ก/ข เหมือนข้อสอบจริง พิมพ์คำตอบเอง '
+      + 'ระบบตรวจตัวสะกดแบบยืดหยุ่น และจัดคิวทบทวนแบบ SM-2 ให้อัตโนมัติ';
+    $('#topicSlides').innerHTML = blockTopics().map((t) => {
       const n = countLine(pool(t.id, 'all'));
       const pressed = both || state.topic === t.id;
       return `
-        <button type="button" class="slide" data-topic="${t.id}" aria-pressed="${pressed}">
+        <button type="button" class="slide" data-topic="${t.id}" data-slot="${slotOf(t.id)}" aria-pressed="${pressed}">
           <span class="slide-label">
-            <span class="lec">เรื่องที่ ${t.no}</span>
+            <span class="lec">${esc(t.tag)}</span>
             <span class="count">${n.total}<small>สถานี</small></span>
           </span>
           <span class="slide-glass">
@@ -680,7 +736,7 @@
     const current = pool(state.topic, state.category);
     const n = countLine(current);
     const dueNow = current.filter(isDue).length;
-    const topicName = both ? 'ทั้งสองเรื่อง' : 'เรื่องที่ ' + topicById[state.topic].no;
+    const topicName = both ? 'ทุกเรื่องใน ' + curBlock().label : topicById[state.topic].tag + ' · ' + topicById[state.topic].short;
     const cat = catById[state.category];
 
     $('#homePanel').innerHTML = `
@@ -719,7 +775,7 @@
   }
 
   $('#bothTopics').addEventListener('change', (e) => {
-    state.topic = e.target.checked ? 'all' : (TOPICS[0] ? TOPICS[0].id : 'lab');
+    state.topic = e.target.checked ? 'all' : curBlock().topics[0];
     state.category = 'all';
     savePrefs();
     renderHome();
@@ -757,7 +813,7 @@
   function yearsHTML(card) {
     const cat = catById[card.category];
     if (card.years && card.years.length) {
-      const pic = card.seen ? ` · ภาพนี้ปี ${shortYear(card.seen)}` : cat && cat.optional ? ' · ภาพหรือคำถามใหม่' : '';
+      const pic = card.seen ? ` · ภาพนี้ปี ${[].concat(card.seen).map(shortYear).join(', ')}` : cat && cat.optional ? ' · ภาพหรือคำถามใหม่' : '';
       return `<span class="years">ข้อสอบเก่า ${card.years.map(shortYear).join(' · ')}${pic ? `<b>${pic}</b>` : ''}</span>`;
     }
     return cat && cat.optional ? '<span class="years none">ยังไม่เคยออกสอบ</span>' : '';
@@ -767,7 +823,7 @@
     const t = topicById[card.topic] || {};
     return `
       <div class="station-tag">
-        <span class="tag-left"><span class="tag-topic" data-topic="${esc(card.topic)}">เรื่องที่ ${t.no || ''} · ${esc(t.short || '')}</span>${yearsHTML(card)}</span>
+        <span class="tag-left"><span class="tag-topic" data-slot="${slotOf(card.topic)}">${esc(t.tag || '')} · ${esc(t.short || '')}</span>${yearsHTML(card)}</span>
         <span class="mono">${right}</span>
       </div>`;
   }
@@ -1015,17 +1071,19 @@
     if (ex && ex.running) { runStation(); return; }
     if (ex && ex.finished) { renderExamSummary(); return; }
     const area = $('#view-exam');
-    const topics = [['all', 'ทั้งสองเรื่อง']].concat(TOPICS.map((t) => [t.id, 'เรื่องที่ ' + t.no + ' · ' + t.short]));
+    const topics = [['all', 'ทุกเรื่องใน ' + curBlock().label]].concat(blockTopics().map((t) => [t.id, t.tag + ' · ' + t.short]));
     const topic = state.topic;
+    const recipe = curBlock().exam;
+    const realCount = recipe ? recipe.sections.flat().reduce((n, r) => n + r[1], 0) : 0;
     area.innerHTML = `
       <div class="panel setup">
         <h2>จำลองสอบ OSPE</h2>
         <p class="muted" style="margin:0">จับเวลาทีละสถานี หมดเวลาแล้วไปสถานีถัดไปทันที ไม่เฉลยระหว่างสอบ — สรุปผลพร้อมเฉลยเมื่อครบทุกสถานี และผลจะถูกนำไปจัดคิวทบทวน</p>
         <div class="modes" role="radiogroup" aria-label="รูปแบบการสอบ">
-          <label class="mode"><input type="radio" name="exMode" value="real" checked>
-            <span><b>เหมือนข้อสอบจริง · ${REAL_EXAM.reduce((n, r) => n + r.n, 0)} สถานี</b>
-            <small>ซิฟิลิส 5 (บอกระยะ 2 + แปลผล 2 + คาดว่าอาจออก 1) แล้วต่อด้วย Lab infection 10 (ออกบ่อย 6 + เคยออก 2 + คาดว่าอาจออก 2) สุ่มไม่ซ้ำหัวข้อ</small></span></label>
-          <label class="mode"><input type="radio" name="exMode" value="custom">
+          ${recipe ? `<label class="mode"><input type="radio" name="exMode" value="real" checked>
+            <span><b>เหมือนข้อสอบจริง · ${curBlock().label} · ${realCount} สถานี</b>
+            <small>${esc(recipe.note)}</small></span></label>` : ''}
+          <label class="mode"><input type="radio" name="exMode" value="custom" ${recipe ? '' : 'checked'}>
             <span><b>กำหนดเอง</b><small>เลือกเรื่อง หมวด และจำนวนสถานี</small></span></label>
         </div>
         <div class="setup-grid" id="exCustom" hidden>
@@ -1077,31 +1135,29 @@
     });
   }
 
-  // the old papers: part 1 syphilis (อ.ทศพล) then part 2 lab infection (อ.ละออ); a station or two
-  // from the predicted categories stands in for the new items each paper has added
-  const REAL_EXAM = [
-    { topic: 'dx', category: 'syph-stage', n: 2 }, { topic: 'dx', category: 'syph-sero', n: 2 },
-    { topic: 'dx', category: 'syph-new', n: 1 },
-    { topic: 'lab', category: 'lab-hot', n: 6 }, { topic: 'lab', category: 'lab-once', n: 2 },
-    { topic: 'lab', category: 'lab-new', n: 2 },
-  ];
-
-  // never two stations on the same topic (two pseudomembranous colitis pictures, say)
+  // The block's recipe (from the seed) lists sections of [category, count]; each section is shuffled on its
+  // own and the sections follow each other, like the parts of the old papers. A station or two from the
+  // predicted categories stands in for the new items each paper has added. Never two stations on one
+  // topic (two pseudomembranous colitis pictures, say).
   function realExamQueue() {
+    const recipe = curBlock().exam;
+    if (!recipe) return [];
     const used = new Set();
     const out = [];
-    let section = [];
-    REAL_EXAM.forEach((r, k) => {
-      let taken = 0;
-      for (const c of shuffle(pool(r.topic, r.category).slice())) {
-        if (taken >= r.n) break;
-        const g = c.group || c.id;
-        if (used.has(g)) continue;
-        used.add(g);
-        section.push(c);
-        taken++;
-      }
-      if (!REAL_EXAM[k + 1] || REAL_EXAM[k + 1].topic !== r.topic) { out.push(...shuffle(section)); section = []; }
+    recipe.sections.forEach((rows) => {
+      const section = [];
+      rows.forEach(([category, n]) => {
+        let taken = 0;
+        for (const c of shuffle(state.cards.filter((x) => x.category === category))) {
+          if (taken >= n) break;
+          const g = c.group || c.id;
+          if (used.has(g)) continue;
+          used.add(g);
+          section.push(c);
+          taken++;
+        }
+      });
+      out.push(...shuffle(section));
     });
     return out;
   }
@@ -1186,7 +1242,7 @@
     const pct = possible ? Math.round((points / possible) * 100) : 0;
     const byTopic = TOPICS.map((t) => {
       const rs = ex.results.filter((r) => { const c = cardById(r.id); return c && c.topic === t.id; });
-      return rs.length ? `<span>เรื่องที่ ${t.no}: <b class="mono">${sum(rs, 'right')}/${sum(rs, 'total')}</b> ข้อ</span>` : '';
+      return rs.length ? `<span>${esc(t.short)}: <b class="mono">${sum(rs, 'right')}/${sum(rs, 'total')}</b> ข้อ</span>` : '';
     }).filter(Boolean).join(' · ');
     const items = ex.results.map((r, i) => {
       const c = cardById(r.id);
@@ -1237,7 +1293,8 @@
 
   function renderManage() {
     const m = state.manage;
-    $('#manageTopic').innerHTML = [['all', 'ทุกเรื่อง']].concat(TOPICS.map((t) => [t.id, 'เรื่องที่ ' + t.no + ' · ' + t.short]))
+    if (m.topic !== 'all' && !curBlock().topics.includes(m.topic)) m.topic = 'all';
+    $('#manageTopic').innerHTML = [['all', 'ทุกเรื่องใน ' + curBlock().label]].concat(blockTopics().map((t) => [t.id, t.tag + ' · ' + t.short]))
       .map(([id, l]) => `<option value="${id}" ${id === m.topic ? 'selected' : ''}>${esc(l)}</option>`).join('');
     const cats = catsFor(m.topic);
     if (m.category !== 'all' && !cats.some((c) => c.id === m.category)) m.category = 'all';
@@ -1320,7 +1377,7 @@
   function openEditor(id) {
     const card = id ? cardById(id) : null;
     const layer = $('#layer');
-    const topic = card ? card.topic : (state.manage.topic !== 'all' ? state.manage.topic : 'lab');
+    const topic = card ? card.topic : (state.manage.topic !== 'all' ? state.manage.topic : curBlock().topics[0]);
     let image = card ? (card.image || null) : null;
     const seedImages = card && !card.custom ? imagesOf(Object.assign({}, card, { image: null })) : [];
     let dropSeedImage = false;
@@ -1337,7 +1394,7 @@
           ${card && !card.custom ? '<p class="small muted" style="margin:0">การ์ดตั้งต้น: การแก้ไขเก็บไว้ในเบราว์เซอร์นี้ และคืนค่าเดิมได้จากหน้าสำรองข้อมูล</p>' : ''}
           <div class="setup-grid">
             <div class="field"><label for="edTopic">เรื่อง</label>
-              <select id="edTopic">${TOPICS.map((t) => `<option value="${t.id}" ${t.id === topic ? 'selected' : ''}>เรื่องที่ ${t.no} · ${esc(t.short)}</option>`).join('')}</select></div>
+              <select id="edTopic">${blockTopics().map((t) => `<option value="${t.id}" ${t.id === topic ? 'selected' : ''}>${esc(t.tag)} · ${esc(t.short)}</option>`).join('')}</select></div>
             <div class="field"><label for="edCat">หมวด</label><select id="edCat"></select></div>
           </div>
           <div class="field"><span class="label">รูปภาพ <span class="hint">— ไม่บังคับ</span></span>
@@ -1468,11 +1525,16 @@
     };
   }
 
-  function renderIO() { $('#exportText').hidden = true; }
+  function renderIO() {
+    $('#exportText').hidden = true;
+    $$('[data-reset]').forEach((b) => b.remove());
+    $('#btnRestoreSeed').insertAdjacentHTML('beforebegin', blockTopics().map((t) =>
+      `<button type="button" class="btn btn-danger" data-reset="${esc(t.id)}">ล้างความคืบหน้า ${esc(t.tag)} · ${esc(t.short)}</button>`).join(''));
+  }
 
   $('#btnExport').addEventListener('click', async () => {
     const text = JSON.stringify(exportPayload());
-    const filename = 'ospe-immune2-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+    const filename = 'ospe-lab-backup-' + new Date().toISOString().slice(0, 10) + '.json';
     let dl = null;
     try { dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null; } catch (e) { dl = null; }
     if (dl) {
@@ -1509,7 +1571,7 @@
   });
 
   async function importPayload(p) {
-    if (!p || p.app !== 'ospe-immune2') { toast('ไฟล์นี้ไม่ใช่ข้อมูลสำรองของ OSPE Immune 2'); return; }
+    if (!p || p.app !== 'ospe-immune2') { toast('ไฟล์นี้ไม่ใช่ข้อมูลสำรองของเว็บ OSPE Lab นี้'); return; }
     let n = 0;
     const toLocal = [];
     Object.keys(p.progress || {}).forEach((id) => {
@@ -1567,11 +1629,14 @@
     catch (e) { toast('ข้อความนี้ไม่ใช่ JSON ที่ถูกต้อง'); }
   });
 
-  $$('[data-reset]').forEach((b) => b.addEventListener('click', async () => {
+  $('#resetRow').addEventListener('click', async (e) => {
+    const b = e.target.closest('[data-reset]');
+    if (!b) return;
     const topic = b.dataset.reset;
     const t = topicById[topic];
+    const name = `${t.tag} · ${t.short}`;
     const ok = await ask({
-      title: `ล้างความคืบหน้าเรื่องที่ ${t.no}?`,
+      title: `ล้างความคืบหน้า ${name}?`,
       body: `${t.label}: ทุกการ์ดจะกลับเป็น “ยังไม่เคยทำ” การ์ดและการแก้ไขยังอยู่ครบ`,
       ok: 'ล้างความคืบหน้า', danger: true,
     });
@@ -1582,8 +1647,8 @@
     await Promise.all(ids.map((id) => localSafe((l) => l.del('progress', id))));
     await saveMeta('resetAt', state.resetAt);
     cloudPut('_meta', { resetAt: Object.assign({}, state.resetAt) });
-    toast(`ล้างความคืบหน้าเรื่องที่ ${t.no} แล้ว`);
-  }));
+    toast(`ล้างความคืบหน้า ${name} แล้ว`);
+  });
 
   $('#btnRestoreSeed').addEventListener('click', async () => {
     const n = state.hidden.length + Object.keys(state.overrides).length;
@@ -1622,6 +1687,7 @@
       store.mode = 'memory';
       buildCards();
     }
+    renderBlockChrome();
     if (saved && saved.study && Array.isArray(saved.study.queue)) {
       state.study = Object.assign({ answered: null }, saved.study);
     }

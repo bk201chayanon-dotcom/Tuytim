@@ -1,8 +1,95 @@
 {
+ "blocks": [
+  {
+   "id": "immune2",
+   "label": "Immune 2",
+   "mark": "IM2",
+   "topics": [
+    "lab",
+    "dx"
+   ],
+   "intro": "จัดตามข้อสอบ Lab เก่าปี 2562–2565: หัวข้อที่ออกบ่อย หัวข้อที่เคยออก และหมวด “คาดว่าอาจออกปีนี้” จากบรรยายที่ยังไม่เคยออก",
+   "exam": {
+    "sections": [
+     [
+      [
+       "syph-stage",
+       2
+      ],
+      [
+       "syph-sero",
+       2
+      ],
+      [
+       "syph-new",
+       1
+      ]
+     ],
+     [
+      [
+       "lab-hot",
+       6
+      ],
+      [
+       "lab-once",
+       2
+      ],
+      [
+       "lab-new",
+       2
+      ]
+     ]
+    ],
+    "note": "ซิฟิลิส 5 (บอกระยะ 2 + แปลผล 2 + คาดว่าอาจออก 1) แล้วต่อด้วย Lab infection 10 (ออกบ่อย 6 + เคยออก 2 + คาดว่าอาจออก 2) สุ่มไม่ซ้ำหัวข้อ"
+   }
+  },
+  {
+   "id": "hemato2",
+   "label": "Hemato II",
+   "mark": "HE2",
+   "topics": [
+    "bm",
+    "ln"
+   ],
+   "intro": "จัดตามข้อสอบ Lab เก่าปี 2562–2564 (MEDNU 23–25): หัวข้อที่ออกบ่อย หัวข้อที่เคยออก และหมวด “คาดว่าอาจออกปีนี้” จากเอกสาร Lab ปี 2567 ที่ยังไม่เคยออก",
+   "exam": {
+    "sections": [
+     [
+      [
+       "bm-hot",
+       2
+      ],
+      [
+       "bm-once",
+       1
+      ],
+      [
+       "bm-new",
+       1
+      ],
+      [
+       "ln-hot",
+       6
+      ],
+      [
+       "ln-once",
+       1
+      ],
+      [
+       "ln-new",
+       2
+      ]
+     ]
+    ],
+    "note": "ไขกระดูก 4 (CML/myeloma 2 + เคยออก 1 + คาดว่าอาจออก 1) และต่อมน้ำเหลือง 9 (ออกบ่อย 6 + เคยออก 1 + คาดว่าอาจออก 2) คละกัน สุ่มไม่ซ้ำหัวข้อ"
+   }
+  }
+ ],
  "topics": [
   {
    "id": "lab",
-   "no": 1,
+   "block": "immune2",
+   "tag": "เรื่องที่ 1",
    "label": "Lab infection",
    "short": "Lab infection",
    "sub": "พยาธิวิทยาของโรคติดเชื้อ: แบคทีเรีย mycetoma เชื้อรา ไวรัส และปรสิต",
@@ -10,11 +97,30 @@
   },
   {
    "id": "dx",
-   "no": 2,
+   "block": "immune2",
+   "tag": "เรื่องที่ 2",
    "label": "Infectious immunodiagnosis",
    "short": "Immunodiagnosis",
    "sub": "ซิฟิลิส: บอกระยะโรคจากภาพและแปลผลการตรวจ (ไวรัสตับอักเสบบี/ซีเป็นส่วนเสริม)",
    "by": "Infectious Immunodiag 69 · แนวทางระดับชาติ 2564, 2568"
+  },
+  {
+   "id": "bm",
+   "block": "hemato2",
+   "tag": "ส่วนที่ 1",
+   "label": "Bone marrow",
+   "short": "Bone marrow",
+   "sub": "ไขกระดูก: CML, multiple myeloma, acute leukemia, CLL และไขกระดูกปกติ",
+   "by": "Peerayut Sitthichaiyakul, M.D. · ภาควิชาพยาธิวิทยา"
+  },
+  {
+   "id": "ln",
+   "block": "hemato2",
+   "tag": "ส่วนที่ 2",
+   "label": "Lymph node",
+   "short": "Lymph node",
+   "sub": "ต่อมน้ำเหลือง: lymphoma, reactive lymphadenopathy และ metastatic carcinoma",
+   "by": "Peerayut Sitthichaiyakul, M.D. · ภาควิชาพยาธิวิทยา"
   }
  ],
  "categories": [
@@ -62,6 +168,44 @@
    "topic": "dx",
    "optional": true,
    "note": "อยู่ในเอกสารปีนี้แต่ไม่เคยออกในข้อสอบ Lab เก่า — รูปแบบผลตรวจหลักและกราฟ marker"
+  },
+  {
+   "id": "bm-hot",
+   "label": "ออกทุกปี (CML, myeloma)",
+   "topic": "bm",
+   "note": "ข้อสอบปี 62, 63, 64 ถามทั้ง CML (วินิจฉัย, t(9;22)) และ multiple myeloma (วินิจฉัย, plasma cell, globulin สูง) ทุกปี"
+  },
+  {
+   "id": "bm-once",
+   "label": "เคยออก 1 ปี",
+   "topic": "bm",
+   "note": "ปี 64: ภาพ lymphoblast ที่ย้อม TdT และ CD3 ติด → lymphoblastic lymphoma"
+  },
+  {
+   "id": "bm-new",
+   "label": "คาดว่าอาจออกปีนี้",
+   "topic": "bm",
+   "optional": true,
+   "note": "อยู่ในเอกสารแต่ยังไม่เคยออก: ไขกระดูกปกติ, AML, ALL, CLL และภาพอื่นของ CML กับ myeloma"
+  },
+  {
+   "id": "ln-hot",
+   "label": "ออกบ่อย (2–3 ปี)",
+   "topic": "ln",
+   "note": "DLBCL และ mantle zone → mantle cell lymphoma ออกทุกปี · germinal center, follicular lymphoma, starry sky, Kikuchi, Reed–Sternberg cell, metastatic SCC, MALT lymphoma ออก 2 ปี"
+  },
+  {
+   "id": "ln-once",
+   "label": "เคยออก 1 ปี",
+   "topic": "ln",
+   "note": "ปี 62: Kimura lymphadenopathy, Richter syndrome และเซลล์ใน germinal center (centroblast เป็น large lymphoid cell)"
+  },
+  {
+   "id": "ln-new",
+   "label": "คาดว่าอาจออกปีนี้",
+   "topic": "ln",
+   "optional": true,
+   "note": "ยังไม่เคยออก: reactive lymphoid hyperplasia, Reed–Sternberg variants, fibrosis ใน HL, follicles ของ FL เทียบ reactive, monocytoid cells ของ MALT, ต้นกำเนิดของ lymphoma แต่ละชนิด และภาพอื่นของ DLBCL กับ metastasis"
   }
  ],
  "cards": [
@@ -4729,6 +4873,1720 @@
     "note": "ชาย 40 ปี ตรวจสุขภาพ ไม่มีอาการ"
    },
    "group": "hbv-isolated"
+  },
+  {
+   "id": "h-cml-scan",
+   "category": "bm-hot",
+   "question": "",
+   "parts": [
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Chronic myeloid leukemia",
+      "CML",
+      "Chronic myelogenous leukemia",
+      "Chronic myelocytic leukemia",
+      "Chronic granulocytic leukemia"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "จงบอก translocation ที่พบในโรคนี้",
+     "answers": [
+      "t(9;22)",
+      "t(9:22)",
+      "t(9;22)(q34;q11)",
+      "Philadelphia chromosome",
+      "Ph chromosome",
+      "BCR-ABL",
+      "BCR-ABL1",
+      "BCR-ABL fusion"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "เฉลยปี 62, 63: Chronic myeloid leukemia · ปี 63, 64: t(9;22) (Philadelphia chromosome) — ไขกระดูกเต็มไปด้วย hematopoietic cells โดยเฉพาะ granulocytic cells ระยะ mature และ band form พบ myeloblasts น้อย megakaryocytes มักเล็กกว่าปกติ erythroid cells พบน้อยหรือไม่พบเลย",
+   "images": [
+    "h_cml_scan"
+   ],
+   "years": [
+    2562,
+    2563,
+    2564
+   ],
+   "seen": [
+    2562,
+    2563
+   ],
+   "src": "สไลด์ 14–16",
+   "report": null,
+   "group": "cml"
+  },
+  {
+   "id": "h-mm-62",
+   "category": "bm-hot",
+   "question": "หญิงไทยอายุ 70 ปี เจาะไขกระดูก",
+   "parts": [
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Multiple myeloma",
+      "Plasma cell myeloma",
+      "Myeloma",
+      "MM"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "เซลล์ที่เพิ่มขึ้นในภาพ originate มาจากเซลล์ใด",
+     "answers": [
+      "Plasma cell",
+      "Plasma cells",
+      "Neoplastic plasma cells",
+      "B cell",
+      "B cells",
+      "B lymphocyte"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "เฉลยปี 62: Multiple myeloma / plasma cell — ไขกระดูกเต็มไปด้วย plasma cells ซึ่งลักษณะเหมือน plasma cell ปกติ แต่จำนวนมากผิดปกติ",
+   "images": [
+    "x_h_mm62"
+   ],
+   "years": [
+    2562,
+    2563,
+    2564
+   ],
+   "seen": 2562,
+   "src": "สไลด์ 21–23 · ข้อสอบปี 62",
+   "report": null,
+   "group": "mm"
+  },
+  {
+   "id": "h-mm-63",
+   "category": "bm-hot",
+   "question": "",
+   "parts": [
+    {
+     "q": "พยาธิสภาพจากไขกระดูก จงให้การวินิจฉัย",
+     "answers": [
+      "Multiple myeloma",
+      "Plasma cell myeloma",
+      "Myeloma",
+      "MM"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "ผลตรวจทางห้องปฏิบัติการที่จะพบสูงได้ในโรคนี้ (albumin, globulin หรือ Hct)",
+     "answers": [
+      "Globulin",
+      "Globulins",
+      "Serum globulin",
+      "Gamma globulin",
+      "Immunoglobulin",
+      "M protein",
+      "Monoclonal protein",
+      "Paraprotein",
+      "Total protein",
+      "Monoclonal immunoglobulin"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "เฉลยปี 63 และ 64: globulin สูง — plasma cells จำนวนมากสร้าง immunoglobulin (monoclonal) ออกมาในเลือด",
+   "images": [
+    "x_h_mm"
+   ],
+   "years": [
+    2562,
+    2563,
+    2564
+   ],
+   "seen": 2563,
+   "src": "สไลด์ 21–23 · ข้อสอบปี 63",
+   "report": null,
+   "group": "mm"
+  },
+  {
+   "id": "h-lbl",
+   "category": "bm-once",
+   "question": "ย้อม immunohistochemistry: TdT positive และ CD3 positive",
+   "parts": [
+    {
+     "q": "เซลล์ที่เพิ่มขึ้นในภาพคือเซลล์ใด",
+     "answers": [
+      "Lymphoblasts",
+      "Lymphoblast",
+      "Blasts",
+      "Blast cells"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Lymphoblastic lymphoma",
+      "T-lymphoblastic lymphoma",
+      "T-lymphoblastic leukemia/lymphoma",
+      "T-lymphoblastic leukemia",
+      "Precursor T-lymphoblastic lymphoma",
+      "T-LBL",
+      "T-ALL",
+      "Acute lymphoblastic leukemia",
+      "ALL",
+      "T-cell acute lymphoblastic leukemia"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "เฉลยปี 64: lymphoblasts ที่ย้อม TdT (เซลล์ตัวอ่อน) และ CD3 (T cell) ติด = (T-)lymphoblastic lymphoma — lymphoblasts นิวเคลียสใหญ่เกือบเต็มเซลล์ ไซโทพลาซึมน้อย ไม่มีแกรนูล",
+   "images": [
+    "h_all_high"
+   ],
+   "years": [
+    2564
+   ],
+   "seen": null,
+   "src": "สไลด์ 11–13",
+   "report": null,
+   "group": "lbl"
+  },
+  {
+   "id": "h-bm-normal",
+   "category": "bm-new",
+   "question": "ไขกระดูกปกติ",
+   "parts": [
+    {
+     "q": "เซลล์ที่ลูกศรสีเขียวชี้คือเซลล์ใด",
+     "answers": [
+      "Megakaryocyte",
+      "Megakaryocytes"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "เซลล์ที่ลูกศรสีแดงชี้คือเซลล์กลุ่มใด",
+     "answers": [
+      "Erythroid cells",
+      "Erythroid cell",
+      "Erythroid precursors",
+      "Erythroid series",
+      "Normoblasts",
+      "Normoblast",
+      "Erythroblasts",
+      "Erythroid"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "เซลล์ที่ลูกศรสีเหลืองชี้คือเซลล์กลุ่มใด",
+     "answers": [
+      "Granulocytic cells",
+      "Granulocytic cell",
+      "Granulocytes",
+      "Granulocyte",
+      "Granulocytic series",
+      "Myeloid cells",
+      "Myeloid series",
+      "Myelocytes"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "ไขกระดูกปกติ: กระดูก (bone trabeculae) และ marrow ซึ่งมี hematopoietic elements กับ fat — hematopoietic cells 3 กลุ่ม: granulocytic cells (เหลือง), erythroid cells (แดง), megakaryocytes (เขียว)",
+   "images": [
+    "h_bm_cells"
+   ],
+   "years": [],
+   "seen": null,
+   "src": "สไลด์ 4–7",
+   "report": null,
+   "group": "normal"
+  },
+  {
+   "id": "h-mm",
+   "category": "bm-new",
+   "question": "ชิ้นเนื้อไขกระดูก",
+   "parts": [
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Multiple myeloma",
+      "Plasma cell myeloma",
+      "Myeloma",
+      "MM"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "เซลล์ที่เพิ่มขึ้นส่วนใหญ่คือเซลล์ใด",
+     "answers": [
+      "Plasma cell",
+      "Plasma cells",
+      "Neoplastic plasma cells",
+      "B cell",
+      "B cells",
+      "B lymphocyte"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "ผลตรวจทางห้องปฏิบัติการที่จะพบสูงได้ในโรคนี้",
+     "answers": [
+      "Globulin",
+      "Globulins",
+      "Serum globulin",
+      "Gamma globulin",
+      "Immunoglobulin",
+      "M protein",
+      "Monoclonal protein",
+      "Paraprotein",
+      "Total protein",
+      "Monoclonal immunoglobulin"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "ภาพในบรรยาย (ข้อสอบเก่าใช้ภาพอื่น): Multiple myeloma — plasma cells เพิ่มขึ้นเต็ม marrow ลักษณะเหมือน plasma cell ปกติ",
+   "images": [
+    "h_mm_high"
+   ],
+   "years": [
+    2562,
+    2563,
+    2564
+   ],
+   "seen": null,
+   "src": "สไลด์ 21–23",
+   "report": null,
+   "group": "mm"
+  },
+  {
+   "id": "h-cml-high",
+   "category": "bm-new",
+   "question": "ชิ้นเนื้อไขกระดูก (กำลังขยายสูง)",
+   "parts": [
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Chronic myeloid leukemia",
+      "CML",
+      "Chronic myelogenous leukemia",
+      "Chronic myelocytic leukemia",
+      "Chronic granulocytic leukemia"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "เซลล์กลุ่มใดเพิ่มขึ้นมากที่สุด และส่วนใหญ่อยู่ในระยะใด",
+     "answers": [
+      "Granulocytic cells, mostly mature and band forms"
+     ],
+     "keywords": [
+      [
+       "granulocytic",
+       "granulocytes",
+       "granulocyte",
+       "myeloid",
+       "neutrophils",
+       "neutrophil"
+      ],
+      [
+       "mature",
+       "band",
+       "bands",
+       "band form",
+       "band forms",
+       "mature form",
+       "mature forms"
+      ]
+     ]
+    },
+    {
+     "q": "megakaryocytes ในโรคนี้มีขนาดอย่างไรเมื่อเทียบกับปกติ",
+     "answers": [
+      "Small",
+      "Smaller",
+      "Smaller than normal",
+      "Small megakaryocytes",
+      "Dwarf megakaryocytes",
+      "Dwarf",
+      "ขนาดเล็ก",
+      "เล็กกว่าปกติ"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "CML: myeloid cells จำนวนมาก โดยเฉพาะ granulocytic cells ระยะ mature form และ band form ส่วนเซลล์ตัวอ่อน (myeloblasts, metamyelocytes) พบน้อย · megakaryocytes มักเล็กกว่าปกติ · erythroid cells พบน้อยหรือไม่พบ",
+   "images": [
+    "h_cml_high"
+   ],
+   "years": [
+    2562,
+    2563,
+    2564
+   ],
+   "seen": null,
+   "src": "สไลด์ 15–16",
+   "report": null,
+   "group": "cml"
+  },
+  {
+   "id": "h-aml",
+   "category": "bm-new",
+   "question": "",
+   "parts": [
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Acute myeloid leukemia",
+      "AML",
+      "Acute myelogenous leukemia",
+      "Acute myeloblastic leukemia",
+      "Acute myelocytic leukemia",
+      "Acute granulocytic leukemia",
+      "Acute non-lymphocytic leukemia",
+      "ANLL"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "เซลล์ที่เพิ่มขึ้นเต็มไขกระดูกคือเซลล์ใด",
+     "answers": [
+      "Myeloblasts",
+      "Myeloblast"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "เกณฑ์การวินิจฉัย: พบเซลล์นี้มากกว่ากี่เปอร์เซ็นต์ในไขกระดูก",
+     "answers": [
+      "20%",
+      "20 %",
+      "20",
+      "มากกว่า 20%",
+      "More than 20%"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "AML: myeloblasts มากกว่า 20% มักเกือบเต็ม marrow — myeloblasts เป็นเซลล์ขนาดใหญ่ นิวเคลียสใหญ่ โครมาตินติดสีจาง มี nucleoli สีชมพูขนาดเล็ก ไซโทพลาซึมปานกลางสีชมพู อาจพบแกรนูล",
+   "images": [
+    "h_aml_low",
+    "h_aml_high"
+   ],
+   "years": [],
+   "seen": null,
+   "src": "สไลด์ 8–10",
+   "report": null,
+   "group": "aml"
+  },
+  {
+   "id": "h-all",
+   "category": "bm-new",
+   "question": "",
+   "parts": [
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Acute lymphoblastic leukemia",
+      "ALL",
+      "Acute lymphocytic leukemia",
+      "Acute lymphoid leukemia",
+      "Lymphoblastic leukemia"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "ไซโทพลาซึมของ lymphoblasts ต่างจาก myeloblasts อย่างไร",
+     "answers": [
+      "Scant cytoplasm without granules"
+     ],
+     "keywords": [
+      [
+       "scant",
+       "scanty",
+       "little",
+       "small amount",
+       "minimal",
+       "less",
+       "น้อย"
+      ],
+      [
+       "no granules",
+       "no granule",
+       "agranular",
+       "without granules",
+       "without granule",
+       "ไม่มีแกรนูล",
+       "ไม่พบแกรนูล"
+      ]
+     ]
+    }
+   ],
+   "explain": "ALL: lymphoblasts จำนวนมากเต็มไขกระดูก นิวเคลียสคล้าย myeloblasts แต่ไซโทพลาซึมน้อย มักสังเกตได้ยาก และไม่พบแกรนูล",
+   "images": [
+    "h_all_low",
+    "h_all_high"
+   ],
+   "years": [],
+   "seen": null,
+   "src": "สไลด์ 11–13",
+   "report": null,
+   "group": "lbl"
+  },
+  {
+   "id": "h-blasts",
+   "category": "bm-new",
+   "question": "ไขกระดูก 2 ราย",
+   "parts": [
+    {
+     "q": "ภาพ ก เซลล์ที่เพิ่มขึ้นคือเซลล์ใด",
+     "answers": [
+      "Myeloblasts",
+      "Myeloblast"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "ภาพ ข เซลล์ที่เพิ่มขึ้นคือเซลล์ใด",
+     "answers": [
+      "Lymphoblasts",
+      "Lymphoblast"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "จงให้การวินิจฉัยของภาพ ก",
+     "answers": [
+      "Acute myeloid leukemia",
+      "AML",
+      "Acute myelogenous leukemia",
+      "Acute myeloblastic leukemia",
+      "Acute myelocytic leukemia",
+      "Acute granulocytic leukemia",
+      "Acute non-lymphocytic leukemia",
+      "ANLL"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "ภาพ ก: myeloblasts ไซโทพลาซึมปานกลางสีชมพู อาจมีแกรนูล = AML · ภาพ ข: lymphoblasts ไซโทพลาซึมน้อย ไม่มีแกรนูล = ALL",
+   "images": [
+    "h_aml_high",
+    "h_all_high"
+   ],
+   "years": [],
+   "seen": null,
+   "src": "สไลด์ 10, 13",
+   "report": null,
+   "group": "aml"
+  },
+  {
+   "id": "h-cll",
+   "category": "bm-new",
+   "question": "ชิ้นเนื้อไขกระดูก",
+   "parts": [
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Chronic lymphocytic leukemia",
+      "CLL",
+      "Chronic lymphocytic leukemia/small lymphocytic lymphoma",
+      "CLL/SLL",
+      "Small lymphocytic lymphoma",
+      "SLL"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "เซลล์ที่ลูกศรชี้ใช้เทียบขนาดเซลล์มะเร็ง คือเซลล์ใด",
+     "answers": [
+      "Endothelial cell",
+      "Endothelial cells",
+      "Endothelium"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "เซลล์มะเร็งเป็นเซลล์ขนาดเล็กหรือใหญ่",
+     "answers": [
+      "Small",
+      "Small cell",
+      "Small cells",
+      "Small lymphoid cells",
+      "ขนาดเล็ก",
+      "เล็ก"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "CLL: neoplastic small lymphoid cells เพิ่มขึ้นมากในไขกระดูก นิวเคลียสขนาดเท่าความกว้างของ endothelial cell (ลูกศร) โครมาตินติดสีเข้ม มองไม่เห็น nucleoli ขอบนิวเคลียสไม่เรียบ — ข้อสอบปี 62 ถามว่าใช้ cell ใดเทียบขนาด: endothelial cell",
+   "images": [
+    "h_cll_high"
+   ],
+   "years": [],
+   "seen": null,
+   "src": "สไลด์ 17–20",
+   "report": null,
+   "group": "cll"
+  },
+  {
+   "id": "h-dlbcl",
+   "category": "ln-hot",
+   "question": "",
+   "parts": [
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Diffuse large B-cell lymphoma",
+      "DLBCL",
+      "Diffuse large cell lymphoma"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "lymphoma ชนิดนี้มีเซลล์ต้นกำเนิดจากเซลล์ใด",
+     "answers": [
+      "Centroblast",
+      "Centroblasts",
+      "Immunoblast",
+      "Immunoblasts",
+      "Germinal center B cell",
+      "Germinal center B cells"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "ลูกศรสีเขียวชี้เซลล์ที่ใช้เทียบขนาด คือเซลล์ใด",
+     "answers": [
+      "Endothelial cell",
+      "Endothelial cells",
+      "Histiocyte",
+      "Histiocytes",
+      "Endothelial nucleus"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "เฉลยปี 62, 64: DLBCL · ปี 63: เซลล์ต้นกำเนิด centroblast — lymphoma cells ขนาดใหญ่ (ลูกศรเหลือง) นิวเคลียสเท่าหรือใหญ่กว่านิวเคลียสของ histiocyte หรือ endothelial cell (ลูกศรเขียว) · centroblasts → FL, DLBCL, Burkitt; immunoblasts → DLBCL",
+   "images": [
+    "h_dlbcl_big"
+   ],
+   "years": [
+    2562,
+    2563,
+    2564
+   ],
+   "seen": 2562,
+   "src": "สไลด์ 43–46",
+   "report": null,
+   "group": "dlbcl"
+  },
+  {
+   "id": "h-mantle",
+   "category": "ln-hot",
+   "question": "",
+   "parts": [
+    {
+     "q": "บริเวณที่ลูกศรชี้เรียกว่าอะไร",
+     "answers": [
+      "Mantle zone",
+      "Mantle",
+      "Mantle layer"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "ยกตัวอย่าง lymphoma ที่เจริญมาจากเซลล์ในบริเวณนี้",
+     "answers": [
+      "Mantle cell lymphoma",
+      "MCL"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "เฉลยปี 62, 63, 64: mantle zone → mantle cell lymphoma — mantle zone คือแถบเซลล์ติดสีเข้มล้อมรอบ germinal center",
+   "images": [
+    "x_h_mantle"
+   ],
+   "years": [
+    2562,
+    2563,
+    2564
+   ],
+   "seen": 2562,
+   "src": "สไลด์ 26, 30 · ข้อสอบปี 62",
+   "report": null,
+   "group": "mantle"
+  },
+  {
+   "id": "h-gc",
+   "category": "ln-hot",
+   "question": "",
+   "parts": [
+    {
+     "q": "บริเวณที่ลูกศรชี้เรียกว่าอะไร",
+     "answers": [
+      "Germinal center",
+      "Germinal centre",
+      "Germinal centers"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "บอก lymphoid neoplasm ที่เกิดจากเซลล์ในบริเวณนี้มา 2 ชื่อ",
+     "answers": [
+      "Follicular lymphoma, Burkitt lymphoma (or DLBCL)"
+     ],
+     "keywords": [
+      [
+       "follicular lymphoma",
+       "follicular",
+       "fl"
+      ],
+      [
+       "burkitt",
+       "burkitt lymphoma",
+       "diffuse large b cell lymphoma",
+       "dlbcl"
+      ]
+     ]
+    }
+   ],
+   "explain": "เฉลยปี 62: follicular lymphoma · ปี 63: follicular lymphoma และ Burkitt lymphoma — germinal center มี centrocytes (→ FL), centroblasts (→ FL, DLBCL, Burkitt) และ tingible-body macrophages",
+   "images": [
+    "x_h_gc"
+   ],
+   "years": [
+    2562,
+    2563
+   ],
+   "seen": 2562,
+   "src": "สไลด์ 26–30 · ข้อสอบปี 62",
+   "report": null,
+   "group": "gc"
+  },
+  {
+   "id": "h-fl",
+   "category": "ln-hot",
+   "question": "",
+   "parts": [
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Follicular lymphoma",
+      "FL"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "การเปลี่ยนแปลงทาง genetic ที่พบในโรคนี้",
+     "answers": [
+      "t(14;18)",
+      "t(14:18)",
+      "t(14;18)(q32;q21)",
+      "IGH-BCL2",
+      "BCL2 rearrangement",
+      "BCL2 translocation"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "เฉลยปี 62 (virtual slide): t(14;18) — follicular lymphoma: neoplastic lymphoid follicles ติดชิดกันทั่วต่อมน้ำเหลือง mantle zone ไม่ชัด",
+   "images": [
+    "h_fl_scan"
+   ],
+   "years": [
+    2562,
+    2564
+   ],
+   "seen": 2562,
+   "src": "สไลด์ 48–50",
+   "report": null,
+   "group": "fl"
+  },
+  {
+   "id": "h-fl-cells",
+   "category": "ln-hot",
+   "question": "ต่อมน้ำเหลือง ตรวจพบ t(14;18)",
+   "parts": [
+    {
+     "q": "เซลล์ขนาดเล็กที่ลูกศรสีเหลืองชี้คือเซลล์ใด",
+     "answers": [
+      "Centrocyte",
+      "Centrocytes",
+      "Small cleaved cell",
+      "Small cleaved cells"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "เซลล์ขนาดใหญ่ที่ลูกศรสีเขียวชี้คือเซลล์ใด",
+     "answers": [
+      "Centroblast",
+      "Centroblasts",
+      "Large noncleaved cell",
+      "Large noncleaved cells"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Follicular lymphoma",
+      "FL"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "เฉลยปี 64: centrocyte และ centroblast — follicular lymphoma ประกอบด้วย centrocytes (เล็ก) และ centroblasts (ใหญ่) มักไม่พบ tingible-body macrophages ซึ่งต่างจาก reactive follicular hyperplasia",
+   "images": [
+    "h_fl_high"
+   ],
+   "years": [
+    2562,
+    2564
+   ],
+   "seen": null,
+   "src": "สไลด์ 51",
+   "report": null,
+   "group": "fl"
+  },
+  {
+   "id": "h-kikuchi",
+   "category": "ln-hot",
+   "question": "",
+   "parts": [
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Kikuchi lymphadenopathy",
+      "Kikuchi lymphadenitis",
+      "Kikuchi disease",
+      "Kikuchi-Fujimoto disease",
+      "Histiocytic necrotizing lymphadenitis",
+      "Kikuchi"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "เป็น benign หรือ malignant",
+     "answers": [
+      "Benign",
+      "Benign lesion",
+      "Not malignant",
+      "Non-neoplastic",
+      "Reactive"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "เฉลยปี 62: Kikuchi lymphadenitis / benign — histiocytic necrotizing lymphadenitis: หย่อมเนื้อตายสีจางกระจายทั่วต่อมน้ำเหลือง",
+   "images": [
+    "h_kikuchi_scan"
+   ],
+   "years": [
+    2562,
+    2564
+   ],
+   "seen": 2562,
+   "src": "สไลด์ 31–32",
+   "report": null,
+   "group": "kikuchi"
+  },
+  {
+   "id": "h-kikuchi-cells",
+   "category": "ln-hot",
+   "question": "",
+   "parts": [
+    {
+     "q": "ลักษณะเด่นของ macrophages ในโรคนี้",
+     "answers": [
+      "Crescent-shaped nuclei (crescent macrophages)"
+     ],
+     "keywords": [
+      [
+       "crescent",
+       "crescentic",
+       "crescent shaped"
+      ]
+     ]
+    },
+    {
+     "q": "ลักษณะเด่นของ lymphoid cells ในโรคนี้",
+     "answers": [
+      "Transformed (large) lymphoid cells"
+     ],
+     "keywords": [
+      [
+       "transformed",
+       "large",
+       "immunoblast",
+       "immunoblasts",
+       "ขนาดใหญ่",
+       "ตัวใหญ่"
+      ]
+     ]
+    },
+    {
+     "q": "เศษที่ลูกศรชี้เรียกว่าอะไร",
+     "answers": [
+      "Karyorrhectic bodies",
+      "Karyorrhectic body",
+      "Karyorrhectic debris",
+      "Nuclear debris",
+      "Karyorrhexis",
+      "Apoptotic debris",
+      "Apoptotic bodies"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Kikuchi lymphadenopathy",
+      "Kikuchi lymphadenitis",
+      "Kikuchi disease",
+      "Kikuchi-Fujimoto disease",
+      "Histiocytic necrotizing lymphadenitis",
+      "Kikuchi"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "เฉลยปี 64: crescent-shaped macrophage และ transformed lymphoid cell (ตัวใหญ่) — บริเวณสีจางพบเศษนิวเคลียส (nuclear debris, karyorrhectic bodies) macrophages ที่มีนิวเคลียสรูปพระจันทร์เสี้ยว และ reactive lymphoid cells ขนาดใหญ่",
+   "images": [
+    "h_kikuchi_high"
+   ],
+   "years": [
+    2562,
+    2564
+   ],
+   "seen": null,
+   "src": "สไลด์ 33",
+   "report": null,
+   "group": "kikuchi"
+  },
+  {
+   "id": "h-hl-rs",
+   "category": "ln-hot",
+   "question": "",
+   "parts": [
+    {
+     "q": "เซลล์ที่ลูกศรชี้คือเซลล์ใด",
+     "answers": [
+      "Reed-Sternberg cell",
+      "Reed-Sternberg cells",
+      "RS cell",
+      "Classic Reed-Sternberg cell"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Hodgkin lymphoma",
+      "Classic Hodgkin lymphoma",
+      "Classical Hodgkin lymphoma",
+      "Hodgkin's lymphoma",
+      "Hodgkin disease",
+      "Hodgkin's disease",
+      "HL"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "เซลล์ใน background ของโรคนี้ (ยกตัวอย่าง 1 ชนิด)",
+     "answers": [
+      "Eosinophils",
+      "Eosinophil",
+      "Lymphocytes",
+      "Lymphocyte",
+      "Plasma cells",
+      "Plasma cell"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "เฉลยปี 62, 64: Reed–Sternberg cell — เซลล์ใหญ่ ไซโทพลาซึมมาก 2 นิวเคลียส แต่ละนิวเคลียสมี nucleolus ขนาดใหญ่ (classic type) บน background ของ eosinophils, lymphocytes และ plasma cells",
+   "images": [
+    "h_hl_rs"
+   ],
+   "years": [
+    2562,
+    2564
+   ],
+   "seen": 2562,
+   "src": "สไลด์ 38–40",
+   "report": null,
+   "group": "hl"
+  },
+  {
+   "id": "h-met-scc",
+   "category": "ln-hot",
+   "question": "ต่อมน้ำเหลืองที่คอของชายอายุ 50 ปี",
+   "parts": [
+    {
+     "q": "สิ่งที่ลูกศรชี้คืออะไร",
+     "answers": [
+      "Keratin pearl",
+      "Keratin pearls",
+      "Squamous pearl",
+      "Squamous pearls"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "จงวินิจฉัยโรคให้จำเพาะที่สุด",
+     "answers": [
+      "Metastatic squamous cell carcinoma",
+      "Metastatic SCC",
+      "Metastatic squamous cell carcinoma to lymph node"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "primary tumor น่าจะมาจากอวัยวะใด (colon, breast, larynx, stomach, appendix, thyroid gland)",
+     "answers": [
+      "Larynx",
+      "Laryngeal",
+      "Laryngeal carcinoma"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "เฉลยปี 62: larynx · ปี 64: metastatic squamous cell carcinoma — tumor cells มี intercellular bridges สร้าง keratin รวมกันเป็น keratin pearls (ลูกศร) · ในตัวเลือกมีแต่ larynx ที่บุด้วย squamous epithelium",
+   "images": [
+    "h_met_high"
+   ],
+   "years": [
+    2562,
+    2564
+   ],
+   "seen": [
+    2562,
+    2564
+   ],
+   "src": "สไลด์ 56–58",
+   "report": null,
+   "group": "met"
+  },
+  {
+   "id": "h-malt",
+   "category": "ln-hot",
+   "question": "virtual slide ของลำไส้",
+   "parts": [
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "MALT lymphoma",
+      "Extranodal marginal zone lymphoma",
+      "Extranodal marginal zone B-cell lymphoma",
+      "Marginal zone lymphoma",
+      "MALToma"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "เป็น low grade หรือ high grade lymphoma",
+     "answers": [
+      "Low grade",
+      "Low grade lymphoma",
+      "Low"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "เฉลยปี 63: MALT lymphoma / low grade — extranodal marginal zone lymphoma ของ mucosa-associated lymphoid tissue: lymphoma cells แทรกผนังลำไส้ตั้งแต่ mucosa, submucosa, muscular layer จนถึง serosa",
+   "images": [
+    "h_malt_scan"
+   ],
+   "years": [
+    2563,
+    2564
+   ],
+   "seen": 2563,
+   "src": "สไลด์ 53–55",
+   "report": null,
+   "group": "malt"
+  },
+  {
+   "id": "h-starry",
+   "category": "ln-hot",
+   "question": "",
+   "parts": [
+    {
+     "q": "บอกชื่อ lymphoid neoplasm ที่มี starry sky pattern มา 2 ชื่อ",
+     "answers": [
+      "Burkitt lymphoma, diffuse large B-cell lymphoma, lymphoblastic lymphoma"
+     ],
+     "keywords": [
+      [
+       "burkitt",
+       "burkitt lymphoma"
+      ],
+      [
+       "diffuse large b cell lymphoma",
+       "dlbcl",
+       "lymphoblastic lymphoma",
+       "lymphoblastic"
+      ]
+     ]
+    },
+    {
+     "q": "\"ดาว\" ใน starry sky pattern คือเซลล์ใด",
+     "answers": [
+      "Tingible-body macrophage",
+      "Tingible-body macrophages",
+      "Tingible body macrophage",
+      "Tingible body macrophages"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "เฉลยปี 62: Burkitt, lymphoblastic lymphoma · ปี 63: Burkitt, DLBCL — tumor with tingible-body macrophages (starry sky): Burkitt lymphoma, DLBCL, lymphoblastic lymphoma · ภาวะ reactive ที่พบ tingible-body macrophages คือ germinal center ของ reactive lymphoid follicles",
+   "images": [],
+   "years": [
+    2562,
+    2563
+   ],
+   "seen": null,
+   "src": "สไลด์ 52",
+   "report": null,
+   "group": "starry"
+  },
+  {
+   "id": "h-kimura",
+   "category": "ln-once",
+   "question": "",
+   "parts": [
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Kimura lymphadenopathy",
+      "Kimura disease",
+      "Kimura's disease",
+      "Kimura"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "ภาพ ข พบการรวมกลุ่มของเซลล์ใดจำนวนมากใน interfollicular area",
+     "answers": [
+      "Eosinophils",
+      "Eosinophil",
+      "Eosinophilic microabscess",
+      "Eosinophilic microabscesses"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "เฉลยปี 62: Kimura lymphadenopathy — reactive follicular hyperplasia ร่วมกับ eosinophils จำนวนมากรวมกลุ่มเป็น eosinophilic microabscess ใน interfollicular area",
+   "images": [
+    "h_kimura_scan",
+    "h_kimura_eos"
+   ],
+   "years": [
+    2562
+   ],
+   "seen": 2562,
+   "src": "สไลด์ 34–36",
+   "report": null,
+   "group": "kimura"
+  },
+  {
+   "id": "h-richter",
+   "category": "ln-once",
+   "question": "",
+   "parts": [
+    {
+     "q": "Richter syndrome คือการเปลี่ยนจาก low-grade lymphoma ไปเป็น lymphoma ชนิดใด",
+     "answers": [
+      "Diffuse large B-cell lymphoma",
+      "DLBCL",
+      "Diffuse large cell lymphoma"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "ยกตัวอย่าง low-grade lymphoma ที่เปลี่ยนแปลงได้ (1 ชนิด)",
+     "answers": [
+      "Small lymphocytic lymphoma",
+      "SLL",
+      "Chronic lymphocytic leukemia",
+      "CLL",
+      "CLL/SLL",
+      "Marginal zone lymphoma",
+      "MALT lymphoma"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "เฉลยปี 62: DLBCL ที่ transform มาจาก lymphoid cell ตัวเล็ก — DLBCL ส่วนใหญ่เกิดขึ้นใหม่ (de novo) แต่บางรายเปลี่ยนมาจาก low-grade lymphoma เช่น small lymphocytic lymphoma, marginal zone lymphoma",
+   "images": [],
+   "years": [
+    2562
+   ],
+   "seen": null,
+   "src": "สไลด์ 47",
+   "report": null,
+   "group": "richter"
+  },
+  {
+   "id": "h-gc-cells",
+   "category": "ln-once",
+   "question": "germinal center ของ reactive lymphoid follicle",
+   "parts": [
+    {
+     "q": "เซลล์ขนาดใหญ่ที่ลูกศรสีเขียวชี้ (large lymphoid cell) คือเซลล์ใด",
+     "answers": [
+      "Centroblast",
+      "Centroblasts",
+      "Large noncleaved cell",
+      "Large noncleaved cells"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "เซลล์ที่ลูกศรสีเหลืองชี้คือเซลล์ใด",
+     "answers": [
+      "Centrocyte",
+      "Centrocytes",
+      "Small cleaved cell",
+      "Small cleaved cells"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "เซลล์ที่ลูกศรสีแดงชี้คือเซลล์ใด",
+     "answers": [
+      "Tingible-body macrophage",
+      "Tingible-body macrophages",
+      "Tingible body macrophage",
+      "Tingible body macrophages"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "ปี 62 ถาม \"cell ใดเป็น large lymphoid cell\" → centroblast — germinal center มี centrocytes (เหลือง), centroblasts (เขียว) และ tingible-body macrophages (แดง: เซลล์ใหญ่ ไซโทพลาซึมใส มีเศษนิวเคลียสอยู่ภายใน)",
+   "images": [
+    "h_gc_cells_big"
+   ],
+   "years": [
+    2562
+   ],
+   "seen": null,
+   "src": "สไลด์ 27–28",
+   "report": null,
+   "group": "gc"
+  },
+  {
+   "id": "h-rh-zones",
+   "category": "ln-new",
+   "question": "",
+   "parts": [
+    {
+     "q": "บริเวณที่ลูกศรสีเหลืองชี้เรียกว่าอะไร",
+     "answers": [
+      "Mantle zone",
+      "Mantle",
+      "Mantle layer"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "บริเวณที่ลูกศรสีเขียวชี้เรียกว่าอะไร",
+     "answers": [
+      "Germinal center",
+      "Germinal centre",
+      "Germinal centers"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "lymphoma ที่เกิดจากเซลล์ในบริเวณลูกศรสีเหลือง",
+     "answers": [
+      "Mantle cell lymphoma",
+      "MCL"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "Reactive lymphoid hyperplasia: follicle มีตรงกลางสีจาง = germinal center (เขียว) ล้อมด้วยแถบเซลล์ติดสีเข้ม = mantle zone (เหลือง) — ข้อสอบทุกปีถาม mantle zone หรือ germinal center ด้วยภาพแบบนี้",
+   "images": [
+    "h_rh_zones"
+   ],
+   "years": [
+    2562,
+    2563,
+    2564
+   ],
+   "seen": null,
+   "src": "สไลด์ 24–26",
+   "report": null,
+   "group": "mantle"
+  },
+  {
+   "id": "h-rh",
+   "category": "ln-new",
+   "question": "",
+   "parts": [
+    {
+     "q": "จงให้การวินิจฉัย (ภาพ ก)",
+     "answers": [
+      "Reactive lymphoid hyperplasia",
+      "Reactive follicular hyperplasia",
+      "Reactive lymphadenopathy",
+      "Follicular hyperplasia",
+      "Reactive hyperplasia",
+      "Reactive lymph node"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "เซลล์ที่ลูกศรสีแดงในภาพ ข ชี้คือเซลล์ใด",
+     "answers": [
+      "Tingible-body macrophage",
+      "Tingible-body macrophages",
+      "Tingible body macrophage",
+      "Tingible body macrophages"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "Reactive lymphoid hyperplasia: reactive lymphoid follicles จำนวนมาก · tingible-body macrophages ใน germinal center เป็นลักษณะของ reactive follicles (มักไม่พบใน follicular lymphoma)",
+   "images": [
+    "h_rh_low",
+    "h_gc_cells"
+   ],
+   "years": [],
+   "seen": null,
+   "src": "สไลด์ 24–27",
+   "report": null,
+   "group": "rh"
+  },
+  {
+   "id": "h-hl-variants",
+   "category": "ln-new",
+   "question": "",
+   "parts": [
+    {
+     "q": "เซลล์ที่ลูกศรชี้ในภาพ ก (นิวเคลียสเดียว) คือ Reed–Sternberg cell แบบใด",
+     "answers": [
+      "Mononuclear variant",
+      "Mononuclear",
+      "Hodgkin cell",
+      "Mononuclear Hodgkin cell",
+      "Mononuclear Reed-Sternberg cell"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "เซลล์ที่ลูกศรชี้ในภาพ ข (ไซโทพลาซึมใส) เรียกว่าอะไร",
+     "answers": [
+      "Lacunar cell",
+      "Lacunar cells",
+      "Lacunar variant",
+      "Lacunar Reed-Sternberg cell",
+      "Lacunar"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Hodgkin lymphoma",
+      "Classic Hodgkin lymphoma",
+      "Classical Hodgkin lymphoma",
+      "Hodgkin's lymphoma",
+      "Hodgkin disease",
+      "Hodgkin's disease",
+      "HL"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "Reed–Sternberg cell อาจมี 3 นิวเคลียสหรือนิวเคลียสเดียว (mononuclear variant) · lacunar variant = เซลล์ขนาดใหญ่ ไซโทพลาซึมใส",
+   "images": [
+    "h_hl_mono",
+    "h_hl_lacunar"
+   ],
+   "years": [
+    2562,
+    2564
+   ],
+   "seen": null,
+   "src": "สไลด์ 41–42",
+   "report": null,
+   "group": "hl"
+  },
+  {
+   "id": "h-hl-low",
+   "category": "ln-new",
+   "question": "",
+   "parts": [
+    {
+     "q": "สิ่งที่ลูกศรชี้คืออะไร",
+     "answers": [
+      "Fibrous tissue",
+      "Fibrosis",
+      "Fibrous bands",
+      "Fibrous band",
+      "Collagen bands",
+      "Sclerosis",
+      "Fibrous septa"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "โครงสร้างของต่อมน้ำเหลืองปกติเป็นอย่างไร",
+     "answers": [
+      "Normal architecture is effaced (lost)"
+     ],
+     "keywords": [
+      [
+       "effaced",
+       "effacement",
+       "loss",
+       "lost",
+       "obliterated",
+       "destroyed",
+       "disappeared",
+       "diffuse",
+       "หายไป",
+       "ไม่เหลือ"
+      ]
+     ]
+    },
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Hodgkin lymphoma",
+      "Classic Hodgkin lymphoma",
+      "Classical Hodgkin lymphoma",
+      "Hodgkin's lymphoma",
+      "Hodgkin disease",
+      "Hodgkin's disease",
+      "HL"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "Hodgkin lymphoma: ลักษณะของต่อมน้ำเหลืองปกติหายไป และมี fibrous tissue แทรกอยู่ในต่อมน้ำเหลือง (ลูกศร)",
+   "images": [
+    "h_hl_low"
+   ],
+   "years": [
+    2562,
+    2564
+   ],
+   "seen": null,
+   "src": "สไลด์ 38–39",
+   "report": null,
+   "group": "hl"
+  },
+  {
+   "id": "h-fl-follicles",
+   "category": "ln-new",
+   "question": "",
+   "parts": [
+    {
+     "q": "ลูกศรสีเขียวในภาพ ก ชี้ follicle ชนิดใด",
+     "answers": [
+      "Neoplastic follicles",
+      "Neoplastic follicle",
+      "Neoplastic lymphoid follicles",
+      "Neoplastic lymphoid follicle"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "ลูกศรสีเหลืองในภาพ ก ชี้ follicle ชนิดใด",
+     "answers": [
+      "Reactive lymphoid follicles",
+      "Reactive lymphoid follicle",
+      "Reactive follicles",
+      "Reactive follicle"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "จากภาพ ข follicles ของโรคนี้ต่างจาก reactive follicles อย่างไร",
+     "answers": [
+      "Neoplastic follicles are back-to-back and the mantle zone is indistinct"
+     ],
+     "keywords": [
+      [
+       "back to back",
+       "closely packed",
+       "crowded",
+       "packed",
+       "ติดชิดกัน",
+       "ชิดกัน"
+      ],
+      [
+       "mantle zone",
+       "mantle"
+      ]
+     ]
+    },
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Follicular lymphoma",
+      "FL"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "Follicular lymphoma: มีทั้ง reactive lymphoid follicles (เหลือง) และ neoplastic follicles (เขียว) — neoplastic follicles ติดชิดกัน mantle zone ไม่ชัดเหมือน reactive follicles และมักไม่พบ tingible-body macrophages",
+   "images": [
+    "h_fl_low_arrows",
+    "h_fl_low"
+   ],
+   "years": [
+    2562,
+    2564
+   ],
+   "seen": null,
+   "src": "สไลด์ 49–51",
+   "report": null,
+   "group": "fl"
+  },
+  {
+   "id": "h-malt-cells",
+   "category": "ln-new",
+   "question": "",
+   "parts": [
+    {
+     "q": "ภาพ ก lymphoma cells แทรกซึมลึกถึงชั้นใดของผนังลำไส้",
+     "answers": [
+      "Through all layers, from mucosa to serosa"
+     ],
+     "keywords": [
+      [
+       "serosa",
+       "all layers",
+       "transmural",
+       "full thickness",
+       "ทุกชั้น"
+      ]
+     ]
+    },
+    {
+     "q": "เซลล์มะเร็งในภาพ ข (ขนาดเล็กถึงกลาง ไซโทพลาซึมใส) เรียกว่าเซลล์อะไร",
+     "answers": [
+      "Monocytoid cells",
+      "Monocytoid cell",
+      "Monocytoid B cells",
+      "Marginal zone cells",
+      "Marginal zone B cells"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "MALT lymphoma",
+      "Extranodal marginal zone lymphoma",
+      "Extranodal marginal zone B-cell lymphoma",
+      "Marginal zone lymphoma",
+      "MALToma"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "MALT lymphoma: lymphoma cells แทรกผนังลำไส้ตั้งแต่ mucosa, submucosa, muscular layer จนถึง serosa · เซลล์ขนาดเล็กถึงกลาง ไซโทพลาซึมใส เรียก monocytoid cells หรือ marginal zone cells",
+   "images": [
+    "h_malt_low",
+    "h_malt_high"
+   ],
+   "years": [
+    2563,
+    2564
+   ],
+   "seen": null,
+   "src": "สไลด์ 54–55",
+   "report": null,
+   "group": "malt"
+  },
+  {
+   "id": "h-origin",
+   "category": "ln-new",
+   "question": "จงบอก lymphoma ที่เกิดจากเซลล์ต่อไปนี้",
+   "parts": [
+    {
+     "q": "Mantle cells",
+     "answers": [
+      "Mantle cell lymphoma",
+      "MCL"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "Memory B-cells (interfollicular area)",
+     "answers": [
+      "Small lymphocytic lymphoma",
+      "SLL",
+      "CLL/SLL",
+      "Chronic lymphocytic leukemia/small lymphocytic lymphoma"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "Marginal zone B-cells",
+     "answers": [
+      "Marginal zone lymphoma",
+      "MALT lymphoma",
+      "Extranodal marginal zone lymphoma",
+      "MZL"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "T-cells (paracortical area)",
+     "answers": [
+      "Peripheral T-cell lymphoma",
+      "PTCL",
+      "T-cell lymphoma"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "สไลด์ 30: mantle cells → mantle cell lymphoma · centrocytes → FL · centroblasts → FL, DLBCL, Burkitt · memory B-cells → small lymphocytic lymphoma · marginal zone B-cells → marginal zone lymphoma, MALT lymphoma · immunoblasts → DLBCL · T-cells → peripheral T-cell lymphoma",
+   "images": [],
+   "years": [
+    2562,
+    2563,
+    2564
+   ],
+   "seen": null,
+   "src": "สไลด์ 29–30",
+   "report": null,
+   "group": "origin"
+  },
+  {
+   "id": "h-dlbcl-low",
+   "category": "ln-new",
+   "question": "",
+   "parts": [
+    {
+     "q": "ภาพ ก (กำลังขยายต่ำ) โครงสร้างของต่อมน้ำเหลืองเป็นอย่างไร",
+     "answers": [
+      "Normal lymph node architecture is effaced"
+     ],
+     "keywords": [
+      [
+       "effaced",
+       "effacement",
+       "loss",
+       "lost",
+       "obliterated",
+       "destroyed",
+       "disappeared",
+       "diffuse",
+       "หายไป",
+       "ไม่เหลือ"
+      ]
+     ]
+    },
+    {
+     "q": "ภาพ ข lymphoma cells มีขนาดเล็กหรือใหญ่",
+     "answers": [
+      "Large",
+      "Large cell",
+      "Large cells",
+      "Large lymphoid cells",
+      "ขนาดใหญ่",
+      "ใหญ่"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Diffuse large B-cell lymphoma",
+      "DLBCL",
+      "Diffuse large cell lymphoma"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "DLBCL: โครงสร้างของต่อมน้ำเหลืองปกติหายไป มี lymphoma cells ขนาดใหญ่กระจายทั่วไป นิวเคลียสใหญ่เท่าหรือใหญ่กว่านิวเคลียสของ histiocyte หรือ endothelial cell",
+   "images": [
+    "h_dlbcl_low",
+    "h_dlbcl_high"
+   ],
+   "years": [
+    2562,
+    2563,
+    2564
+   ],
+   "seen": null,
+   "src": "สไลด์ 43–46",
+   "report": null,
+   "group": "dlbcl"
+  },
+  {
+   "id": "h-met-low",
+   "category": "ln-new",
+   "question": "",
+   "parts": [
+    {
+     "q": "ภาพ ข ลูกศรสีเหลืองชี้บริเวณใด",
+     "answers": [
+      "Normal lymphoid tissue",
+      "Residual lymphoid tissue",
+      "Lymphoid tissue",
+      "Normal lymph node tissue",
+      "Residual lymph node"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "ภาพ ข ลูกศรสีเขียวชี้อะไร",
+     "answers": [
+      "Tumor",
+      "Tumor cells",
+      "Tumor nests",
+      "Metastatic tumor",
+      "Metastatic carcinoma",
+      "Carcinoma",
+      "Cancer cells",
+      "Malignant cells"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Metastatic carcinoma to lymph node",
+      "Metastatic carcinoma",
+      "Metastatic squamous cell carcinoma",
+      "Metastatic SCC",
+      "Lymph node metastasis",
+      "Metastatic tumor"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "Metastatic carcinoma to lymph node: normal lymphoid tissue เหลืออยู่บริเวณขอบของต่อมน้ำเหลือง (เหลือง) บริเวณอื่นมีเซลล์มะเร็งลุกลามเป็นผืนใหญ่ (เขียว) — ปี 62 ให้ภาพนี้แล้วเฉลย metastatic squamous cell carcinoma",
+   "images": [
+    "h_met_scan",
+    "h_met_low"
+   ],
+   "years": [
+    2562,
+    2564
+   ],
+   "seen": 2562,
+   "src": "สไลด์ 56–57",
+   "report": null,
+   "group": "met"
   }
  ]
 }

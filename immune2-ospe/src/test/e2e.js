@@ -208,6 +208,76 @@ async function gradeAndNext(page, key) {
   await page.waitForTimeout(100);
   console.log('custom card after reload:', (await page.textContent('#manageCount')).trim());
 
+  // Hemato II block: its own topics, categories, real exam, manage list and reset buttons
+  await page.click('.tabs button[data-view="home"]');
+  await page.click('#blockSwitch [data-block="hemato2"]');
+  await page.waitForSelector('.slide[data-topic="bm"]');
+  console.log('hemato brand:', (await page.textContent('.brand')).replace(/\s+/g, ' ').trim(), '| title:', (await page.textContent('#homeTitle')).trim());
+  console.log('hemato slides:', await page.$$eval('.slide', (els) => els.map((e) => e.innerText.replace(/\s+/g, ' ').trim().slice(0, 60))));
+  await page.click('.slide[data-topic="ln"]');
+  console.log('ln chips:', await page.$$eval('#homePanel .chip', (els) => els.map((e) => e.innerText.replace(/\s+/g, ' '))));
+  await page.screenshot({ path: path.join(SHOTS, 'home-hemato.png'), fullPage: true });
+  await page.click('#homePanel .chip[data-cat="ln-hot"]');
+  await page.click('#btnStudyAll');
+  await page.waitForSelector('#studyInput0');
+  id = await currentCard(page);
+  await answerStation(page, 'studyInput', keysOf(id));
+  await page.waitForSelector('.result');
+  console.log(`hemato study ${id} (${byId[id].category}) with its key →`, (await page.textContent('.result .result-title')).trim(),
+    '| tag:', (await page.textContent('#view-study .station-tag')).replace(/\s+/g, ' ').trim());
+  await page.screenshot({ path: path.join(SHOTS, 'study-hemato.png'), fullPage: true });
+  await gradeAndNext(page, 'Enter');
+
+  await page.click('.tabs button[data-view="exam"]');
+  await page.check('input[name="exMode"][value="real"]');
+  console.log('hemato exam avail:', (await page.textContent('#exAvail')).trim(), '|', (await page.textContent('#view-exam')).includes('Hemato II · 13 สถานี'));
+  await page.selectOption('#exSec', '60');
+  await page.click('#btnExamStart');
+  await page.waitForSelector('#examInput0');
+  await page.click('#blockSwitch [data-block="immune2"]');
+  console.log('switch refused during exam:', await page.getAttribute('#blockSwitch [data-block="hemato2"]', 'aria-pressed') === 'true',
+    '·', (await page.textContent('#toast')).trim());
+  const horder = [];
+  for (let i = 0; i < 30; i++) {
+    if (await page.$('.score')) break;
+    const cid = await currentCard(page, 'exam');
+    horder.push(cid);
+    await answerStation(page, 'examInput', i % 4 ? keysOf(cid) : []);
+    await page.waitForTimeout(40);
+  }
+  await page.waitForSelector('.score');
+  const hcats = horder.map((c) => byId[c].category);
+  const hgroups = horder.map((c) => byId[c].group);
+  const htally = hcats.reduce((m, c) => Object.assign(m, { [c]: (m[c] || 0) + 1 }), {});
+  console.log('hemato real exam:', horder.length, 'stations · bm', hcats.filter((c) => c.startsWith('bm-')).length,
+    '· ln', hcats.filter((c) => c.startsWith('ln-')).length, '· no repeated topic:', new Set(hgroups).size === hgroups.length,
+    '· mix:', JSON.stringify(htally));
+  console.log('  score:', (await page.textContent('.score')).trim());
+  await page.screenshot({ path: path.join(SHOTS, 'exam-summary-hemato.png'), fullPage: true });
+
+  await page.click('.tabs button[data-view="manage"]');
+  console.log('hemato manage:', (await page.textContent('#manageCount')).trim(), '| topics:',
+    await page.$$eval('#manageTopic option', (els) => els.map((e) => e.textContent)));
+  await page.click('.tabs button[data-view="io"]');
+  console.log('hemato reset buttons:', await page.$$eval('[data-reset]', (els) => els.map((e) => e.textContent)));
+
+  await page.setViewportSize({ width: 820, height: 900 });
+  await page.click('.tabs button[data-view="home"]');
+  console.log('820px overflow:', await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth));
+  await page.screenshot({ path: path.join(SHOTS, 'home-hemato-820.png') });
+  await page.setViewportSize({ width: 1200, height: 900 });
+
+  await page.reload();
+  await page.waitForSelector('.slide');
+  console.log('after reload: block', await page.getAttribute('#blockSwitch [aria-pressed="true"]', 'data-block'),
+    '· topic', await page.getAttribute('.slide[aria-pressed="true"]', 'data-topic'),
+    '· category', await page.getAttribute('#homePanel .chip[aria-pressed="true"]', 'data-cat'));
+  await page.click('#blockSwitch [data-block="immune2"]');
+  await page.waitForSelector('.slide[data-topic="lab"]');
+  console.log('back to Immune 2: topic', await page.getAttribute('.slide[aria-pressed="true"]', 'data-topic'),
+    '· category', await page.getAttribute('#homePanel .chip[aria-pressed="true"]', 'data-cat'),
+    '· brand', (await page.textContent('.brand')).replace(/\s+/g, ' ').trim());
+
   // cloud mode with a mocked viewer
   const ctx2 = await browser.newContext({ viewport: { width: 1200, height: 900 } });
   await ctx2.addInitScript(mockClaude);
@@ -259,6 +329,21 @@ async function gradeAndNext(page, key) {
     const o3 = await p.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     await p.screenshot({ path: path.join(SHOTS, `phone-exam-${scheme}.png`), fullPage: true });
     console.log(scheme, 'horizontal overflow home/study/exam:', o1, o2, o3);
+    await p.click('#blockSwitch [data-block="hemato2"]');
+    await p.waitForSelector('#exAvail');
+    const o4 = await p.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    await p.click('.tabs button[data-view="home"]');
+    await p.waitForSelector('.slide[data-topic="bm"]');
+    const o5 = await p.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    await p.screenshot({ path: path.join(SHOTS, `phone-home-hemato-${scheme}.png`), fullPage: true });
+    await p.click('#homePanel .chip[data-cat="bm-hot"]');
+    await p.click('#btnStudyAll');
+    await p.waitForSelector('#studyInput0');
+    await answerStation(p, 'studyInput', ['CML', 'x']);
+    await p.waitForSelector('.result');
+    const o6 = await p.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    await p.screenshot({ path: path.join(SHOTS, `phone-study-hemato-${scheme}.png`), fullPage: true });
+    console.log(scheme, 'hemato overflow exam/home/study:', o4, o5, o6);
     await c.close();
   }
 

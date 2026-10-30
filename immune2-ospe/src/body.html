@@ -1,9 +1,10 @@
 <header class="topbar">
   <div class="topbar-inner">
     <div class="brand">
-      <span class="brand-mark" aria-hidden="true">IM2</span>
-      <span class="brand-text">OSPE Immune 2<small>Lab infection · Immunodiagnosis</small></span>
+      <span class="brand-mark" id="brandMark" aria-hidden="true">IM2</span>
+      <span class="brand-text">OSPE Lab<small id="brandSub">Lab infection · Immunodiagnosis</small></span>
     </div>
+    <div class="blocks" id="blockSwitch" role="group" aria-label="บล็อก"></div>
     <nav class="tabs" aria-label="หน้า">
       <button type="button" data-view="home" aria-current="page">หน้าหลัก</button>
       <button type="button" data-view="study">ทบทวน</button>
@@ -17,11 +18,11 @@
 <main>
   <section id="view-home" data-view-panel="home">
     <div class="home-head">
-      <h1>ติว Lab OSPE — Immune 2</h1>
-      <p>จัดตามข้อสอบ Lab เก่าปี 2562–2565: หัวข้อที่ออกบ่อย หัวข้อที่เคยออก และหมวด “คาดว่าอาจออกปีนี้” จากบรรยายที่ยังไม่เคยออก ทำเป็นสถานีแบบ ก/ข เหมือนข้อสอบจริง พิมพ์คำตอบเอง ระบบตรวจตัวสะกดแบบยืดหยุ่น และจัดคิวทบทวนแบบ SM-2 ให้อัตโนมัติ</p>
+      <h1 id="homeTitle">ติว Lab OSPE</h1>
+      <p id="homeIntro"></p>
     </div>
     <div class="slides" id="topicSlides"></div>
-    <label class="switch both-toggle"><input type="checkbox" id="bothTopics"> ทบทวนรวมทั้งสองเรื่อง</label>
+    <label class="switch both-toggle"><input type="checkbox" id="bothTopics"> ทบทวนรวมทุกเรื่องในบล็อกนี้</label>
     <div class="panel" id="homePanel"></div>
     <div class="store-note" id="storeNote" aria-live="polite"><span class="dot"></span><span>กำลังเตรียมที่เก็บความคืบหน้า…</span></div>
   </section>
@@ -66,10 +67,8 @@
       </div>
       <div class="panel">
         <h3>เริ่มใหม่</h3>
-        <p>ล้างความคืบหน้าของเรื่องที่เลือก การ์ดยังอยู่ครบ — หรือคืนการ์ดตั้งต้นที่เคยลบหรือแก้ไขไว้</p>
-        <div class="row">
-          <button type="button" class="btn btn-danger" data-reset="lab">ล้างความคืบหน้า เรื่องที่ 1</button>
-          <button type="button" class="btn btn-danger" data-reset="dx">ล้างความคืบหน้า เรื่องที่ 2</button>
+        <p>ล้างความคืบหน้าของเรื่องที่เลือกในบล็อกนี้ การ์ดยังอยู่ครบ — หรือคืนการ์ดตั้งต้นที่เคยลบหรือแก้ไขไว้ (ทุกบล็อก)</p>
+        <div class="row" id="resetRow">
           <button type="button" class="btn" id="btnRestoreSeed">คืนค่าการ์ดตั้งต้น</button>
         </div>
       </div>

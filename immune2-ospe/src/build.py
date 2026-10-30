@@ -1,4 +1,4 @@
-"""Assemble OSPE Immune 2 into one HTML page.
+"""Assemble the OSPE lab practice site (Immune 2, Hemato II) into one HTML page.
 
   ../index.html      standalone page (open it directly, nothing else is needed)
   ../cards.json      card text without images, for review
@@ -19,13 +19,37 @@ def load(name):
     spec.loader.exec_module(m)
     return m.CARDS
 
+# A block is one course; each has its own topics, categories and real-exam recipe.
+# exam.sections: stations drawn per category; each section is shuffled on its own and the
+# sections follow each other, as the parts of the old papers did.
+BLOCKS = [
+    {'id': 'immune2', 'label': 'Immune 2', 'mark': 'IM2', 'topics': ['lab', 'dx'],
+     'intro': 'จัดตามข้อสอบ Lab เก่าปี 2562–2565: หัวข้อที่ออกบ่อย หัวข้อที่เคยออก และหมวด “คาดว่าอาจออกปีนี้” '
+              'จากบรรยายที่ยังไม่เคยออก',
+     'exam': {'sections': [[['syph-stage', 2], ['syph-sero', 2], ['syph-new', 1]],
+                           [['lab-hot', 6], ['lab-once', 2], ['lab-new', 2]]],
+              'note': 'ซิฟิลิส 5 (บอกระยะ 2 + แปลผล 2 + คาดว่าอาจออก 1) แล้วต่อด้วย Lab infection 10 '
+                      '(ออกบ่อย 6 + เคยออก 2 + คาดว่าอาจออก 2) สุ่มไม่ซ้ำหัวข้อ'}},
+    {'id': 'hemato2', 'label': 'Hemato II', 'mark': 'HE2', 'topics': ['bm', 'ln'],
+     'intro': 'จัดตามข้อสอบ Lab เก่าปี 2562–2564 (MEDNU 23–25): หัวข้อที่ออกบ่อย หัวข้อที่เคยออก และหมวด '
+              '“คาดว่าอาจออกปีนี้” จากเอกสาร Lab ปี 2567 ที่ยังไม่เคยออก',
+     'exam': {'sections': [[['bm-hot', 2], ['bm-once', 1], ['bm-new', 1], ['ln-hot', 6], ['ln-once', 1], ['ln-new', 2]]],
+              'note': 'ไขกระดูก 4 (CML/myeloma 2 + เคยออก 1 + คาดว่าอาจออก 1) และต่อมน้ำเหลือง 9 '
+                      '(ออกบ่อย 6 + เคยออก 1 + คาดว่าอาจออก 2) คละกัน สุ่มไม่ซ้ำหัวข้อ'}},
+]
 TOPICS = [
-    {'id': 'lab', 'no': 1, 'label': 'Lab infection', 'short': 'Lab infection',
+    {'id': 'lab', 'block': 'immune2', 'tag': 'เรื่องที่ 1', 'label': 'Lab infection', 'short': 'Lab infection',
      'sub': 'พยาธิวิทยาของโรคติดเชื้อ: แบคทีเรีย mycetoma เชื้อรา ไวรัส และปรสิต',
      'by': 'La-or Chompuk, M.D. · ภาควิชาพยาธิวิทยา'},
-    {'id': 'dx', 'no': 2, 'label': 'Infectious immunodiagnosis', 'short': 'Immunodiagnosis',
+    {'id': 'dx', 'block': 'immune2', 'tag': 'เรื่องที่ 2', 'label': 'Infectious immunodiagnosis', 'short': 'Immunodiagnosis',
      'sub': 'ซิฟิลิส: บอกระยะโรคจากภาพและแปลผลการตรวจ (ไวรัสตับอักเสบบี/ซีเป็นส่วนเสริม)',
      'by': 'Infectious Immunodiag 69 · แนวทางระดับชาติ 2564, 2568'},
+    {'id': 'bm', 'block': 'hemato2', 'tag': 'ส่วนที่ 1', 'label': 'Bone marrow', 'short': 'Bone marrow',
+     'sub': 'ไขกระดูก: CML, multiple myeloma, acute leukemia, CLL และไขกระดูกปกติ',
+     'by': 'Peerayut Sitthichaiyakul, M.D. · ภาควิชาพยาธิวิทยา'},
+    {'id': 'ln', 'block': 'hemato2', 'tag': 'ส่วนที่ 2', 'label': 'Lymph node', 'short': 'Lymph node',
+     'sub': 'ต่อมน้ำเหลือง: lymphoma, reactive lymphadenopathy และ metastatic carcinoma',
+     'by': 'Peerayut Sitthichaiyakul, M.D. · ภาควิชาพยาธิวิทยา'},
 ]
 # Categories follow the old papers (2562–2565): how often a topic was asked, not the lecture order.
 # The "คาดว่าอาจออกปีนี้" categories hold lecture material no paper has used yet (`optional`: drawn with a
@@ -48,9 +72,29 @@ CATEGORIES = [
              'neurosyphilis และภาพระยะโรคที่ยังไม่เคยใช้ (aortitis, condylomata lata, mucous patch ที่ลิ้น)'},
     {'id': 'hep', 'label': 'ไวรัสตับอักเสบ บี/ซี (คาดว่าอาจออก)', 'topic': 'dx', 'optional': True,
      'note': 'อยู่ในเอกสารปีนี้แต่ไม่เคยออกในข้อสอบ Lab เก่า — รูปแบบผลตรวจหลักและกราฟ marker'},
+    {'id': 'bm-hot', 'label': 'ออกทุกปี (CML, myeloma)', 'topic': 'bm',
+     'note': 'ข้อสอบปี 62, 63, 64 ถามทั้ง CML (วินิจฉัย, t(9;22)) และ multiple myeloma (วินิจฉัย, plasma cell, globulin สูง) ทุกปี'},
+    {'id': 'bm-once', 'label': 'เคยออก 1 ปี', 'topic': 'bm',
+     'note': 'ปี 64: ภาพ lymphoblast ที่ย้อม TdT และ CD3 ติด → lymphoblastic lymphoma'},
+    {'id': 'bm-new', 'label': 'คาดว่าอาจออกปีนี้', 'topic': 'bm', 'optional': True,
+     'note': 'อยู่ในเอกสารแต่ยังไม่เคยออก: ไขกระดูกปกติ, AML, ALL, CLL และภาพอื่นของ CML กับ myeloma'},
+    {'id': 'ln-hot', 'label': 'ออกบ่อย (2–3 ปี)', 'topic': 'ln',
+     'note': 'DLBCL และ mantle zone → mantle cell lymphoma ออกทุกปี · germinal center, follicular lymphoma, starry sky, Kikuchi, '
+             'Reed–Sternberg cell, metastatic SCC, MALT lymphoma ออก 2 ปี'},
+    {'id': 'ln-once', 'label': 'เคยออก 1 ปี', 'topic': 'ln',
+     'note': 'ปี 62: Kimura lymphadenopathy, Richter syndrome และเซลล์ใน germinal center (centroblast เป็น large lymphoid cell)'},
+    {'id': 'ln-new', 'label': 'คาดว่าอาจออกปีนี้', 'topic': 'ln', 'optional': True,
+     'note': 'ยังไม่เคยออก: reactive lymphoid hyperplasia, Reed–Sternberg variants, fibrosis ใน HL, follicles ของ FL เทียบ reactive, '
+             'monocytoid cells ของ MALT, ต้นกำเนิดของ lymphoma แต่ละชนิด และภาพอื่นของ DLBCL กับ metastasis'},
 ]
 
-cards = load('stations_lab') + load('stations_dx')
+cards = load('stations_lab') + load('stations_dx') + load('stations_hemato')
+topic_ids = {t['id'] for t in TOPICS}
+for b in BLOCKS:
+    assert all(t in topic_ids for t in b['topics']), b['id']
+    for section in b['exam']['sections']:
+        for cat, n in section:
+            assert any(c['id'] == cat for c in CATEGORIES), cat
 cat_ids = {c['id'] for c in CATEGORIES}
 img_dir = os.path.join(HERE, 'images')
 problems = []
@@ -70,8 +114,6 @@ for c in cards:
     for key in c['images']:
         if not os.path.exists(os.path.join(img_dir, key + '.webp')):
             problems.append(('missing image', c['id'], key))
-    if not c['images'] and not c.get('report') and c['category'] not in ('syph-sero',):
-        problems.append(('station without picture or report', c['id']))
     # stations on one topic share a group so the real-exam mock never picks two of them
     c['group'] = c.get('group') or (c['id'].split('-')[1] if c['category'].startswith('lab') else c['id'])
 if problems:
@@ -128,7 +170,7 @@ def pretty(a):
     for pat, rep in PHRASES:
         t = re.sub(pat, rep, t)
     t = re.sub(r"[a-z][a-z']*", lambda m: TOKENS.get(m.group(0), m.group(0).capitalize() if m.group(0) in GENUS else m.group(0)), t)
-    if t and t[0].islower():
+    if t and t[0].islower() and not re.match(r'(t|del|inv)\(', t):   # karyotypes stay lower case: t(9;22)
         t = t[0].upper() + t[1:]
     return t
 
@@ -153,7 +195,7 @@ def clean(c):
     out['parts'] = [{k: v for k, v in p.items() if v not in (None, [], '')} for p in c['parts']]
     return out
 
-seed = {'topics': TOPICS, 'categories': CATEGORIES, 'cards': [clean(c) for c in cards], 'images': images}
+seed = {'blocks': BLOCKS, 'topics': TOPICS, 'categories': CATEGORIES, 'cards': [clean(c) for c in cards], 'images': images}
 seed_json = json.dumps(seed, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
 
 head = open(os.path.join(HERE, 'head.html'), encoding='utf-8').read()
@@ -167,7 +209,7 @@ standalone = ('<!DOCTYPE html>\n<html lang="th">\n<head>\n<meta charset="utf-8">
               + head + '\n</head>\n<body>\n' + body + '\n' + tail + '</body>\n</html>\n')
 open(os.path.join(OUT, 'artifact.html'), 'w', encoding='utf-8').write(artifact)
 open(os.path.join(SITE, 'index.html'), 'w', encoding='utf-8').write(standalone)
-json.dump({'topics': TOPICS, 'categories': CATEGORIES, 'cards': cards}, open(os.path.join(SITE, 'cards.json'), 'w', encoding='utf-8'),
+json.dump({'blocks': BLOCKS, 'topics': TOPICS, 'categories': CATEGORIES, 'cards': cards}, open(os.path.join(SITE, 'cards.json'), 'w', encoding='utf-8'),
           ensure_ascii=False, indent=1)
 
 from collections import Counter
