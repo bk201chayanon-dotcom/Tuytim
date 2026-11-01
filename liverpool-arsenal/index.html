@@ -1,0 +1,434 @@
+<title>ลิเวอร์พูล–อาร์เซนอล ที่แอนฟิลด์</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: match-programme sheet — scoreboard header, then a single reading column of analysis panels, two-up where comparison is the point */
+:root{
+  --bg:#f3f1ee; --surface:#ffffff; --ink:#1b1716; --muted:#6c6460; --line:#ddd6d1;
+  --liv:#c8102e; --liv-soft:#f7dfe2;
+  --ars:#9c6b12; --ars-soft:#f3e7cf;
+  --draw:#7d7772;
+  --pitch:#2f6b3f; --pitch-line:rgba(255,255,255,.35);
+  --good:#2c7a4b; --warn:#b26a00; --bad:#b3261e;
+  --f-display:"Chakra Petch","IBM Plex Sans Thai",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans Thai",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141112; --surface:#1e1a1b; --ink:#f1ecea; --muted:#a59d99; --line:#352f30;
+  --liv:#ff4d63; --liv-soft:#3a1a20; --ars:#e0ad4f; --ars-soft:#33280f; --draw:#a39c97;
+  --pitch:#1f4a2b; --pitch-line:rgba(255,255,255,.22);
+  --good:#5fc88a; --warn:#f0a53c; --bad:#ff7a70; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141112; --surface:#1e1a1b; --ink:#f1ecea; --muted:#a59d99; --line:#352f30;
+  --liv:#ff4d63; --liv-soft:#3a1a20; --ars:#e0ad4f; --ars-soft:#33280f; --draw:#a39c97;
+  --pitch:#1f4a2b; --pitch-line:rgba(255,255,255,.22);
+  --good:#5fc88a; --warn:#f0a53c; --bad:#ff7a70; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.65}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px;display:grid;gap:28px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.2;text-wrap:balance;margin:0}
+h2{font-size:1.45rem;font-weight:700}
+h3{font-size:1.05rem;font-weight:600}
+p{margin:0}
+a{color:inherit}
+.label{font-family:var(--f-display);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.num{font-variant-numeric:tabular-nums}
+.liv{color:var(--liv)} .ars{color:var(--ars)}
+
+/* Scoreboard */
+.board{background:var(--surface);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.board-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:.9rem;color:var(--muted)}
+.board-main{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding:28px 20px}
+.team{display:grid;gap:4px}
+.team.away{text-align:right}
+.team-name{font-family:var(--f-display);font-weight:700;font-size:clamp(1.6rem,5vw,2.8rem);line-height:1.05}
+.team-meta{font-size:.92rem;color:var(--muted)}
+.clock{text-align:center;display:grid;gap:4px;justify-items:center}
+.clock-time{font-family:var(--f-display);font-size:clamp(1.8rem,5vw,2.6rem);font-weight:700;letter-spacing:.02em}
+.countdown{font-family:var(--f-mono);font-size:.95rem;padding:4px 10px;border:1px solid var(--line);border-radius:4px}
+.stripe{display:flex;height:6px}
+.stripe span:first-child{flex:1;background:var(--liv)}
+.stripe span:last-child{flex:1;background:var(--ars)}
+@media (max-width:560px){
+  .board-main{grid-template-columns:1fr;text-align:center}
+  .team.away{text-align:center}
+}
+
+/* Verdict */
+.verdict{display:grid;grid-template-columns:auto 1fr;gap:20px 28px;align-items:center;padding:24px;border-radius:6px;background:var(--surface);border:1px solid var(--line)}
+.score{font-family:var(--f-display);font-weight:700;font-size:clamp(2.6rem,9vw,4.2rem);line-height:1;white-space:nowrap}
+.score .dash{color:var(--muted);padding:0 .15em}
+.verdict p{max-width:62ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{font-size:.82rem;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+@media (max-width:560px){.verdict{grid-template-columns:1fr}}
+
+section{display:grid;gap:16px}
+.section-head{display:grid;gap:4px}
+.section-head p{color:var(--muted);max-width:65ch}
+
+/* Probabilities */
+.probs{display:grid;gap:18px}
+.prob-row{display:grid;gap:6px}
+.prob-row .src{display:flex;justify-content:space-between;gap:12px;font-size:.9rem}
+.prob-row .src span:last-child{color:var(--muted)}
+.bar{display:flex;height:34px;border-radius:4px;overflow:hidden;font-family:var(--f-display);font-weight:600;font-size:.9rem}
+.bar div{display:flex;align-items:center;padding:0 10px;color:#fff;min-width:0;white-space:nowrap}
+.bar .b-liv{background:var(--liv)}
+.bar .b-d{background:var(--draw);justify-content:center}
+.bar .b-ars{background:var(--ars);justify-content:flex-end}
+:root[data-theme="dark"] .bar div{color:#120e0f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .bar div{color:#120e0f}}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.85rem;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:middle}
+
+/* Comparison table */
+.tbl-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:6px}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;min-width:460px}
+th,td{padding:11px 14px;border-bottom:1px solid var(--line);text-align:center}
+tr:last-child td{border-bottom:0}
+th{font-family:var(--f-display);font-weight:600;font-size:.85rem;color:var(--muted);letter-spacing:.04em}
+td.k{color:var(--muted);font-size:.92rem}
+td.v{font-weight:600}
+td.edge-liv{color:var(--liv)} td.edge-ars{color:var(--ars)}
+
+/* Two-up */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.two>*{min-width:0}
+@media (max-width:720px){.two{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px 20px;display:grid;gap:12px;align-content:start}
+.panel.liv-top{border-top:4px solid var(--liv)}
+.panel.ars-top{border-top:4px solid var(--ars)}
+ul.news{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ul.news li{display:grid;grid-template-columns:76px 1fr;gap:10px;align-items:baseline;font-size:.95rem}
+.tag{font-family:var(--f-display);font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:3px;text-align:center;border:1px solid currentColor}
+.tag.out{color:var(--bad)} .tag.doubt{color:var(--warn)} .tag.back{color:var(--good)} .tag.ban{color:var(--bad)}
+
+/* Pitch */
+.pitch{background:var(--pitch);border-radius:6px;padding:16px 10px;display:grid;gap:14px;position:relative;overflow:hidden}
+.pitch::before{content:"";position:absolute;inset:8px;border:1.5px solid var(--pitch-line);border-radius:3px;pointer-events:none}
+.pitch::after{content:"";position:absolute;left:50%;bottom:8px;width:40%;height:15%;transform:translateX(-50%);border:1.5px solid var(--pitch-line);border-bottom:0;pointer-events:none}
+.line-up{display:flex;justify-content:space-around;gap:4px;position:relative;z-index:1}
+.pl{display:grid;justify-items:center;gap:3px;min-width:0;flex:1}
+.pl b{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-size:.78rem;font-weight:700;border:2px solid #fff}
+.pl span{font-size:.74rem;color:#fff;text-align:center;line-height:1.2;overflow-wrap:anywhere}
+.pitch.p-liv .pl b{background:#c8102e;color:#fff}
+.pitch.p-ars .pl b{background:#ef0107;color:#fff;border-color:#f2d27a}
+.formation{display:flex;justify-content:space-between;align-items:baseline}
+
+/* Keys */
+.keys{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.keys>*{min-width:0}
+@media (max-width:720px){.keys{grid-template-columns:1fr}}
+.key{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px 20px;display:grid;gap:8px;align-content:start}
+.lean{font-size:.82rem;font-weight:600;font-family:var(--f-display)}
+
+/* Form dots */
+.formline{display:flex;gap:6px;flex-wrap:wrap}
+.fd{width:28px;height:28px;border-radius:4px;display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:.8rem;color:#fff}
+.fd.w{background:var(--good)} .fd.d{background:var(--draw)} .fd.l{background:var(--bad)}
+.facts{display:grid;gap:8px;margin:0;padding-left:1.1em}
+
+/* Pundits */
+.pundits{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.pundit{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:grid;gap:2px}
+.pundit .ps{font-family:var(--f-display);font-size:1.6rem;font-weight:700}
+.pundit .pn{font-size:.85rem;color:var(--muted)}
+
+.note{font-size:.88rem;color:var(--muted);max-width:70ch}
+.sources{font-size:.88rem;color:var(--muted);display:grid;gap:4px;margin:0;padding-left:1.1em}
+footer{border-top:1px solid var(--line);padding-top:18px;display:grid;gap:10px}
+a:focus-visible{outline:2px solid var(--liv);outline-offset:2px}
+</style>
+
+<div class="wrap">
+
+  <header class="board" aria-label="ข้อมูลการแข่งขัน">
+    <div class="board-top">
+      <span>พรีเมียร์ลีก 2026/27 · นัดที่ 9</span>
+      <span>แอนฟิลด์ · ผู้ตัดสิน Andy Madley · VAR Stuart Attwell</span>
+    </div>
+    <div class="board-main">
+      <div class="team">
+        <span class="label">เจ้าบ้าน</span>
+        <span class="team-name liv">ลิเวอร์พูล</span>
+        <span class="team-meta num">อันดับ 4–5 · 15 แต้ม · ชนะรวด 5 นัด</span>
+      </div>
+      <div class="clock">
+        <span class="label">อา. 1 พ.ย. 2569</span>
+        <span class="clock-time num">23:30</span>
+        <span class="countdown num" id="countdown" aria-live="polite">เวลาไทย</span>
+      </div>
+      <div class="team away">
+        <span class="label">ทีมเยือน</span>
+        <span class="team-name ars">อาร์เซนอล</span>
+        <span class="team-meta num">อันดับ 2 · 21 แต้ม · ชนะ 7 จาก 8</span>
+      </div>
+    </div>
+    <div class="stripe" aria-hidden="true"><span></span><span></span></div>
+  </header>
+
+  <div class="verdict">
+    <div>
+      <span class="label">ผลที่เราคาด</span>
+      <div class="score num"><span class="liv">1</span><span class="dash">–</span><span class="ars">1</span></div>
+    </div>
+    <div>
+      <h2>เสมอกัน แต่สูสีมาก</h2>
+      <p>ตลาดให้อาร์เซนอลเป็นต่อเล็กน้อยเพราะตารางคะแนนดีกว่า แต่ทีมเยือนขาดซาก้ากับดาวแมน และแพ้ฟลีตวู้ดในลีกคัพกลางสัปดาห์ ส่วนลิเวอร์พูลชนะมา 5 นัดติดและเล่นได้ดีแม้ครองบอลน้อย อาร์เซนอลไม่ชนะในลีกที่แอนฟิลด์มาตั้งแต่ปี 2012 ขณะที่ลิเวอร์พูลก็ชนะอาร์เซนอลได้แค่ 1 ครั้งใน 8 นัดหลังสุด เราจึงมองว่าแบ่งแต้มกันมีโอกาสสูงสุด</p>
+      <div class="chips">
+        <span class="chip">ความมั่นใจ: ต่ำ</span>
+        <span class="chip">ทั้งสองทีมยิงได้: มีโอกาส</span>
+        <span class="chip">ไม่ใช่คำแนะนำการพนัน</span>
+      </div>
+    </div>
+  </div>
+
+  <section aria-labelledby="h-prob">
+    <div class="section-head">
+      <h2 id="h-prob">โอกาสชนะ</h2>
+      <p>ราคาต่อรองแปลงเป็นความน่าจะเป็นแล้วตัดค่าน้ำของเจ้ามือออก ส่วนแถวสุดท้ายคือตัวเลขของเราเอง</p>
+    </div>
+    <div class="probs" id="probs"></div>
+    <div class="legend">
+      <span><i style="background:var(--liv)"></i>ลิเวอร์พูลชนะ</span>
+      <span><i style="background:var(--draw)"></i>เสมอ</span>
+      <span><i style="background:var(--ars)"></i>อาร์เซนอลชนะ</span>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-cmp">
+    <div class="section-head">
+      <h2 id="h-cmp">ตัวเลขเทียบกัน</h2>
+      <p>ข้อมูลก่อนเตะ ณ วันที่ 1 พ.ย. ตารางคะแนนของลิเวอร์พูลแต่ละแหล่งระบุอันดับต่างกัน (4 หรือ 5)</p>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th class="liv">ลิเวอร์พูล</th><th></th><th class="ars">อาร์เซนอล</th></tr></thead>
+        <tbody>
+          <tr><td class="v">4–5</td><td class="k">อันดับในลีก</td><td class="v edge-ars">2</td></tr>
+          <tr><td class="v">15</td><td class="k">แต้ม (8 นัด)</td><td class="v edge-ars">21</td></tr>
+          <tr><td class="v">4–3–1</td><td class="k">ชนะ–เสมอ–แพ้</td><td class="v edge-ars">7–0–1</td></tr>
+          <tr><td class="v">—</td><td class="k">ผลต่างประตู</td><td class="v">+8</td></tr>
+          <tr><td class="v edge-liv">ชนะ 5 นัดติด</td><td class="k">ฟอร์มล่าสุด (ทุกรายการ)</td><td class="v">ตกรอบลีกคัพ</td></tr>
+          <tr><td class="v edge-liv">ไม่แพ้ 13–14 นัด</td><td class="k">สถิติลีกที่แอนฟิลด์ (เจอกัน)</td><td class="v">ชนะครั้งสุดท้าย ก.ย. 2012</td></tr>
+          <tr><td class="v">1</td><td class="k">ชนะใน 8 นัดหลังที่พบกันในลีก</td><td class="v">—</td></tr>
+          <tr><td class="v">96</td><td class="k">ชนะตลอดกาล (เสมอ 67)</td><td class="v">83</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-form">
+    <div class="section-head">
+      <h2 id="h-form">ฟอร์มก่อนเกม</h2>
+    </div>
+    <div class="two">
+      <div class="panel liv-top">
+        <h3 class="liv">ลิเวอร์พูล</h3>
+        <div class="formline" aria-label="ผล 5 นัดล่าสุด: ชนะทั้งหมด">
+          <span class="fd w">W</span><span class="fd w">W</span><span class="fd w">W</span><span class="fd w">W</span><span class="fd w">W</span>
+        </div>
+        <ul class="facts">
+          <li>ชนะ 5 นัดติดต่อกันทุกรายการ</li>
+          <li>ชนะไบรท์ตัน 2–0 ทั้งที่ครองบอลแค่ 36% ทีมพร้อมเล่นเกมสวนกลับ</li>
+          <li>ตัวหลักอย่างอลิสสัน, แม็คอัลลิสเตอร์, เวิร์ตซ์ และอิซัค คาดว่ากลับมาเป็นตัวจริง</li>
+        </ul>
+      </div>
+      <div class="panel ars-top">
+        <h3 class="ars">อาร์เซนอล</h3>
+        <div class="formline" aria-label="ผลในลีก: ชนะ 7 แพ้ 1 จาก 8 นัด">
+          <span class="fd w">W</span><span class="fd w">W</span><span class="fd w">W</span><span class="fd w">W</span><span class="fd w">W</span><span class="fd w">W</span><span class="fd w">W</span><span class="fd l">L</span>
+        </div>
+        <ul class="facts">
+          <li>ชนะ 7 จาก 8 นัดในลีก (ลำดับผลในแถบด้านบนเป็นสรุปรวม ไม่ใช่เรียงตามวันที่)</li>
+          <li>กลางสัปดาห์ตกรอบลีกคัพต่อฟลีตวู้ด ทีมลีกทู เสมอ 1–1 แพ้จุดโทษ</li>
+          <li>เกมรับแน่นที่สุดทีมหนึ่งของลีก ผลต่างประตู +8</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-news">
+    <div class="section-head">
+      <h2 id="h-news">ข่าวทีม</h2>
+      <p>สถานะของซาก้ายังขัดกันระหว่างแหล่งข่าว ควรเช็กรายชื่อตัวจริงอีกครั้งราว 22:30 น.</p>
+    </div>
+    <div class="two">
+      <div class="panel liv-top">
+        <h3 class="liv">ลิเวอร์พูล</h3>
+        <ul class="news">
+          <li><span class="tag out">เจ็บ</span><span>เจเรมี ฟริมปง</span></li>
+          <li><span class="tag out">เจ็บ</span><span>คอเนอร์ แบรดลีย์ ทำให้อาราอูโฮต้องเล่นแบ็กขวา</span></li>
+          <li><span class="tag doubt">ลุ้น</span><span>โดมินิก โซบอสซไล อาจได้แค่นั่งสำรอง</span></li>
+          <li><span class="tag doubt">ลุ้น</span><span>วิกตอร์ มูโญซ อาจได้แค่นั่งสำรอง</span></li>
+          <li><span class="tag back">กลับมา</span><span>อลิสสัน, ฌักเกต์, เคิร์กเกซ, แม็คอัลลิสเตอร์, เวิร์ตซ์, บาร์โคลา, อิซัค</span></li>
+        </ul>
+      </div>
+      <div class="panel ars-top">
+        <h3 class="ars">อาร์เซนอล</h3>
+        <ul class="news">
+          <li><span class="tag ban">แบน</span><span>แม็กซ์ ดาวแมน อุทธรณ์ใบแดงไม่ผ่าน</span></li>
+          <li><span class="tag out">เจ็บ</span><span>บูคาโย ซาก้า เจ็บต้นขา อาจพักหลายสัปดาห์</span></li>
+          <li><span class="tag doubt">ลุ้น</span><span>ดีแคลน ไรซ์ ลงซ้อมแล้ว แต่บางแหล่งยังระบุว่าน่าเป็นห่วง</span></li>
+          <li><span class="tag back">ซ้อมแล้ว</span><span>ริคคาร์โด คาลาฟิโอรี, คริสตอส ทโซลิส</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-xi">
+    <div class="section-head">
+      <h2 id="h-xi">ตัวจริงที่คาดว่าจะลง</h2>
+      <p>ทั้งสองทีมคาดว่าใช้ 4-2-3-1 อ้างอิงจากพรีวิวของ Sports Illustrated</p>
+    </div>
+    <div class="two">
+      <div class="panel">
+        <div class="formation"><h3 class="liv">ลิเวอร์พูล</h3><span class="label num">4-2-3-1</span></div>
+        <div class="pitch p-liv" id="xi-liv"></div>
+      </div>
+      <div class="panel">
+        <div class="formation"><h3 class="ars">อาร์เซนอล</h3><span class="label num">4-2-3-1</span></div>
+        <div class="pitch p-ars" id="xi-ars"></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-keys">
+    <div class="section-head">
+      <h2 id="h-keys">จุดชี้ขาดเกม</h2>
+      <p>การวิเคราะห์ของเราจากข่าวทีมและแนวทางการเล่นช่วงต้นฤดูกาล</p>
+    </div>
+    <div class="keys">
+      <div class="key">
+        <span class="lean liv">เอียงไปทางลิเวอร์พูล</span>
+        <h3>เกมสวนกลับใส่แนวรับสูง</h3>
+        <p>ลิเวอร์พูลชนะไบรท์ตันโดยครองบอลแค่ 36% หากอาร์เซนอลดันแนวขึ้นสูง บาร์โคลาและกักโปจะได้พื้นที่ด้านหลังแบ็กให้วิ่ง และอิซัคจบสกอร์ได้จากโอกาสไม่มาก</p>
+      </div>
+      <div class="key">
+        <span class="lean ars">เอียงไปทางอาร์เซนอล</span>
+        <h3>ลูกตั้งเตะและแบ็กขวาที่ถูกย้ายตำแหน่ง</h3>
+        <p>ฟริมปงและแบรดลีย์เจ็บทั้งคู่ อาราอูโฮที่เป็นเซ็นเตอร์แบ็กต้องย้ายมาเล่นแบ็กขวาเจอกับเอเซ่และคาลาฟิโอรี ส่วนกาเบรียลกับคอนซาก็เป็นภัยในลูกตั้งเตะ</p>
+      </div>
+      <div class="key">
+        <span class="lean liv">เอียงไปทางลิเวอร์พูล</span>
+        <h3>อาร์เซนอลไม่มีซาก้า</h3>
+        <p>ฝั่งขวาของอาร์เซนอลจะใช้มาดูเอเก้แทน ทำให้ขาดคนสร้างสรรค์และจ่ายบอลคนสำคัญ ส่วนเคิร์กเกซจะได้ขึ้นเกมรุกมากขึ้น</p>
+      </div>
+      <div class="key">
+        <span class="lean ars">เอียงไปทางอาร์เซนอล</span>
+        <h3>คู่กลางกีมาไรช์–ไรซ์ เจอ เวิร์ตซ์</h3>
+        <p>ถ้าไรซ์ลงเล่นได้เต็มที่ คู่มิดฟิลด์ตัวรับของอาร์เซนอลจะช่วยปิดช่องที่เวิร์ตซ์ชอบเล่น ถ้าไรซ์ไม่พร้อม พื้นที่ระหว่างแนวจะเปิดให้ลิเวอร์พูลทันที</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-pundit">
+    <div class="section-head">
+      <h2 id="h-pundit">สื่อทายผล</h2>
+      <p>ความเห็นแตกกันชัดเจน มีทั้งเจ้าบ้านชนะ เสมอ และทีมเยือนชนะ</p>
+    </div>
+    <div class="pundits">
+      <div class="pundit"><span class="ps num"><span class="liv">1</span>–<span class="ars">2</span></span><span class="pn">Sports Illustrated</span></div>
+      <div class="pundit"><span class="ps num"><span class="liv">2</span>–<span class="ars">2</span></span><span class="pn">LiveScore (พรีวิว)</span></div>
+      <div class="pundit"><span class="ps num"><span class="liv">1</span>–<span class="ars">1</span></span><span class="pn">LiveScore (ทีมทายผล)</span></div>
+      <div class="pundit"><span class="ps num"><span class="liv">0</span>–<span class="ars">0</span></span><span class="pn">Sporting Life</span></div>
+      <div class="pundit"><span class="ps ars">อาร์เซนอลชนะ</span><span class="pn">Oddschecker · ยิงกันทั้งสองฝั่ง</span></div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="note">หน้านี้รวบรวมจากพรีวิวที่เผยแพร่ก่อนเกม ตัวเลขบางรายการแต่ละแหล่งไม่ตรงกัน ราคาต่อรองเป็นราคา ณ เวลาที่บทความเผยแพร่และอาจเปลี่ยนไปแล้ว การวิเคราะห์นี้มีไว้เพื่อความบันเทิง ไม่ใช่คำแนะนำในการเดิมพัน</p>
+    <span class="label">แหล่งข้อมูล</span>
+    <ul class="sources">
+      <li><a href="https://www.arsenal.com/news/preview-liverpool-v-arsenal-aIdk94W0fxtN" target="_blank" rel="noopener">Arsenal.com · Preview: Liverpool v Arsenal</a></li>
+      <li><a href="https://www.si.com/soccer/liverpool-vs-arsenal-preview-predictions-lineups-11-1-26" target="_blank" rel="noopener">Sports Illustrated · Preview, Predictions and Lineups</a></li>
+      <li><a href="https://www.espn.com/soccer/story/_/id/50326550/liverpool-vs-arsenal-2026-27-premier-league-tv-channel-how-watch-kickoff-live-stream-referee-injury-predicted-lineups" target="_blank" rel="noopener">ESPN · TV, referee, team news</a></li>
+      <li><a href="https://www.livescore.com/en/news/football/premier-league/liverpool-vs-arsenal-preview-prediction-lineups-pain-in-the-arsenal/" target="_blank" rel="noopener">LiveScore · Preview, Prediction &amp; Lineups</a></li>
+      <li><a href="https://www.livescore.com/en/news/football/premier-league/predictions/liverpool-arsenal-predictions-premier-league/" target="_blank" rel="noopener">LiveScore · Predictions</a></li>
+      <li><a href="https://www.sportinglife.com/football/news/liverpool-vs-arsenal-predictions-tips-and-super-sunday-preview/235123" target="_blank" rel="noopener">Sporting Life · Predictions and tips</a></li>
+      <li><a href="https://www.racingpost.com/sport/football-tips/premier-league/liverpool-vs-arsenal-predictions-team-news-odds-betting-tips-bet-builder-aYr0p8n2BEMZ/" target="_blank" rel="noopener">Racing Post · Odds and team news</a></li>
+      <li><a href="https://www.oddschecker.com/us/picks-parlays/soccer/cng201-20261101-liverpool-vs-arsenal-lineups-prediction-betting-picks-odds" target="_blank" rel="noopener">Oddschecker · Prediction &amp; Odds</a></li>
+      <li><a href="https://sports.yahoo.com/articles/liverpool-vs-arsenal-match-preview-050000092.html" target="_blank" rel="noopener">Yahoo Sports · Match preview (Opta)</a></li>
+      <li><a href="https://www.footballwebpages.co.uk/premier-league/league-table" target="_blank" rel="noopener">Football Web Pages · League table</a></li>
+      <li><a href="https://www.nbcsports.com/soccer/live/liverpool-vs-arsenal-live-updates-score-goals-highlights-stats-2026-november-1" target="_blank" rel="noopener">NBC Sports · Live updates</a></li>
+    </ul>
+  </footer>
+</div>
+
+<script>
+(function(){
+  // Fractional odds -> normalised probabilities (removes bookmaker margin)
+  function fromFrac(h,d,a){
+    var p=[h,d,a].map(function(f){var x=f.split('/');return 1/(x[0]/x[1]+1)});
+    var s=p[0]+p[1]+p[2];
+    return p.map(function(v){return v/s*100});
+  }
+  var rows=[
+    {src:'Opta supercomputer',note:'แบบจำลองสถิติ',p:[32.7,25.5,41.8]},
+    {src:'Sky Bet',note:'15/8 · 12/5 · 13/10',p:fromFrac('15/8','12/5','13/10')},
+    {src:'Paddy Power',note:'19/10 · 23/10 · 7/5',p:fromFrac('19/10','23/10','7/5')},
+    {src:'ทีมวิเคราะห์ของเรา',note:'ปรับจากข่าวทีมและสถิติแอนฟิลด์',p:[34,31,35]}
+  ];
+  var host=document.getElementById('probs');
+  rows.forEach(function(r){
+    var p=r.p.map(function(v){return Math.round(v)});
+    var el=document.createElement('div');el.className='prob-row';
+    el.innerHTML='<div class="src"><span>'+r.src+'</span><span>'+r.note+'</span></div>'+
+      '<div class="bar num" role="img" aria-label="'+r.src+': ลิเวอร์พูล '+p[0]+'%, เสมอ '+p[1]+'%, อาร์เซนอล '+p[2]+'%">'+
+      '<div class="b-liv" style="width:'+r.p[0]+'%">'+p[0]+'%</div>'+
+      '<div class="b-d" style="width:'+r.p[1]+'%">'+p[1]+'%</div>'+
+      '<div class="b-ars" style="width:'+r.p[2]+'%">'+p[2]+'%</div></div>';
+    host.appendChild(el);
+  });
+
+  // Predicted XIs, attack at top
+  function pitch(id,lines){
+    var h=document.getElementById(id);
+    lines.forEach(function(line){
+      var row=document.createElement('div');row.className='line-up';
+      line.forEach(function(pl){
+        var d=document.createElement('div');d.className='pl';
+        d.innerHTML='<b>'+pl[0]+'</b><span>'+pl[1]+'</span>';
+        row.appendChild(d);
+      });
+      h.appendChild(row);
+    });
+  }
+  pitch('xi-liv',[
+    [['ST','อิซัค']],
+    [['LW','กักโป'],['AM','เวิร์ตซ์'],['RW','บาร์โคลา']],
+    [['CM','แม็คอัลลิสเตอร์'],['CM','กราเวนแบร์ค']],
+    [['LB','เคิร์กเกซ'],['CB','ฟาน ไดจ์ค'],['CB','ฌักเกต์'],['RB','อาราอูโฮ']],
+    [['GK','อลิสสัน']]
+  ]);
+  pitch('xi-ars',[
+    [['ST','ฮาแวร์ตซ์']],
+    [['LW','เอเซ่'],['AM','เออเดอโกร์'],['RW','มาดูเอเก้']],
+    [['CM','ไรซ์'],['CM','กีมาไรช์']],
+    [['LB','คาลาฟิโอรี'],['CB','กาเบรียล'],['CB','คอนซา'],['RB','ไวท์']],
+    [['GK','รายา']]
+  ]);
+
+  // Countdown to 16:30 GMT = 23:30 Bangkok
+  var ko=Date.UTC(2026,10,1,16,30);
+  var cd=document.getElementById('countdown');
+  function tick(){
+    var ms=ko-Date.now();
+    if(ms>0){
+      var s=Math.floor(ms/1000),d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),sec=s%60;
+      cd.textContent='เตะใน '+(d?d+' วัน ':'')+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+    } else if(ms>-115*60000){
+      cd.textContent='กำลังแข่ง';
+    } else {
+      cd.textContent='จบเกมแล้ว';
+      clearInterval(t);
+    }
+  }
+  tick();var t=setInterval(tick,1000);
+})();
+</script>
