@@ -186,7 +186,7 @@
    "label": "คาดว่าอาจออกปีนี้",
    "topic": "bm",
    "optional": true,
-   "note": "อยู่ในเอกสารแต่ยังไม่เคยออก: ไขกระดูกปกติ (bone trabeculae, fat, เซลล์ 3 กลุ่ม), AML (ลักษณะ myeloblast, เกณฑ์ 20%), ALL, CLL (ขนาดและลักษณะเซลล์) และภาพอื่นของ CML กับ myeloma"
+   "note": "อยู่ในเอกสารแต่ยังไม่เคยออก: ไขกระดูกปกติ (bone trabeculae, fat, เซลล์ 3 กลุ่ม), AML (ลักษณะ myeloblast, เกณฑ์ 20%), ALL, CLL (ขนาดและลักษณะเซลล์), ภาพอื่นของ CML กับ myeloma และ virtual slide ของทุกโรคในเอกสาร"
   },
   {
    "id": "ln-hot",
@@ -205,7 +205,7 @@
    "label": "คาดว่าอาจออกปีนี้",
    "topic": "ln",
    "optional": true,
-   "note": "ยังไม่เคยออก: reactive lymphoid hyperplasia, การแบ่งกลุ่ม lymphoma (Hodgkin/non-Hodgkin, B/T, small/large), ส่วนประกอบของ follicle และต้นกำเนิดของ lymphoma, tingible-body macrophages, ลักษณะและ variants ของ Reed–Sternberg cell, fibrosis ใน HL, follicles ของ FL เทียบ reactive, monocytoid cells ของ MALT และภาพกำลังขยายต่ำของ Kikuchi, Kimura, DLBCL, metastasis"
+   "note": "ยังไม่เคยออก: reactive lymphoid hyperplasia, การแบ่งกลุ่ม lymphoma (Hodgkin/non-Hodgkin, B/T, small/large), ส่วนประกอบของ follicle และต้นกำเนิดของ lymphoma, tingible-body macrophages, ลักษณะและ variants ของ Reed–Sternberg cell, fibrosis ใน HL, follicles ของ FL เทียบ reactive, monocytoid cells ของ MALT, intercellular bridges ของ SCC, DLBCL แบบ de novo และภาพกำลังขยายต่ำหรือ virtual slide ของ reactive hyperplasia, Kikuchi, Kimura, HL, DLBCL, metastasis"
   }
  ],
  "cards": [
@@ -5759,6 +5759,261 @@
    "group": "aml"
   },
   {
+   "id": "h-bm-vs",
+   "category": "bm-new",
+   "question": "virtual slide ของไขกระดูก 2 ราย",
+   "parts": [
+    {
+     "q": "ภาพใดเป็นไขกระดูกปกติ",
+     "answers": [
+      "ภาพ ก",
+      "ภาพก",
+      "ก",
+      "รูป ก",
+      "รูปก"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "ภาพ ข ต่างจากภาพ ก อย่างไร",
+     "answers": [
+      "Marrow is packed with cells and the fat is almost gone"
+     ],
+     "keywords": [
+      [
+       "increased",
+       "increase",
+       "hypercellular",
+       "packed",
+       "many cells",
+       "more cells",
+       "full of cells",
+       "fill",
+       "filled",
+       "infiltrate",
+       "infiltration",
+       "เพิ่มขึ้น",
+       "จำนวนมาก",
+       "เต็ม"
+      ],
+      [
+       "fat",
+       "fat cells",
+       "adipocytes",
+       "ไขมัน"
+      ]
+     ]
+    },
+    {
+     "q": "กำลังขยายสูงของภาพ ข พบ myeloblasts มากกว่า 20% จงให้การวินิจฉัย",
+     "answers": [
+      "Acute myeloid leukemia",
+      "AML",
+      "Acute myelogenous leukemia",
+      "Acute myeloblastic leukemia",
+      "Acute myelocytic leukemia",
+      "Acute granulocytic leukemia",
+      "Acute non-lymphocytic leukemia",
+      "ANLL"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "ภาพ ก ไขกระดูกปกติ: bone trabeculae กับ marrow ที่มีทั้ง hematopoietic elements และ fat · ภาพ ข AML: myeloblasts มากกว่า 20% มักพบเกือบเต็ม marrow จนแทบไม่เหลือไขมัน",
+   "images": [
+    "h_bm_normal_low",
+    "h_aml_scan"
+   ],
+   "years": [],
+   "seen": null,
+   "src": "สไลด์ 4–5, 8–9",
+   "report": null,
+   "group": "aml"
+  },
+  {
+   "id": "h-all-vs",
+   "category": "bm-new",
+   "question": "virtual slide ของไขกระดูก (ภาพ ข กำลังขยายสูง)",
+   "parts": [
+    {
+     "q": "ภาพ ข เซลล์ที่พบจำนวนมากเต็มไขกระดูกคือเซลล์ใด",
+     "answers": [
+      "Lymphoblasts",
+      "Lymphoblast"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "นิวเคลียสของเซลล์นี้มีลักษณะคล้ายกับเซลล์ใด",
+     "answers": [
+      "Myeloblasts",
+      "Myeloblast"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "ไซโทพลาซึมของเซลล์นี้สังเกตได้ง่ายหรือยาก",
+     "answers": [
+      "ยาก",
+      "สังเกตได้ยาก",
+      "Difficult",
+      "Difficult to see",
+      "Hard",
+      "Hard to see",
+      "Not easy",
+      "Scant",
+      "Inconspicuous"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Acute lymphoblastic leukemia",
+      "ALL",
+      "Acute lymphocytic leukemia",
+      "Acute lymphoid leukemia",
+      "Lymphoblastic leukemia"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "ALL: lymphoblasts จำนวนมากเต็มไขกระดูก นิวเคลียสใหญ่เกือบเต็มเซลล์และคล้าย myeloblasts แต่ไซโทพลาซึมน้อย มักสังเกตได้ยาก ในชิ้นเนื้อ และไม่พบแกรนูล",
+   "images": [
+    "h_all_scan",
+    "h_all_high"
+   ],
+   "years": [],
+   "seen": null,
+   "src": "สไลด์ 11–13",
+   "report": null,
+   "group": "lbl"
+  },
+  {
+   "id": "h-cll-vs",
+   "category": "bm-new",
+   "question": "virtual slide ของไขกระดูก (ภาพ ข กำลังขยายต่ำ)",
+   "parts": [
+    {
+     "q": "ภาพ ข (กำลังขยายต่ำ) พบอะไรในไขกระดูก",
+     "answers": [
+      "Marked increase of cells in the marrow"
+     ],
+     "keywords": [
+      [
+       "increased",
+       "increase",
+       "hypercellular",
+       "packed",
+       "many cells",
+       "more cells",
+       "full of cells",
+       "fill",
+       "filled",
+       "infiltrate",
+       "infiltration",
+       "เพิ่มขึ้น",
+       "จำนวนมาก",
+       "เต็ม"
+      ]
+     ]
+    },
+    {
+     "q": "กำลังขยายสูงพบ neoplastic small lymphoid cells ที่นิวเคลียสขนาดเท่าความกว้างของ endothelial cell จงให้การวินิจฉัย",
+     "answers": [
+      "Chronic lymphocytic leukemia",
+      "CLL",
+      "Chronic lymphocytic leukemia/small lymphocytic lymphoma",
+      "CLL/SLL",
+      "Small lymphocytic lymphoma",
+      "SLL"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "CLL: กำลังขยายต่ำพบการเพิ่มขึ้นของเซลล์เป็นจำนวนมากภายในไขกระดูก · กำลังขยายสูงเป็น neoplastic small lymphoid cells นิวเคลียสขนาดเท่าความกว้างของ endothelial cell โครมาตินเข้ม ไม่เห็น nucleoli ขอบนิวเคลียสไม่เรียบ",
+   "images": [
+    "h_cll_scan",
+    "h_cll_low"
+   ],
+   "years": [],
+   "seen": null,
+   "src": "สไลด์ 17–20",
+   "report": null,
+   "group": "cll"
+  },
+  {
+   "id": "h-mm-vs",
+   "category": "bm-new",
+   "question": "virtual slide ของไขกระดูก (ภาพ ข กำลังขยายต่ำ)",
+   "parts": [
+    {
+     "q": "ภาพ ข (กำลังขยายต่ำ) พบอะไรใน marrow",
+     "answers": [
+      "Cells increase in large numbers and fill the marrow"
+     ],
+     "keywords": [
+      [
+       "increased",
+       "increase",
+       "hypercellular",
+       "packed",
+       "many cells",
+       "more cells",
+       "full of cells",
+       "fill",
+       "filled",
+       "infiltrate",
+       "infiltration",
+       "เพิ่มขึ้น",
+       "จำนวนมาก",
+       "เต็ม"
+      ]
+     ]
+    },
+    {
+     "q": "กำลังขยายสูงพบเซลล์ที่เหมือน plasma cell ทั่วไปแต่จำนวนมากผิดปกติ จงให้การวินิจฉัย",
+     "answers": [
+      "Multiple myeloma",
+      "Plasma cell myeloma",
+      "Myeloma",
+      "MM"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "ผลตรวจทางห้องปฏิบัติการที่จะพบสูงได้ในโรคนี้",
+     "answers": [
+      "Globulin",
+      "Globulins",
+      "Serum globulin",
+      "Gamma globulin",
+      "Immunoglobulin",
+      "M protein",
+      "Monoclonal protein",
+      "Paraprotein",
+      "Total protein",
+      "Monoclonal immunoglobulin"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "Multiple myeloma: กำลังขยายต่ำพบการเพิ่มขึ้นของเซลล์เป็นจำนวนมากเต็ม marrow · กำลังขยายสูงเป็น plasma cells ที่ลักษณะเหมือน plasma cell ทั่วไปแต่จำนวนมากผิดปกติ · globulin ในเลือดสูง",
+   "images": [
+    "h_mm_scan",
+    "h_mm_low"
+   ],
+   "years": [
+    2562,
+    2563,
+    2564
+   ],
+   "seen": null,
+   "src": "สไลด์ 21–23",
+   "report": null,
+   "group": "mm"
+  },
+  {
    "id": "h-dlbcl",
    "category": "ln-hot",
    "question": "",
@@ -7185,16 +7440,44 @@
       "Lacking"
      ],
      "keywords": null
+    },
+    {
+     "q": "tingible-body macrophages มีลักษณะอย่างไร",
+     "answers": [
+      "Large cells with clear cytoplasm containing nuclear debris"
+     ],
+     "keywords": [
+      [
+       "large",
+       "big",
+       "ใหญ่"
+      ],
+      [
+       "clear",
+       "pale",
+       "ใส"
+      ],
+      [
+       "nuclear debris",
+       "debris",
+       "apoptotic",
+       "karyorrhectic",
+       "tingible bodies",
+       "phagocytosed",
+       "เศษนิวเคลียส",
+       "เศษ"
+      ]
+     ]
     }
    ],
-   "explain": "สไลด์ 51–52: tingible-body macrophages (เซลล์ใหญ่ ไซโทพลาซึมใส มีเศษนิวเคลียสอยู่ภายใน) พบใน germinal center ของ reactive lymphoid follicles และใน tumor ที่เป็น starry sky pattern (Burkitt lymphoma, DLBCL, lymphoblastic lymphoma) · follicular lymphoma มักไม่พบ tingible-body macrophages ซึ่งช่วยแยกจาก reactive follicular hyperplasia",
+   "explain": "สไลด์ 27, 51–52: tingible-body macrophages (เซลล์ใหญ่ ไซโทพลาซึมใส มีเศษนิวเคลียสอยู่ภายใน) พบใน germinal center ของ reactive lymphoid follicles และใน tumor ที่เป็น starry sky pattern (Burkitt lymphoma, DLBCL, lymphoblastic lymphoma) · follicular lymphoma มักไม่พบ tingible-body macrophages ซึ่งช่วยแยกจาก reactive follicular hyperplasia",
    "images": [],
    "years": [
     2562,
     2563
    ],
    "seen": null,
-   "src": "สไลด์ 51–52",
+   "src": "สไลด์ 27, 51–52",
    "report": null,
    "group": "starry"
   },
@@ -7270,6 +7553,18 @@
       "Paracortical zone",
       "Interfollicular area",
       "Interfollicular"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "นอกจาก follicular lymphoma แล้ว centroblasts เป็นต้นกำเนิดของ lymphoma ใดอีก (1 ชนิด)",
+     "answers": [
+      "Diffuse large B-cell lymphoma",
+      "DLBCL",
+      "Diffuse large cell lymphoma",
+      "Burkitt lymphoma",
+      "Burkitt's lymphoma",
+      "Burkitt"
      ],
      "keywords": null
     }
@@ -7374,6 +7669,196 @@
    "src": "สไลด์ 40",
    "report": null,
    "group": "hl"
+  },
+  {
+   "id": "h-ln-vs",
+   "category": "ln-new",
+   "question": "virtual slide ของต่อมน้ำเหลือง 2 ราย",
+   "parts": [
+    {
+     "q": "ภาพใดพบ lymphoid follicles จำนวนมาก",
+     "answers": [
+      "ภาพ ก",
+      "ภาพก",
+      "ก",
+      "รูป ก",
+      "รูปก"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "ภาพใดโครงสร้างของต่อมน้ำเหลืองปกติหายไป",
+     "answers": [
+      "ภาพ ข",
+      "ภาพข",
+      "ข",
+      "รูป ข",
+      "รูปข"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "ภาพ ก จงให้การวินิจฉัย",
+     "answers": [
+      "Reactive lymphoid hyperplasia",
+      "Reactive follicular hyperplasia",
+      "Reactive lymphadenopathy",
+      "Follicular hyperplasia",
+      "Reactive hyperplasia",
+      "Reactive lymph node"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "ภาพ ข กำลังขยายสูงพบ lymphoma cells ขนาดใหญ่กระจายทั่วไป จงให้การวินิจฉัย",
+     "answers": [
+      "Diffuse large B-cell lymphoma",
+      "DLBCL",
+      "Diffuse large cell lymphoma"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "lymphoma ในภาพ ข ส่วนใหญ่เกิดขึ้นเอง (de novo) หรือเปลี่ยนมาจาก low-grade lymphoma",
+     "answers": [
+      "De novo",
+      "Arise de novo",
+      "Mostly de novo",
+      "เกิดขึ้นเอง",
+      "เกิดขึ้นใหม่",
+      "เกิดเอง"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "ภาพ ก reactive lymphoid hyperplasia: reactive lymphoid follicles จำนวนมาก · ภาพ ข DLBCL: โครงสร้างของต่อมน้ำเหลืองปกติหายไป มี lymphoma cells ขนาดใหญ่กระจายทั่วไป · DLBCL ส่วนใหญ่เกิดขึ้นเอง (de novo) บางรายเปลี่ยนมาจาก low-grade lymphoma (Richter syndrome) เช่น small lymphocytic lymphoma, marginal zone lymphoma",
+   "images": [
+    "h_rh_scan",
+    "h_dlbcl_scan"
+   ],
+   "years": [],
+   "seen": null,
+   "src": "สไลด์ 24–25, 43–47",
+   "report": null,
+   "group": "dlbcl"
+  },
+  {
+   "id": "h-hl-vs",
+   "category": "ln-new",
+   "question": "virtual slide ของต่อมน้ำเหลือง (ภาพ ข กำลังขยายสูง)",
+   "parts": [
+    {
+     "q": "ภาพ ก โครงสร้างของต่อมน้ำเหลืองปกติเป็นอย่างไร",
+     "answers": [
+      "Normal architecture is effaced (lost)"
+     ],
+     "keywords": [
+      [
+       "effaced",
+       "effacement",
+       "loss",
+       "lost",
+       "obliterated",
+       "destroyed",
+       "disappeared",
+       "diffuse",
+       "หายไป",
+       "ไม่เหลือ"
+      ]
+     ]
+    },
+    {
+     "q": "ภาพ ข เซลล์ที่ลูกศรชี้คือเซลล์ใด",
+     "answers": [
+      "Reed-Sternberg cell",
+      "Reed-Sternberg cells",
+      "RS cell",
+      "Classic Reed-Sternberg cell"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "จงให้การวินิจฉัย",
+     "answers": [
+      "Hodgkin lymphoma",
+      "Classic Hodgkin lymphoma",
+      "Classical Hodgkin lymphoma",
+      "Hodgkin's lymphoma",
+      "Hodgkin disease",
+      "Hodgkin's disease",
+      "HL"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "Hodgkin lymphoma: ลักษณะของต่อมน้ำเหลืองปกติหายไปและมี fibrous tissue แทรก · Reed–Sternberg cell (classic type) เซลล์ใหญ่ ไซโทพลาซึมมาก 2 นิวเคลียส nucleolus ใหญ่ บน background ของ eosinophils, lymphocytes และ plasma cells",
+   "images": [
+    "h_hl_scan",
+    "h_hl_rs"
+   ],
+   "years": [
+    2562,
+    2564
+   ],
+   "seen": null,
+   "src": "สไลด์ 38–40",
+   "report": null,
+   "group": "hl"
+  },
+  {
+   "id": "h-met-cells",
+   "category": "ln-new",
+   "question": "ต่อมน้ำเหลือง: ลักษณะของ tumor cells",
+   "parts": [
+    {
+     "q": "ระหว่าง tumor cells พบโครงสร้างใดที่บ่งว่าเป็น squamous cells",
+     "answers": [
+      "Intercellular bridges",
+      "Intercellular bridge",
+      "Desmosomes",
+      "Desmosome"
+     ],
+     "keywords": null
+    },
+    {
+     "q": "tumor cells สร้างสารใด และรวมกันเป็นอะไร (ลูกศร)",
+     "answers": [
+      "Keratin, forming keratin pearls"
+     ],
+     "keywords": [
+      [
+       "keratin",
+       "keratinization",
+       "keratinizing"
+      ],
+      [
+       "pearl",
+       "pearls"
+      ]
+     ]
+    },
+    {
+     "q": "จงวินิจฉัยโรคให้จำเพาะที่สุด",
+     "answers": [
+      "Metastatic squamous cell carcinoma",
+      "Metastatic SCC",
+      "Metastatic squamous cell carcinoma to lymph node"
+     ],
+     "keywords": null
+    }
+   ],
+   "explain": "Metastatic squamous cell carcinoma: tumor cells มี intercellular bridges ระหว่างเซลล์ และสร้าง keratin บางครั้งรวมกันเป็น keratin pearls (ลูกศร)",
+   "images": [
+    "h_met_high"
+   ],
+   "years": [
+    2562,
+    2564
+   ],
+   "seen": null,
+   "src": "สไลด์ 58",
+   "report": null,
+   "group": "met"
   }
  ]
 }

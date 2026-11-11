@@ -16,13 +16,13 @@
 | | | ไวรัสตับอักเสบ บี/ซี (คาดว่าอาจออก) | 12 |
 | **Hemato II** | ส่วนที่ 1 · Bone marrow (อ.พีรยุทธ) | ออกทุกปี (CML, myeloma) | 3 |
 | | | เคยออก 1 ปี | 1 |
-| | | คาดว่าอาจออกปีนี้ | 11 |
+| | | คาดว่าอาจออกปีนี้ | 15 |
 | | ส่วนที่ 2 · Lymph node | ออกบ่อย (2–3 ปี) | 11 |
 | | | เคยออก 1 ปี | 3 |
-| | | คาดว่าอาจออกปีนี้ | 15 |
-| **รวม** | | | **141 สถานี · 338 ข้อย่อย** |
+| | | คาดว่าอาจออกปีนี้ | 18 |
+| **รวม** | | | **148 สถานี · 363 ข้อย่อย** |
 
-Immune 2 มี 97 สถานี (207 ข้อย่อย) และ Hemato II มี 44 สถานี (131 ข้อย่อย)
+Immune 2 มี 97 สถานี (207 ข้อย่อย) และ Hemato II มี 51 สถานี (156 ข้อย่อย)
 
 ## Immune 2: สิ่งที่ข้อสอบเก่าถาม
 
@@ -88,12 +88,16 @@ Immune 2 มี 97 สถานี (207 ข้อย่อย) และ Hemato 
 ### หมวด “คาดว่าอาจออกปีนี้” ของ Hemato II
 
 อยู่ในเอกสาร Lab ปี 2567 แต่ยังไม่เคยออก หรือเคยออกด้วยภาพอื่น
+ทุกสไลด์ที่มีเนื้อหา (สไลด์ 4–58) มีโจทย์อย่างน้อย 1 สถานี และทุกภาพในเอกสารถูกใช้ในโจทย์
+(สไลด์ 1–3 เป็นหน้าชื่อเรื่องและรายชื่อหัวข้อ)
 
 - **ไขกระดูก**
   - ไขกระดูกปกติ: bone trabeculae, fat, hematopoietic elements และเซลล์ 3 กลุ่ม (megakaryocyte, erythroid, granulocytic)
   - AML กับ ALL: ลักษณะ myeloblast (นิวเคลียส ไซโทพลาซึม แกรนูล) เทียบ lymphoblast และเกณฑ์ 20%
   - CLL: เซลล์เล็กเทียบกับ endothelial cell, ขอบนิวเคลียสไม่เรียบ, โครมาตินเข้ม, ไม่เห็น nucleoli
   - CML กำลังขยายต่ำ (hematopoietic cells เต็มไขกระดูก) และเซลล์ที่ลดลง (erythroid, myeloblasts น้อย) · ภาพอื่นของ myeloma
+  - ALL: นิวเคลียสของ lymphoblast คล้าย myeloblast แต่ไซโทพลาซึมสังเกตได้ยาก
+  - virtual slide ของทุกโรค: ไขกระดูกปกติเทียบ AML, ALL, CLL และ myeloma (คู่กับภาพกำลังขยายต่ำหรือสูง)
 - **ต่อมน้ำเหลือง**
   - การแบ่งกลุ่ม lymphoma: Hodgkin/non-Hodgkin, B/T cell, small/large cell (สไลด์ 37)
   - ส่วนประกอบของ lymphoid follicle, เซลล์ใน germinal center และต้นกำเนิดของ lymphoma แต่ละชนิด
@@ -103,6 +107,9 @@ Immune 2 มี 97 สถานี (207 ข้อย่อย) และ Hemato 
   - Kikuchi กำลังขยายต่ำ (หย่อมเนื้อตาย, histiocytic necrotizing lymphadenitis) · Kimura กำลังขยายต่ำ
     (reactive follicular hyperplasia, eosinophilic microabscess ใน interfollicular area)
   - MALT lymphoma: monocytoid cells, การแทรกผนังลำไส้ และชื่อเต็มของ MALT · ภาพกำลังขยายต่ำของ DLBCL และ metastasis
+  - centroblasts เป็นต้นกำเนิดของ FL, DLBCL, Burkitt · ลักษณะของ tingible-body macrophage (ใหญ่ ไซโทพลาซึมใส มีเศษนิวเคลียส)
+  - DLBCL ส่วนใหญ่เกิดแบบ de novo · metastatic SCC: intercellular bridges และ keratin pearls
+  - virtual slide: reactive hyperplasia เทียบ DLBCL และ Hodgkin lymphoma
 
 ## คุณสมบัติ
 
@@ -167,9 +174,10 @@ Immune 2 มี 97 สถานี (207 ข้อย่อย) และ Hemato 
 
 **Hemato II**
 
-- 40 ภาพ (`images/h_*.webp`) จากเอกสาร Lab ปี 2567
-  - เรนเดอร์จาก PDF ที่ 200 dpi แล้วตัดเฉพาะภาพ ลูกศรสีในเอกสารยังอยู่ และคำถามอ้างถึงสีของลูกศร
-  - ภาพสแกนทั้งสไลด์ตัดขอบให้เหลือแต่ชิ้นเนื้อ
+- 50 ภาพ (`images/h_*.webp`) จากเอกสาร Lab ปี 2567 ครบทุกภาพในเอกสาร
+  - เรนเดอร์จาก PDF ที่ 200 dpi (ความละเอียดเท่ากับภาพที่ฝังในไฟล์) แล้วตัดเฉพาะภาพ ลูกศรสีในเอกสารยังอยู่
+    และคำถามอ้างถึงสีของลูกศร
+  - ภาพสแกนทั้งสไลด์ตัดขอบให้เหลือแต่ชิ้นเนื้อ ใช้เป็น “virtual slide” เหมือนข้อสอบปี 62 และ 63
   - 2 ภาพไขกระดูกปกติ (`h_bm_parts_*`) เติมลูกศรแบบเดียวกับในเอกสาร ชี้ bone trabecula และช่องไขมัน
 - 4 ภาพ (`images/x_h_*.webp`) จากไฟล์ข้อสอบเก่า: myeloma ปี 62 และ 63, mantle zone, germinal center
 - 6 สถานีเป็นคำถามล้วนไม่มีภาพ

@@ -221,6 +221,23 @@ const expect = (id, i, input, want) => {
   ['h-rs-describe', 1, 'Reed-Sternberg cell', true], ['h-rs-describe', 2, 'Hodgkin lymphoma', true],
   ['h-rs-describe', 2, 'non-Hodgkin lymphoma', false],
   ['h-malt-cells', 3, 'mucosa-associated lymphoid tissue', true], ['h-malt-cells', 3, 'mucosa associated lymphoid tissue', true],
+  ['h-bm-vs', 0, 'ภาพ ก', true], ['h-bm-vs', 0, 'ก', true], ['h-bm-vs', 0, 'ภาพก', true], ['h-bm-vs', 0, 'ภาพ ข', false],
+  ['h-bm-vs', 0, 'ภาพข', false], ['h-bm-vs', 0, 'ข', false], ['h-bm-vs', 2, 'AML', true], ['h-bm-vs', 2, 'ALL', false],
+  ['h-all-vs', 0, 'lymphoblasts', true], ['h-all-vs', 0, 'myeloblasts', false], ['h-all-vs', 1, 'myeloblast', true],
+  ['h-all-vs', 1, 'lymphoblasts', false], ['h-all-vs', 2, 'ยาก', true], ['h-all-vs', 2, 'hard to see', true],
+  ['h-all-vs', 2, 'easy', false], ['h-all-vs', 2, 'ง่าย', false], ['h-all-vs', 3, 'ALL', true], ['h-all-vs', 3, 'AML', false],
+  ['h-cll-vs', 1, 'CLL', true], ['h-cll-vs', 1, 'chronic lymphocytic leukaemia', true], ['h-cll-vs', 1, 'ALL', false],
+  ['h-mm-vs', 1, 'multiple myeloma', true], ['h-mm-vs', 1, 'plasma cell myeloma', true], ['h-mm-vs', 2, 'globulin', true],
+  ['h-mm-vs', 2, 'albumin', false],
+  ['h-ln-vs', 0, 'ภาพ ก', true], ['h-ln-vs', 0, 'ภาพ ข', false], ['h-ln-vs', 1, 'ข', true], ['h-ln-vs', 1, 'ก', false],
+  ['h-ln-vs', 2, 'reactive lymphoid hyperplasia', true], ['h-ln-vs', 2, 'follicular lymphoma', false],
+  ['h-ln-vs', 3, 'DLBCL', true], ['h-ln-vs', 3, 'follicular lymphoma', false], ['h-ln-vs', 4, 'de novo', true],
+  ['h-ln-vs', 4, 'denovo', true], ['h-ln-vs', 4, 'transformed', false],
+  ['h-hl-vs', 1, 'Reed-Sternberg cell', true], ['h-hl-vs', 1, 'lacunar cell', false], ['h-hl-vs', 2, 'Hodgkin lymphoma', true],
+  ['h-hl-vs', 2, 'non-Hodgkin lymphoma', false],
+  ['h-met-cells', 0, 'intercellular bridges', true], ['h-met-cells', 0, 'desmosomes', true], ['h-met-cells', 0, 'keratin pearls', false],
+  ['h-met-cells', 2, 'metastatic SCC', true], ['h-met-cells', 2, 'metastatic adenocarcinoma', false],
+  ['h-follicle', 5, 'Burkitt lymphoma', true], ['h-follicle', 5, 'DLBCL', true], ['h-follicle', 5, 'mantle cell lymphoma', false],
 ].forEach(([id, i, input, want]) => expect(id, i, input, want));
 
 // 3. described answers: [station, part, input, expected state]
@@ -268,6 +285,12 @@ const expect = (id, i, input, want) => {
   ['h-follicle', 1, 'centroblasts and macrophages', 'partial'],
   ['h-rs-describe', 0, "large cell, abundant cytoplasm, two nuclei with prominent nucleoli (owl's eye)", 'exact'],
   ['h-rs-describe', 0, 'binucleated giant cell with abundant cytoplasm and macronucleoli', 'exact'],
+  ['h-bm-vs', 1, 'hypercellular with decreased fat', 'exact'], ['h-bm-vs', 1, 'more cells', 'partial'],
+  ['h-cll-vs', 0, 'marked increase of cells', 'exact'], ['h-cll-vs', 0, 'เซลล์เพิ่มขึ้นจำนวนมาก', 'exact'],
+  ['h-mm-vs', 0, 'cells fill the marrow', 'exact'],
+  ['h-hl-vs', 0, 'normal architecture is lost', 'exact'],
+  ['h-met-cells', 1, 'keratin pearls', 'exact'], ['h-met-cells', 1, 'keratin', 'partial'],
+  ['h-tbm', 3, 'large cell with clear cytoplasm and nuclear debris', 'exact'], ['h-tbm', 3, 'large cell', 'partial'],
 ].forEach(([id, i, input, want]) => {
   const g = api.gradePart(byId[id].parts[i], input);
   if (g.state !== want) bad(`${id}[${i}]: "${input}" expected ${want} got ${g.state} ${g.hit}/${g.total}`);

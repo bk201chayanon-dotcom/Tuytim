@@ -67,6 +67,10 @@ REACTIVE = ['Reactive lymphoid hyperplasia', 'Reactive follicular hyperplasia', 
             'Follicular hyperplasia', 'Reactive hyperplasia', 'Reactive lymph node']
 SMALL = ['Small', 'Small cell', 'Small cells', 'Small lymphoid cells', 'ขนาดเล็ก', 'เล็ก']
 LARGE = ['Large', 'Large cell', 'Large cells', 'Large lymphoid cells', 'ขนาดใหญ่', 'ใหญ่']
+PIC_A = ['ภาพ ก', 'ภาพก', 'ก', 'รูป ก', 'รูปก']
+PIC_B = ['ภาพ ข', 'ภาพข', 'ข', 'รูป ข', 'รูปข']
+MORE_CELLS = [['increased', 'increase', 'hypercellular', 'packed', 'many cells', 'more cells', 'full of cells', 'fill', 'filled',
+               'infiltrate', 'infiltration', 'เพิ่มขึ้น', 'จำนวนมาก', 'เต็ม']]
 CLASS_SMALL = SMALL + ['Small cell lymphoma', 'Small B-cell lymphoma', 'Small lymphoid cell lymphoma']
 CLASS_HL = HL + ['Hodgkin', "Hodgkin's"]
 EFFACED = [['effaced', 'effacement', 'loss', 'lost', 'obliterated', 'destroyed', 'disappeared', 'diffuse', 'หายไป', 'ไม่เหลือ']]
@@ -212,6 +216,38 @@ station('h-myeloblast', 'bm-new', [
 ], 'AML: myeloblasts เป็นเซลล์ขนาดใหญ่ นิวเคลียสใหญ่ โครมาตินติดสีจาง มี nucleoli สีชมพูขนาดเล็ก ไซโทพลาซึมปริมาณปานกลาง '
    'ติดสีชมพู พบแกรนูลภายในได้ · ต่างจาก lymphoblasts ที่ไซโทพลาซึมน้อยและไม่มีแกรนูล',
    img='h_aml_high', stem='ชิ้นเนื้อไขกระดูก (กำลังขยายสูง)', src='สไลด์ 10', group='aml')
+
+station('h-bm-vs', 'bm-new', [
+    part('ภาพใดเป็นไขกระดูกปกติ', PIC_A),
+    part('ภาพ ข ต่างจากภาพ ก อย่างไร', ['Marrow is packed with cells and the fat is almost gone'],
+         kw=MORE_CELLS + [['fat', 'fat cells', 'adipocytes', 'ไขมัน']]),
+    part('กำลังขยายสูงของภาพ ข พบ myeloblasts มากกว่า 20% ' + DX, AML),
+], 'ภาพ ก ไขกระดูกปกติ: bone trabeculae กับ marrow ที่มีทั้ง hematopoietic elements และ fat · ภาพ ข AML: myeloblasts '
+   'มากกว่า 20% มักพบเกือบเต็ม marrow จนแทบไม่เหลือไขมัน',
+   img=['h_bm_normal_low', 'h_aml_scan'], stem='virtual slide ของไขกระดูก 2 ราย', src='สไลด์ 4–5, 8–9', group='aml')
+station('h-all-vs', 'bm-new', [
+    part('ภาพ ข เซลล์ที่พบจำนวนมากเต็มไขกระดูกคือเซลล์ใด', ['Lymphoblasts', 'Lymphoblast']),
+    part('นิวเคลียสของเซลล์นี้มีลักษณะคล้ายกับเซลล์ใด', ['Myeloblasts', 'Myeloblast']),
+    part('ไซโทพลาซึมของเซลล์นี้สังเกตได้ง่ายหรือยาก', ['ยาก', 'สังเกตได้ยาก', 'Difficult', 'Difficult to see', 'Hard', 'Hard to see',
+                                                  'Not easy', 'Scant', 'Inconspicuous']),
+    part(DX, ALL),
+], 'ALL: lymphoblasts จำนวนมากเต็มไขกระดูก นิวเคลียสใหญ่เกือบเต็มเซลล์และคล้าย myeloblasts แต่ไซโทพลาซึมน้อย มักสังเกตได้ยาก '
+   'ในชิ้นเนื้อ และไม่พบแกรนูล',
+   img=['h_all_scan', 'h_all_high'], stem='virtual slide ของไขกระดูก (ภาพ ข กำลังขยายสูง)', src='สไลด์ 11–13', group='lbl')
+station('h-cll-vs', 'bm-new', [
+    part('ภาพ ข (กำลังขยายต่ำ) พบอะไรในไขกระดูก', ['Marked increase of cells in the marrow'], kw=MORE_CELLS),
+    part('กำลังขยายสูงพบ neoplastic small lymphoid cells ที่นิวเคลียสขนาดเท่าความกว้างของ endothelial cell ' + DX, CLL),
+], 'CLL: กำลังขยายต่ำพบการเพิ่มขึ้นของเซลล์เป็นจำนวนมากภายในไขกระดูก · กำลังขยายสูงเป็น neoplastic small lymphoid cells '
+   'นิวเคลียสขนาดเท่าความกว้างของ endothelial cell โครมาตินเข้ม ไม่เห็น nucleoli ขอบนิวเคลียสไม่เรียบ',
+   img=['h_cll_scan', 'h_cll_low'], stem='virtual slide ของไขกระดูก (ภาพ ข กำลังขยายต่ำ)', src='สไลด์ 17–20', group='cll')
+station('h-mm-vs', 'bm-new', [
+    part('ภาพ ข (กำลังขยายต่ำ) พบอะไรใน marrow', ['Cells increase in large numbers and fill the marrow'], kw=MORE_CELLS),
+    part('กำลังขยายสูงพบเซลล์ที่เหมือน plasma cell ทั่วไปแต่จำนวนมากผิดปกติ ' + DX, MM),
+    part('ผลตรวจทางห้องปฏิบัติการที่จะพบสูงได้ในโรคนี้', GLOB),
+], 'Multiple myeloma: กำลังขยายต่ำพบการเพิ่มขึ้นของเซลล์เป็นจำนวนมากเต็ม marrow · กำลังขยายสูงเป็น plasma cells ที่ลักษณะ'
+   'เหมือน plasma cell ทั่วไปแต่จำนวนมากผิดปกติ · globulin ในเลือดสูง',
+   img=['h_mm_scan', 'h_mm_low'], stem='virtual slide ของไขกระดูก (ภาพ ข กำลังขยายต่ำ)', years=ALL3, src='สไลด์ 21–23',
+   group='mm')
 
 # ================================================================== ต่อมน้ำเหลือง · ออกบ่อย (2–3 ปี)
 
@@ -448,10 +484,13 @@ station('h-tbm', 'ln-new', [
                                                                                     'Absent', 'Usually absent', 'Not found',
                                                                                     'Not present', 'No', 'Rare', 'Rarely',
                                                                                     'Lacking']),
-], 'สไลด์ 51–52: tingible-body macrophages (เซลล์ใหญ่ ไซโทพลาซึมใส มีเศษนิวเคลียสอยู่ภายใน) พบใน germinal center ของ reactive '
+    part('tingible-body macrophages มีลักษณะอย่างไร', ['Large cells with clear cytoplasm containing nuclear debris'],
+         kw=[['large', 'big', 'ใหญ่'], ['clear', 'pale', 'ใส'],
+             ['nuclear debris', 'debris', 'apoptotic', 'karyorrhectic', 'tingible bodies', 'phagocytosed', 'เศษนิวเคลียส', 'เศษ']]),
+], 'สไลด์ 27, 51–52: tingible-body macrophages (เซลล์ใหญ่ ไซโทพลาซึมใส มีเศษนิวเคลียสอยู่ภายใน) พบใน germinal center ของ reactive '
    'lymphoid follicles และใน tumor ที่เป็น starry sky pattern (Burkitt lymphoma, DLBCL, lymphoblastic lymphoma) · '
    'follicular lymphoma มักไม่พบ tingible-body macrophages ซึ่งช่วยแยกจาก reactive follicular hyperplasia',
-   stem='Tingible-body macrophages', years=(2562, 2563), src='สไลด์ 51–52', group='starry')
+   stem='Tingible-body macrophages', years=(2562, 2563), src='สไลด์ 27, 51–52', group='starry')
 station('h-follicle', 'ln-new', [
     part('lymphoid follicle แบ่งเป็น 2 ส่วน คืออะไรบ้าง', ['Mantle zone and germinal center'],
          kw=[['mantle', 'mantle zone'], ['germinal center', 'germinal centre', 'germinal']]),
@@ -462,6 +501,8 @@ station('h-follicle', 'ln-new', [
     part('immunoblasts เป็นต้นกำเนิดของ lymphoma ชนิดใด', DLBCL),
     part('T-cells อยู่บริเวณใดของต่อมน้ำเหลือง', ['Paracortical area', 'Paracortex', 'Paracortical', 'Paracortical region',
                                               'Paracortical zone', 'Interfollicular area', 'Interfollicular']),
+    part('นอกจาก follicular lymphoma แล้ว centroblasts เป็นต้นกำเนิดของ lymphoma ใดอีก (1 ชนิด)',
+         DLBCL + ['Burkitt lymphoma', "Burkitt's lymphoma", 'Burkitt']),
 ], 'สไลด์ 29–30: lymphoid follicle = mantle zone (mantle cells → mantle cell lymphoma) + germinal center (centrocytes → FL, '
    'centroblasts → FL, DLBCL, Burkitt และ tingible-body macrophages) · interfollicular และ paracortical areas: memory B-cells → '
    'SLL, marginal zone B-cells → marginal zone/MALT lymphoma, immunoblasts → DLBCL, T-cells → peripheral T-cell lymphoma',
@@ -479,3 +520,32 @@ station('h-rs-describe', 'ln-new', [
 ], 'Reed–Sternberg cell (classic type): เซลล์ขนาดใหญ่ ไซโทพลาซึมปริมาณมาก มี 2 นิวเคลียส แต่ละนิวเคลียสมี nucleolus ขนาดใหญ่ '
    '(owl-eye) · background มี eosinophils, lymphocytes และ plasma cells',
    img='h_hl_rs', years=(2562, 2564), src='สไลด์ 40', group='hl')
+station('h-ln-vs', 'ln-new', [
+    part('ภาพใดพบ lymphoid follicles จำนวนมาก', PIC_A),
+    part('ภาพใดโครงสร้างของต่อมน้ำเหลืองปกติหายไป', PIC_B),
+    part('ภาพ ก ' + DX, REACTIVE),
+    part('ภาพ ข กำลังขยายสูงพบ lymphoma cells ขนาดใหญ่กระจายทั่วไป ' + DX, DLBCL),
+    part('lymphoma ในภาพ ข ส่วนใหญ่เกิดขึ้นเอง (de novo) หรือเปลี่ยนมาจาก low-grade lymphoma',
+         ['De novo', 'Arise de novo', 'Mostly de novo', 'เกิดขึ้นเอง', 'เกิดขึ้นใหม่', 'เกิดเอง']),
+], 'ภาพ ก reactive lymphoid hyperplasia: reactive lymphoid follicles จำนวนมาก · ภาพ ข DLBCL: โครงสร้างของต่อมน้ำเหลืองปกติ'
+   'หายไป มี lymphoma cells ขนาดใหญ่กระจายทั่วไป · DLBCL ส่วนใหญ่เกิดขึ้นเอง (de novo) บางรายเปลี่ยนมาจาก low-grade lymphoma '
+   '(Richter syndrome) เช่น small lymphocytic lymphoma, marginal zone lymphoma',
+   img=['h_rh_scan', 'h_dlbcl_scan'], stem='virtual slide ของต่อมน้ำเหลือง 2 ราย', src='สไลด์ 24–25, 43–47', group='dlbcl')
+station('h-hl-vs', 'ln-new', [
+    part('ภาพ ก โครงสร้างของต่อมน้ำเหลืองปกติเป็นอย่างไร', ['Normal architecture is effaced (lost)'], kw=EFFACED),
+    part('ภาพ ข เซลล์ที่ลูกศรชี้คือเซลล์ใด', RS),
+    part(DX, HL),
+], 'Hodgkin lymphoma: ลักษณะของต่อมน้ำเหลืองปกติหายไปและมี fibrous tissue แทรก · Reed–Sternberg cell (classic type) เซลล์ใหญ่ '
+   'ไซโทพลาซึมมาก 2 นิวเคลียส nucleolus ใหญ่ บน background ของ eosinophils, lymphocytes และ plasma cells',
+   img=['h_hl_scan', 'h_hl_rs'], stem='virtual slide ของต่อมน้ำเหลือง (ภาพ ข กำลังขยายสูง)', years=(2562, 2564), src='สไลด์ 38–40',
+   group='hl')
+station('h-met-cells', 'ln-new', [
+    part('ระหว่าง tumor cells พบโครงสร้างใดที่บ่งว่าเป็น squamous cells', ['Intercellular bridges', 'Intercellular bridge',
+                                                                     'Desmosomes', 'Desmosome']),
+    part('tumor cells สร้างสารใด และรวมกันเป็นอะไร (ลูกศร)', ['Keratin, forming keratin pearls'],
+         kw=[['keratin', 'keratinization', 'keratinizing'], ['pearl', 'pearls']]),
+    part('จงวินิจฉัยโรคให้จำเพาะที่สุด', ['Metastatic squamous cell carcinoma', 'Metastatic SCC',
+                                         'Metastatic squamous cell carcinoma to lymph node']),
+], 'Metastatic squamous cell carcinoma: tumor cells มี intercellular bridges ระหว่างเซลล์ และสร้าง keratin บางครั้งรวมกันเป็น '
+   'keratin pearls (ลูกศร)',
+   img='h_met_high', stem='ต่อมน้ำเหลือง: ลักษณะของ tumor cells', years=(2562, 2564), src='สไลด์ 58', group='met')
