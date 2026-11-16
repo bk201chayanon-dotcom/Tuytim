@@ -50,6 +50,16 @@
   color-scheme: dark;
 }
 
+/* Per-LAB accent: Patho keeps hematoxylin violet; Urine swaps the interactive accent to urine-straw amber. */
+:root { --c-patho: #4b3aa6; --c-urine: #8a5a00; }
+:root[data-lab="urine"] { --hema: #8a5a00; --hema-soft: #faefd6; --on-hema: #ffffff; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --c-patho: #a99aff; --c-urine: #f2c14e; }
+  :root[data-lab="urine"]:not([data-theme="light"]) { --hema: #f2c14e; --hema-soft: #3a2d10; --on-hema: #1d1404; }
+}
+:root[data-theme="dark"] { --c-patho: #a99aff; --c-urine: #f2c14e; }
+:root[data-lab="urine"][data-theme="dark"] { --hema: #f2c14e; --hema-soft: #3a2d10; --on-hema: #1d1404; }
+
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body {
@@ -91,6 +101,21 @@ b { font-weight: 600; }
 }
 .tabs a:hover { color: var(--ink); border-color: var(--line); }
 .tabs a.on { background: var(--hema); color: var(--on-hema); }
+.labsw { display: flex; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); flex: none; }
+.labsw button {
+  display: inline-flex; align-items: center; gap: 6px; border: 0; background: transparent; color: var(--muted);
+  padding: 5px 12px; border-radius: 999px; font-weight: 600; font-size: .88rem; font-family: var(--f-display);
+}
+.labsw .sw-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c-patho); }
+.labsw [data-lab="urine"] .sw-dot { background: var(--c-urine); }
+.labsw button.on { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(20, 10, 40, .15); }
+.labsw button:not(.on):hover { color: var(--ink); }
+.chip.lab-patho { border-color: var(--c-patho); color: var(--c-patho); }
+.chip.lab-urine { border-color: var(--c-urine); color: var(--c-urine); }
+details.sum { border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+details.sum > summary { cursor: pointer; padding: 12px 16px; font-family: var(--f-display); font-weight: 600; }
+details.sum[open] > summary { border-bottom: 1px solid var(--line); }
+details.sum .sum-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
 .icon-btn {
   width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface);
   display: grid; place-items: center; flex: none; color: var(--muted);
@@ -391,13 +416,18 @@ details.ans[open] > summary { margin-bottom: 6px; }
   .bg-row { grid-template-columns: minmax(0, 110px) minmax(0, 1fr) 46px; }
   .score-hero { grid-template-columns: minmax(0, 1fr); }
 }
-@media (max-width: 600px) {
+@media (max-width: 860px) {
   .top-in { flex-wrap: wrap; row-gap: 6px; }
-  .tabs { order: 3; flex: 1 0 100%; justify-content: space-between; }
-  .tabs a { padding: 6px 10px; }
+  .tabs { order: 3; flex: 1 0 100%; }
   .brand { flex: 1; }
+  .labsw { order: 1; }
   .exam-live { order: 1; flex: 0 1 auto; }
   .icon-btn { order: 2; }
+}
+@media (max-width: 600px) {
+  .tabs { justify-content: space-between; }
+  .tabs a { padding: 6px 10px; }
+  .labsw button { padding: 5px 10px; }
 }
 @media (pointer: coarse) {
   .kbd { display: none; }

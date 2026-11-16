@@ -1,6 +1,6 @@
-<title>KUB II Patho OSPE</title>
+<title>KUB II Lab OSPE</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="ฝึก OSPE pathology บล็อก KUB II: ภาพจาก Lab urinary system, ข้อสอบเก่า 2563 และ MED NU23/NT15, โหมดทบทวนและโหมด Exam จับเวลาสถานีละ 1 นาที">
+<meta name="description" content="ฝึก OSPE บล็อก KUB II แยก 2 LAB: Patho (Lab urinary system) และ Urine (Routine urinalysis) พร้อมข้อสอบเก่า 2563 และ MED NU23/NT15 โหมดทบทวนและ Exam จับเวลาสถานีละ 1 นาที">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600&family=Bai+Jamjuree:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
@@ -57,6 +57,16 @@
   color-scheme: dark;
 }
 
+/* Per-LAB accent: Patho keeps hematoxylin violet; Urine swaps the interactive accent to urine-straw amber. */
+:root { --c-patho: #4b3aa6; --c-urine: #8a5a00; }
+:root[data-lab="urine"] { --hema: #8a5a00; --hema-soft: #faefd6; --on-hema: #ffffff; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --c-patho: #a99aff; --c-urine: #f2c14e; }
+  :root[data-lab="urine"]:not([data-theme="light"]) { --hema: #f2c14e; --hema-soft: #3a2d10; --on-hema: #1d1404; }
+}
+:root[data-theme="dark"] { --c-patho: #a99aff; --c-urine: #f2c14e; }
+:root[data-lab="urine"][data-theme="dark"] { --hema: #f2c14e; --hema-soft: #3a2d10; --on-hema: #1d1404; }
+
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body {
@@ -98,6 +108,21 @@ b { font-weight: 600; }
 }
 .tabs a:hover { color: var(--ink); border-color: var(--line); }
 .tabs a.on { background: var(--hema); color: var(--on-hema); }
+.labsw { display: flex; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); flex: none; }
+.labsw button {
+  display: inline-flex; align-items: center; gap: 6px; border: 0; background: transparent; color: var(--muted);
+  padding: 5px 12px; border-radius: 999px; font-weight: 600; font-size: .88rem; font-family: var(--f-display);
+}
+.labsw .sw-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c-patho); }
+.labsw [data-lab="urine"] .sw-dot { background: var(--c-urine); }
+.labsw button.on { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(20, 10, 40, .15); }
+.labsw button:not(.on):hover { color: var(--ink); }
+.chip.lab-patho { border-color: var(--c-patho); color: var(--c-patho); }
+.chip.lab-urine { border-color: var(--c-urine); color: var(--c-urine); }
+details.sum { border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+details.sum > summary { cursor: pointer; padding: 12px 16px; font-family: var(--f-display); font-weight: 600; }
+details.sum[open] > summary { border-bottom: 1px solid var(--line); }
+details.sum .sum-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
 .icon-btn {
   width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface);
   display: grid; place-items: center; flex: none; color: var(--muted);
@@ -398,13 +423,18 @@ details.ans[open] > summary { margin-bottom: 6px; }
   .bg-row { grid-template-columns: minmax(0, 110px) minmax(0, 1fr) 46px; }
   .score-hero { grid-template-columns: minmax(0, 1fr); }
 }
-@media (max-width: 600px) {
+@media (max-width: 860px) {
   .top-in { flex-wrap: wrap; row-gap: 6px; }
-  .tabs { order: 3; flex: 1 0 100%; justify-content: space-between; }
-  .tabs a { padding: 6px 10px; }
+  .tabs { order: 3; flex: 1 0 100%; }
   .brand { flex: 1; }
+  .labsw { order: 1; }
   .exam-live { order: 1; flex: 0 1 auto; }
   .icon-btn { order: 2; }
+}
+@media (max-width: 600px) {
+  .tabs { justify-content: space-between; }
+  .tabs a { padding: 6px 10px; }
+  .labsw button { padding: 5px 10px; }
 }
 @media (pointer: coarse) {
   .kbd { display: none; }
@@ -416,13 +446,17 @@ details.ans[open] > summary { margin-bottom: 6px; }
 </style>
 <header class="top">
   <div class="top-in">
-    <a class="brand" href="#home"><span class="brand-mark">KUB <i>II</i></span><span class="brand-sub">Patho OSPE</span></a>
+    <a class="brand" href="#patho-home"><span class="brand-mark">KUB <i>II</i></span><span class="brand-sub">Lab OSPE</span></a>
+    <div class="labsw" id="labSw" role="group" aria-label="เลือก LAB">
+      <button type="button" data-lab="patho" aria-pressed="true"><span class="sw-dot"></span>Patho</button>
+      <button type="button" data-lab="urine" aria-pressed="false"><span class="sw-dot"></span>Urine</button>
+    </div>
     <nav class="tabs" id="tabs" aria-label="เมนูหลัก">
-      <a href="#home" data-v="home">หน้าแรก</a>
-      <a href="#atlas" data-v="atlas">Atlas</a>
-      <a href="#practice" data-v="practice">ทบทวน</a>
-      <a href="#exam" data-v="exam">Exam</a>
-      <a href="#papers" data-v="papers">ข้อสอบเก่า</a>
+      <a href="#patho-home" data-v="home">หน้าแรก</a>
+      <a href="#patho-atlas" data-v="atlas">Atlas</a>
+      <a href="#patho-practice" data-v="practice">ทบทวน</a>
+      <a href="#patho-exam" data-v="exam">Exam</a>
+      <a href="#patho-papers" data-v="papers">ข้อสอบเก่า</a>
     </nav>
     <div class="exam-live" id="examLive" hidden><span class="dot"></span><span>กำลังสอบ</span><button class="btn ghost" type="button" id="examQuit">ออกจากการสอบ</button></div>
     <button class="icon-btn" id="themeBtn" type="button" aria-label="สลับธีมสว่างและมืด"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
@@ -436,8 +470,8 @@ details.ans[open] > summary { margin-bottom: 6px; }
   <section id="v-papers" class="view" hidden></section>
 </main>
 <footer class="foot">
-  เนื้อหาจาก Lab urinary system (Department of Pathology) และข้อสอบเก่า LAB 499316 ปี 2563 (MED24 ST16) กับ Lab KUB2 MED NU23 &amp; NT15 ·
-  ภาพที่ติดป้าย "ภาพวาดจำลอง" วาดขึ้นเพื่อฝึกแยกรูปร่าง ไม่ใช่ภาพถ่ายจริง · ความคืบหน้าเก็บในเบราว์เซอร์นี้เท่านั้น
+  เนื้อหาจาก Lecture LAB Patho (Lab urinary system) และ LAB Urine (Routine urinalysis) กับข้อสอบเก่า LAB 499316 ปี 2563 (MED24 ST16) และ Lab KUB2 MED NU23 &amp; NT15 ·
+  ภาพที่ติดป้าย "ภาพวาดจำลอง" วาดขึ้นแทนภาพที่ไม่มีในเอกสาร · ความคืบหน้าเก็บในเบราว์เซอร์นี้เท่านั้น
 </footer>
 <div class="lb" id="lb" hidden role="dialog" aria-label="ภาพขยาย">
   <div class="lb-bar">
@@ -460,6 +494,7 @@ details.ans[open] > summary { margin-bottom: 6px; }
  *         'N23-06' = ข้อสอบ MED NU23/NT15, 'svg:triple' = ภาพวาดจำลองตะกอนปัสสาวะ
  * คีย์ตรวจ k: อาร์เรย์ของ "กลุ่มคำ" — ตอบตรงคำใดคำหนึ่งในกลุ่มนับเป็น 1 จุด
  *         n = จำนวนจุดที่ต้องได้เพื่อได้คะแนนเต็มของคำถามย่อยนั้น (ค่าเริ่มต้น = ทุกกลุ่ม)
+ * ไฟล์นี้คือ LAB Patho — ส่วน LAB Urine อยู่ใน data-urine.js (เติมเข้า KUB ต่อท้าย)
  * ------------------------------------------------------------------ */
 (function () {
 'use strict';
@@ -487,13 +522,12 @@ const DX = {
 };
 
 const GROUPS = [
-  { id: 'cyst', name: 'Congenital & cystic', th: 'ความผิดปกติแต่กำเนิดและถุงน้ำ' },
-  { id: 'vasc', name: 'Vascular & tubular', th: 'หลอดเลือดและท่อไต' },
-  { id: 'obs',  name: 'Obstruction & infection', th: 'การอุดกั้นและการติดเชื้อ' },
-  { id: 'glom', name: 'Glomerular disease', th: 'โรคของโกลเมอรูลัส' },
-  { id: 'blad', name: 'Urinary bladder', th: 'กระเพาะปัสสาวะ' },
-  { id: 'tum',  name: 'Tumors', th: 'เนื้องอก' },
-  { id: 'ua',   name: 'Urinalysis', th: 'การตรวจปัสสาวะ' },
+  { id: 'cyst', lab: 'patho', name: 'Congenital & cystic', th: 'ความผิดปกติแต่กำเนิดและถุงน้ำ' },
+  { id: 'vasc', lab: 'patho', name: 'Vascular & tubular', th: 'หลอดเลือดและท่อไต' },
+  { id: 'obs',  lab: 'patho', name: 'Obstruction & infection', th: 'การอุดกั้นและการติดเชื้อ' },
+  { id: 'glom', lab: 'patho', name: 'Glomerular disease', th: 'โรคของโกลเมอรูลัส' },
+  { id: 'blad', lab: 'patho', name: 'Urinary bladder', th: 'กระเพาะปัสสาวะ' },
+  { id: 'tum',  lab: 'patho', name: 'Tumors', th: 'เนื้องอก' },
 ];
 
 /* ======================================================================
@@ -951,81 +985,6 @@ const TOPICS = [
   ],
   ospe: 'Gross: exophytic papillary grey-tan mass with hemorrhage in the bladder/renal pelvis/ureter. Micro: complex papillae with fibrovascular cores lined by thickened atypical urothelium with increased mitoses → <b>Urothelial (transitional cell) carcinoma</b>. Risks: smoking, aniline dye',
 },
-/* ---------------- Urinalysis ---------------- */
-{
-  id: 'ua-proc', g: 'ua', en: 'Urine sediment & dipstick', th: 'ขั้นตอนเตรียมตะกอนและแถบตรวจ', pages: 'ข้อสอบเก่า', star: 3,
-  exam: ['2563 ข้อ 11', 'NU23 ข้อ 14', 'NU23 ข้อ 15.2'],
-  imgs: [],
-  lec: ['ไม่อยู่ในสไลด์ pathology ชุดนี้ แต่ออกสอบ LAB ทั้งสองปี (ส่วน Urine analysis)'],
-  add: [
-    'ข้อสอบถามซ้ำทั้ง 2 ปี: centrifuge <b>5 นาที</b>, เหลือตะกอน <b>0.5–1 mL</b>',
-    'Urobilinogen สูง: <b>hemolysis</b> และ <b>hepatocellular damage</b> (ข้อสอบ NU23)',
-  ],
-  html: 'proc',
-  ospe: 'Urine sediment: centrifuge ~10–12 mL fresh urine at 1,500–2,000 rpm for <b>5 minutes</b>, decant leaving <b>0.5–1 mL</b>, resuspend and examine under LPF and HPF',
-},
-{
-  id: 'ua-crystal', g: 'ua', en: 'Urine crystals', th: 'ผลึกในปัสสาวะ', pages: 'ข้อสอบเก่า', star: 3,
-  exam: ['2563 ข้อ 12, 15', 'NU23 ข้อ 12'],
-  imgs: [
-    ['X63-12', 'Ammonium biurate ("thorny apple") — ข้อสอบ 2563 ข้อ 12'],
-    ['X63-15', 'Uric acid crystals — ข้อสอบ 2563 ข้อ 15'],
-    ['svg:caox_d', 'ภาพวาดจำลอง: calcium oxalate dihydrate (envelope)'],
-    ['svg:caox_m', 'ภาพวาดจำลอง: calcium oxalate monohydrate (oval/dumbbell)'],
-    ['svg:triple', 'ภาพวาดจำลอง: triple phosphate (coffin lid)'],
-    ['svg:uric', 'ภาพวาดจำลอง: uric acid (whetstone, rosette)'],
-    ['svg:cystine', 'ภาพวาดจำลอง: cystine (hexagonal plates)'],
-    ['svg:cholesterol', 'ภาพวาดจำลอง: cholesterol (notched plates)'],
-    ['svg:tyrosine', 'ภาพวาดจำลอง: tyrosine (needles in sheaves)'],
-    ['svg:leucine', 'ภาพวาดจำลอง: leucine (concentric spheres)'],
-    ['svg:biurate', 'ภาพวาดจำลอง: ammonium biurate (thorny apple)'],
-  ],
-  lec: ['ไม่อยู่ในสไลด์ pathology ชุดนี้ — ออกสอบ LAB ทั้งสองปี'],
-  add: ['จำให้ได้ 3 อย่าง: <b>รูปร่าง → ชื่อ → pH ของปัสสาวะ → ความสำคัญทางคลินิก</b>'],
-  html: 'crystal',
-  ospe: 'Identify the crystal by shape and color, then state urine pH and clinical significance',
-},
-{
-  id: 'ua-cast', g: 'ua', en: 'Urine casts', th: 'Casts ในปัสสาวะ', pages: 'ข้อสอบเก่า', star: 3,
-  exam: ['2563 ข้อ 14', 'NU23 ข้อ 11'],
-  imgs: [
-    ['X63-14', 'Granular cast — ข้อสอบ 2563 ข้อ 14'],
-    ['svg:hyaline', 'ภาพวาดจำลอง: hyaline cast'],
-    ['svg:rbccast', 'ภาพวาดจำลอง: RBC cast'],
-    ['svg:wbccast', 'ภาพวาดจำลอง: WBC cast'],
-    ['svg:granular', 'ภาพวาดจำลอง: granular cast'],
-    ['svg:waxy', 'ภาพวาดจำลอง: waxy cast'],
-    ['svg:fatty', 'ภาพวาดจำลอง: fatty cast'],
-  ],
-  lec: ['ไม่อยู่ในสไลด์ pathology ชุดนี้ — ออกสอบ LAB ทั้งสองปี'],
-  add: [
-    'Cast เกิดใน distal tubule และ collecting duct; matrix คือ <b>Tamm-Horsfall protein (uromodulin)</b>',
-    'Cast บอกว่าพยาธิสภาพอยู่<b>ในไต</b> (renal origin) — ดูด้วย LPF และรายงานเป็น /LPF',
-  ],
-  html: 'cast',
-  ospe: 'Identify the cast and link it to the renal lesion (e.g., RBC cast → glomerulonephritis)',
-},
-{
-  id: 'ua-cell', g: 'ua', en: 'Cells & organisms in urine', th: 'เซลล์และเชื้อในปัสสาวะ', pages: 'ข้อสอบเก่า', star: 3,
-  exam: ['2563 ข้อ 13', 'NU23 ข้อ 11, 15'],
-  imgs: [
-    ['X63-13', 'White blood cells — ข้อสอบ 2563 ข้อ 13'],
-    ['svg:rbc', 'ภาพวาดจำลอง: RBC'],
-    ['svg:dysrbc', 'ภาพวาดจำลอง: dysmorphic RBC (acanthocytes)'],
-    ['svg:wbc', 'ภาพวาดจำลอง: WBC'],
-    ['svg:squamous', 'ภาพวาดจำลอง: squamous epithelial cells'],
-    ['svg:transitional', 'ภาพวาดจำลอง: transitional epithelial cells'],
-    ['svg:rte', 'ภาพวาดจำลอง: renal tubular epithelial cells'],
-    ['svg:ofb', 'ภาพวาดจำลอง: oval fat body'],
-    ['svg:maltese', 'ภาพวาดจำลอง: oval fat body ใต้ polarized light (Maltese cross)'],
-    ['svg:yeast', 'ภาพวาดจำลอง: yeast (budding)'],
-    ['svg:trich', 'ภาพวาดจำลอง: Trichomonas vaginalis'],
-  ],
-  lec: ['ไม่อยู่ในสไลด์ pathology ชุดนี้ — ออกสอบ LAB ทั้งสองปี'],
-  add: ['เซลล์ที่สำคัญทางคลินิกที่สุดคือ <b>renal tubular epithelial cell</b> (บอก tubular injury)'],
-  html: 'cell',
-  ospe: 'Identify the cell, then give the probable diagnosis (e.g., WBC → UTI; oval fat body → nephrotic syndrome)',
-},
 ];
 
 /* ======================================================================
@@ -1101,34 +1060,6 @@ const STATIONS = [
     { q: 'จงให้การวินิจฉัย', a: 'Goodpasture syndrome (anti-GBM disease)', k: [DX.goodp] },
   ],
   x: 'IgG ติดเป็นเส้นเรียบต่อเนื่องตาม GBM = <b>linear</b> → anti-GBM antibody · ถ้าเป็นจุด ๆ ก้อน ๆ = granular (immune complex) · ถ้าแทบไม่ติด = pauci-immune (ANCA)' },
-{ id: 'X63-11', t: 'ua-proc', src: 'old', ref: 'ข้อสอบ 2563 ข้อ 11 · NU23 ข้อ 14', kind: 'Theory',
-  p: [
-    { q: 'Urine sedimentation ต้อง centrifuge นานกี่นาที', a: '5 นาที', k: [['5 minutes', '5', 'five', 'ห้า']] },
-    { q: 'หลังปั่นเทส่วนใสทิ้ง เหลือตะกอนไว้กี่ mL', a: '0.5–1 mL', k: [['0.5–1 mL', '0.5-1', '0.5 to 1', '0.5 ถึง 1', '0.5 1']] },
-  ],
-  x: 'ออกซ้ำทั้ง 2 ปีแบบคำต่อคำ — แจกคะแนนฟรี: ปั่น 1,500–2,000 rpm นาน <b>5 นาที</b> เทส่วนใสทิ้ง เหลือ <b>0.5–1 mL</b> แล้ว resuspend' },
-{ id: 'X63-12', t: 'ua-crystal', src: 'old', ref: 'ข้อสอบ 2563 ข้อ 12', kind: 'Urine', im: ['X63-12'],
-  p: [{ q: 'What is it?', a: 'Ammonium biurate crystal', k: [['Ammonium biurate', 'ammonium biurate', 'ammonium urate', 'thorny apple']] }],
-  x: 'ทรงกลมสีน้ำตาลเหลืองมีหนามยื่น = "thorny apple" · พบใน<b>ปัสสาวะด่าง</b> มักเป็นตัวอย่างที่ตั้งทิ้งไว้นาน (old specimen)' },
-{ id: 'X63-13', t: 'ua-cell', src: 'old', ref: 'ข้อสอบ 2563 ข้อ 13', kind: 'Urine', im: ['X63-13'],
-  p: [
-    { q: 'What is it?', a: 'White blood cell', k: [['White blood cell', 'white blood cell', 'WBC', 'WBCs', 'leukocyte', 'leucocyte', 'neutrophil', 'pus cell', 'เม็ดเลือดขาว']] },
-    { q: 'Probable diagnosis', a: 'Urinary tract infection', k: [['Urinary tract infection', 'urinary tract infection', 'UTI', 'cystitis', 'pyelonephritis', 'infection']] },
-  ],
-  x: 'เซลล์กลม cytoplasm เป็นเม็ด nucleus แบ่ง 2–3 lobes = neutrophil · WBC > 5/HPF = pyuria → UTI' },
-{ id: 'X63-14', t: 'ua-cast', src: 'old', ref: 'ข้อสอบ 2563 ข้อ 14 · NU23 ข้อ 11', kind: 'Urine', im: ['X63-14'],
-  p: [
-    { q: 'What is it?', a: 'Granular cast', k: [['Granular cast', 'granular cast']] },
-    { q: 'สัมพันธ์กับพยาธิสภาพใดในไต', a: 'Acute tubular necrosis (เซลล์ท่อไตที่สลาย) — muddy brown granular cast', k: [['Acute tubular necrosis', 'ATN', 'acute tubular necrosis', 'tubular necrosis', 'tubular injury', 'tubular damage', 'renal parenchymal disease']] },
-  ],
-  x: 'รูปทรงกระบอกขอบขนาน (cast) ภายในเต็มไปด้วยเม็ดละเอียด = granular cast · เกิดจากเซลล์ที่สลายหรือ protein aggregates · แบบ muddy brown พบใน ATN' },
-{ id: 'X63-15', t: 'ua-crystal', src: 'old', ref: 'ข้อสอบ 2563 ข้อ 15', kind: 'Urine', im: ['X63-15'],
-  p: [
-    { q: 'What is it?', a: 'Uric acid crystal', k: [['Uric acid', 'uric acid']] },
-    { q: 'พบในปัสสาวะ pH แบบใด', a: 'Acid urine', k: [['Acid', 'acid', 'acidic', 'กรด']] },
-  ],
-  x: 'ผลึกแผ่นรูป rhomboid/whetstone รวมเป็น rosette สีเหลือง–น้ำตาล = uric acid · พบใน acid urine; จำนวนมากใน gout, cell turnover สูง (leukemia, tumor lysis)' },
-
 /* ---------------- ข้อสอบเก่า MED NU23 & NT15 ---------------- */
 { id: 'N23-1', t: 'adpkd', src: 'old', ref: 'ข้อสอบ NU23 ข้อ 1', kind: 'Museum', im: ['L07'], stem: 'Museum specimen',
   p: [
@@ -1147,26 +1078,6 @@ const STATIONS = [
 { id: 'N23-9', t: 'fsgs', src: 'old', ref: 'ข้อสอบ NU23 ข้อ 9', kind: 'Micro', im: ['N23-09'],
   p: [{ q: 'จงวินิจฉัย', a: 'Focal segmental glomerulosclerosis (FSGS)', k: [['Focal segmental glomerulosclerosis', 'focal segmental glomerulosclerosis', 'FSGS', 'focal segmental']] }],
   x: 'บาง segment ของ tuft ถูกแทนที่ด้วย matrix (sclerosis) ส่วนอื่นยังปกติ · ระวัง: เฉลยเก่าเขียน "glomerulonephritis" — ที่ถูกคือ glomerulo<b>sclerosis</b>' },
-{ id: 'N23-11', t: 'ua-cell', src: 'old', ref: 'ข้อสอบ NU23 ข้อ 11', kind: 'Urine', im: ['svg:squamous', 'X63-14'], stem: 'Please identify cell as shown in urine',
-  p: [
-    { q: 'ภาพ A คืออะไร', a: 'Squamous epithelial cell', k: [['Squamous epithelial cell', 'squamous']] },
-    { q: 'ภาพ B คืออะไร', a: 'Granular cast', k: [['Granular cast', 'granular cast']] },
-  ],
-  x: 'A: เซลล์ใหญ่ที่สุดในตะกอน แบน เหลี่ยม nucleus เล็กตรงกลาง = squamous (ปนเปื้อนจาก vagina/distal urethra) · B: granular cast · เฉลยเก่าแนะนำให้ตอบชื่อเดียว ไม่ต้องเขียนหลายคำตอบ' },
-{ id: 'N23-12', t: 'ua-crystal', src: 'old', ref: 'ข้อสอบ NU23 ข้อ 12', kind: 'Urine', im: ['svg:triple', 'svg:caox_d'],
-  p: [
-    { q: 'ภาพ A คือ crystal อะไร', a: 'Triple phosphate (struvite)', k: [['Triple phosphate', 'triple phosphate', 'struvite', 'magnesium ammonium phosphate']] },
-    { q: 'ภาพ B คือ crystal อะไร', a: 'Calcium oxalate (dihydrate)', k: [['Calcium oxalate', 'calcium oxalate']] },
-  ],
-  x: 'A: prism ใสปลายตัดเฉียง "coffin lid" = triple phosphate (ปัสสาวะด่าง, UTI urease) · B: สี่เหลี่ยมมีกากบาท "envelope" = calcium oxalate dihydrate (acid/neutral)' },
-{ id: 'N23-15', t: 'ua-cell', src: 'old', ref: 'ข้อสอบ NU23 ข้อ 15', kind: 'Urine', im: ['svg:ofb'],
-  p: [
-    { q: '15.1 ภาพนี้คืออะไร', a: 'Oval fat body', k: [['Oval fat body', 'oval fat']] },
-    { q: 'พบในโรคใด', a: 'Nephrotic syndrome', k: [['Nephrotic syndrome', 'nephrotic']] },
-    { q: '15.2 Urobilinogen สูง พบในภาวะใด', a: 'Hemolysis (หรือ hepatocellular damage)', k: [['Hemolysis', 'hemoly', 'haemoly', 'hepatocellular', 'hepatitis', 'liver disease', 'liver damage', 'cirrhosis']] },
-  ],
-  x: 'Oval fat body = tubular cell/macrophage อมหยดไขมัน (Maltese cross ใต้ polarized light) → nephrotic syndrome · Urobilinogen สูงใน hemolysis (bilirubin สร้างมาก) และ hepatocellular damage (ตับเก็บกลับไม่ได้)' },
-
 /* ---------------- Lecture: congenital & cystic ---------------- */
 { id: 'L-04', t: 'horseshoe', src: 'lec', ref: 'Lecture หน้า 4', kind: 'Gross', im: ['L04'],
   p: [
@@ -1544,7 +1455,7 @@ const STATIONS = [
     { q: 'เซลล์ใสใน B คือเซลล์อะไร', a: 'Foamy (lipid-laden) macrophages', k: [['Foamy macrophages', 'foamy', 'macrophage', 'histiocyte', 'foam cell']] },
   ],
   x: 'A: เซลล์ใสเรียงเป็น nests มีเส้นเลือดละเอียดคั่น (epithelial tumor) · B: foamy histiocytes ปน lymphocytes ไม่มีรูปแบบ nest (inflammation)' },
-{ id: 'P-3', t: 'staghorn', src: 'pred', ref: 'คาดการณ์ (บูรณาการ patho + urinalysis)', kind: 'Gross + Urine', im: ['L24', 'svg:triple'],
+{ id: 'P-3', t: 'staghorn', src: 'pred', ref: 'คาดการณ์ (บูรณาการ patho + urinalysis)', kind: 'Gross + Urine', im: ['L24', 'U69a'],
   p: [
     { q: 'ภาพ A คืออะไร', a: 'Staghorn (struvite) stone', k: [['Staghorn stone', 'staghorn', 'struvite']] },
     { q: 'ภาพ B (ตะกอนปัสสาวะผู้ป่วยรายเดียวกัน) คือ crystal อะไร', a: 'Triple phosphate', k: [['Triple phosphate', 'triple phosphate', 'struvite', 'magnesium ammonium phosphate']] },
@@ -1566,113 +1477,6 @@ const STATIONS = [
   ],
   x: 'ไตฝ่อทั้งสองโรค: BNS = สมมาตร fine granular (ปัญหาหลอดเลือด) · CPN = แผลเป็นใหญ่ไม่สมมาตร calyx ผิดรูป (ปัญหาจาก pelvis)' },
 
-/* ---------------- Urinalysis (ภาพวาดจำลอง + ทฤษฎี) ---------------- */
-{ id: 'U-1', t: 'ua-proc', src: 'pred', ref: 'Urinalysis (ขั้นตอนเตรียมตะกอน)', kind: 'Theory',
-  p: [
-    { q: 'ปริมาตรปัสสาวะที่ใช้ปั่นตะกอน', a: '10–12 mL (ตัวอย่างสด)', k: [['10–12 mL', '10', '12', '15', '10-12', '10-15']] },
-    { q: 'ดู cast และ crystal ด้วยกำลังขยายใดและรายงานหน่วยใด', a: 'Low power field (10×), รายงาน /LPF', k: [['Low power (LPF)', 'LPF', 'low power', '10x', '10 x']] },
-    { q: 'ดูและนับ RBC/WBC ด้วยกำลังขยายใด', a: 'High power field (40×), รายงาน /HPF', k: [['High power (HPF)', 'HPF', 'high power', '40x', '40 x']] },
-  ],
-  x: 'ปั่น 1,500–2,000 rpm 5 นาที → เหลือ 0.5–1 mL → resuspend → LPF หา cast/crystal (ลดแสง) → HPF ระบุเซลล์ · ค่าปกติ RBC 0–2/HPF, WBC 0–5/HPF, hyaline cast 0–2/LPF' },
-{ id: 'U-2', t: 'ua-proc', src: 'pred', ref: 'Urinalysis (dipstick)', kind: 'Theory',
-  p: [
-    { q: 'Urobilinogen สูง พบในภาวะใด (2)', a: 'Hemolysis, hepatocellular damage', n: 2, k: [['Hemolysis', 'hemoly', 'haemoly'], ['Hepatocellular damage', 'hepatocellular', 'hepatitis', 'liver disease', 'liver damage', 'cirrhosis']] },
-    { q: 'Urine bilirubin บวก แต่ urobilinogen ไม่พบ บ่งชี้ภาวะใด', a: 'Obstructive (post-hepatic) jaundice', k: [['Obstructive jaundice', 'obstruct', 'cholesta', 'post hepatic', 'posthepatic', 'biliary']] },
-    { q: 'Nitrite บวก บ่งชี้อะไร', a: 'Gram-negative bacteriuria (UTI) ที่ reduce nitrate เป็น nitrite', k: [['Gram-negative bacteria (UTI)', 'gram negative', 'bacteri', 'e coli', 'UTI', 'infection']] },
-  ],
-  x: 'Hemolysis: bilirubin ในปัสสาวะลบ (unconjugated ไม่ผ่านไต) แต่ urobilinogen สูง · Obstructive: bilirubin บวก urobilinogen ต่ำ/ไม่พบ' },
-{ id: 'U-3', t: 'ua-crystal', src: 'pred', ref: 'Urinalysis (crystal)', kind: 'Urine', im: ['svg:caox_d', 'svg:caox_m'], stem: 'ภาพวาดจำลองตะกอนปัสสาวะ (HPF)',
-  p: [
-    { q: 'ภาพ A และ B เป็น crystal ชนิดเดียวกัน คืออะไร', a: 'Calcium oxalate (A: dihydrate "envelope", B: monohydrate oval/dumbbell)', k: [['Calcium oxalate', 'calcium oxalate']] },
-    { q: 'มักพบใน urine pH ใด', a: 'Acid หรือ neutral', k: [['Acid/neutral', 'acid', 'neutral', 'กรด']] },
-    { q: 'แบบ monohydrate จำนวนมากชวนนึกถึงพิษจากสารใด', a: 'Ethylene glycol', k: [['Ethylene glycol', 'ethylene glycol', 'antifreeze']] },
-  ],
-  x: 'Dihydrate = สี่เหลี่ยมมีกากบาท (envelope) · monohydrate = รูปไข่/ดัมเบล · พบได้ในคนปกติ (อาหาร oxalate สูง vit C) แต่จำนวนมาก + AKI คิดถึง ethylene glycol' },
-{ id: 'U-4', t: 'ua-crystal', src: 'pred', ref: 'Urinalysis (crystal)', kind: 'Urine', im: ['svg:triple'], stem: 'ภาพวาดจำลองตะกอนปัสสาวะ',
-  p: [
-    { q: 'What is it?', a: 'Triple phosphate (struvite) crystal — "coffin lid"', k: [['Triple phosphate', 'triple phosphate', 'struvite', 'magnesium ammonium phosphate']] },
-    { q: 'Urine pH', a: 'Alkaline', k: [['Alkaline', 'alkal', 'basic', 'ด่าง']] },
-    { q: 'ความสำคัญทางคลินิก', a: 'UTI with urease-producing bacteria (Proteus) → struvite/staghorn stone', k: [['UTI (urease) / struvite stone', 'UTI', 'urease', 'proteus', 'infection', 'staghorn', 'struvite']] },
-  ],
-  x: 'Prism ใสปลายตัดเฉียงเหมือนฝาโลง (coffin lid) — คู่กับ staghorn stone ใน Lecture' },
-{ id: 'U-5', t: 'ua-crystal', src: 'pred', ref: 'Urinalysis (crystal)', kind: 'Urine', im: ['svg:uric'], stem: 'ภาพวาดจำลอง ผู้ป่วย leukemia หลังได้ chemotherapy',
-  p: [
-    { q: 'What is it?', a: 'Uric acid crystals', k: [['Uric acid', 'uric acid']] },
-    { q: 'Urine pH', a: 'Acid', k: [['Acid', 'acid', 'กรด']] },
-    { q: 'ภาวะที่ทำให้พบมาก', a: 'Tumor lysis / high cell turnover (leukemia, chemotherapy), gout', k: [['Cell turnover / gout', 'tumor lysis', 'tumour lysis', 'turnover', 'leukemia', 'chemotherapy', 'gout', 'lesch']] },
-  ],
-  x: 'ผลึกสีเหลืองอำพันรูป whetstone/rhomboid รวมเป็น rosette · tumor lysis syndrome → uric acid nephropathy' },
-{ id: 'U-6', t: 'ua-crystal', src: 'pred', ref: 'Urinalysis (abnormal crystal)', kind: 'Urine', im: ['svg:cystine'], stem: 'ภาพวาดจำลอง เด็กชายมีนิ่วไตซ้ำ',
-  p: [
-    { q: 'What is it?', a: 'Cystine crystals (colorless hexagonal plates)', k: [['Cystine', 'cystine']] },
-    { q: 'โรคที่เกี่ยวข้อง', a: 'Cystinuria', k: [['Cystinuria', 'cystinuria']] },
-  ],
-  x: 'แผ่นหกเหลี่ยมด้านเท่าใส ซ้อนกันได้ = cystine (acid urine) · cystinuria เป็น AR defect การดูดกลับ COLA (cystine, ornithine, lysine, arginine) → นิ่ว' },
-{ id: 'U-7', t: 'ua-crystal', src: 'pred', ref: 'Urinalysis (abnormal crystal)', kind: 'Urine', im: ['svg:cholesterol', 'svg:maltese'], stem: 'ภาพวาดจำลอง ผู้ป่วยบวมทั้งตัว proteinuria 4+ (B = polarized light)',
-  p: [
-    { q: 'ภาพ A คือ crystal อะไร', a: 'Cholesterol crystals (flat plates with notched corners)', k: [['Cholesterol', 'cholesterol']] },
-    { q: 'ภาพ B (polarized light) เห็นลักษณะอะไร', a: 'Maltese cross (cholesterol ester droplets in oval fat body/fatty cast)', k: [['Maltese cross', 'maltese']] },
-    { q: 'ภาวะที่สัมพันธ์', a: 'Nephrotic syndrome', k: [['Nephrotic syndrome', 'nephrotic']] },
-  ],
-  x: 'Lipiduria ของ nephrotic syndrome: cholesterol plates, oval fat bodies, fatty casts — ไขมันกลุ่ม cholesterol ester ให้ Maltese cross ใต้ polarizer' },
-{ id: 'U-8', t: 'ua-crystal', src: 'pred', ref: 'Urinalysis (abnormal crystal)', kind: 'Urine', im: ['svg:tyrosine', 'svg:leucine'], stem: 'ภาพวาดจำลอง ผู้ป่วย fulminant hepatic failure',
-  p: [
-    { q: 'ภาพ A คืออะไร', a: 'Tyrosine crystals (fine needles in sheaves)', k: [['Tyrosine', 'tyrosine']] },
-    { q: 'ภาพ B คืออะไร', a: 'Leucine crystals (spheres with concentric rings)', k: [['Leucine', 'leucine']] },
-    { q: 'สองชนิดนี้บ่งชี้ภาวะใด', a: 'Severe liver disease', k: [['Severe liver disease', 'liver', 'hepat']] },
-  ],
-  x: 'Tyrosine = เข็มเล็กละเอียดเป็นมัด · leucine = ทรงกลมเหลืองมีวงซ้อนและลายรัศมี — ทั้งคู่บอกโรคตับรุนแรง' },
-{ id: 'U-9', t: 'ua-cast', src: 'pred', ref: 'Urinalysis (cast)', kind: 'Urine', im: ['svg:hyaline'], stem: 'ภาพวาดจำลอง (LPF, ลดแสง) หลังวิ่งมาราธอน',
-  p: [
-    { q: 'What is it?', a: 'Hyaline cast', k: [['Hyaline cast', 'hyaline']] },
-    { q: 'Protein ที่เป็น matrix ของ cast', a: 'Tamm-Horsfall protein (uromodulin)', k: [['Tamm-Horsfall protein', 'tamm', 'horsfall', 'uromodulin']] },
-    { q: 'พบได้ในคนปกติหรือไม่', a: 'ได้ (0–2/LPF) โดยเฉพาะหลังออกกำลัง, dehydration, ไข้', k: [['Yes (normal/exercise)', 'ได้', 'normal', 'yes', 'exercise', 'dehydrat', 'ปกติ']] },
-  ],
-  x: 'Cast ใสจางมาก ต้องลดแสงจึงเห็น · เป็น cast ชนิดเดียวที่พบในคนปกติได้' },
-{ id: 'U-10', t: 'ua-cast', src: 'pred', ref: 'Urinalysis (cast)', kind: 'Urine', im: ['svg:rbccast'], stem: 'ภาพวาดจำลอง เด็ก 8 ปี บวม ความดันสูง ปัสสาวะสีน้ำล้างเนื้อ หลังเจ็บคอ 2 สัปดาห์',
-  p: [
-    { q: 'What is it?', a: 'RBC cast', k: [['RBC cast', 'RBC cast', 'red cell cast', 'red blood cell cast', 'erythrocyte cast']] },
-    { q: 'บ่งชี้พยาธิสภาพที่ใด', a: 'Glomerulus — glomerulonephritis (nephritic syndrome)', k: [['Glomerulonephritis', 'glomerul', 'nephritic', 'GN', 'PSGN']] },
-  ],
-  x: 'RBC cast = เลือดออกจาก glomerulus → glomerulonephritis (ในเคสนี้ post-streptococcal GN)' },
-{ id: 'U-11', t: 'ua-cast', src: 'pred', ref: 'Urinalysis (cast)', kind: 'Urine', im: ['svg:wbccast'], stem: 'ภาพวาดจำลอง หญิง 25 ปี ไข้สูง ปวดหลัง (CVA tenderness)',
-  p: [
-    { q: 'What is it?', a: 'WBC cast', k: [['WBC cast', 'WBC cast', 'white cell cast', 'white blood cell cast', 'leukocyte cast', 'pus cast']] },
-    { q: 'วินิจฉัยโรค', a: 'Acute pyelonephritis (หรือ acute interstitial nephritis)', k: [['Pyelonephritis / interstitial nephritis', 'pyelonephritis', 'interstitial nephritis']] },
-  ],
-  x: 'WBC cast บอกว่าการอักเสบอยู่ในไต — แยก pyelonephritis ออกจาก cystitis ได้ · เชื่อมกับข้อสอบปี 2563 ข้อ 7 (WBC casts ใน tubules)' },
-{ id: 'U-12', t: 'ua-cast', src: 'pred', ref: 'Urinalysis (cast)', kind: 'Urine', im: ['svg:waxy'], stem: 'ภาพวาดจำลอง ผู้ป่วย CKD stage 5',
-  p: [
-    { q: 'What is it?', a: 'Waxy cast', k: [['Waxy cast', 'waxy']] },
-    { q: 'บ่งชี้ภาวะใด', a: 'Advanced chronic kidney disease (urine stasis)', k: [['Advanced CKD', 'CKD', 'chronic kidney', 'chronic renal', 'renal failure', 'ESRD', 'stasis', 'advanced']] },
-  ],
-  x: 'Cast หนาสะท้อนแสง ขอบคม มีรอยแตก/รอยบากด้านข้าง ปลายตัดทู่ = waxy cast (ระยะสุดท้ายของ granular cast จาก stasis)' },
-{ id: 'U-13', t: 'ua-cast', src: 'pred', ref: 'Urinalysis (cast)', kind: 'Urine', im: ['svg:fatty'], stem: 'ภาพวาดจำลอง ผู้ป่วย membranous nephropathy',
-  p: [
-    { q: 'What is it?', a: 'Fatty cast', k: [['Fatty cast', 'fatty cast', 'fat cast', 'lipid cast']] },
-    { q: 'กลุ่มอาการที่สัมพันธ์', a: 'Nephrotic syndrome', k: [['Nephrotic syndrome', 'nephrotic']] },
-  ],
-  x: 'Cast ที่มีหยดไขมันสะท้อนแสงฝังอยู่ (Maltese cross ใต้ polarizer) → nephrotic syndrome · เชื่อมกับ membranous nephropathy ใน Lecture' },
-{ id: 'U-14', t: 'ua-cell', src: 'pred', ref: 'Urinalysis (cells)', kind: 'Urine', im: ['svg:squamous', 'svg:transitional', 'svg:rte'], stem: 'ภาพวาดจำลอง epithelial cells 3 ชนิด (HPF)',
-  p: [
-    { q: 'ภาพ A', a: 'Squamous epithelial cell', k: [['Squamous', 'squamous']] },
-    { q: 'ภาพ B', a: 'Transitional (urothelial) epithelial cell', k: [['Transitional / urothelial', 'transitional', 'urotheli']] },
-    { q: 'ภาพ C', a: 'Renal tubular epithelial cell', k: [['Renal tubular epithelial cell', 'renal tubular', 'RTE', 'tubular epitheli']] },
-  ],
-  x: 'A ใหญ่สุด แบน nucleus เล็ก (contamination) · B กลม/รูปลูกแพร์มีหาง nucleus กลางเซลล์ · C เล็กกว่า เหลี่ยม nucleus กลมค่อนไปด้านหนึ่ง — C สำคัญที่สุด (tubular injury)' },
-{ id: 'U-15', t: 'ua-cell', src: 'pred', ref: 'Urinalysis (cells)', kind: 'Urine', im: ['svg:dysrbc'], stem: 'ภาพวาดจำลอง (phase contrast) ผู้ป่วย IgA nephropathy',
-  p: [
-    { q: 'What is it?', a: 'Dysmorphic RBCs (acanthocytes)', k: [['Dysmorphic RBC / acanthocyte', 'dysmorphic', 'acanthocyte']] },
-    { q: 'บ่งชี้แหล่งเลือดออกที่ใด', a: 'Glomerular origin', k: [['Glomerular', 'glomerul']] },
-  ],
-  x: 'RBC รูปร่างผิดปกติมีปุ่ม (blebs) = ผ่าน GBM ที่เสียหาย → glomerular hematuria · RBC ปกติรูปร่างเรียบ = non-glomerular (นิ่ว เนื้องอก)' },
-{ id: 'U-16', t: 'ua-cell', src: 'pred', ref: 'Urinalysis (organisms)', kind: 'Urine', im: ['svg:trich', 'svg:yeast'], stem: 'ภาพวาดจำลอง (HPF)',
-  p: [
-    { q: 'ภาพ A คืออะไร', a: 'Trichomonas vaginalis', k: [['Trichomonas vaginalis', 'trichomonas']] },
-    { q: 'ภาพ B คืออะไร', a: 'Yeast (Candida) — budding', k: [['Yeast / Candida', 'yeast', 'candida', 'budding', 'fung']] },
-    { q: 'ภาวะที่ทำให้พบ B บ่อย', a: 'Diabetes mellitus (glucosuria), immunosuppression, antibiotics', n: 1, k: [['DM', 'diabet', 'DM', 'glucosuria'], ['Immunosuppression', 'immuno'], ['Antibiotics', 'antibiotic']] },
-  ],
-  x: 'A: รูปลูกแพร์ มี flagella ด้านหน้าและ undulating membrane เคลื่อนที่กระตุก (ต้องดูในปัสสาวะสด) · B: รูปไข่แตกหน่อ พบบ่อยใน DM' },
 ];
 
 /* ======================================================================
@@ -1700,16 +1504,1018 @@ const PAPERS = [
       { no: '2', st: 'N23-2', note: 'ใช้ภาพ museum hydronephrosis จาก Lecture หน้า 19' },
       { no: '6', st: 'X63-4' }, { no: '8', st: 'X63-2', note: 'เฉลยรุ่นพี่: tubular atrophy, thyroidization, sclerotic glomeruli, interstitial edema' },
       { no: '9', st: 'N23-9', note: 'เฉลยเดิมเขียน "Focal segmental glomerulonephritis" — ชื่อที่ถูกคือ glomerulosclerosis' },
-      { no: '11', st: 'N23-11', sec: 'Urine analysis', note: 'ไม่มีภาพในเอกสาร — ภาพ A เป็นภาพวาดจำลอง ภาพ B ใช้ granular cast จากข้อสอบปี 2563' },
-      { no: '12', st: 'N23-12', note: 'ไม่มีภาพในเอกสาร — ใช้ภาพวาดจำลอง' },
+      { no: '11', st: 'N23-11', sec: 'Urine analysis', note: 'เอกสารไม่มีภาพ — ภาพ A ใช้ squamous cell จาก Lecture LAB Urine ภาพ B ใช้ granular cast จากข้อสอบปี 2563' },
+      { no: '12', st: 'N23-12', note: 'เอกสารไม่มีภาพ — ใช้ภาพจาก Lecture LAB Urine หน้า 69 และ 67' },
       { no: '14', st: 'X63-11' },
-      { no: '15', st: 'N23-15', note: 'ภาพเป็นภาพวาดจำลอง · แลปปุ: เจอ cell นี้ในโรค nephrotic syndrome; urobilinogen สูงพบใน hepatocellular damage ด้วย' },
+      { no: '15', st: 'N23-15', note: 'ภาพจาก Lecture LAB Urine หน้า 46 · เฉลยรุ่นพี่: เจอ cell นี้ในโรค nephrotic syndrome; urobilinogen สูงพบใน hepatocellular damage ด้วย' },
       { no: '–', st: 'X63-10', note: 'ข้อ Goodpasture (ไม่ระบุเลขข้อ) ภาพ IF linear เหมือนปี 2563' },
     ],
   },
 ];
 
-window.KUB = { GROUPS, TOPICS, STATIONS, PAPERS };
+window.KUB = { GROUPS, TOPICS, STATIONS, PAPERS, DX };
+})();
+
+/* ------------------------------------------------------------------
+ * data-urine.js — LAB Urine (Routine urinalysis, 81 สไลด์)
+ * เติม GROUPS / TOPICS / STATIONS ของ LAB Urine เข้า window.KUB
+ * ภาพ 'U46' = img/U46.jpg (Lecture LAB Urine หน้า 46), 'U51a' = ภาพแรกของหน้า 51 ฯลฯ
+ * ------------------------------------------------------------------ */
+(function () {
+'use strict';
+const K = window.KUB;
+
+/* ---------- กลุ่มคำที่ใช้ซ้ำ ---------- */
+const W = {
+  acid: ['Acid', 'acid', 'acidic', 'กรด'],
+  alk: ['Alkaline', 'alkal', 'basic', 'ด่าง'],
+  asc: ['Ascorbic acid (vitamin C)', 'ascorbic', 'vitamin c', 'vit c', 'วิตามินซี'],
+  liver: ['Severe liver disease', 'liver', 'hepat', 'ตับ'],
+  nephrotic: ['Nephrotic syndrome', 'nephrotic'],
+  gn: ['Glomerulonephritis', 'glomerulonephritis', 'glomerular', 'nephritic', 'GN'],
+  pyelo: ['Pyelonephritis', 'pyelonephritis'],
+  rbccast: ['RBC cast', 'RBC cast', 'red cell cast', 'red blood cell cast', 'erythrocyte cast'],
+  wbccast: ['WBC cast', 'WBC cast', 'white cell cast', 'white blood cell cast', 'leukocyte cast', 'pus cast'],
+  hyaline: ['Hyaline cast', 'hyaline'],
+  waxy: ['Waxy cast', 'waxy'],
+  fgran: ['Finely granular cast', 'fine granular', 'finely granular', 'granular cast'],
+  rtecast: ['RTE (epithelial) cell cast', 'epithelial cell cast', 'epithelial cast', 'RTE cast', 'RTE cell cast', 'renal tubular epithelial cell cast', 'tubular cast', 'RTEC cast'],
+  rte: ['Renal tubular epithelial cell', 'renal tubular', 'RTE', 'tubular epitheli', 'RTEC'],
+  squam: ['Squamous epithelial cell', 'squamous'],
+  trans: ['Transitional epithelial cell', 'transitional', 'urotheli'],
+  wbc: ['White blood cell', 'white blood cell', 'WBC', 'WBCs', 'leukocyte', 'leucocyte', 'neutrophil', 'pus cell', 'เม็ดเลือดขาว'],
+  rbc: ['Red blood cell', 'red blood cell', 'RBC', 'RBCs', 'erythrocyte', 'เม็ดเลือดแดง'],
+  ofb: ['Oval fat body', 'oval fat'],
+  triple: ['Triple phosphate', 'triple phosphate', 'struvite', 'magnesium ammonium phosphate', 'ammonium magnesium phosphate'],
+  caox: ['Calcium oxalate', 'calcium oxalate'],
+  uric: ['Uric acid', 'uric acid'],
+};
+
+K.GROUPS.push(
+  { id: 'phys',  lab: 'urine', name: 'Physical exam', th: 'การตรวจทางกายภาพ' },
+  { id: 'chem',  lab: 'urine', name: 'Reagent strip', th: 'การตรวจทางเคมี' },
+  { id: 'sed',   lab: 'urine', name: 'Sediment & report', th: 'เตรียมตะกอนและรายงานผล' },
+  { id: 'ucell', lab: 'urine', name: 'Cells', th: 'เซลล์' },
+  { id: 'ucast', lab: 'urine', name: 'Casts', th: 'คาสท์' },
+  { id: 'xtal',  lab: 'urine', name: 'Crystals', th: 'ผลึก' },
+  { id: 'umisc', lab: 'urine', name: 'Others & artifacts', th: 'เชื้อและสิ่งปนเปื้อน' },
+);
+
+/* ======================================================================
+ * TOPICS
+ * html: ชื่อตารางสรุปใน app.js (UA_HTML) — ตัวแรกเปิดไว้ ตัวถัดไปพับไว้
+ * ==================================================================== */
+K.TOPICS.push(
+{
+  id: 'u-phys', g: 'phys', en: 'Color & turbidity', th: 'สีและความขุ่นของปัสสาวะ', pages: '3–6', star: 2,
+  imgs: [['U04', 'ตารางสีปัสสาวะในสไลด์ (Color – Cause – Clinical/Laboratory correlation)']],
+  lec: [
+    'Physical examination: color, turbidity, specific gravity, odor',
+    'Colorless: polyuria or DI (เพิ่ม 24-hr volume) · Pale yellow: DM (SG สูง + glucose บวก)',
+    'Amber/Orange: bilirubin (เขย่าแล้วมี<b>ฟองสีเหลือง</b>), drugs',
+    'Yellow-green/Yellow-brown: bilirubin ถูก oxidize เป็น biliverdin (ฟองมีสี, ผล bilirubin ทางเคมีลบลวง)',
+    'Pink/Red: RBCs (<b>ขุ่น</b>), hemoglobin และ myoglobin (<b>ใส</b>), porphyrins, beets, rifampin, menstrual contamination (ขุ่น)',
+    'Brown/Black: RBCs oxidized to methemoglobin, methemoglobin, methyldopa/levodopa, metronidazole (Flagyl)',
+    'Turbidity: ใส (clear) · ขุ่นเล็กน้อย (slightly turbid) · ขุ่นมาก (turbid)',
+    'Nonpathologic turbidity: squamous epithelium, mucus, amorphous phosphate/carbonate/urate, semen, fecal contamination, radiologic contrast media, powder, vaginal creams',
+    'Pathologic turbidity: RBCs, WBCs, bacteria, yeast, nonsquamous cells, abnormal crystals, lymph fluids, lipid',
+  ],
+  add: [
+    'แยกสีแดงด้วยความใส: <b>แดงขุ่น = RBC</b> (ปั่นแล้วตะกอนแดง ส่วนบนใส) · <b>แดงใส = hemoglobin/myoglobin</b> (ปั่นแล้วยังแดงทั้งหลอด)',
+    'Hemoglobinuria → นึกถึง intravascular hemolysis · myoglobinuria → rhabdomyolysis',
+  ],
+  html: ['color', 'turbid'],
+  ospe: 'อ่านสีพร้อมความใส แล้วบอกสาเหตุ เช่น red + clear → hemoglobin/myoglobin; red + cloudy → RBCs; amber + yellow foam → bilirubin',
+},
+{
+  id: 'u-sg', g: 'phys', en: 'Specific gravity', th: 'ความถ่วงจำเพาะ (refractometer และแถบตรวจ)', pages: '7–8, 18–19', star: 2,
+  imgs: [
+    ['U07', 'ขั้นตอนใช้ refractometer: หยดปัสสาวะ 1–2 หยดบน prism → ปิดฝา → ส่องดู → อ่านค่าที่เส้นแบ่งสว่าง/มืด → เช็ดทำความสะอาด'],
+    ['U08', 'ภาพที่เห็นในกล้อง refractometer: อ่านค่าที่รอยต่อระหว่างส่วนสว่างและส่วนมืด'],
+  ],
+  lec: [
+    'Refractometer: put one or two drops of sample on the prism → close the daylight plate → the sample must spread all over the prism surface → look through the eyepiece → read the scale where the boundary line intercepts it → wipe clean with tissue and water',
+    'Reagent strip SG: change in pKa (dissociation constant) of a polyelectrolyte in an alkaline medium',
+    'False positive: high concentrations of urine (ปัสสาวะเข้มข้นมาก)',
+    'False negative: highly alkaline urine (pH > 6.5)',
+  ],
+  add: [
+    'ค่าปกติประมาณ 1.003–1.030 · คงที่ ~1.010 = <b>isosthenuria</b> (ไตเสียความสามารถในการปรับความเข้มข้น)',
+    'SG สูง: dehydration, glucosuria, proteinuria, contrast media · SG ต่ำ: diabetes insipidus, ดื่มน้ำมาก',
+    'Refractometer วัด refractive index ซึ่งขึ้นกับปริมาณสารที่ละลายทั้งหมด',
+  ],
+  ospe: 'Instrument = refractometer → measures urine specific gravity (1–2 drops on the prism; read where the light/dark boundary crosses the scale)',
+},
+{
+  id: 'u-strip', g: 'chem', en: 'Reagent strip & protein', th: 'แถบตรวจและโปรตีน', pages: '9–10', star: 2,
+  imgs: [
+    ['U09', 'เครื่องอ่านแถบตรวจอัตโนมัติ (automated urine chemistry analyzer)'],
+    ['U10', 'Multi-purpose urine test strip พร้อมแผ่นเทียบสี'],
+  ],
+  lec: [
+    'Protein: reagent (the protein error of pH indicators) strips tend to be more sensitive to <b>albumin</b> than to globulins, Bence Jones protein, or mucoprotein',
+    'Alkaline pH → false positive',
+    'Confirmation test: Robert’s test',
+    'Sulfosalicylic acid (SSA) method — qualitative',
+  ],
+  add: [
+    '<b>Protein error of indicator</b>: โปรตีนรับ H<sup>+</sup> จาก indicator ทำให้สีเปลี่ยนทั้งที่ pH คงที่ (strip มี buffer)',
+    'SSA ตกตะกอนโปรตีนได้ทุกชนิด รวมถึง Bence Jones protein ที่แถบตรวจไม่ค่อยจับ — ใช้ยืนยันหรือหา non-albumin protein',
+    'แถบตรวจผลบวกลวงในปัสสาวะด่างจัด (เช่น UTI ที่เชื้อสร้าง urease) หรือแช่แถบนานเกินไปจน buffer หลุด',
+  ],
+  html: ['strip'],
+  ospe: 'Protein pad = protein error of pH indicators, most sensitive to albumin; false positive in highly alkaline urine; confirm with sulfosalicylic acid (SSA) or Robert’s test',
+},
+{
+  id: 'u-glu', g: 'chem', en: 'Glucose & ketones', th: 'กลูโคสและคีโตน', pages: '11–15', star: 2,
+  imgs: [
+    ['U11', 'แผ่นเทียบสี glucose — อ่านผลที่ 30 วินาที'],
+    ['U13', 'แผ่นเทียบสี ketone — อ่านผลที่ 40 วินาที'],
+  ],
+  lec: [
+    'Glucose: glucose oxidase — Reaction A: glucose + O<sub>2</sub> → gluconic acid + H<sub>2</sub>O<sub>2</sub>; Reaction B (peroxidase): H<sub>2</sub>O<sub>2</sub> + chromogen → oxidized chromogen',
+    'Glucose false positive: contamination with peroxide or strong oxidizing detergent',
+    'Glucose false negative: <b>ascorbic acid</b>; high specific gravity and low temperature may decrease the sensitivity',
+    'Ketones: sodium nitroprusside reaction — acetoacetic acid + Na nitroprusside (+ glycine) in alkaline pH → violet–purple color',
+    'Urine ketones: acetoacetic acid → acetone (–CO<sub>2</sub>) และ ↔ β-hydroxybutyric acid (NADH<sub>2</sub>/NAD<sup>+</sup>)',
+    'Ketone false positive/atypical color: improperly timed reading, highly pigmented urines, high SG + low pH, levodopa metabolites, sulfhydryl groups, phenylketones, phthalein compounds (ยืนยันด้วย tablet test)',
+    'Ketone false negative: volatilization of acetone and breakdown of acetoacetic acid',
+  ],
+  add: [
+    'Glucose oxidase <b>จำเพาะต่อ glucose</b> ไม่จับ reducing sugar อื่น (galactose, fructose)',
+    'Nitroprusside จับ <b>acetoacetic acid</b> ได้ดีที่สุด (glycine ช่วยให้จับ acetone ได้บ้าง) และ <b>ไม่จับ β-hydroxybutyric acid</b> ซึ่งเป็น ketone หลักใน DKA',
+    'ตัวอย่างตั้งทิ้งไว้นาน → acetone ระเหย + bacteria ย่อย acetoacetic acid → ผลลบลวง',
+  ],
+  html: ['strip'],
+  ospe: 'Glucose pad = glucose oxidase–peroxidase (FN: ascorbic acid; FP: peroxide/oxidizing detergent). Ketone pad = sodium nitroprusside, detects acetoacetic acid (not β-hydroxybutyrate)',
+},
+{
+  id: 'u-blood', g: 'chem', en: 'Blood', th: 'เลือดในปัสสาวะ', pages: '16–17', star: 2,
+  imgs: [['U16', 'แผ่นเทียบสี blood (60 วินาที): จุดกระ = non-hemolyzed (RBC ทั้งเซลล์) · สีเรียบ = hemolyzed']],
+  lec: [
+    'Reaction: pseudoperoxidase activity of hemoglobin — H<sub>2</sub>O<sub>2</sub> + chromogen → oxidized chromogen',
+    'False positive: menstrual contamination, strong oxidizing detergent, vegetable peroxidase and bacterial enzyme (including E. coli)',
+    'False negative: ascorbic acid; high SG (RBCs do not lyse); formalin, captopril, high nitrite (decreased reactivity)',
+  ],
+  add: [
+    'แผ่นเทียบสีมี 2 แถว: <b>non-hemolyzed (จุดกระ)</b> = RBC ทั้งเซลล์แตกบนแผ่น → hematuria · <b>hemolyzed (สีสม่ำเสมอ)</b> = hemoglobin อิสระหรือ myoglobin',
+    'Blood บวกแต่ไม่พบ RBC ในตะกอน → hemoglobinuria (intravascular hemolysis) หรือ myoglobinuria (rhabdomyolysis)',
+  ],
+  html: ['strip'],
+  ospe: 'Blood pad = pseudoperoxidase activity of heme (Hb, myoglobin). Speckled = intact RBCs; uniform = free Hb/myoglobin. FN: ascorbic acid, high SG; FP: menstrual blood, oxidizing detergent, bacterial/vegetable peroxidase',
+},
+{
+  id: 'u-nit', g: 'chem', en: 'Nitrite & leukocyte esterase', th: 'ไนไตรต์และ leukocyte esterase', pages: '20–23, 31', star: 3,
+  imgs: [
+    ['U20', 'แผ่นเทียบสี nitrite — อ่านที่ 60 วินาที (สีชมพูอ่อนหรือเข้มก็รายงาน positive)'],
+    ['U22', 'แผ่นเทียบสี leukocytes — อ่านที่ 2 นาที'],
+  ],
+  lec: [
+    'Nitrite: Greiss reaction — nitrite + p-arsanilic acid → diazonium compound; + 3-hydroxyl-1,2,3,4-tetrahydrobenz-(h)-quinoline → pink color',
+    'Sensitivity standardized to a quantitative bacterial culture criterion of <b>100,000 organisms per mL</b>',
+    'Nitrite false negative: <b>nonreductase-containing bacteria</b>, insufficient contact time, high ascorbic acid, high SG, large quantities of bacteria converting nitrite to nitrogen',
+    'Nitrite false positive: improperly preserved specimen, highly pigmented urine',
+    'Leukocyte esterase: indoxyl/pyrrole carbonic acid ester + granulocytic esterase → indoxyl/pyrrole; + diazonium salt → purple',
+    'LE false positive: strong oxidizing agent, formalin, highly pigmented urine, nitrofurantoin',
+    'LE false negative: high concentrations of protein, glucose, oxalic acid, ascorbic acid, gentamicin, cephalosporins, tetracyclines',
+    'ตาราง UTI ในผู้หญิงที่มี dysuria: LE dipstick sensitivity 0.75–0.90 / specificity 0.95 · nitrite sensitivity 0.35–0.85 / specificity 0.95',
+  ],
+  add: [
+    'Nitrite บวกต้องมีแบคทีเรียที่ reduce nitrate (gram-negative เช่น E. coli) + ปัสสาวะค้างในกระเพาะนานพอ (~4 ชม.) → ใช้ปัสสาวะแรกตอนเช้าดีที่สุด',
+    'Nitrite: specificity สูงแต่ sensitivity ต่ำ (ผลลบไม่ตัด UTI) · LE: ตรวจ esterase จาก neutrophil ทั้งที่แตกแล้ว จึงยังบวกแม้เซลล์สลาย',
+    'LE บวกแต่ nitrite ลบ: เชื้อที่ไม่สร้าง nitrate reductase (เช่น Enterococcus, Staphylococcus saprophyticus), ปัสสาวะบ่อย, หรือ sterile pyuria',
+  ],
+  html: ['strip', 'uti'],
+  ospe: 'Nitrite = Greiss reaction (gram-negative nitrate reductase; standardized to 10<sup>5</sup> organisms/mL). LE = granulocytic esterase from neutrophils (pyuria). Both together support UTI',
+},
+{
+  id: 'u-bili', g: 'chem', en: 'Bilirubin & urobilinogen', th: 'บิลิรูบินและยูโรบิลิโนเจน (จากข้อสอบเก่า)', pages: 'ข้อสอบเก่า', star: 2,
+  exam: ['NU23 ข้อ 15.2'],
+  imgs: [],
+  lec: ['ใน Lecture มีเฉพาะตารางสี (bilirubin → amber, ฟองเหลือง) — แต่ข้อสอบ NU23 ถาม urobilinogen'],
+  add: [
+    'Urobilinogen สูง: <b>hemolysis</b> (bilirubin สร้างมาก) และ <b>hepatocellular damage</b> (ตับนำกลับไม่ได้)',
+    'Bilirubin ในปัสสาวะต้องเป็น conjugated → พบใน obstructive jaundice และ hepatocellular disease แต่ไม่พบใน hemolysis',
+    'Complete biliary obstruction: bilirubin บวก แต่ urobilinogen ต่ำหรือไม่พบ',
+  ],
+  html: ['jaundice'],
+  ospe: 'Increased urine urobilinogen → hemolysis or hepatocellular damage; urine bilirubin positive with absent urobilinogen → obstructive jaundice',
+},
+{
+  id: 'u-prep', g: 'sed', en: 'Preparation of urine sediment', th: 'การเตรียมและตรวจตะกอนปัสสาวะ', pages: '24–27', star: 3,
+  exam: ['2563 ข้อ 11', 'NU23 ข้อ 14'],
+  imgs: [['U26', 'ขั้นตอนในห้องแลป: เทปัสสาวะ 10 mL ใส่หลอดก้นแหลม → ปั่น 1,500–2,000 รอบ/นาที 5 นาที → ดูดส่วนใสทิ้งเหลือตะกอน ~0.5 mL → หยดบนสไลด์']],
+  lec: [
+    'Microscopic examination: cell, cast, crystal, microorganisms and parasites, miscellaneous formed elements (mucous thread, spermatozoa)',
+    'Specimen volume: <b>10–15 mL</b> in conical tube',
+    'Centrifugation: <b>5 min</b> at a relative centrifugal force (RCF) of <b>400</b> (ในแลป: 1,500–2,000 รอบ/นาที นาน 5 นาที)',
+    'Sediment preparation: <b>0.5–1 mL</b> of urine should remain after decantation',
+    'Observe a minimum of <b>10 fields</b> under both low (10×) and high (40×) power',
+    'Examine under <b>low power first</b> to detect casts and ascertain the general composition; switch to high power when elements are encountered',
+  ],
+  add: [
+    'ใช้ปัสสาวะสด (ภายใน 1–2 ชม.) ถ้าตั้งนาน: เซลล์และ cast สลาย, แบคทีเรียเพิ่ม, ปัสสาวะกลายเป็นด่าง',
+    'ดู cast ใต้ LPF ต้อง<b>ลดแสง</b> (ปิด condenser ลง) เพราะ hyaline cast ใสมาก',
+  ],
+  html: ['proc'],
+  ospe: '10–15 mL in a conical tube → centrifuge 5 min (RCF 400; ~1,500–2,000 rpm) → decant leaving 0.5–1 mL → resuspend → scan ≥ 10 fields under LPF (casts) then HPF (cells)',
+},
+{
+  id: 'u-report', g: 'sed', en: 'Reporting the microscopic exam', th: 'การรายงานผลตะกอนปัสสาวะ', pages: '28–30', star: 3,
+  imgs: [],
+  lec: [
+    'Casts: average number per <b>low-power field (LPF)</b> after 10 fields',
+    'RBCs and WBCs: average number per 10 <b>high-power fields (HPF)</b>',
+    'Epithelial cells, crystals, other elements: semiquantitative (rare, few, moderate, many หรือ 1+ – 4+)',
+    'รายงานเป็นช่วงตัวเลข: Neg, rare, 0–1, 1–2, 2–3, 3–5, 5–10, 10–20, 20–30, 30–50, 50–100, > 100',
+    '/HPF (40×): <b>WBC, RBC, epithelial cell, oval fat body, Trichomonas vaginalis</b>',
+    '/LPF (10×): <b>cast, cylindroid</b>',
+    'รายงานเป็นระดับ: Negative = ไม่พบ · Rare = พบน้อยกว่า 4 cells/slide · Few = พบเล็กน้อยกระจายประปราย · Moderate = กระจายปานกลาง บางครั้งจับกลุ่มเล็ก · Many = กระจายมากขึ้น จับกลุ่มใหญ่ · Numerous = พบหนาทึบ บังตะกอนชนิดอื่น',
+    'รายงานเป็นระดับ: <b>crystal, amorphous, mucous thread, spermatozoa, yeast, bacteria, fat globules</b>',
+  ],
+  add: ['ค่าปกติ: RBC 0–2/HPF · WBC < 5/HPF · hyaline cast 0–2/LPF · RTE > 2/HPF = tubular injury'],
+  html: ['report'],
+  ospe: 'Cast & cylindroid = /LPF; RBC, WBC, epithelial cells, oval fat bodies, Trichomonas = /HPF; crystals, amorphous, mucus, sperm, yeast, bacteria, fat globules = graded (rare → numerous)',
+},
+{
+  id: 'u-rbc', g: 'ucell', en: 'Red blood cells', th: 'เม็ดเลือดแดง', pages: '32–37', star: 3,
+  imgs: [
+    ['U36', 'RBCs ในปัสสาวะของหญิงที่มีนิ่วในไต: บางเซลล์ crenated และมี epithelial cell 1 เซลล์ตรงกลาง'],
+    ['U37', 'Phase contrast: dysmorphic RBCs จาก glomerular bleeding — acanthocytes เป็นวงแหวนมีปุ่มรูปถุง (ลูกศร)'],
+  ],
+  lec: [
+    'In concentrated urine the cells shrink due to loss of water and may appear <b>crenated</b>',
+    'In dilute urine the cells absorb water, swell, and lyse rapidly — <b>ghost cells</b>',
+    'RBCs that vary in size, have cellular protrusions, or are fragmented = <b>dysmorphic</b> → glomerular bleeding (small numbers also in nonglomerular hematuria)',
+    'Normal urine: <b>0–2 cells/HPF</b>',
+    'Normal: กลม ขอบเรียบ คล้ายขนมโดนัท สีทอง ไม่มีนิวเคลียส · Crenated: เหี่ยว ขอบหยัก มีจุดกลมทั่วเซลล์ · Swollen: บวมพอง · Ghost cell: ไม่มี Hb เหลือแต่ขอบเซลล์ · Dysmorphic: ขนาดไม่แน่นอน',
+    'พบในภาวะ glomerulonephritis, pyelonephritis, cystitis, calculi, tumor และ trauma',
+  ],
+  add: [
+    '<b>Acanthocyte</b> (ring form + vesicle-shaped protrusions) จำเพาะต่อ glomerular bleeding มากที่สุด',
+    'RBC แยกจาก yeast (รูปไข่ แตกหน่อ) และหยดไขมัน (สะท้อนแสง ขนาดไม่เท่ากัน)',
+  ],
+  html: ['cell'],
+  ospe: 'Small round biconcave anucleate cells (~7 µm) → RBCs (hematuria if > 2/HPF). Crenated in concentrated urine; ghost cells in dilute urine; dysmorphic RBCs/acanthocytes → glomerular origin',
+},
+{
+  id: 'u-wbc', g: 'ucell', en: 'White blood cells', th: 'เม็ดเลือดขาว', pages: '38, 40', star: 3,
+  exam: ['2563 ข้อ 13'],
+  imgs: [
+    ['U40a', 'WBCs: เซลล์กลมใหญ่กว่า RBC cytoplasm เป็นเม็ด'],
+    ['X63-13', 'ข้อสอบปี 2563 ข้อ 13: WBCs (เห็น nucleus แบ่ง lobe)'],
+  ],
+  lec: [
+    'WBCs are larger than RBCs (~12 µm)',
+    'Contain granules and multilobed nuclei',
+    'Neutrophils exposed to hypotonic urine absorb water and swell; Brownian movement of the granules produces a sparkling appearance → <b>glitter cell</b>',
+    'Usually <b>fewer than five</b> leukocytes per HPF',
+  ],
+  add: ['WBC > 5/HPF = pyuria → UTI (cystitis, pyelonephritis) · sterile pyuria → TB, interstitial nephritis'],
+  html: ['cell'],
+  ospe: 'Round granular cells ~12 µm with multilobed nuclei → WBCs (neutrophils); > 5/HPF = pyuria → urinary tract infection',
+},
+{
+  id: 'u-sq', g: 'ucell', en: 'Squamous epithelial cells', th: 'เซลล์เยื่อบุชนิด squamous', pages: '39–40', star: 2,
+  exam: ['NU23 ข้อ 11'],
+  imgs: [
+    ['U40b-a', 'Squamous cell (ภาพในสไลด์มีป้ายชื่อ)'],
+    ['U40c', 'Squamous epithelial cells แผ่นใหญ่ ขอบไม่เรียบ'],
+  ],
+  lec: [
+    'Originate from the linings of the vagina and female urethra and the lower portion of the male urethra',
+    '<b>Largest cells</b> in the sediment with abundant, irregular cytoplasm and prominent nuclei about the size of a RBC',
+    '<b>Clue cells</b> → vaginal infection by <i>Gardnerella vaginalis</i>: squamous epithelial cells covered with the Gardnerella coccobacillus',
+  ],
+  add: ['พบมาก = ปนเปื้อน (เก็บปัสสาวะไม่ถูกวิธี ไม่ใช่ clean-catch midstream) — ไม่มีความสำคัญทางคลินิก'],
+  html: ['cell'],
+  ospe: 'Large flat polygonal cells with abundant irregular cytoplasm and a small central nucleus (≈ RBC size) → squamous epithelial cells (contamination from vagina/distal urethra)',
+},
+{
+  id: 'u-tr', g: 'ucell', en: 'Transitional epithelial cells', th: 'เซลล์เยื่อบุชนิด transitional (urothelial)', pages: '41–42', star: 2,
+  imgs: [
+    ['U42a', 'Transitional epithelium (ย้อมสี): รูป caudate มีหาง (ลูกศร)'],
+    ['U42b', 'Transitional epithelial cell ย้อมสีชมพู (ลูกศร)'],
+    ['U42c', 'TEs and WBCs (ไม่ย้อม): transitional cell ใหญ่กว่า WBC รอบ ๆ'],
+  ],
+  lec: [
+    'Smaller than squamous cells; spherical, polyhedral and <b>caudate</b> forms (N:C ratio = 1:4 – 1:5)',
+    'Spherical forms are sometimes difficult to distinguish from RTE cells',
+    'Increase in transitional cells with abnormal morphology (vacuoles, irregular nuclei) → <b>malignant or viral infection</b> → refer for cytologic urine testing',
+  ],
+  add: ['มาจาก renal pelvis ถึง bladder และ proximal urethra · พบมากขึ้นหลังสวนปัสสาวะ (catheterization)'],
+  html: ['cell'],
+  ospe: 'Round/pear-shaped (caudate) cells smaller than squamous cells with a central nucleus (N:C 1:4–1:5) → transitional epithelial cells; abnormal forms → refer for cytology (malignancy, viral)',
+},
+{
+  id: 'u-rte', g: 'ucell', en: 'RTE cells & oval fat bodies', th: 'เซลล์ท่อไตและ oval fat body', pages: '43–46', star: 3,
+  exam: ['NU23 ข้อ 15'],
+  imgs: [
+    ['U44a', 'Renal tubular epithelial cells'],
+    ['U44b', 'RTE cells (ลูกศร) และชิ้นส่วน RTE cell cast (หัวลูกศร): nucleus กลางเซลล์ cytoplasm เป็นเม็ด'],
+    ['U46-a', 'Oval fat body (เซลล์กลมใหญ่เต็มไปด้วยหยดไขมัน) และ WBCs'],
+  ],
+  lec: [
+    'RTE: rectangular, columnar, round, oval or cuboidal cells not much larger than WBCs with an <b>eccentric nucleus</b>; may be bilirubin-stained or hemosiderin-laden; <b>N:C ratio ≈ 1:1</b>',
+    '<b>More than two RTEs per HPF</b> indicates <b>tubular injury</b> → refer for cytologic urine testing',
+    'Oval fat bodies: RTE cells which absorb lipid (present in the glomerular filtrate); may be seen with free-floating fat droplets',
+    'Lipiduria: damage to the glomerulus caused by the <b>nephrotic syndrome</b>, severe tubular necrosis, DM, or trauma that releases bone marrow fat',
+  ],
+  add: ['Oval fat body ใต้ polarized light เห็น <b>Maltese cross</b> (cholesterol ester) · ย้อม Sudan III/Oil red O ติดสีส้มแดง (triglyceride)'],
+  html: ['cell'],
+  ospe: 'Cells slightly larger than WBCs with a large round eccentric nucleus (N:C ≈ 1:1) → RTE cells; > 2/HPF = tubular injury. RTE cells filled with refractile fat droplets → oval fat bodies (lipiduria, nephrotic syndrome)',
+},
+{
+  id: 'u-hyal', g: 'ucast', en: 'Hyaline cast', th: 'Hyaline cast และ cylindroid', pages: '47–48', star: 2,
+  imgs: [
+    ['U48a', 'Hyaline cast (ลูกศร) — ใสจางมาก ต้องลดแสง'],
+    ['U48b', 'Hyaline cast'],
+    ['U48c', 'Hyaline cast ย้อมสี (Sternheimer–Malbin) เห็นชัดขึ้น'],
+    ['U48d', 'Hyaline "cylindroid": ปลายข้างหนึ่งเรียวยาวเป็นหาง'],
+  ],
+  lec: [
+    'Colorless in unstained sediments',
+    'Morphology: parallel sides and rounded ends, cylindroid forms, wrinkled or convoluted shapes (aging of the cast matrix)',
+    '<b>0–2 hyaline casts/LPF</b> is normal',
+    'Increased after strenuous exercise, dehydration, heat exposure, and emotional stress',
+    'Pathologic: acute glomerulonephritis, pyelonephritis, chronic renal disease, congestive heart failure',
+  ],
+  add: ['Cast ทุกชนิดมี matrix เป็น <b>Tamm–Horsfall protein (uromodulin)</b> จาก thick ascending limb/distal tubule — cast จึงบอกว่าความผิดปกติมาจาก<b>ในไต</b>'],
+  html: ['cast'],
+  ospe: 'Colorless homogeneous cylinder with parallel sides and rounded ends (seen with reduced light) → hyaline cast; 0–2/LPF normal; increased with exercise/dehydration or renal disease, CHF',
+},
+{
+  id: 'u-cellcast', g: 'ucast', en: 'RBC & WBC casts', th: 'Cast ที่มีเม็ดเลือด', pages: '49–51', star: 3,
+  imgs: [
+    ['U51c', 'RBC cast (ย้อมสี)'],
+    ['U51d', 'RBC cast (ไม่ย้อม): RBC อัดแน่นใน cast'],
+    ['U51a', 'WBC cast'],
+    ['U51b', 'WBC cast (ลูกศร)'],
+  ],
+  lec: [
+    'RBC casts: primarily glomerular damage (<b>glomerulonephritis</b>); any damage to the nephron capillary structure can cause them',
+    'RBC casts from glomerular damage usually come with <b>proteinuria and dysmorphic erythrocytes</b>',
+    'RBC casts also seen in healthy individuals after strenuous contact sport',
+    'WBC casts: infection or inflammation within the nephron; visible under LPF but must be identified using <b>high power</b>',
+    'WBC casts mostly neutrophils (granular, multilobed nuclei); most frequently <b>pyelonephritis</b>',
+    'Also in nonbacterial inflammation such as <b>acute interstitial nephritis</b>, and may accompany RBC casts in glomerulonephritis',
+  ],
+  add: ['WBC cast ช่วยแยก pyelonephritis (upper UTI) ออกจาก cystitis (lower UTI) ที่มีแค่ WBC ไม่มี cast'],
+  html: ['cast'],
+  ospe: 'Cast packed with RBCs → RBC cast → glomerulonephritis. Cast containing neutrophils (multilobed nuclei) → WBC cast → pyelonephritis (or acute interstitial nephritis)',
+},
+{
+  id: 'u-epcast', g: 'ucast', en: 'Epithelial, fatty & mixed casts', th: 'Epithelial cell cast, fatty cast และ mixed cast', pages: '52–55', star: 2,
+  imgs: [
+    ['U53a', 'Epithelial (RTE) cell cast'],
+    ['U53b', 'Epithelial cell cast'],
+    ['U55a', 'Fatty cast (ย้อมไขมัน)'],
+    ['U55b', 'Fatty cast: หยดไขมันสะท้อนแสงอัดใน cast'],
+    ['U55c', 'Mixed cellular cast (WBC + RBC)'],
+  ],
+  lec: [
+    'Epithelial (RTE) cell casts: <b>advanced tubular destruction</b> with urinary stasis and disruption of tubular linings',
+    'Associated with heavy metal and chemical or drug-induced toxicity, viral infection and allograft rejection; also accompany WBC casts in pyelonephritis',
+    'Fatty casts: highly refractile under bright-field; seen with oval fat bodies and free fat droplets in disorders causing lipiduria',
+    'Mixed cellular casts: RBC + WBC casts in glomerulonephritis; WBC + RTE or WBC + bacterial casts in pyelonephritis',
+  ],
+  add: ['Fatty cast + oval fat body + free fat = lipiduria ของ <b>nephrotic syndrome</b> · ใต้ polarizer เห็น Maltese cross'],
+  html: ['cast'],
+  ospe: 'Cast containing RTE cells → epithelial cell cast (advanced tubular damage: toxins, viral, rejection). Cast with refractile fat droplets → fatty cast (nephrotic syndrome)',
+},
+{
+  id: 'u-gran', g: 'ucast', en: 'Granular & waxy casts', th: 'Granular cast และ waxy cast', pages: '56–61', star: 3,
+  exam: ['2563 ข้อ 14', 'NU23 ข้อ 11'],
+  imgs: [
+    ['U58a', 'Broad coarsely granular cast'],
+    ['U58b', 'Finely granular cast'],
+    ['U58c', 'Muddy brown casts'],
+    ['X63-14', 'ข้อสอบปี 2563 ข้อ 14: granular cast'],
+    ['U60a', 'Waxy cast'],
+    ['U60b', 'Waxy cast: ขอบมีรอยแตก/รอยบาก (ลูกศร)'],
+    ['U61', '(A) finely granular cast (B) waxy cast "melted wax" (C) erythrocyte cast (D) RTE cell cast'],
+  ],
+  lec: [
+    'Granular casts: degeneration of cellular casts, or direct aggregation of serum proteins into a matrix of Tamm–Horsfall mucoprotein',
+    'Granules start large and coarse; with prolonged urine stasis they break down to fine granules',
+    'Coarse vs fine granular: <b>no clinical significance</b>',
+    'Waxy casts: very high refractive index; yellow, gray or colorless; smooth homogeneous',
+    'Waxy casts: short broad casts with <b>blunt or broken ends</b>, often <b>cracked or serrated edges</b>',
+    'Waxy casts are postulated to result from <b>degeneration of granular casts</b>',
+  ],
+  add: [
+    '<b>Muddy brown granular cast</b> = เซลล์ท่อไตสลาย → <b>acute tubular necrosis</b>',
+    'Waxy cast = urine stasis นาน → advanced CKD / renal failure · broad cast (กว้างมาก) เกิดใน tubule ที่ขยาย → ESRD',
+  ],
+  html: ['cast'],
+  ospe: 'Cast filled with granules → granular cast (muddy brown → ATN). Homogeneous highly refractile cast with blunt ends and cracked edges → waxy cast (chronic renal failure, urine stasis)',
+},
+{
+  id: 'u-xacid', g: 'xtal', en: 'Crystals in acid urine', th: 'ผลึกในปัสสาวะปกติที่เป็นกรด', pages: '62–67', star: 3,
+  exam: ['2563 ข้อ 15', 'NU23 ข้อ 12'],
+  imgs: [
+    ['U65', 'Amorphous urates: เม็ดสีชมพูส้มถึงน้ำตาลแดง "brick dust"'],
+    ['U66a', 'Uric acid: แผ่น rhombic/สี่เหลี่ยม และ prism'],
+    ['U66b', 'Uric acid: หลายรูปทรงสีเหลือง'],
+    ['U66c', 'Uric acid: รูปไข่ปลายแหลม (lemon-shaped) สีน้ำตาล'],
+    ['U66d', 'Uric acid: รูป wedge/prism'],
+    ['X63-15', 'ข้อสอบปี 2563 ข้อ 15: uric acid'],
+    ['U67a', 'Calcium oxalate dihydrate: octahedron ใสคล้ายซองจดหมาย (envelope)'],
+    ['U67b', 'Calcium oxalate monohydrate: รูปไข่และรูป biscuit (ลูกศร)'],
+  ],
+  lec: [
+    'Most crystals are of limited clinical significance, but identification is essential so as not to miss the few abnormal crystals',
+    'Found in normal acid urine: amorphous urates, uric acid, calcium oxalate',
+    'Amorphous urates: pink-orange to reddish brown — "<b>brick dust</b>"',
+    'Uric acid: rhombic or four-sided flat plates, prisms, oval forms with pointed ends (<b>lemon-shaped</b>), wedges, <b>rosettes</b>, irregular plates',
+    'Calcium oxalate: classic small colorless octahedron that resembles an <b>envelope</b> (dihydrate) · monohydrate = <b>oval and biscuit-shaped</b>',
+  ],
+  add: [
+    'Uric acid จำนวนมาก: gout, cell turnover สูง (leukemia, tumor lysis syndrome หลัง chemotherapy)',
+    'Calcium oxalate monohydrate จำนวนมาก + AKI → นึกถึงพิษ <b>ethylene glycol</b> · calcium oxalate เป็นส่วนประกอบนิ่วที่พบบ่อยที่สุด',
+  ],
+  html: ['crystal'],
+  ospe: 'Name the crystal + pH: amorphous urates ("brick dust"), uric acid (yellow-brown rhombic plates/rosettes/lemon shapes), calcium oxalate (colorless envelope = dihydrate; oval/biscuit = monohydrate) → acid urine',
+},
+{
+  id: 'u-xalk', g: 'xtal', en: 'Crystals in alkaline urine', th: 'ผลึกในปัสสาวะปกติที่เป็นด่าง', pages: '68–71', star: 3,
+  exam: ['2563 ข้อ 12', 'NU23 ข้อ 12'],
+  imgs: [
+    ['U68a', 'Amorphous phosphate (ลูกศร)'],
+    ['U68b', 'Amorphous phosphate'],
+    ['U69a', 'Triple phosphate: prism ใสปลายตัดเฉียง "coffin lid"'],
+    ['U69b', 'Triple phosphate หลายขนาด'],
+    ['U70a', 'Calcium phosphate เรียงเป็น rosette'],
+    ['U70b', 'Calcium phosphate: prism เรียวปลายแหลมข้างเดียว'],
+    ['U70c', 'Calcium phosphate rosettes'],
+    ['U71a', 'Ammonium biurate: ทรงกลมสีเหลืองน้ำตาล'],
+    ['U71b', 'Ammonium biurate: "thorny apple"'],
+    ['X63-12', 'ข้อสอบปี 2563 ข้อ 12: ammonium biurate'],
+  ],
+  lec: [
+    'Found in normal alkaline urine: calcium carbonate, triple phosphate, amorphous phosphate, ammonium biurate',
+    'Amorphous phosphate (calcium and magnesium)',
+    '<b>Triple phosphate</b> (ammonium magnesium phosphate): colorless, three- to six-sided prisms with oblique ends — "<b>coffin lid</b>"',
+    'Calcium phosphate: slender prisms with one tapered end and one blunt end; often arranged in rosettes',
+    'Ammonium biurate: yellow-brown spheres with radial or concentric striations and irregular projections or thorns — "<b>thorn apple</b>"',
+  ],
+  add: [
+    'Triple phosphate + ปัสสาวะด่าง → UTI จากเชื้อสร้าง urease (Proteus) → struvite/staghorn stone (เชื่อมกับ LAB Patho)',
+    'Amorphous phosphate ทำให้ตะกอนเป็นสีขาว; ละลายในกรด (ต่างจาก amorphous urate ที่ละลายเมื่ออุ่น)',
+    'Ammonium biurate มักพบในตัวอย่างที่ตั้งทิ้งไว้นาน (old specimen)',
+  ],
+  html: ['crystal'],
+  ospe: 'Colorless coffin-lid prisms → triple phosphate; slender prisms in rosettes → calcium phosphate; yellow-brown thorny spheres → ammonium biurate; colorless granules → amorphous phosphate → all in alkaline urine',
+},
+{
+  id: 'u-xabn', g: 'xtal', en: 'Abnormal crystals', th: 'ผลึกที่ผิดปกติ', pages: '72–77', star: 3,
+  imgs: [
+    ['U72a', 'Cystine: แผ่นหกเหลี่ยมใส'],
+    ['U72b', 'Cystine หลายแผ่นซ้อนกัน'],
+    ['U73a', 'Leucine: ทรงกลมสีเหลือง มีวงซ้อน'],
+    ['U73b', 'Leucine: radial และ concentric striations'],
+    ['U74a', 'Tyrosine: เข็มเล็กละเอียดเป็นมัด (sheaves)'],
+    ['U74b', 'Tyrosine'],
+    ['U74c', 'Tyrosine'],
+    ['U76a', 'Sulfonamide crystal'],
+    ['U76b', 'Sulfonamide crystal'],
+    ['U76c', 'Amoxicillin crystals: เข็มยาวใส'],
+    ['U77a', 'Cholesterol crystal'],
+    ['U77b', 'Cholesterol: แผ่นสี่เหลี่ยมมีรอยบากที่มุม'],
+    ['U77c', 'Cholesterol plates ซ้อนเป็นขั้น'],
+  ],
+  lec: [
+    'Found in abnormal urine: cystine, sulfadiazine, tyrosine, leucine',
+    '<b>Cystine</b>: colorless, refractile, <b>hexagonal plates</b> in acid urine → <b>cystinuria</b>, may be associated with cystine calculi',
+    '<b>Leucine</b>: yellow, oily-appearing spheres with radial and concentric striations',
+    '<b>Tyrosine</b>: fine silky needles arranged in sheaves or clumps (acid urine, especially after refrigeration)',
+    'Tyrosine and leucine → urine of patients with <b>severe liver disease</b>',
+    '<b>Sulfonamide (sulfadiazine)</b>: acid urine; various morphologies; yellow-brown <b>sheaves of wheat</b>',
+    '<b>Ampicillin</b> (high dosage): acid urine; long, fine, colorless structures (ภาพ: amoxicillin crystal)',
+    '<b>Cholesterol</b>: notched, rhombic-shaped plates',
+  ],
+  add: [
+    'Cystinuria: autosomal recessive, ดูดกลับ COLA (cystine, ornithine, lysine, arginine) ไม่ได้',
+    'Cholesterol crystal + oval fat body + fatty cast → lipiduria ของ <b>nephrotic syndrome</b>',
+    'Crystal จากยาเกิดเมื่อได้ยาขนาดสูงร่วมกับขาดน้ำ — ต้องแยกจาก crystal ปกติเพื่อไม่วินิจฉัยผิด',
+  ],
+  html: ['crystal'],
+  ospe: 'Hexagonal plates → cystine (cystinuria); yellow spheres with concentric rings → leucine; fine needles in sheaves → tyrosine (severe liver disease); notched plates → cholesterol; sheaves of wheat → sulfonamide',
+},
+{
+  id: 'u-misc', g: 'umisc', en: 'Mucus, yeast & artifacts', th: 'เมือก ยีสต์ เชื้อ และสิ่งปนเปื้อน', pages: '78–80', star: 1,
+  imgs: [
+    ['U78a', 'Mucus thread (ลูกศร)'],
+    ['U78b', 'Mucus thread (ลูกศร)'],
+    ['U79', 'Yeast with pseudohyphae'],
+    ['U80a', 'Starch (contaminant)'],
+    ['U80b', 'Glass fragments (contaminant)'],
+    ['svg:trich', 'ภาพวาดจำลอง: Trichomonas vaginalis (Lecture กล่าวถึงในการรายงาน /HPF แต่ไม่มีภาพ)'],
+    ['svg:maltese', 'ภาพวาดจำลอง: Maltese cross ใต้ polarized light'],
+  ],
+  lec: [
+    '<b>Mucus</b> is secreted by glands in urinary tract and vagina; increased with inflammatory conditions; <b>no diagnostic significance</b>',
+    'Yeast with pseudohyphae',
+    'Contaminants and artifacts: <b>starch</b>, <b>glass fragment</b>',
+    'Trichomonas vaginalis รายงานเป็นช่วงตัวเลข /HPF',
+  ],
+  add: [
+    'Yeast (Candida) พบบ่อยใน <b>DM</b> (glucosuria), ภูมิคุ้มกันต่ำ, ได้ยาปฏิชีวนะ — แยกจาก RBC ด้วยรูปไข่และการแตกหน่อ',
+    'Starch granule ก็ให้ Maltese cross ใต้ polarized light ได้ — ต้องแยกจาก oval fat body (starch มีรอยบุ๋มตรงกลาง)',
+    'Trichomonas: รูปลูกแพร์ มี flagella และ undulating membrane เคลื่อนที่กระตุก ต้องดูในปัสสาวะสด',
+  ],
+  ospe: 'Long wavy translucent threads → mucus (no significance). Budding ovals with pseudohyphae → yeast (Candida; DM). Starch and glass → contaminants',
+},
+);
+
+/* ======================================================================
+ * STATIONS — LAB Urine
+ * ==================================================================== */
+K.STATIONS.push(
+/* ---------------- ข้อสอบเก่า ---------------- */
+{ id: 'X63-11', t: 'u-prep', src: 'old', ref: 'ข้อสอบ 2563 ข้อ 11 · NU23 ข้อ 14', kind: 'Theory',
+  p: [
+    { q: 'Urine sedimentation ต้อง centrifuge นานกี่นาที', a: '5 นาที', k: [['5 minutes', '5', 'five', 'ห้า']] },
+    { q: 'หลังปั่นเทส่วนใสทิ้ง เหลือตะกอนไว้กี่ mL', a: '0.5–1 mL', k: [['0.5–1 mL', '0.5-1', '0.5 to 1', '0.5 ถึง 1', '0.5 1']] },
+  ],
+  x: 'ออกซ้ำทั้ง 2 ปีแบบคำต่อคำ และตรงกับ Lecture หน้า 25: ปัสสาวะ 10–15 mL หลอดก้นแหลม → ปั่น <b>5 นาที</b> ที่ RCF 400 → เหลือ <b>0.5–1 mL</b>' },
+{ id: 'X63-12', t: 'u-xalk', src: 'old', ref: 'ข้อสอบ 2563 ข้อ 12', kind: 'Sediment', im: ['X63-12'],
+  p: [{ q: 'What is it?', a: 'Ammonium biurate crystal', k: [['Ammonium biurate', 'ammonium biurate', 'ammonium urate', 'thorny apple', 'thorn apple']] }],
+  x: 'ทรงกลมสีน้ำตาลเหลืองมีหนามยื่น = "thorn apple" (Lecture หน้า 71) · พบใน<b>ปัสสาวะด่าง</b> มักเป็นตัวอย่างที่ตั้งทิ้งไว้นาน' },
+{ id: 'X63-13', t: 'u-wbc', src: 'old', ref: 'ข้อสอบ 2563 ข้อ 13', kind: 'Sediment', im: ['X63-13'],
+  p: [
+    { q: 'What is it?', a: 'White blood cell', k: [W.wbc] },
+    { q: 'Probable diagnosis', a: 'Urinary tract infection', k: [['Urinary tract infection', 'urinary tract infection', 'UTI', 'cystitis', 'pyelonephritis', 'infection']] },
+  ],
+  x: 'เซลล์กลม ~12 µm cytoplasm เป็นเม็ด nucleus แบ่ง lobe = neutrophil · ปกติ < 5/HPF ถ้ามากกว่า = pyuria → UTI' },
+{ id: 'X63-14', t: 'u-gran', src: 'old', ref: 'ข้อสอบ 2563 ข้อ 14 · NU23 ข้อ 11', kind: 'Sediment', im: ['X63-14'],
+  p: [
+    { q: 'What is it?', a: 'Granular cast', k: [['Granular cast', 'granular cast']] },
+    { q: 'สัมพันธ์กับพยาธิสภาพใดในไต', a: 'Acute tubular necrosis (muddy brown granular cast) / renal parenchymal disease', k: [['Acute tubular necrosis', 'ATN', 'acute tubular necrosis', 'tubular necrosis', 'tubular injury', 'tubular damage', 'renal parenchymal disease']] },
+  ],
+  x: 'ทรงกระบอกขอบขนาน (cast) เต็มไปด้วยเม็ด = granular cast — เกิดจาก cellular cast สลาย หรือ serum protein จับกับ Tamm–Horsfall · แบบ muddy brown พบใน ATN (ข้อสอบจริงถามแค่ "What is it?")' },
+{ id: 'X63-15', t: 'u-xacid', src: 'old', ref: 'ข้อสอบ 2563 ข้อ 15', kind: 'Sediment', im: ['X63-15'],
+  p: [
+    { q: 'What is it?', a: 'Uric acid crystal', k: [W.uric] },
+    { q: 'พบในปัสสาวะ pH แบบใด', a: 'Acid urine', k: [W.acid] },
+  ],
+  x: 'แผ่น rhombic/whetstone รวมเป็น rosette สีเหลืองน้ำตาล = uric acid (Lecture หน้า 66) · พบใน acid urine; จำนวนมากใน gout, tumor lysis (ข้อสอบจริงถามแค่ "What is it?")' },
+{ id: 'N23-11', t: 'u-sq', src: 'old', ref: 'ข้อสอบ NU23 ข้อ 11', kind: 'Sediment', im: ['U40c', 'X63-14'], stem: 'Please identify cell as shown in urine',
+  p: [
+    { q: 'ภาพ A คืออะไร', a: 'Squamous epithelial cell', k: [W.squam] },
+    { q: 'ภาพ B คืออะไร', a: 'Granular cast', k: [['Granular cast', 'granular cast']] },
+  ],
+  x: 'A: เซลล์ใหญ่ที่สุดในตะกอน แบน ขอบไม่เรียบ nucleus เล็ก (≈ ขนาด RBC) = squamous (ปนเปื้อนจาก vagina/distal urethra) · B: granular cast · เฉลยรุ่นพี่แนะนำให้ตอบชื่อเดียว ไม่ต้องเขียนหลายคำตอบ' },
+{ id: 'N23-12', t: 'u-xalk', src: 'old', ref: 'ข้อสอบ NU23 ข้อ 12', kind: 'Sediment', im: ['U69a', 'U67a'],
+  p: [
+    { q: 'ภาพ A คือ crystal อะไร', a: 'Triple phosphate (struvite)', k: [W.triple] },
+    { q: 'ภาพ B คือ crystal อะไร', a: 'Calcium oxalate (dihydrate)', k: [W.caox] },
+  ],
+  x: 'A: prism ใสปลายตัดเฉียง "coffin lid" = triple phosphate (ด่าง) · B: octahedron ใสคล้ายซองจดหมาย "envelope" = calcium oxalate dihydrate (กรด)' },
+{ id: 'N23-15', t: 'u-rte', src: 'old', ref: 'ข้อสอบ NU23 ข้อ 15', kind: 'Sediment', im: ['U46'], am: ['U46-a'],
+  p: [
+    { q: '15.1 เซลล์กลมใหญ่ตรงกลางภาพคืออะไร', a: 'Oval fat body', k: [W.ofb] },
+    { q: 'พบในโรคใด', a: 'Nephrotic syndrome', k: [W.nephrotic] },
+    { q: '15.2 Urobilinogen สูง พบในภาวะใด', a: 'Hemolysis (หรือ hepatocellular damage)', k: [['Hemolysis', 'hemoly', 'haemoly', 'hepatocellular', 'hepatitis', 'liver disease', 'liver damage', 'cirrhosis']] },
+  ],
+  x: 'Oval fat body = RTE cell ที่ดูดไขมันจาก glomerular filtrate (Lecture หน้า 45) → lipiduria ของ nephrotic syndrome · Urobilinogen สูงใน hemolysis และ hepatocellular damage' },
+
+/* ---------------- Physical ---------------- */
+{ id: 'UL-04', t: 'u-phys', src: 'lec', ref: 'Lecture LAB Urine หน้า 4', kind: 'Theory',
+  p: [
+    { q: 'ปัสสาวะสีแดงแต่ใส (clear red) — สาเหตุ 2 อย่าง', a: 'Hemoglobin, myoglobin (porphyrins, beets, rifampin)', n: 2,
+      k: [['Hemoglobin', 'hemoglobin', 'haemoglobin', 'Hb'], ['Myoglobin', 'myoglobin'], ['Porphyrins', 'porphyrin'], ['Beets', 'beet'], ['Rifampin', 'rifamp']] },
+    { q: 'ปัสสาวะสีแดงและขุ่น เกิดจากอะไร', a: 'RBCs (หรือ menstrual contamination)', k: [['RBCs', 'RBC', 'red blood cell', 'red cell', 'erythrocyte', 'menstrua']] },
+    { q: 'สีเหลืองอำพัน เขย่าแล้วมีฟองสีเหลือง', a: 'Bilirubin', k: [['Bilirubin', 'bilirubin']] },
+  ],
+  x: 'สีแดงต้องดูความใสด้วย: ขุ่น = มีเซลล์ (RBC) · ใส = เม็ดสีละลายอยู่ (Hb, myoglobin, porphyrin, beets, rifampin)' },
+{ id: 'UL-04b', t: 'u-phys', src: 'lec', ref: 'Lecture LAB Urine หน้า 4–6', kind: 'Theory',
+  p: [
+    { q: 'ปัสสาวะไม่มีสี ปริมาตร 24 ชม. มาก นึกถึงภาวะใด', a: 'Polyuria / diabetes insipidus', k: [['Diabetes insipidus / polyuria', 'diabetes insipidus', 'DI', 'polyuria']] },
+    { q: 'ปัสสาวะสีน้ำตาล/ดำ — สาเหตุ 1 อย่าง', a: 'Methemoglobin (RBC oxidized), methyldopa/levodopa, metronidazole', n: 1,
+      k: [['Methemoglobin', 'methemoglobin', 'methaemoglobin'], ['Methyldopa/levodopa', 'methyldopa', 'levodopa'], ['Metronidazole', 'metronidazole', 'flagyl']] },
+    { q: 'สาเหตุความขุ่นแบบ pathologic 2 อย่าง', a: 'RBCs, WBCs, bacteria, yeast, nonsquamous cells, abnormal crystals, lymph fluid, lipid', n: 2,
+      k: [['RBC', 'RBC', 'red blood cell', 'red cell'], ['WBC', 'WBC', 'white blood cell', 'white cell', 'pus'], ['Bacteria', 'bacteri'], ['Yeast', 'yeast'], ['Nonsquamous cells', 'nonsquamous', 'non squamous'], ['Abnormal crystals', 'abnormal crystal'], ['Lymph', 'lymph', 'chyl'], ['Lipid', 'lipid', 'fat']] },
+  ],
+  x: 'ความขุ่นที่ไม่ใช่โรค: squamous cells, mucus, amorphous crystals, semen, fecal, contrast, powder, vaginal cream — ระวังอย่าเลือกตัวเหล่านี้ตอบเป็น pathologic' },
+{ id: 'UL-07', t: 'u-sg', src: 'lec', ref: 'Lecture LAB Urine หน้า 7–8', kind: 'Instrument', im: ['U07', 'U08'],
+  p: [
+    { q: 'เครื่องมือในภาพชื่ออะไร', a: 'Refractometer', k: [['Refractometer', 'refractometer', 'refractomet']] },
+    { q: 'ใช้วัดค่าอะไรของปัสสาวะ', a: 'Specific gravity', k: [['Specific gravity', 'specific gravity', 'SG', 'ความถ่วงจำเพาะ']] },
+    { q: 'หยดปัสสาวะกี่หยด และอ่านค่าตรงไหน', a: '1–2 หยดบน prism · อ่านที่เส้นแบ่งระหว่างส่วนสว่างและส่วนมืด', n: 1,
+      k: [['1–2 drops', '1-2', 'one or two', '1 2', '2 drops', '2 หยด'], ['Boundary line', 'boundary', 'เส้นแบ่ง', 'รอยต่อ']] },
+  ],
+  x: 'ภาพ A: ขั้นตอน (หยด → ปิดฝา → ส่อง → อ่าน → เช็ด) · ภาพ B: สิ่งที่เห็นในกล้อง อ่านค่าที่รอยต่อสว่าง/มืด บนสเกล SG' },
+{ id: 'UL-18', t: 'u-sg', src: 'lec', ref: 'Lecture LAB Urine หน้า 18–19', kind: 'Theory',
+  p: [
+    { q: 'หลักการของ SG บนแถบตรวจ', a: 'Change in pKa (dissociation constant) of a polyelectrolyte in an alkaline medium', k: [['pKa of polyelectrolyte', 'pka', 'polyelectrolyte', 'dissociation constant']] },
+    { q: 'ภาวะที่ทำให้ SG บนแถบตรวจต่ำลวง (false negative)', a: 'Highly alkaline urine (pH > 6.5)', k: [W.alk] },
+    { q: 'SG คงที่ประมาณ 1.010 เรียกว่าอะไร', a: 'Isosthenuria', k: [['Isosthenuria', 'isosthenuria', 'fixed specific gravity', 'fixed SG']] },
+  ],
+  x: 'Polyelectrolyte ปล่อย H<sup>+</sup> ตามความเข้มข้นของ ion → indicator เปลี่ยนสี · ปัสสาวะด่างจัดทำให้อ่านต่ำลวง' },
+
+/* ---------------- Chemical ---------------- */
+{ id: 'UL-10', t: 'u-strip', src: 'lec', ref: 'Lecture LAB Urine หน้า 10', kind: 'Reagent strip', im: ['U10'],
+  p: [
+    { q: 'หลักการของช่อง protein บนแถบตรวจ', a: 'Protein error of pH indicators', k: [['Protein error of pH indicator', 'protein error', 'error of indicator']] },
+    { q: 'แถบตรวจไวต่อโปรตีนชนิดใดมากที่สุด', a: 'Albumin', k: [['Albumin', 'albumin']] },
+    { q: 'ภาวะที่ทำให้ผล protein บวกลวง', a: 'Alkaline urine (highly buffered)', k: [W.alk] },
+    { q: 'วิธียืนยัน (confirmation test)', a: 'Sulfosalicylic acid (SSA) method / Robert’s test', k: [['SSA / Robert’s test', 'sulfosalicylic', 'SSA', 'robert']] },
+  ],
+  x: 'แถบตรวจจับ albumin ได้ดี แต่จับ globulin, Bence Jones protein, mucoprotein ได้น้อย → ถ้าสงสัย multiple myeloma ต้องใช้ SSA' },
+{ id: 'UL-11', t: 'u-glu', src: 'lec', ref: 'Lecture LAB Urine หน้า 11–12', kind: 'Reagent strip', im: ['U11'],
+  p: [
+    { q: 'หลักการของช่อง glucose', a: 'Glucose oxidase – peroxidase (double sequential enzyme)', k: [['Glucose oxidase', 'glucose oxidase']] },
+    { q: 'สารที่ทำให้ผลลบลวง (false negative)', a: 'Ascorbic acid', k: [W.asc] },
+    { q: 'สาเหตุผลบวกลวง (false positive)', a: 'Contamination with peroxide or strong oxidizing detergent', k: [['Peroxide / oxidizing detergent', 'peroxide', 'oxidizing', 'detergent', 'bleach', 'hypochlorite']] },
+    { q: 'อ่านผลที่กี่วินาที', a: '30 วินาที', k: [['30 seconds', '30']] },
+  ],
+  x: 'Glucose oxidase → H<sub>2</sub>O<sub>2</sub> → peroxidase oxidize chromogen · ascorbic acid เป็นสารรีดิวซ์ แย่ง H<sub>2</sub>O<sub>2</sub> ทำให้สีไม่ขึ้น · SG สูงและอุณหภูมิต่ำลดความไว' },
+{ id: 'UL-13', t: 'u-glu', src: 'lec', ref: 'Lecture LAB Urine หน้า 13–15', kind: 'Reagent strip', im: ['U13'],
+  p: [
+    { q: 'หลักการของช่อง ketone', a: 'Sodium nitroprusside reaction', k: [['Sodium nitroprusside', 'nitroprusside']] },
+    { q: 'Ketone ตัวที่ทำปฏิกิริยาหลัก', a: 'Acetoacetic acid', k: [['Acetoacetic acid', 'acetoacet', 'diacetic']] },
+    { q: 'Ketone ตัวที่แถบตรวจไม่จับ', a: 'β-hydroxybutyric acid', k: [['β-hydroxybutyric acid', 'hydroxybutyr', 'beta hydroxy', 'bhb']] },
+    { q: 'สาเหตุผลลบลวงเมื่อตั้งตัวอย่างไว้นาน', a: 'Volatilization of acetone and breakdown of acetoacetic acid', k: [['Acetone volatilizes / acetoacetate breaks down', 'volatil', 'evaporat', 'ระเหย', 'breakdown', 'degrad', 'bacteria']] },
+  ],
+  x: 'Acetoacetic acid + nitroprusside (+ glycine) ใน alkaline pH → สีม่วง · β-OHB ไม่ทำปฏิกิริยา จึงอาจประเมิน ketosis ต่ำกว่าจริงใน DKA' },
+{ id: 'UL-16', t: 'u-blood', src: 'lec', ref: 'Lecture LAB Urine หน้า 16–17', kind: 'Reagent strip', im: ['U16'],
+  p: [
+    { q: 'หลักการของช่อง blood', a: 'Pseudoperoxidase activity of hemoglobin', k: [['Pseudoperoxidase', 'pseudoperoxidase', 'pseudo peroxidase', 'peroxidase']] },
+    { q: 'สีแบบจุดกระ (non-hemolyzed) หมายถึงอะไร', a: 'Intact RBCs → hematuria', k: [['Intact RBCs (hematuria)', 'intact', 'RBC', 'red cell', 'hematuria', 'haematuria', 'whole cell']] },
+    { q: 'สาเหตุผลลบลวง 1 อย่าง', a: 'Ascorbic acid, high SG (RBC ไม่แตก), formalin, captopril, high nitrite', n: 1,
+      k: [W.asc, ['High SG', 'specific gravity', 'high sg'], ['Formalin', 'formalin'], ['Captopril', 'captopril'], ['High nitrite', 'nitrite']] },
+    { q: 'สาเหตุผลบวกลวง 1 อย่าง', a: 'Menstrual contamination, strong oxidizing detergent, vegetable peroxidase, bacterial enzyme', n: 1,
+      k: [['Menstrual contamination', 'menstru', 'ประจำเดือน'], ['Oxidizing detergent', 'oxidizing', 'detergent', 'bleach'], ['Vegetable peroxidase', 'vegetable'], ['Bacterial enzyme', 'bacteri', 'e coli']] },
+  ],
+  x: 'Heme มีฤทธิ์คล้าย peroxidase จึงจับได้ทั้ง Hb, myoglobin และ RBC ทั้งเซลล์ (จุดกระ) · SG สูงทำให้ RBC ไม่แตกบนแผ่นตรวจ → ผลต่ำลวง' },
+{ id: 'UL-20', t: 'u-nit', src: 'lec', ref: 'Lecture LAB Urine หน้า 20–21', kind: 'Reagent strip', im: ['U20'],
+  p: [
+    { q: 'หลักการของช่อง nitrite', a: 'Greiss reaction', k: [['Greiss (Griess) reaction', 'greiss', 'griess']] },
+    { q: 'ความไวปรับให้ตรงกับเชื้อกี่ตัวต่อ mL', a: '100,000 (10⁵) organisms/mL', k: [['100,000 /mL', '100000', '100,000', '10 5', '105', '1 แสน', 'แสน']] },
+    { q: 'สาเหตุผลลบลวง 2 อย่าง', a: 'Nonreductase-containing bacteria, insufficient contact time, high ascorbic acid, high SG, bacteria converting nitrite to nitrogen', n: 2,
+      k: [['Nonreductase bacteria', 'nonreductase', 'non reductase', 'reductase', 'enterococ', 'gram positive'], ['Insufficient contact (bladder) time', 'contact time', 'insufficient', 'incubation', 'frequent', 'bladder time'], W.asc, ['High SG', 'specific gravity', 'high sg'], ['Nitrite → nitrogen', 'nitrogen']] },
+  ],
+  x: 'ต้องมี gram-negative ที่มี nitrate reductase + ปัสสาวะค้างในกระเพาะนานพอ · ผลลบจึงไม่ตัด UTI (sensitivity ต่ำ) แต่ผลบวกเชื่อถือได้ (specificity สูง)' },
+{ id: 'UL-22', t: 'u-nit', src: 'lec', ref: 'Lecture LAB Urine หน้า 22–23', kind: 'Reagent strip', im: ['U22'],
+  p: [
+    { q: 'ช่อง leukocyte ตรวจหา enzyme อะไร', a: 'Granulocytic (leukocyte) esterase', k: [['Granulocytic esterase', 'esterase']] },
+    { q: 'อ่านผลที่เวลาเท่าไร', a: '2 นาที', k: [['2 minutes', '2', '120']] },
+    { q: 'สาเหตุผลลบลวง 2 อย่าง', a: 'High protein, glucose, oxalic acid, ascorbic acid, gentamicin, cephalosporins, tetracyclines', n: 2,
+      k: [['High protein', 'protein'], ['High glucose', 'glucose'], ['Oxalic acid', 'oxalic'], W.asc, ['Gentamicin', 'gentamicin'], ['Cephalosporins', 'cephalosporin'], ['Tetracyclines', 'tetracycline']] },
+    { q: 'สาเหตุผลบวกลวง 1 อย่าง', a: 'Strong oxidizing agent, formalin, highly pigmented urine, nitrofurantoin', n: 1,
+      k: [['Oxidizing agent', 'oxidizing'], ['Formalin', 'formalin'], ['Pigmented urine', 'pigment'], ['Nitrofurantoin', 'nitrofurantoin']] },
+  ],
+  x: 'Esterase จาก neutrophil ย่อย indoxyl ester → indoxyl + diazonium salt → สีม่วง · ใช้เวลาอ่านนานที่สุดในแถบ (2 นาที)' },
+
+/* ---------------- Sediment ---------------- */
+{ id: 'UL-25', t: 'u-prep', src: 'lec', ref: 'Lecture LAB Urine หน้า 25–26', kind: 'Theory',
+  p: [
+    { q: 'ปริมาตรปัสสาวะที่ใช้ และหลอดชนิดใด', a: '10–15 mL ในหลอดก้นแหลม (conical tube)', n: 2, k: [['10–15 mL', '10', '15', '10-15'], ['Conical tube', 'conical', 'ก้นแหลม']] },
+    { q: 'ปั่นที่ relative centrifugal force (RCF) เท่าไร นานเท่าไร', a: 'RCF 400 นาน 5 นาที (≈ 1,500–2,000 รอบ/นาที)', n: 2, k: [['RCF 400', '400', '1500', '2000', '1,500', '2,000'], ['5 minutes', '5']] },
+    { q: 'เหลือตะกอนกี่ mL', a: '0.5–1 mL', k: [['0.5–1 mL', '0.5-1', '0.5 1', '0.5']] },
+  ],
+  x: 'ตัวเลขชุดนี้ออกทุกปี: <span class="hl">10–15 mL</span> · <span class="hl">RCF 400 / 1,500–2,000 rpm</span> · <span class="hl">5 นาที</span> · <span class="hl">0.5–1 mL</span>' },
+{ id: 'UL-27', t: 'u-prep', src: 'lec', ref: 'Lecture LAB Urine หน้า 27', kind: 'Theory',
+  p: [
+    { q: 'ต้องดูอย่างน้อยกี่ field', a: '10 fields', k: [['10 fields', '10', 'ten', 'สิบ']] },
+    { q: 'ดูด้วยกำลังขยายใดก่อน', a: 'Low power (10×)', k: [['Low power (10×)', 'low power', 'LPF', '10x', '10 x']] },
+    { q: 'เหตุผลที่ดู low power ก่อน', a: 'To detect casts and ascertain the general composition of the sediment', k: [['Detect casts / overall composition', 'cast', 'general composition', 'overview', 'ภาพรวม']] },
+  ],
+  x: 'LPF (10×) สแกนหา cast และดูภาพรวม (ลดแสง) → เจอสิ่งที่ต้องระบุแล้วเปลี่ยนเป็น HPF (40×)' },
+{ id: 'UL-29', t: 'u-report', src: 'lec', ref: 'Lecture LAB Urine หน้า 28–29', kind: 'Theory',
+  p: [
+    { q: 'สิ่งที่รายงานเป็นตัวเลข /LPF (2 อย่าง)', a: 'Cast, cylindroid', n: 2, k: [['Cast', 'cast'], ['Cylindroid', 'cylindroid']] },
+    { q: 'สิ่งที่รายงานเป็นตัวเลข /HPF (2 อย่าง)', a: 'WBC, RBC, epithelial cell, oval fat body, Trichomonas vaginalis', n: 2,
+      k: [['WBC', 'WBC', 'white'], ['RBC', 'RBC', 'red'], ['Epithelial cell', 'epitheli'], ['Oval fat body', 'oval fat'], ['Trichomonas', 'trichomonas']] },
+    { q: 'สิ่งที่รายงานเป็นระดับ (rare–numerous) 2 อย่าง', a: 'Crystal, amorphous, mucous thread, spermatozoa, yeast, bacteria, fat globules', n: 2,
+      k: [['Crystal', 'crystal'], ['Amorphous', 'amorphous'], ['Mucous thread', 'mucous', 'mucus'], ['Spermatozoa', 'sperm'], ['Yeast', 'yeast'], ['Bacteria', 'bacteri'], ['Fat globules', 'fat globule']] },
+  ],
+  x: 'จำง่าย: <b>cast อยู่ LPF</b> · <b>เซลล์อยู่ HPF</b> · <b>ของที่นับยาก (crystal, amorphous, mucus, sperm, yeast, bacteria, fat) เป็นระดับ</b>' },
+{ id: 'UL-30', t: 'u-report', src: 'lec', ref: 'Lecture LAB Urine หน้า 30, 32, 38', kind: 'Theory',
+  p: [
+    { q: '"Rare" หมายถึงพบเท่าไร', a: 'น้อยกว่า 4 cells/slide', k: [['< 4 cells/slide', '4']] },
+    { q: 'ระดับที่พบหนาทึบจนบังตะกอนชนิดอื่น', a: 'Numerous', k: [['Numerous', 'numerous']] },
+    { q: 'ค่าปกติ RBC และ WBC ต่อ HPF', a: 'RBC 0–2/HPF · WBC < 5/HPF', n: 2, k: [['RBC 0–2', '0-2', '0 2', '2'], ['WBC < 5', '5']] },
+  ],
+  x: 'ลำดับระดับ: Negative → Rare (< 4/slide) → Few → Moderate → Many → Numerous' },
+
+/* ---------------- Cells ---------------- */
+{ id: 'UL-36', t: 'u-rbc', src: 'lec', ref: 'Lecture LAB Urine หน้า 36', kind: 'Sediment', im: ['U36'], stem: 'หญิงอายุ 35 ปี ปวดท้องร้าวลงขาหนีบ สงสัยนิ่วในท่อไต',
+  p: [
+    { q: 'เซลล์กลมเล็กจำนวนมากคืออะไร', a: 'Red blood cells', k: [W.rbc] },
+    { q: 'RBC ที่ขอบหยักในปัสสาวะเข้มข้นเรียกว่าอะไร', a: 'Crenated RBC', k: [['Crenated', 'crenat']] },
+    { q: 'เซลล์ใหญ่ตรงกลางภาพคืออะไร', a: 'Squamous epithelial cell', k: [W.squam] },
+  ],
+  x: 'RBC กลม ไม่มี nucleus ขนาดเท่ากัน (non-glomerular → นิ่ว) · ในปัสสาวะเข้มข้นเหี่ยวขอบหยัก (crenated) · ในปัสสาวะเจือจางบวมแตก (ghost cell)' },
+{ id: 'UL-37', t: 'u-rbc', src: 'lec', ref: 'Lecture LAB Urine หน้า 37', kind: 'Sediment', im: ['U37'], stem: 'Phase-contrast microscopy, ผู้ป่วยมี proteinuria',
+  p: [
+    { q: 'เซลล์ที่ลูกศรชี้คืออะไร', a: 'Dysmorphic RBCs (acanthocytes)', k: [['Dysmorphic RBC / acanthocyte', 'dysmorphic', 'acanthocyte']] },
+    { q: 'บ่งชี้เลือดออกจากตำแหน่งใด', a: 'Glomerular bleeding', k: [['Glomerular', 'glomerul']] },
+    { q: 'RBC ที่บวมแตกในปัสสาวะเจือจางเหลือแต่ขอบเซลล์เรียกว่า', a: 'Ghost cell', k: [['Ghost cell', 'ghost']] },
+  ],
+  x: 'Acanthocyte = วงแหวนที่มีปุ่มรูปถุง (vesicle-shaped protrusions) → RBC ผ่าน GBM ที่เสียหาย → glomerulonephritis' },
+{ id: 'UL-40a', t: 'u-wbc', src: 'lec', ref: 'Lecture LAB Urine หน้า 38, 40', kind: 'Sediment', im: ['U40a'],
+  p: [
+    { q: 'What is it?', a: 'White blood cells', k: [W.wbc] },
+    { q: 'ขนาดประมาณกี่ µm', a: '~12 µm (ใหญ่กว่า RBC)', k: [['~12 µm', '12', '10', '15']] },
+    { q: 'Neutrophil ที่บวมในปัสสาวะเจือจางและมีเม็ดเคลื่อนไหวระยิบระยับเรียกว่า', a: 'Glitter cell', k: [['Glitter cell', 'glitter']] },
+  ],
+  x: 'Granules เคลื่อนแบบ Brownian movement ทำให้เซลล์ดูวิบวับ = glitter cell · ปกติ WBC < 5/HPF' },
+{ id: 'UL-40c', t: 'u-sq', src: 'lec', ref: 'Lecture LAB Urine หน้า 39–40', kind: 'Sediment', im: ['U40b'], am: ['U40b-a'],
+  p: [
+    { q: 'What is it?', a: 'Squamous epithelial cell', k: [W.squam] },
+    { q: 'มาจากส่วนใด', a: 'Vagina, female urethra, lower portion of male urethra', n: 1, k: [['Vagina', 'vagina', 'ช่องคลอด'], ['Urethra', 'urethra', 'ท่อปัสสาวะ']] },
+    { q: 'เซลล์ชนิดนี้ที่มีแบคทีเรียเกาะเต็มผิวเรียกว่าอะไร และเกิดจากเชื้อใด', a: 'Clue cell — Gardnerella vaginalis', n: 2, k: [['Clue cell', 'clue'], ['Gardnerella vaginalis', 'gardnerella']] },
+  ],
+  x: 'เซลล์ใหญ่ที่สุดในตะกอน แบน เหลี่ยม nucleus ขนาดประมาณ RBC · clue cell บ่งชี้ bacterial vaginosis จาก Gardnerella' },
+{ id: 'UL-42a', t: 'u-tr', src: 'lec', ref: 'Lecture LAB Urine หน้า 41–42', kind: 'Sediment', im: ['U42a'],
+  p: [
+    { q: 'เซลล์ที่ลูกศรชี้คืออะไร', a: 'Transitional (urothelial) epithelial cells — caudate form', k: [W.trans] },
+    { q: 'รูปร่าง 3 แบบของเซลล์ชนิดนี้', a: 'Spherical, polyhedral, caudate', n: 3, k: [['Spherical', 'spherical', 'round'], ['Polyhedral', 'polyhedral'], ['Caudate', 'caudate', 'tail']] },
+    { q: 'N:C ratio', a: '1:4 – 1:5', k: [['1:4–1:5', '1 4', '1 5', '1:4', '1:5']] },
+  ],
+  x: 'เซลล์มีหาง (caudate) nucleus กลมกลางเซลล์ เล็กกว่า squamous แต่ใหญ่กว่า RTE · ถ้ารูปร่างผิดปกติ (vacuole, nucleus บิดเบี้ยว) → ส่ง cytology หา malignancy/viral' },
+{ id: 'UL-42c', t: 'u-tr', src: 'lec', ref: 'Lecture LAB Urine หน้า 42', kind: 'Sediment', im: ['U42b', 'U42c'], stem: 'A = ย้อมสี, B = ไม่ย้อม (มี WBC รอบ ๆ)',
+  p: [
+    { q: 'เซลล์ที่ลูกศรชี้ทั้ง 2 ภาพคืออะไร', a: 'Transitional epithelial cells', k: [W.trans] },
+    { q: 'ถ้าพบเซลล์นี้มากและรูปร่างผิดปกติ ต้องคิดถึงภาวะใด และส่งตรวจอะไรต่อ', a: 'Malignancy or viral infection → urine cytology', n: 2, k: [['Malignancy / viral', 'malignan', 'carcinoma', 'cancer', 'viral', 'virus'], ['Urine cytology', 'cytolog']] },
+  ],
+  x: 'เชื่อมกับ LAB Patho: urothelial carcinoma หลุดเซลล์ผิดปกติลงปัสสาวะ → urine cytology' },
+{ id: 'UL-44', t: 'u-rte', src: 'lec', ref: 'Lecture LAB Urine หน้า 43–44', kind: 'Sediment', im: ['U44a', 'U44b'],
+  p: [
+    { q: 'ภาพ A คือเซลล์อะไร', a: 'Renal tubular epithelial (RTE) cells', k: [W.rte] },
+    { q: 'พบมากกว่ากี่เซลล์ต่อ HPF จึงบ่งชี้ tubular injury', a: '> 2 cells/HPF', k: [['> 2/HPF', '2', 'two']] },
+    { q: 'N:C ratio ของเซลล์นี้', a: '≈ 1:1', k: [['1:1', '1 1', '1:1']] },
+    { q: 'ภาพ B หัวลูกศรชี้อะไร', a: 'RTE (epithelial) cell cast', k: [W.rtecast] },
+  ],
+  x: 'RTE ใหญ่กว่า WBC เล็กน้อย nucleus กลมใหญ่ (eccentric) N:C ≈ 1:1 · ต่างจาก transitional (N:C 1:4–1:5) — RTE สำคัญที่สุดทางคลินิก' },
+{ id: 'UL-46', t: 'u-rte', src: 'lec', ref: 'Lecture LAB Urine หน้า 45–46', kind: 'Sediment', im: ['U46'], am: ['U46-a'],
+  p: [
+    { q: 'เซลล์กลมใหญ่ที่เต็มไปด้วยหยดสะท้อนแสงคืออะไร', a: 'Oval fat body', k: [W.ofb] },
+    { q: 'เซลล์กลมเล็กรอบ ๆ คืออะไร', a: 'WBCs', k: [W.wbc] },
+    { q: 'Lipiduria พบในภาวะใด (2)', a: 'Nephrotic syndrome, severe tubular necrosis, DM, trauma (bone marrow fat)', n: 2,
+      k: [W.nephrotic, ['Severe tubular necrosis', 'tubular necrosis', 'ATN'], ['DM', 'diabet', 'DM'], ['Trauma (bone marrow fat)', 'trauma', 'fracture', 'bone marrow']] },
+  ],
+  x: 'Oval fat body = RTE cell ที่ดูดไขมันจาก filtrate · polarized light เห็น Maltese cross' },
+
+/* ---------------- Casts ---------------- */
+{ id: 'UL-48', t: 'u-hyal', src: 'lec', ref: 'Lecture LAB Urine หน้า 47–48', kind: 'Sediment', im: ['U48a', 'U48b'], stem: 'LPF ลดแสง',
+  p: [
+    { q: 'What is it?', a: 'Hyaline cast', k: [W.hyaline] },
+    { q: 'ค่าปกติ', a: '0–2 /LPF', k: [['0–2/LPF', '0-2', '0 2', '2']] },
+    { q: 'สาเหตุที่พบมากขึ้นโดยไม่เป็นโรค 2 อย่าง', a: 'Strenuous exercise, dehydration, heat exposure, emotional stress', n: 2,
+      k: [['Exercise', 'exercise', 'ออกกำลัง'], ['Dehydration', 'dehydrat', 'ขาดน้ำ'], ['Heat exposure', 'heat'], ['Emotional stress', 'stress', 'emotion']] },
+    { q: 'โรคที่ทำให้เพิ่มขึ้น 1 อย่าง', a: 'Acute GN, pyelonephritis, chronic renal disease, congestive heart failure', n: 1,
+      k: [W.gn, W.pyelo, ['Chronic renal disease', 'chronic renal', 'chronic kidney', 'CKD'], ['Congestive heart failure', 'heart failure', 'CHF']] },
+  ],
+  x: 'Cast ใส ไม่มีสี ขอบขนาน ปลายมน ต้องลดแสงจึงเห็น · เป็น cast ชนิดเดียวที่พบในคนปกติได้' },
+{ id: 'UL-48d', t: 'u-hyal', src: 'lec', ref: 'Lecture LAB Urine หน้า 48', kind: 'Sediment', im: ['U48d'],
+  p: [
+    { q: 'What is it? (cast ใสที่ปลายข้างหนึ่งเรียวเป็นหาง)', a: 'Cylindroid (hyaline cylindroid)', k: [['Cylindroid', 'cylindroid']] },
+    { q: 'รายงานในหน่วยใด', a: '/LPF', k: [['/LPF', 'LPF', 'low power']] },
+  ],
+  x: 'Cylindroid = hyaline cast ที่ปลายข้างหนึ่งเรียวยาว · รายงานเป็นตัวเลข /LPF เหมือน cast (Lecture หน้า 29)' },
+{ id: 'UL-51c', t: 'u-cellcast', src: 'lec', ref: 'Lecture LAB Urine หน้า 49, 51', kind: 'Sediment', im: ['U51c', 'U51d'],
+  p: [
+    { q: 'What is it?', a: 'RBC cast', k: [W.rbccast] },
+    { q: 'บ่งชี้ความผิดปกติใด', a: 'Glomerulonephritis (glomerular damage)', k: [W.gn] },
+    { q: 'สิ่งที่มักพบร่วมในปัสสาวะ (2)', a: 'Proteinuria, dysmorphic RBCs', n: 2, k: [['Proteinuria', 'protein'], ['Dysmorphic RBCs', 'dysmorphic', 'acanthocyte']] },
+  ],
+  x: 'RBC อัดแน่นใน matrix ของ cast = เลือดออกจาก nephron → GN · คนปกติพบได้หลังกีฬาปะทะหนัก' },
+{ id: 'UL-51a', t: 'u-cellcast', src: 'lec', ref: 'Lecture LAB Urine หน้า 50–51', kind: 'Sediment', im: ['U51a', 'U51b'],
+  p: [
+    { q: 'What is it?', a: 'WBC cast', k: [W.wbccast] },
+    { q: 'สัมพันธ์กับโรคใดบ่อยที่สุด', a: 'Pyelonephritis', k: [W.pyelo] },
+    { q: 'โรคที่ไม่ใช่การติดเชื้อที่พบได้', a: 'Acute interstitial nephritis', k: [['Acute interstitial nephritis', 'interstitial nephritis', 'AIN']] },
+    { q: 'ต้องยืนยันด้วยกำลังขยายใด', a: 'High power (40×)', k: [['High power', 'high power', 'HPF', '40']] },
+  ],
+  x: 'เห็นได้ที่ LPF แต่ต้องเปลี่ยนเป็น HPF เพื่อดู nucleus แบ่ง lobe ของ neutrophil · WBC cast แยก pyelonephritis จาก cystitis' },
+{ id: 'UL-53', t: 'u-epcast', src: 'lec', ref: 'Lecture LAB Urine หน้า 52–53', kind: 'Sediment', im: ['U53a', 'U53b'],
+  p: [
+    { q: 'What is it?', a: 'Epithelial (RTE) cell cast', k: [W.rtecast] },
+    { q: 'บ่งชี้อะไร', a: 'Advanced tubular destruction', k: [['Tubular destruction / injury', 'tubular', 'destruction', 'necrosis', 'ATN']] },
+    { q: 'สาเหตุ 2 อย่าง', a: 'Heavy metal, chemical or drug-induced toxicity, viral infection, allograft rejection', n: 2,
+      k: [['Heavy metal', 'heavy metal', 'lead', 'mercury'], ['Chemical/drug toxicity', 'drug', 'chemical', 'toxic', 'nephrotox'], ['Viral infection', 'viral', 'virus', 'CMV'], ['Allograft rejection', 'rejection', 'allograft', 'transplant']] },
+  ],
+  x: 'Cast ที่มีเซลล์ท่อไต (nucleus กลมใหญ่) เรียงอยู่ = ท่อไตถูกทำลายและหลุดลอกทั้งแผ่น · พบร่วมกับ WBC cast ใน pyelonephritis ได้' },
+{ id: 'UL-55', t: 'u-epcast', src: 'lec', ref: 'Lecture LAB Urine หน้า 54–55', kind: 'Sediment', im: ['U55a', 'U55b'],
+  p: [
+    { q: 'What is it?', a: 'Fatty cast', k: [['Fatty cast', 'fatty cast', 'fat cast', 'lipid cast']] },
+    { q: 'พบร่วมกับอะไรในปัสสาวะ', a: 'Oval fat bodies and free fat droplets (lipiduria)', k: [['Oval fat bodies / free fat', 'oval fat', 'fat droplet', 'lipiduria', 'free fat']] },
+    { q: 'กลุ่มอาการที่สัมพันธ์', a: 'Nephrotic syndrome', k: [W.nephrotic] },
+  ],
+  x: 'หยดไขมันสะท้อนแสงสูง (highly refractile) ฝังใน cast — ภาพ A ย้อมไขมันติดสีแดง' },
+{ id: 'UL-55c', t: 'u-epcast', src: 'lec', ref: 'Lecture LAB Urine หน้า 54–55', kind: 'Sediment', im: ['U55c'],
+  p: [
+    { q: 'What is it?', a: 'Mixed cellular cast (WBC + RBC)', k: [['Mixed cellular cast', 'mixed']] },
+    { q: 'Mixed RBC + WBC cast พบบ่อยในโรคใด', a: 'Glomerulonephritis', k: [W.gn] },
+  ],
+  x: 'Mixed RBC + WBC → GN · mixed WBC + RTE หรือ WBC + bacterial cast → pyelonephritis' },
+{ id: 'UL-58', t: 'u-gran', src: 'lec', ref: 'Lecture LAB Urine หน้า 56–58', kind: 'Sediment', im: ['U58a', 'U58b'],
+  p: [
+    { q: 'ภาพ A คืออะไร', a: 'Coarsely granular cast (broad)', k: [['Coarsely granular cast', 'coarse', 'broad']] },
+    { q: 'ภาพ B คืออะไร', a: 'Finely granular cast', k: [W.fgran] },
+    { q: 'การแยก coarse กับ fine มีความสำคัญทางคลินิกหรือไม่', a: 'ไม่มี (no clinical significance)', k: [['No clinical significance', 'no', 'not', 'ไม่']] },
+    { q: 'Matrix ของ cast คือโปรตีนอะไร', a: 'Tamm–Horsfall mucoprotein (uromodulin)', k: [['Tamm–Horsfall protein', 'tamm', 'horsfall', 'uromodulin']] },
+  ],
+  x: 'เม็ดหยาบ (coarse) สลายเป็นเม็ดละเอียด (fine) เมื่อ urine stasis นาน · ถ้าเสื่อมต่อไปกลายเป็น waxy cast' },
+{ id: 'UL-58c', t: 'u-gran', src: 'lec', ref: 'Lecture LAB Urine หน้า 58', kind: 'Sediment', im: ['U58c'], stem: 'ผู้ป่วย septic shock ปัสสาวะออกน้อย creatinine สูงขึ้นเร็ว',
+  p: [
+    { q: 'What is it?', a: 'Muddy brown (granular) casts', k: [['Muddy brown granular cast', 'muddy brown', 'muddy', 'granular']] },
+    { q: 'วินิจฉัยภาวะไต', a: 'Acute tubular necrosis', k: [['Acute tubular necrosis', 'ATN', 'acute tubular necrosis', 'tubular necrosis']] },
+  ],
+  x: 'Granular cast สีน้ำตาลเข้มจำนวนมาก = เซลล์ท่อไตตายสลาย → ATN (เชื่อมกับ LAB Patho: shock kidney)' },
+{ id: 'UL-60', t: 'u-gran', src: 'lec', ref: 'Lecture LAB Urine หน้า 59–60', kind: 'Sediment', im: ['U60a', 'U60b'], stem: 'ผู้ป่วย CKD ระยะสุดท้าย',
+  p: [
+    { q: 'What is it?', a: 'Waxy cast', k: [W.waxy] },
+    { q: 'ลักษณะที่ใช้บอก 2 อย่าง', a: 'High refractive index, smooth homogeneous, blunt/broken ends, cracked/serrated edges', n: 2,
+      k: [['High refractive index', 'refract'], ['Smooth homogeneous', 'homogen', 'smooth'], ['Blunt/broken ends', 'blunt', 'broken'], ['Cracked/serrated edges', 'crack', 'serrat', 'notch', 'fissure']] },
+    { q: 'เกิดจากการเสื่อมของ cast ชนิดใด', a: 'Granular cast', k: [['Granular cast', 'granular']] },
+  ],
+  x: 'Waxy cast = "melted wax" ปลายทู่/หัก ขอบแตก — urine stasis นานใน nephron → chronic renal failure' },
+{ id: 'UL-61', t: 'u-gran', src: 'lec', ref: 'Lecture LAB Urine หน้า 61', kind: 'Sediment', im: ['U61'],
+  p: [
+    { q: 'A', a: 'Finely granular cast', k: [W.fgran] },
+    { q: 'B', a: 'Waxy cast', k: [W.waxy] },
+    { q: 'C', a: 'Erythrocyte (RBC) cast', k: [W.rbccast] },
+    { q: 'D', a: 'Renal tubular epithelial cell (RTEC) cast', k: [W.rtecast] },
+  ],
+  x: 'ภาพ 4 ช่องจากสไลด์เดียว — โอกาสออกเป็นสถานีแยกสูง: B ขอบคมสะท้อนแสงมีรอยหยัก, C มีเซลล์กลมเล็กไม่มี nucleus, D มีเซลล์ nucleus ใหญ่' },
+
+/* ---------------- Crystals ---------------- */
+{ id: 'UL-65', t: 'u-xacid', src: 'lec', ref: 'Lecture LAB Urine หน้า 65', kind: 'Sediment', im: ['U65'],
+  p: [
+    { q: 'What is it?', a: 'Amorphous urates', k: [['Amorphous urates', 'amorphous urate', 'urate']] },
+    { q: 'Urine pH', a: 'Acid', k: [W.acid] },
+    { q: 'ตะกอนมีลักษณะสีอย่างไร (ชื่อเรียก)', a: 'Pink-orange to reddish brown — "brick dust"', k: [['Brick dust', 'brick', 'pink', 'orange']] },
+  ],
+  x: 'เม็ดละเอียดสีส้มชมพู ไม่มีรูปร่าง พบใน acid urine โดยเฉพาะเก็บในตู้เย็น' },
+{ id: 'UL-66', t: 'u-xacid', src: 'lec', ref: 'Lecture LAB Urine หน้า 66', kind: 'Sediment', im: ['U66a', 'U66c'],
+  p: [
+    { q: 'What is it? (A และ B เป็นชนิดเดียวกัน)', a: 'Uric acid crystals', k: [W.uric] },
+    { q: 'Urine pH', a: 'Acid', k: [W.acid] },
+    { q: 'รูปร่างที่พบได้ 2 แบบ', a: 'Rhombic/four-sided plates, prisms, lemon-shaped, wedges, rosettes, irregular plates', n: 2,
+      k: [['Rhombic plates', 'rhomb', 'four sided', 'plate'], ['Prisms', 'prism'], ['Lemon-shaped', 'lemon', 'oval'], ['Wedges', 'wedge'], ['Rosettes', 'rosette'], ['Whetstone', 'whetstone', 'barrel']] },
+  ],
+  x: 'Uric acid มีหลายรูปทรงมาก แต่จำได้จาก<b>สีเหลือง–น้ำตาล</b>ใน acid urine · ภาพ B = lemon-shaped' },
+{ id: 'UL-67', t: 'u-xacid', src: 'lec', ref: 'Lecture LAB Urine หน้า 67', kind: 'Sediment', im: ['U67a'],
+  p: [
+    { q: 'What is it?', a: 'Calcium oxalate dihydrate', k: [W.caox] },
+    { q: 'ลักษณะที่ใช้จำ', a: 'Small colorless octahedron resembling an envelope', k: [['Envelope', 'envelope', 'octahedr', 'ซองจดหมาย']] },
+    { q: 'พบในปัสสาวะ pH ใด (ตาม Lecture)', a: 'Acid urine', k: [W.acid] },
+  ],
+  x: 'สี่เหลี่ยมใสเล็ก มีกากบาทตรงกลาง = envelope · Lecture จัดอยู่ใน normal acid urine (พบได้ใน neutral ด้วย)' },
+{ id: 'UL-67b', t: 'u-xacid', src: 'lec', ref: 'Lecture LAB Urine หน้า 67', kind: 'Sediment', im: ['U67b'],
+  p: [
+    { q: 'ผลึกที่ลูกศรชี้คืออะไร', a: 'Calcium oxalate monohydrate (oval and biscuit-shaped)', k: [W.caox] },
+    { q: 'พบจำนวนมากร่วมกับ AKI นึกถึงพิษจากสารใด', a: 'Ethylene glycol', k: [['Ethylene glycol', 'ethylene glycol', 'antifreeze']] },
+  ],
+  x: 'Monohydrate รูปไข่/รูป biscuit (ดัมเบล) · ethylene glycol ถูก metabolize เป็น oxalate (ข้อ 2 เป็นความรู้เสริมจากตำรา)' },
+{ id: 'UL-68', t: 'u-xalk', src: 'lec', ref: 'Lecture LAB Urine หน้า 68', kind: 'Sediment', im: ['U68a', 'U68b'],
+  p: [
+    { q: 'What is it?', a: 'Amorphous phosphate', k: [['Amorphous phosphate', 'amorphous phosphate']] },
+    { q: 'Urine pH', a: 'Alkaline', k: [W.alk] },
+    { q: 'ประกอบด้วย cation อะไร (2)', a: 'Calcium and magnesium', n: 2, k: [['Calcium', 'calcium'], ['Magnesium', 'magnesium']] },
+  ],
+  x: 'เม็ดละเอียดไม่มีรูปร่างแบบเดียวกับ amorphous urate แต่พบใน<b>ด่าง</b> ตะกอนสีขาว — ต้องดู pH ประกอบ' },
+{ id: 'UL-69', t: 'u-xalk', src: 'lec', ref: 'Lecture LAB Urine หน้า 69', kind: 'Sediment', im: ['U69a', 'U69b'],
+  p: [
+    { q: 'What is it?', a: 'Triple phosphate', k: [W.triple] },
+    { q: 'ส่วนประกอบทางเคมี', a: 'Ammonium magnesium phosphate', k: [['Ammonium magnesium phosphate', 'ammonium magnesium phosphate', 'magnesium ammonium phosphate', 'struvite']] },
+    { q: 'ชื่อเรียกตามรูปร่าง', a: 'Coffin lid', k: [['Coffin lid', 'coffin']] },
+    { q: 'Urine pH', a: 'Alkaline', k: [W.alk] },
+  ],
+  x: 'Prism ใส 3–6 ด้าน ปลายตัดเฉียง = coffin lid · คู่กับ staghorn stone ใน LAB Patho (เชื้อสร้าง urease)' },
+{ id: 'UL-70', t: 'u-xalk', src: 'lec', ref: 'Lecture LAB Urine หน้า 70', kind: 'Sediment', im: ['U70b', 'U70a'],
+  p: [
+    { q: 'What is it?', a: 'Calcium phosphate', k: [['Calcium phosphate', 'calcium phosphate']] },
+    { q: 'ลักษณะรูปร่าง', a: 'Slender prisms with one tapered end and one blunt end, often in rosettes', k: [['Slender prisms / rosettes', 'prism', 'rosette', 'tapered', 'needle', 'slender']] },
+    { q: 'Urine pH', a: 'Alkaline', k: [W.alk] },
+  ],
+  x: 'แท่งเรียวปลายแหลมข้างเดียว เรียงเป็นดอก (rosette) ใสไม่มีสี · ต่างจาก uric acid rosette ที่สีเหลืองน้ำตาลและพบในกรด' },
+{ id: 'UL-71', t: 'u-xalk', src: 'lec', ref: 'Lecture LAB Urine หน้า 71', kind: 'Sediment', im: ['U71a', 'U71b'],
+  p: [
+    { q: 'What is it?', a: 'Ammonium biurate', k: [['Ammonium biurate', 'ammonium biurate', 'ammonium urate']] },
+    { q: 'ชื่อเรียกตามรูปร่าง', a: 'Thorn (thorny) apple', k: [['Thorn apple', 'thorn', 'thorny']] },
+    { q: 'Urine pH', a: 'Alkaline', k: [W.alk] },
+  ],
+  x: 'ทรงกลมสีเหลืองน้ำตาล มีลาย radial/concentric และหนามยื่น — ออกข้อสอบปี 2563 แล้ว' },
+{ id: 'UL-72', t: 'u-xabn', src: 'lec', ref: 'Lecture LAB Urine หน้า 72', kind: 'Sediment', im: ['U72a', 'U72b'], stem: 'เด็กชายอายุ 10 ปี มีนิ่วในไตซ้ำหลายครั้ง',
+  p: [
+    { q: 'What is it?', a: 'Cystine crystals', k: [['Cystine', 'cystine']] },
+    { q: 'โรคที่เกี่ยวข้อง', a: 'Cystinuria', k: [['Cystinuria', 'cystinuria']] },
+    { q: 'Urine pH', a: 'Acid', k: [W.acid] },
+  ],
+  x: 'แผ่นหกเหลี่ยมใส ด้านเท่ากัน สะท้อนแสง → cystinuria → cystine calculi · ผลึกผิดปกติที่โผล่ในข้อสอบบ่อยที่สุด' },
+{ id: 'UL-73', t: 'u-xabn', src: 'lec', ref: 'Lecture LAB Urine หน้า 73–74', kind: 'Sediment', im: ['U73a', 'U74a'], stem: 'ผู้ป่วยตับวายรุนแรง',
+  p: [
+    { q: 'ภาพ A คืออะไร', a: 'Leucine', k: [['Leucine', 'leucine']] },
+    { q: 'ภาพ B คืออะไร', a: 'Tyrosine', k: [['Tyrosine', 'tyrosine']] },
+    { q: 'ทั้งสองชนิดบ่งชี้ภาวะใด', a: 'Severe liver disease', k: [W.liver] },
+  ],
+  x: 'A: ทรงกลมเหลืองดูมัน มีวงซ้อนและลาย radial · B: เข็มละเอียดเป็นมัด (sheaves) — ทั้งคู่ใน acid urine' },
+{ id: 'UL-74', t: 'u-xabn', src: 'lec', ref: 'Lecture LAB Urine หน้า 74', kind: 'Sediment', im: ['U74b'],
+  p: [
+    { q: 'What is it?', a: 'Tyrosine crystals', k: [['Tyrosine', 'tyrosine']] },
+    { q: 'Urine pH', a: 'Acid', k: [W.acid] },
+  ],
+  x: 'เข็มบางเรียงเป็นกลุ่ม (sheaves/clumps) โดยเฉพาะหลังแช่เย็น' },
+{ id: 'UL-76', t: 'u-xabn', src: 'lec', ref: 'Lecture LAB Urine หน้า 75–76', kind: 'Sediment', im: ['U76a', 'U76c'], stem: 'ผู้ป่วยได้ยาขนาดสูงร่วมกับดื่มน้ำน้อย',
+  p: [
+    { q: 'ภาพ A คือ crystal อะไร', a: 'Sulfonamide (sulfadiazine) crystal', k: [['Sulfonamide', 'sulfonamide', 'sulfadiazine', 'sulpha', 'sulfa']] },
+    { q: 'ภาพ B คือ crystal อะไร', a: 'Ampicillin/amoxicillin crystal', k: [['Ampicillin / amoxicillin', 'ampicillin', 'amoxicillin', 'amoxycillin', 'penicillin']] },
+    { q: 'Urine pH', a: 'Acid', k: [W.acid] },
+  ],
+  x: 'Sulfonamide: สีเหลืองน้ำตาลรูปฟ่อนข้าว (sheaves of wheat) · Ampicillin: เข็มยาวบางใส (ขนาดสูง) — ทั้งคู่ใน acid urine' },
+{ id: 'UL-77', t: 'u-xabn', src: 'lec', ref: 'Lecture LAB Urine หน้า 77', kind: 'Sediment', im: ['U77b', 'U77c'], stem: 'ผู้ป่วยบวมทั้งตัว proteinuria 4+',
+  p: [
+    { q: 'What is it?', a: 'Cholesterol crystals', k: [['Cholesterol', 'cholesterol']] },
+    { q: 'ลักษณะที่ใช้จำ', a: 'Notched, rhombic-shaped plates', k: [['Notched rhombic plates', 'notch', 'rhomb', 'บาก']] },
+    { q: 'กลุ่มอาการที่สัมพันธ์', a: 'Nephrotic syndrome', k: [W.nephrotic] },
+  ],
+  x: 'แผ่นสี่เหลี่ยมบางใส มีรอยบากที่มุม ซ้อนกันเป็นขั้น · พบร่วมกับ oval fat body และ fatty cast ใน lipiduria' },
+
+/* ---------------- Misc ---------------- */
+{ id: 'UL-78', t: 'u-misc', src: 'lec', ref: 'Lecture LAB Urine หน้า 78', kind: 'Sediment', im: ['U78a', 'U78b'],
+  p: [
+    { q: 'สิ่งที่ลูกศรชี้คืออะไร', a: 'Mucus (mucous threads)', k: [['Mucus', 'mucus', 'mucous']] },
+    { q: 'ความสำคัญทางคลินิก', a: 'No diagnostic significance (เพิ่มได้ในภาวะอักเสบ)', k: [['No significance', 'no', 'not', 'ไม่']] },
+    { q: 'รายงานแบบใด', a: 'Semiquantitative (rare/few/moderate/many)', k: [['Graded (rare–many)', 'rare', 'few', 'moderate', 'many', 'semiquant', 'ระดับ']] },
+  ],
+  x: 'เส้นใสยาวคดเคี้ยว ขอบไม่ขนาน ปลายเรียว — ต่างจาก hyaline cast ที่ขอบขนานปลายมน' },
+{ id: 'UL-79', t: 'u-misc', src: 'lec', ref: 'Lecture LAB Urine หน้า 79', kind: 'Sediment', im: ['U79'], stem: 'ผู้ป่วยเบาหวานควบคุมไม่ได้',
+  p: [
+    { q: 'What is it?', a: 'Yeast with pseudohyphae (Candida)', k: [['Yeast (Candida)', 'yeast', 'candida', 'pseudohyph', 'fung']] },
+    { q: 'ทำไมพบบ่อยในผู้ป่วยรายนี้', a: 'Glucosuria (DM) promotes yeast growth', k: [['Glucosuria / DM', 'glucose', 'glucosuria', 'diabet', 'DM', 'sugar']] },
+  ],
+  x: 'เซลล์รูปไข่เรียงต่อเป็นสาย (pseudohyphae) · แยกจาก RBC ด้วยรูปไข่และการแตกหน่อ' },
+{ id: 'UL-80', t: 'u-misc', src: 'lec', ref: 'Lecture LAB Urine หน้า 80', kind: 'Sediment', im: ['U80a', 'U80b'],
+  p: [
+    { q: 'ภาพ A คืออะไร', a: 'Starch granule', k: [['Starch', 'starch']] },
+    { q: 'ภาพ B คืออะไร', a: 'Glass fragments', k: [['Glass fragments', 'glass']] },
+    { q: 'จัดเป็นกลุ่มใด', a: 'Contaminants and artifacts', k: [['Contaminant / artifact', 'contamin', 'artifact', 'artefact', 'ปนเปื้อน']] },
+  ],
+  x: 'Starch (จากแป้งถุงมือ) ให้ Maltese cross ใต้ polarizer ได้ ต้องไม่สับสนกับ oval fat body · glass จากสไลด์/coverslip' },
+
+/* ---------------- คาดการณ์ ---------------- */
+{ id: 'UP-1', t: 'u-glu', src: 'pred', ref: 'คาดการณ์ (interference ร่วม)', kind: 'Theory',
+  p: [
+    { q: 'สารใดทำให้ผลลบลวงได้ทั้ง glucose, blood, nitrite และ leukocyte esterase', a: 'Ascorbic acid (vitamin C)', k: [W.asc] },
+    { q: 'ยาปฏิชีวนะที่ทำให้ LE ลบลวง 1 ชนิด', a: 'Gentamicin, cephalosporins, tetracyclines', n: 1, k: [['Gentamicin', 'gentamicin'], ['Cephalosporins', 'cephalo'], ['Tetracyclines', 'tetracycline']] },
+    { q: 'ยาที่ทำให้ LE บวกลวง', a: 'Nitrofurantoin', k: [['Nitrofurantoin', 'nitrofurantoin']] },
+  ],
+  x: 'Ascorbic acid เป็นสารรีดิวซ์ตัวเดียวที่ Lecture ระบุใน 4 ช่อง — ถามง่ายตอบสั้น โอกาสออกสูง' },
+{ id: 'UP-2', t: 'u-bili', src: 'pred', ref: 'คาดการณ์ (ต่อยอดข้อสอบ NU23 ข้อ 15.2)', kind: 'Theory',
+  p: [
+    { q: 'Urobilinogen สูง พบในภาวะใด (2)', a: 'Hemolysis, hepatocellular damage', n: 2, k: [['Hemolysis', 'hemoly', 'haemoly'], ['Hepatocellular damage', 'hepatocellular', 'hepatitis', 'liver disease', 'liver damage', 'cirrhosis']] },
+    { q: 'Urine bilirubin บวก แต่ urobilinogen ไม่พบ บ่งชี้ภาวะใด', a: 'Obstructive (post-hepatic) jaundice', k: [['Obstructive jaundice', 'obstruct', 'cholesta', 'post hepatic', 'posthepatic', 'biliary']] },
+    { q: 'ปัสสาวะสีเหลืองอำพันเขย่าแล้วฟองเหลือง มีสารใด', a: 'Bilirubin', k: [['Bilirubin', 'bilirubin']] },
+  ],
+  x: 'Hemolysis: bilirubin ในปัสสาวะลบ (unconjugated ไม่ผ่านไต) แต่ urobilinogen สูง · Obstructive: bilirubin บวก urobilinogen ต่ำ/ไม่พบ' },
+{ id: 'UP-3', t: 'u-cellcast', src: 'pred', ref: 'คาดการณ์ (จับคู่ cast กับโรค)', kind: 'Sediment', im: ['U51c', 'U51a', 'U60b'],
+  p: [
+    { q: 'ภาพ A: ชื่อ cast และโรค', a: 'RBC cast — glomerulonephritis', n: 2, k: [W.rbccast, W.gn] },
+    { q: 'ภาพ B: ชื่อ cast และโรค', a: 'WBC cast — pyelonephritis', n: 2, k: [W.wbccast, W.pyelo] },
+    { q: 'ภาพ C: ชื่อ cast และภาวะ', a: 'Waxy cast — chronic renal failure (urine stasis)', n: 2, k: [W.waxy, ['Chronic renal failure', 'chronic', 'CKD', 'ESRD', 'renal failure', 'stasis']] },
+  ],
+  x: 'Cast → ตำแหน่งโรค: RBC = glomerulus · WBC = interstitium/pyelonephritis · RTE/muddy brown = tubule (ATN) · waxy = stasis (CKD) · fatty = nephrotic' },
+{ id: 'UP-4', t: 'u-xabn', src: 'pred', ref: 'คาดการณ์ (crystal + pH)', kind: 'Sediment', im: ['U72a', 'U69a', 'U66a'],
+  p: [
+    { q: 'ภาพ A: ชื่อและ pH', a: 'Cystine — acid', n: 2, k: [['Cystine', 'cystine'], W.acid] },
+    { q: 'ภาพ B: ชื่อและ pH', a: 'Triple phosphate — alkaline', n: 2, k: [W.triple, W.alk] },
+    { q: 'ภาพ C: ชื่อและ pH', a: 'Uric acid — acid', n: 2, k: [W.uric, W.acid] },
+  ],
+  x: 'ใสไม่มีสีมี 2 ตัวที่ต้องแยก: หกเหลี่ยม (cystine, กรด) กับฝาโลง (triple phosphate, ด่าง) · สีเหลืองน้ำตาลในกรด = uric acid' },
+{ id: 'UP-5', t: 'u-rte', src: 'pred', ref: 'คาดการณ์ (epithelial cells 3 ชนิด)', kind: 'Sediment', im: ['U40c', 'U42a', 'U44a'],
+  p: [
+    { q: 'ภาพ A', a: 'Squamous epithelial cell', k: [W.squam] },
+    { q: 'ภาพ B', a: 'Transitional epithelial cell', k: [W.trans] },
+    { q: 'ภาพ C', a: 'Renal tubular epithelial cell', k: [W.rte] },
+    { q: 'ชนิดใดสำคัญทางคลินิกที่สุด', a: 'Renal tubular epithelial cell (tubular injury)', k: [W.rte] },
+  ],
+  x: 'ขนาด: squamous ใหญ่สุด > transitional > RTE (≈ WBC) · N:C: squamous ต่ำมาก, transitional 1:4–1:5, RTE ≈ 1:1' },
+{ id: 'UP-6', t: 'u-blood', src: 'pred', ref: 'คาดการณ์ (บูรณาการ physical + chemical + micro)', kind: 'Theory', stem: 'ชายหลังวิ่งมาราธอน ปวดกล้ามเนื้อ ปัสสาวะสีแดงน้ำตาลใส dipstick blood 3+ แต่ตะกอนไม่พบ RBC',
+  p: [
+    { q: 'สารที่ทำให้ blood บวก', a: 'Myoglobin', k: [['Myoglobin', 'myoglobin']] },
+    { q: 'ภาวะที่เป็น', a: 'Rhabdomyolysis', k: [['Rhabdomyolysis', 'rhabdomyolysis']] },
+    { q: 'ทำไม dipstick บวกทั้งที่ไม่มี RBC', a: 'Heme of myoglobin has pseudoperoxidase activity', k: [['Pseudoperoxidase of heme', 'pseudoperoxidase', 'peroxidase', 'heme']] },
+  ],
+  x: 'Blood บวก + ไม่มี RBC + สีแดงใส → hemoglobinuria หรือ myoglobinuria · ประวัติออกกำลังหนักและปวดกล้ามเนื้อ → rhabdomyolysis (เสี่ยง ATN)' },
+{ id: 'UP-7', t: 'u-misc', src: 'pred', ref: 'คาดการณ์ (Maltese cross)', kind: 'Sediment', im: ['svg:maltese'], stem: 'ภาพวาดจำลอง: ตะกอนปัสสาวะใต้ polarized light',
+  p: [
+    { q: 'ลักษณะที่เห็นเรียกว่าอะไร', a: 'Maltese cross', k: [['Maltese cross', 'maltese']] },
+    { q: 'มาจากไขมันชนิดใด และพบในเซลล์/cast ใด', a: 'Cholesterol esters — oval fat bodies / fatty casts', n: 2, k: [['Cholesterol ester', 'cholesterol'], ['Oval fat body / fatty cast', 'oval fat', 'fatty cast', 'fat']] },
+    { q: 'สิ่งปนเปื้อนใดให้ภาพคล้ายกัน', a: 'Starch granules', k: [['Starch', 'starch']] },
+  ],
+  x: 'Maltese cross = กากบาทมืดบนหยดไขมันสว่าง → cholesterol ester ใน lipiduria · starch ก็ให้ภาพคล้ายกันแต่มีรอยบุ๋มกลางและรูปเหลี่ยมกว่า' },
+{ id: 'UP-8', t: 'u-misc', src: 'pred', ref: 'คาดการณ์ (Trichomonas)', kind: 'Sediment', im: ['svg:trich'], stem: 'ภาพวาดจำลอง: ปัสสาวะสดของหญิงที่มีตกขาวมีกลิ่น',
+  p: [
+    { q: 'What is it?', a: 'Trichomonas vaginalis', k: [['Trichomonas vaginalis', 'trichomonas']] },
+    { q: 'รายงานในหน่วยใด', a: '/HPF', k: [['/HPF', 'HPF', 'high power']] },
+  ],
+  x: 'รูปลูกแพร์ flagella ด้านหน้า undulating membrane เคลื่อนที่กระตุก (ต้องดูในปัสสาวะสด) · Lecture ระบุให้รายงานเป็นช่วงตัวเลข /HPF' },
+);
 })();
 
 /* ------------------------------------------------------------------
@@ -2109,18 +2915,46 @@ window.URINE = { draw, KINDS };
 })();
 
 /* ------------------------------------------------------------------
- * app.js — หน้าแรก / Atlas / ทบทวน / Exam / ข้อสอบเก่า
- * ความคืบหน้าเก็บใน localStorage ของเบราว์เซอร์นี้เท่านั้น
+ * app.js — 2 LAB (Patho / Urine) × 5 หน้า (หน้าแรก / Atlas / ทบทวน / Exam / ข้อสอบเก่า)
+ * hash: #patho-atlas, #urine-exam ฯลฯ · ความคืบหน้าเก็บใน localStorage ของเบราว์เซอร์นี้เท่านั้น
  * ------------------------------------------------------------------ */
 (function () {
 'use strict';
 
 const { GROUPS, TOPICS, STATIONS, PAPERS } = window.KUB;
 const URINE = window.URINE;
-const TOP = {}; TOPICS.forEach(t => { TOP[t.id] = t; });
-const STA = {}; STATIONS.forEach(s => { STA[s.id] = s; s.g = TOP[s.t].g; });
 const GRP = {}; GROUPS.forEach(g => { GRP[g.id] = g; });
+const TOP = {}; TOPICS.forEach(t => { TOP[t.id] = t; t.lab = GRP[t.g].lab; });
+const STA = {}; STATIONS.forEach(s => { STA[s.id] = s; s.g = TOP[s.t].g; s.lab = TOP[s.t].lab; });
 const OLD_IDS = new Set(PAPERS.flatMap(p => p.items.map(i => i.st)));
+const inLab = lab => s => s.lab === lab;
+
+/* ---------- LAB config ---------- */
+const LABS = {
+  patho: {
+    id: 'patho', name: 'LAB Patho', short: 'Patho', defAtlas: 'adpkd', vs: true,
+    eyebrow: 'Block KUB II · Lab urinary system · Pathology',
+    h1: 'Patho <span>OSPE</span> สถานีละ 60 วินาที',
+    lead: n => `ฝึกดู gross, museum, virtual slide และ immunofluorescence ${n} สถานี ครบทุกภาพใน Lecture LAB Patho (66 สไลด์) พร้อมข้อสอบเก่าส่วน pathology ปี 2563 และ MED NU23/NT15`,
+    insights: [
+      ['รูปแบบสถานี', ['ปี 2563 ส่วน pathology 10 สถานี (ข้อ 1–10) อีก 5 สถานีเป็นส่วน urine อยู่ใน LAB Urine', 'ทุกสถานีถาม 2 ข้อย่อย: <b>บรรยายพยาธิสภาพ + วินิจฉัย</b> หรือ <b>วินิจฉัย + สาเหตุ/risk/complication</b>', 'Histology ใช้ภาพหน้าจอ virtual slide']],
+      ['ออกซ้ำทั้งสองปี', ['ADPKD + โรคนอกไต 2 อย่าง', 'Hydronephrosis (บรรยาย + diag)', 'Angiomyolipoma และ chronic pyelonephritis (virtual slide)', 'IF linear → Goodpasture']],
+      ['ปีนี้ต้องระวัง', ['Virtual slide ใหม่ใน Lecture: ARPKD, ATN, diabetic nephropathy, von Brunn nest/cystitis cystica, Wilms, clear cell RCC, urothelial carcinoma', 'หัวข้อใหม่: malakoplakia, XGP, membranous, crescentic GN, renal infarction, horseshoe kidney']],
+    ],
+  },
+  urine: {
+    id: 'urine', name: 'LAB Urine', short: 'Urine', defAtlas: 'u-prep', vs: false,
+    eyebrow: 'Block KUB II · Routine urinalysis · Clinical microscopy',
+    h1: 'Urine <span>OSPE</span> สถานีละ 60 วินาที',
+    lead: n => `ฝึกระบุเซลล์ cast ผลึก และหลักการแถบตรวจ ${n} สถานี จากภาพจริงใน Lecture LAB Urine (81 สไลด์) พร้อมข้อสอบเก่าส่วน urine analysis ปี 2563 และ MED NU23/NT15`,
+    insights: [
+      ['รูปแบบสถานี', ['ปี 2563 ส่วน urine analysis 5 สถานี (ข้อ 11–15)', 'ส่วนใหญ่ถามสั้น <b>"What is it?"</b> แล้วต่อด้วย pH หรือ probable diagnosis', 'มีข้อทฤษฎีขั้นตอนปั่นตะกอนทุกปี']],
+      ['ออกซ้ำทั้งสองปี', ['Centrifuge 5 นาที · เหลือตะกอน 0.5–1 mL', 'Granular cast', 'Crystal ในด่าง (ammonium biurate, triple phosphate) และในกรด (uric acid, calcium oxalate)', 'เซลล์: WBC, squamous, oval fat body']],
+      ['ปีนี้ต้องระวัง', ['Lecture เพิ่มหลักการและ false positive/negative ของแถบตรวจทุกช่อง (หน้า 10–23)', 'หน่วยรายงาน /LPF vs /HPF vs ระดับ', 'Cast → โรค (RBC, WBC, RTE, waxy, fatty) และภาพ 4 ช่องหน้า 61', 'Abnormal crystals: cystine, leucine, tyrosine, sulfonamide, cholesterol']],
+    ],
+  },
+};
+const LAB_IDS = Object.keys(LABS);
 
 /* ---------- utils ---------- */
 const $ = (s, el) => (el || document).querySelector(s);
@@ -2133,8 +2967,12 @@ const pct = x => Math.round(x * 100);
 
 /* ---------- storage (per browser) ---------- */
 const KEY = 'kub2-ospe.v1';
-const S = { marks: {}, exams: [], secs: 60, atlas: 'adpkd', theme: '' };
+const S = { marks: {}, exams: [], secs: 60, lab: 'patho', atlasBy: {}, theme: '' };
 try { const raw = localStorage.getItem(KEY); if (raw) Object.assign(S, JSON.parse(raw)); } catch (e) { /* storage blocked */ }
+if (!LABS[S.lab]) S.lab = 'patho';
+if (!S.atlasBy || typeof S.atlasBy !== 'object') S.atlasBy = {};
+if (S.atlas && TOP[S.atlas] && !S.atlasBy[TOP[S.atlas].lab]) S.atlasBy[TOP[S.atlas].lab] = S.atlas;
+delete S.atlas;
 function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* storage blocked */ } }
 function mark(id, ok) {
   const m = S.marks[id] || { r: 0, w: 0 };
@@ -2190,8 +3028,9 @@ function lev(a, b) {
   return prev[n];
 }
 const isNum = w => /^[\d.\-]+$/.test(w);
+const THAI = /[฀-๿]/;
 /* คู่คำที่สะกดใกล้กันแต่ความหมายต่างกัน: ห้ามนับเป็นคำสะกดผิด */
-const NOFUZZ = new Set(['nephrotic', 'nephritic', 'papillary', 'capillary', 'adpkd', 'arpkd', 'cystica', 'cystine']);
+const NOFUZZ = new Set(['nephrotic', 'nephritic', 'papillary', 'capillary', 'adpkd', 'arpkd', 'cystica', 'cystine', 'leucine', 'leukocyte']);
 function wordEq(t, w) {
   if (t === w) return true;
   if (isNum(w) || w.length < 5) return false;
@@ -2202,11 +3041,11 @@ function wordEq(t, w) {
 function hasKey(inp, toks, key) {
   const k = norm(key);
   if (!k) return false;
-  if (isNum(k)) return toks.includes(k);
+  if (isNum(k)) return toks.some(t => t === k || (t.includes('-') && t.split('-').includes(k)));
   const kw = k.split(' ');
-  if (kw.length === 1 && kw[0].length < 5 && !/[฀-๿]/.test(k)) return toks.some(t => t === k || t === k + 's' || (k.length >= 4 && t.startsWith(k)));
+  if (kw.length === 1 && kw[0].length < 5 && !THAI.test(k)) return toks.some(t => t === k || t === k + 's' || (k.length >= 4 && t.startsWith(k)));
   if (inp.includes(k) && !(kw.length === 1 && kw[0].length < 5)) return true;
-  if (/[฀-๿]/.test(k)) return inp.includes(k);
+  if (THAI.test(k)) return inp.includes(k);
   for (let i = 0; i + kw.length <= toks.length; i++) {
     if (kw.every((w, j) => wordEq(toks[i + j], w))) return true;
   }
@@ -2223,7 +3062,6 @@ function grade(p, ans) {
 /* ======================================================================
  * Rendering helpers
  * ==================================================================== */
-const ZOOM_ICON = '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6V2h4M14 6V2h-4M2 10v4h4M14 10v4h-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
 function media(ref) {
   if (ref.startsWith('svg:')) return URINE.draw(ref.slice(4));
   return `<img src="img/${esc(ref)}.jpg" alt="ภาพประกอบ ${esc(ref)}" loading="lazy">`;
@@ -2243,24 +3081,24 @@ function srcChip(s) {
   if (s.src === 'pred') return `<span class="chip warn">คาดการณ์</span>`;
   return `<span class="chip">Lecture</span>`;
 }
-function kindChip(s) { return `<span class="chip${s.g === 'ua' ? ' ua' : ''}">${esc(s.kind)}</span>`; }
+function kindChip(s) { return `<span class="chip">${esc(s.kind)}</span>`; }
+function labChip(lab) { return `<span class="chip lab-${lab}">${esc(LABS[lab].name)}</span>`; }
 function strip_(n, pads, opts) {
   opts = opts || {};
   let h = `<div class="strip${opts.big ? ' big' : ''}${n > 24 ? ' dense' : ''}" role="img" aria-label="${esc(opts.label || 'แถบความคืบหน้า')}"><div class="strip-handle"></div><div class="strip-body">`;
   for (let i = 0; i < n; i++) h += `<span class="pad ${pads[i] || ''}"></span>`;
   return h + `</div></div>`;
 }
+const labHash = (v, lab) => `#${lab || S.lab}-${v}`;
 
 /* ---------- lightbox ---------- */
 const lb = $('#lb');
-let lbZoom = 1;
 function openLb(ref, cap) {
   $('#lbInner').innerHTML = media(ref) + (cap ? `<div class="lb-cap">${esc(cap)}</div>` : '');
-  lbZoom = 1; setZoom(1);
+  setZoom(1);
   lb.hidden = false; $('#lbClose').focus();
 }
 function setZoom(z) {
-  lbZoom = z;
   const el = $('#lbInner > img, #lbInner > svg');
   $('#lbInner').style.maxWidth = z === 1 ? '1200px' : 'none';
   $('#lbInner').style.width = z === 1 ? '100%' : (z * 100) + '%';
@@ -2284,219 +3122,279 @@ document.addEventListener('keydown', e => {
 });
 
 /* ======================================================================
- * Router
+ * Router + LAB switch
  * ==================================================================== */
 const VIEWS = ['home', 'atlas', 'practice', 'exam', 'papers'];
 let view = '';
+function applyLab() {
+  document.documentElement.setAttribute('data-lab', S.lab);
+  $$('#labSw [data-lab]').forEach(b => { const on = b.dataset.lab === S.lab; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+  $$('#tabs a').forEach(a => { a.href = labHash(a.dataset.v); });
+  $('.brand').href = labHash('home');
+}
+function setLab(lab) {
+  if (!LABS[lab] || lab === S.lab) return;
+  S.lab = lab; save();
+  P.queue = null; P.f = { g: 'all', src: 'all', topic: '', order: P.f.order };
+  EX.report = null;
+  applyLab();
+}
 function route() {
-  let v = (location.hash || '').slice(1);
+  const h = (location.hash || '').slice(1);
+  let v = h, lab = S.lab;
+  const m = h.match(/^(patho|urine)-([a-z]+)$/);
+  if (m) { lab = m[1]; v = m[2]; }
   if (!VIEWS.includes(v)) v = 'home';
-  if (EX.running && v !== 'exam') { location.hash = 'exam'; toast('กำลังสอบอยู่ — กด "ออกจากการสอบ" ก่อนถ้าจะไปหน้าอื่น'); return; }
+  if (EX.running && (v !== 'exam' || lab !== S.lab)) { location.hash = labHash('exam'); toast('กำลังสอบอยู่ — กด "ออกจากการสอบ" ก่อนถ้าจะไปหน้าอื่น'); return; }
   if (EX.running && view === 'exam') return;
+  setLab(lab);
   view = v;
-  VIEWS.forEach(n => { $('#v-' + n).hidden = n !== v; });
+  /* only the active view keeps its DOM, so ids like #ans-0 stay unique between practice and exam */
+  VIEWS.forEach(n => { const el = $('#v-' + n); el.hidden = n !== v; if (n !== v) el.innerHTML = ''; });
   $$('#tabs a').forEach(a => a.classList.toggle('on', a.dataset.v === v));
+  document.title = `${LABS[S.lab].name} · KUB II OSPE`;
   RENDER[v]();
   window.scrollTo(0, 0);
 }
-function go(v) { if (location.hash.slice(1) === v) route(); else location.hash = v; }
+function go(v, lab) {
+  const target = labHash(v, lab);
+  if (location.hash === target) route(); else location.hash = target;
+}
 window.addEventListener('hashchange', route);
 document.addEventListener('click', e => {
+  const sw = e.target.closest('#labSw [data-lab]');
+  if (sw) { e.preventDefault(); go(view || 'home', sw.dataset.lab); return; }
   const b = e.target.closest('[data-go]');
-  if (b) { e.preventDefault(); const t = b.dataset.topic; if (t) S.atlas = t; go(b.dataset.go); }
+  if (b) {
+    e.preventDefault();
+    const t = b.dataset.topic, lab = b.dataset.lab || (t ? TOP[t].lab : undefined);
+    if (t) S.atlasBy[TOP[t].lab] = t;
+    if (EX.report && lab && lab !== S.lab) EX.report = null;
+    go(b.dataset.go, lab);
+  }
 });
 
 /* ======================================================================
  * HOME
  * ==================================================================== */
 function groupStats() {
-  return GROUPS.map(g => {
+  return GROUPS.filter(g => g.lab === S.lab).map(g => {
     const ids = STATIONS.filter(s => s.g === g.id).map(s => s.id);
-    let r = 0, w = 0, seen = 0;
-    ids.forEach(id => { const m = S.marks[id]; if (m) { seen++; m.last === 'r' ? r++ : w++; } });
+    let r = 0, seen = 0;
+    ids.forEach(id => { const m = S.marks[id]; if (m) { seen++; if (m.last === 'r') r++; } });
     return { g, total: ids.length, seen, acc: seen ? r / seen : null };
   });
 }
 function renderHome() {
+  const L = LABS[S.lab];
   const gs = groupStats();
+  const groups = gs.map(x => x.g);
   const pads = gs.map(x => x.acc == null ? '' : 's-' + (x.acc >= .8 ? 'good' : x.acc >= .5 ? 'warn' : 'bad'));
-  const seen = Object.keys(S.marks).filter(id => STA[id]).length;
-  const last = S.exams[S.exams.length - 1];
-  const oldCount = PAPERS.reduce((a, p) => a + p.items.length, 0);
-  const rows = GROUPS.map(g => {
+  const labSt = STATIONS.filter(inLab(S.lab));
+  const seen = labSt.filter(s => S.marks[s.id]).length;
+  const labExams = S.exams.filter(x => x.lab === S.lab || x.lab === 'both');
+  const last = labExams[labExams.length - 1];
+  const oldCount = PAPERS.reduce((a, p) => a + p.items.filter(i => STA[i.st].lab === S.lab).length, 0);
+  const cols = L.vs ? 5 : 4;
+  const rows = groups.map(g => {
     const ts = TOPICS.filter(t => t.g === g.id);
-    return `<tr class="grp"><td colspan="5">${esc(g.name)} <span class="muted small">· ${esc(g.th)}</span></td></tr>`
+    return `<tr class="grp"><td colspan="${cols}">${esc(g.name)} <span class="muted small">· ${esc(g.th)}</span></td></tr>`
       + ts.map(t => {
         const e = (t.exam || []).join(' ');
-        return `<tr><td><a class="tlink" href="#atlas" data-go="atlas" data-topic="${t.id}">${esc(t.en)}</a></td>`
+        return `<tr><td><a class="tlink" href="${labHash('atlas')}" data-go="atlas" data-topic="${t.id}">${esc(t.en)}</a></td>`
           + `<td class="c">${/2563/.test(e) ? '<span class="mark-old" title="ออกสอบปี 2563"></span>' : ''}</td>`
           + `<td class="c">${/NU23/.test(e) ? '<span class="mark-old" title="ออกสอบ MED NU23"></span>' : ''}</td>`
-          + `<td class="c">${t.vs ? '<span class="mark-vs" title="อยู่ในรายการ virtual slide"></span>' : ''}</td>`
+          + (L.vs ? `<td class="c">${t.vs ? '<span class="mark-vs" title="อยู่ในรายการ virtual slide"></span>' : ''}</td>` : '')
           + `<td>${stars(t.star)}</td></tr>`;
       }).join('');
   }).join('');
-  const hist = S.exams.slice(-5).reverse().map(x => `<div class="hist-row"><span>${new Date(x.t).toLocaleDateString('th-TH', { day: 'numeric', month: 'short' })} · ${x.n} สถานี · ${esc(x.label || '')}</span><span class="mono"><b>${x.pct}%</b></span></div>`).join('');
+  const hist = S.exams.slice(-6).reverse().map(x => `<div class="hist-row"><span>${new Date(x.t).toLocaleDateString('th-TH', { day: 'numeric', month: 'short' })} · ${x.n} สถานี · ${esc(x.label || '')}</span><span class="mono"><b>${x.pct}%</b></span></div>`).join('');
+  const other = LABS[S.lab === 'patho' ? 'urine' : 'patho'];
 
   $('#v-home').innerHTML = `
   <section class="hero">
     <div>
-      <div class="eyebrow">Block KUB II · Lab urinary system · Pathology</div>
-      <h1>Patho <span>OSPE</span> สถานีละ 60 วินาที</h1>
-      <p class="lead">ฝึกดู gross, virtual slide, immunofluorescence และตะกอนปัสสาวะ ${STATIONS.length} สถานี ครบทุกภาพใน Lecture LAB พร้อมข้อสอบเก่าปี 2563 และ MED NU23/NT15 ตรวจคำตอบอัตโนมัติ</p>
+      <div class="eyebrow">${esc(L.eyebrow)}</div>
+      <h1>${L.h1}</h1>
+      <p class="lead">${esc(L.lead(labSt.length))}</p>
       <div class="row">
-        <a class="btn primary" href="#exam" data-go="exam">เริ่ม Exam จับเวลา</a>
-        <a class="btn" href="#practice" data-go="practice">โหมดทบทวน</a>
-        <a class="btn ghost" href="#atlas" data-go="atlas">เปิด Atlas</a>
+        <a class="btn primary" href="${labHash('exam')}" data-go="exam">เริ่ม Exam จับเวลา</a>
+        <a class="btn" href="${labHash('practice')}" data-go="practice">โหมดทบทวน</a>
+        <a class="btn ghost" href="${labHash('atlas')}" data-go="atlas">เปิด Atlas</a>
       </div>
+      <p class="small muted" style="margin-top:12px">อีกเรื่องหนึ่งในบล็อกนี้: <a href="${labHash('home', other.id)}" data-go="home" data-lab="${other.id}">${esc(other.name)} →</a></p>
     </div>
     <div class="bottle">
-      <div class="bottle-h"><b>แถบตรวจความพร้อม</b><span class="muted small mono">${seen}/${STATIONS.length} สถานี</span></div>
-      ${strip_(GROUPS.length, pads, { big: true, label: 'ความแม่นยำแยกตามหมวด' })}
-      <div class="strip-labels">${GROUPS.map(g => `<span title="${esc(g.name)}">${esc(g.name.split(' ')[0])}</span>`).join('')}</div>
+      <div class="bottle-h"><b>แถบตรวจความพร้อม · ${esc(L.short)}</b><span class="muted small mono">${seen}/${labSt.length} สถานี</span></div>
+      ${strip_(groups.length, pads, { big: true, label: 'ความแม่นยำแยกตามหมวด' })}
+      <div class="strip-labels">${groups.map(g => `<span title="${esc(g.name)}">${esc(g.name.split(' ')[0])}</span>`).join('')}</div>
       <div class="legend"><span><i style="background:var(--good)"></i>≥ 80%</span><span><i style="background:var(--warn)"></i>50–79%</span><span><i style="background:var(--bad)"></i>&lt; 50%</span><span><i style="background:var(--pad-empty)"></i>ยังไม่ได้ทำ</span></div>
       <p class="small muted">แต่ละช่องคือหนึ่งหมวด สีเปลี่ยนตามคำตอบล่าสุดของสถานีในหมวดนั้นจากโหมดทบทวนและ Exam</p>
     </div>
   </section>
 
   <section class="kpis">
-    <div class="kpi"><div class="n">${STATIONS.length}</div><div class="l">สถานีทั้งหมด</div></div>
-    <div class="kpi"><div class="n">${oldCount}</div><div class="l">ข้อจากข้อสอบเก่า 2 ชุด</div></div>
-    <div class="kpi"><div class="n">${TOPICS.length}</div><div class="l">หัวข้อใน Atlas</div></div>
-    <div class="kpi"><div class="n">${last ? last.pct + '%' : '–'}</div><div class="l">${last ? 'Exam ล่าสุด' : 'ยังไม่เคยสอบ'}</div></div>
+    <div class="kpi"><div class="n">${labSt.length}</div><div class="l">สถานีใน ${esc(L.name)}</div></div>
+    <div class="kpi"><div class="n">${oldCount}</div><div class="l">ข้อจากข้อสอบเก่า</div></div>
+    <div class="kpi"><div class="n">${TOPICS.filter(t => t.lab === S.lab).length}</div><div class="l">หัวข้อใน Atlas</div></div>
+    <div class="kpi"><div class="n">${last ? last.pct + '%' : '–'}</div><div class="l">${last ? 'Exam ล่าสุดของ LAB นี้' : 'ยังไม่เคยสอบ LAB นี้'}</div></div>
   </section>
 
   <section class="stack">
     <div class="sec-h"><h2>อ่านแนวข้อสอบเก่า</h2><span class="muted small">สรุปจากข้อสอบ LAB ปี 2563 และ MED NU23/NT15</span></div>
-    <div class="insights">
-      <div class="insight"><h3>รูปแบบสถานี</h3><ul>
-        <li>ปี 2563 = pathology 10 + urine analysis 5 รวม 15 สถานี</li>
-        <li>ทุกสถานีถาม 2 ข้อย่อย: <b>บรรยายพยาธิสภาพ + วินิจฉัย</b> หรือ <b>วินิจฉัย + สาเหตุ/risk/complication</b></li>
-        <li>Histology ใช้ภาพหน้าจอ virtual slide</li></ul></div>
-      <div class="insight"><h3>ออกซ้ำทั้งสองปี</h3><ul>
-        <li>ADPKD + โรคนอกไต 2 อย่าง</li><li>Hydronephrosis (บรรยาย + diag)</li>
-        <li>Angiomyolipoma และ chronic pyelonephritis (virtual slide)</li>
-        <li>IF linear → Goodpasture</li><li>Centrifuge 5 นาที · ตะกอน 0.5–1 mL</li></ul></div>
-      <div class="insight"><h3>ปีนี้ต้องระวัง</h3><ul>
-        <li>Virtual slide ใหม่ใน Lecture: ARPKD, ATN, diabetic nephropathy, von Brunn nest/cystitis cystica, Wilms, clear cell RCC, urothelial carcinoma</li>
-        <li>หัวข้อใหม่: malakoplakia, XGP, membranous, crescentic GN, renal infarction, horseshoe kidney</li></ul></div>
-    </div>
+    <div class="insights">${L.insights.map(([h, li]) => `<div class="insight"><h3>${esc(h)}</h3><ul>${li.map(x => `<li>${x}</li>`).join('')}</ul></div>`).join('')}</div>
   </section>
 
   <section class="stack">
-    <div class="sec-h"><h2>Blueprint รายหัวข้อ</h2><span class="legend"><span><span class="mark-old"></span> เคยออกสอบ</span><span><span class="mark-vs"></span> virtual slide ใน Lecture</span><span>${stars(3)} โอกาสออกปีนี้</span></span></div>
-    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>หัวข้อ</th><th>2563</th><th>NU23</th><th>Virtual slide</th><th>โอกาสออก</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <div class="sec-h"><h2>Blueprint รายหัวข้อ</h2><span class="legend"><span><span class="mark-old"></span> เคยออกสอบ</span>${L.vs ? '<span><span class="mark-vs"></span> virtual slide ใน Lecture</span>' : ''}<span>${stars(3)} โอกาสออกปีนี้</span></span></div>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>หัวข้อ</th><th>2563</th><th>NU23</th>${L.vs ? '<th>Virtual slide</th>' : ''}<th>โอกาสออก</th></tr></thead><tbody>${rows}</tbody></table></div>
   </section>
 
-  ${hist ? `<section class="panel stack"><div class="sec-h"><h2>ประวัติ Exam</h2><span class="muted small">5 ครั้งล่าสุด</span></div><div class="hist">${hist}</div></section>` : ''}
+  ${hist ? `<section class="panel stack"><div class="sec-h"><h2>ประวัติ Exam</h2><span class="muted small">ทั้ง 2 LAB · 6 ครั้งล่าสุด</span></div><div class="hist">${hist}</div></section>` : ''}
   `;
 }
 
 /* ======================================================================
- * ATLAS
+ * ATLAS summary tables (LAB Urine)
  * ==================================================================== */
-const UA_HTML = {
-  proc: `
-  <div class="cols2">
-    <div class="panel stack"><h3>เตรียม urine sediment</h3>
-      <ol class="ua-steps">
-        <li>ใช้ปัสสาวะสด (ตรวจภายใน 1–2 ชม.) ผสมให้เข้ากัน เทใส่หลอดปั่นก้นแหลม ~10–12 mL</li>
-        <li>Centrifuge 1,500–2,000 rpm (~400–450 g) นาน <span class="hl">5 นาที</span></li>
-        <li>เทส่วนใส (supernatant) ทิ้ง เหลือตะกอน <span class="hl">0.5–1 mL</span></li>
-        <li>เคาะผสม resuspend หยดบนสไลด์ (~20 µL) ปิด coverslip</li>
-        <li>Low power (10×, LPF) หา cast และ crystal โดยลดแสง; high power (40×, HPF) ระบุและนับเซลล์</li>
-        <li>รายงาน cast เป็น /LPF; RBC, WBC, epithelial เป็น /HPF; crystal เป็น few/moderate/many</li>
-      </ol>
-      <p class="small muted">ค่าปกติโดยประมาณ: RBC 0–2/HPF, WBC 0–5/HPF, hyaline cast 0–2/LPF · ตัวเลขขั้นตอนเป็นวิธีมาตรฐานทั่วไป ข้อสอบเก่าถามเวลาปั่นและปริมาตรตะกอน</p>
-    </div>
-    <div class="panel stack"><h3>Jaundice กับ dipstick</h3>
-      <div class="tbl-wrap"><table class="tbl"><thead><tr><th>ภาวะ</th><th>Bilirubin</th><th>Urobilinogen</th></tr></thead><tbody>
-        <tr><td>Hemolysis (pre-hepatic)</td><td>ลบ</td><td><b>สูง</b></td></tr>
-        <tr><td>Hepatocellular damage</td><td>บวก</td><td><b>สูง</b>/ปกติ</td></tr>
-        <tr><td>Obstructive (post-hepatic)</td><td><b>บวก</b></td><td>ต่ำ/ไม่พบ</td></tr>
-      </tbody></table></div>
-      <p class="small muted">ข้อสอบ NU23: urobilinogen สูง → hemolysis (และ hepatocellular damage)</p>
-    </div>
-  </div>
-  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Dipstick</th><th>หลักการ / ค่าปกติ</th><th>ผลผิดปกติพบใน</th></tr></thead><tbody>
-    <tr><td>Specific gravity</td><td>1.003–1.030</td><td>สูง: dehydration, glucosuria, contrast · คงที่ 1.010 = isosthenuria (CKD)</td></tr>
-    <tr><td>pH</td><td>4.5–8.0 (เฉลี่ย ~6)</td><td>ด่าง: UTI จากเชื้อสร้าง urease, ตั้งทิ้งไว้นาน, มังสวิรัติ · กรด: acidosis, high-protein diet</td></tr>
-    <tr><td>Protein</td><td>Protein error of indicator (ไวต่อ albumin)</td><td>Glomerular disease, nephrotic syndrome · ผลบวกลวงในปัสสาวะด่างมาก</td></tr>
-    <tr><td>Glucose</td><td>Glucose oxidase–peroxidase</td><td>DM, renal glycosuria (เกิน renal threshold ~180 mg/dL)</td></tr>
-    <tr><td>Ketone</td><td>Nitroprusside (acetoacetate, acetone; ไม่ตรวจ β-hydroxybutyrate)</td><td>DKA, starvation, อาเจียนมาก</td></tr>
-    <tr><td>Blood</td><td>Pseudoperoxidase ของ heme</td><td>Hematuria, hemoglobinuria (hemolysis), myoglobinuria (rhabdomyolysis)</td></tr>
-    <tr><td>Bilirubin</td><td>เฉพาะ conjugated bilirubin</td><td>Obstructive jaundice, hepatocellular disease</td></tr>
-    <tr><td>Urobilinogen</td><td>ปกติ 0.2–1 mg/dL</td><td>สูง: hemolysis, hepatocellular damage · ไม่พบ: complete biliary obstruction</td></tr>
-    <tr><td>Nitrite</td><td>Griess: แบคทีเรีย reduce nitrate → nitrite (ต้องค้างในกระเพาะ ≥ 4 ชม.)</td><td>UTI จาก gram-negative bacteria (E. coli)</td></tr>
-    <tr><td>Leukocyte esterase</td><td>Esterase จาก neutrophil</td><td>Pyuria — UTI, sterile pyuria (เช่น TB)</td></tr>
-  </tbody></table></div>`,
-  crystal: `
+const UA = {
+  color: ['ตารางสีปัสสาวะ (Lecture หน้า 4)', `
+  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>สี</th><th>สาเหตุ</th><th>ข้อสังเกต</th></tr></thead><tbody>
+    <tr><td>Colorless</td><td>Polyuria or DI</td><td>ปริมาตร 24 ชม. เพิ่ม</td></tr>
+    <tr><td>Pale yellow</td><td>DM</td><td>SG สูง + glucose บวก</td></tr>
+    <tr><td>Amber/Orange</td><td>Bilirubin · drugs</td><td>เขย่าแล้วมี<b>ฟองสีเหลือง</b></td></tr>
+    <tr><td>Yellow-green/Yellow-brown</td><td>Bilirubin ถูก oxidize เป็น biliverdin</td><td>ฟองมีสีใน acid urine · ผล bilirubin ทางเคมีลบลวง</td></tr>
+    <tr><td>Pink/Red</td><td>RBCs</td><td><b>ขุ่น</b></td></tr>
+    <tr><td></td><td>Hemoglobin, myoglobin, porphyrins, beets, rifampin</td><td><b>ใส</b></td></tr>
+    <tr><td></td><td>Menstrual contamination</td><td>ขุ่น</td></tr>
+    <tr><td>Brown/Black</td><td>RBCs oxidized to methemoglobin, methemoglobin, methyldopa/levodopa, metronidazole (Flagyl)</td><td></td></tr>
+  </tbody></table></div>`],
+  turbid: ['สาเหตุความขุ่น (Lecture หน้า 6)', `
+  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Nonpathologic</th><th>Pathologic</th></tr></thead><tbody>
+    <tr><td>Squamous epithelium</td><td>Red blood cells</td></tr><tr><td>Mucus</td><td>White blood cells</td></tr>
+    <tr><td>Amorphous phosphate, carbonate, urate</td><td>Bacteria</td></tr><tr><td>Semen, spermatozoa</td><td>Yeast</td></tr>
+    <tr><td>Fecal contamination</td><td>Nonsquamous cells</td></tr><tr><td>Radiologic contrast media</td><td>Abnormal crystals</td></tr>
+    <tr><td>Powder</td><td>Lymph fluids</td></tr><tr><td>Vaginal creams</td><td>Lipid</td></tr>
+  </tbody></table></div>`],
+  strip: ['สรุปแถบตรวจ: หลักการ · บวกลวง · ลบลวง (Lecture หน้า 10–23)', `
+  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>ช่อง</th><th>หลักการ</th><th>บวกลวง</th><th>ลบลวง</th><th>อ่านที่</th></tr></thead><tbody>
+    <tr><td>Protein</td><td>Protein error of pH indicators (ไวต่อ albumin)</td><td>Alkaline urine</td><td>Globulin, Bence Jones, mucoprotein จับได้น้อย</td><td>ยืนยัน SSA / Robert's</td></tr>
+    <tr><td>Glucose</td><td>Glucose oxidase → H<sub>2</sub>O<sub>2</sub> → peroxidase + chromogen</td><td>Peroxide, strong oxidizing detergent</td><td><b>Ascorbic acid</b>; SG สูง, อุณหภูมิต่ำ</td><td class="mono">30 s</td></tr>
+    <tr><td>Ketones</td><td>Sodium nitroprusside (acetoacetic acid + glycine, alkaline → violet)</td><td>อ่านผิดเวลา, ปัสสาวะสีเข้ม, SG สูง + pH ต่ำ, levodopa, sulfhydryl, phenylketones, phthalein</td><td>Acetone ระเหย, acetoacetic acid สลาย</td><td class="mono">40 s</td></tr>
+    <tr><td>Blood</td><td>Pseudoperoxidase activity of hemoglobin</td><td>Menstrual, oxidizing detergent, vegetable peroxidase, bacterial enzyme</td><td><b>Ascorbic acid</b>; SG สูง (RBC ไม่แตก), formalin, captopril, high nitrite</td><td class="mono">60 s</td></tr>
+    <tr><td>Specific gravity</td><td>pKa ของ polyelectrolyte เปลี่ยนใน alkaline medium</td><td>ปัสสาวะเข้มข้นสูง</td><td>Highly alkaline urine (pH &gt; 6.5)</td><td></td></tr>
+    <tr><td>Nitrite</td><td>Greiss reaction (p-arsanilic acid → diazonium → pink) · 100,000 org/mL</td><td>เก็บรักษาไม่ถูก, ปัสสาวะสีเข้ม</td><td>Nonreductase bacteria, contact time ไม่พอ, <b>ascorbic acid</b>, SG สูง, nitrite → nitrogen</td><td class="mono">60 s</td></tr>
+    <tr><td>Leukocyte esterase</td><td>Indoxyl/pyrrole ester + granulocytic esterase → diazonium → purple</td><td>Oxidizing agent, formalin, ปัสสาวะสีเข้ม, nitrofurantoin</td><td>Protein, glucose, oxalic acid, <b>ascorbic acid</b> สูง; gentamicin, cephalosporins, tetracyclines</td><td class="mono">2 min</td></tr>
+  </tbody></table></div>`],
+  uti: ['ความแม่นยำของการตรวจ UTI ในผู้หญิงที่มี dysuria (Lecture หน้า 31)', `
+  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Test</th><th>Sensitivity</th><th>Specificity</th><th>PPV</th><th>NPV</th></tr></thead><tbody>
+    <tr><td>Culture: any coliforms</td><td class="mono">1.00</td><td class="mono">0.71</td><td class="mono">0.79</td><td class="mono">1.00</td></tr>
+    <tr><td>Culture: &gt; 100 cfu/mL</td><td class="mono">0.95</td><td class="mono">0.85</td><td class="mono">0.88</td><td class="mono">0.94</td></tr>
+    <tr><td>Culture: &gt; 100,000 cfu/mL</td><td class="mono">0.51</td><td class="mono">0.59</td><td class="mono">0.98</td><td class="mono">0.65</td></tr>
+    <tr><td>Microscopy: &gt; 8 WBC/mm³</td><td class="mono">0.91</td><td class="mono">0.50</td><td class="mono">0.67</td><td class="mono">0.83</td></tr>
+    <tr><td>Microscopy: &gt; 20 WBC/mm³</td><td class="mono">0.50</td><td class="mono">0.95</td><td class="mono">0.94</td><td class="mono">0.54</td></tr>
+    <tr><td>Leukocyte esterase dipstick</td><td class="mono">0.75–0.90</td><td class="mono">0.95</td><td class="mono">0.50</td><td class="mono">0.92</td></tr>
+    <tr><td>Nitrite dipstick</td><td class="mono">0.35–0.85</td><td class="mono">0.95</td><td class="mono">0.96</td><td class="mono">0.27–0.70</td></tr>
+    <tr><td>LE and nitrite</td><td class="mono">0.75–0.90</td><td class="mono">0.70</td><td class="mono">0.75–0.93</td><td class="mono">0.41–0.95</td></tr>
+  </tbody></table></div><p class="small muted">ที่มาในสไลด์: Urinary Tract Infections in Adults. Am Fam Physician 1999;59(5):1225–34</p>`],
+  jaundice: ['Bilirubin และ urobilinogen ใน jaundice', `
+  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>ภาวะ</th><th>Urine bilirubin</th><th>Urobilinogen</th></tr></thead><tbody>
+    <tr><td>Hemolysis (pre-hepatic)</td><td>ลบ</td><td><b>สูง</b></td></tr>
+    <tr><td>Hepatocellular damage</td><td>บวก</td><td><b>สูง</b>/ปกติ</td></tr>
+    <tr><td>Obstructive (post-hepatic)</td><td><b>บวก</b></td><td>ต่ำ/ไม่พบ</td></tr>
+  </tbody></table></div>`],
+  proc: ['ขั้นตอนเตรียมตะกอน (Lecture หน้า 25–27)', `
+  <ol class="ua-steps">
+    <li>เทปัสสาวะสด <span class="hl">10–15 mL</span> ใส่หลอดพลาสติก<b>ก้นแหลม</b> (conical tube)</li>
+    <li>Centrifuge <span class="hl">5 นาที</span> ที่ RCF <span class="hl">400</span> (ในแลปตั้ง 1,500–2,000 รอบ/นาที)</li>
+    <li>ดูดหรือเทส่วนใสทิ้ง เหลือตะกอน <span class="hl">0.5–1 mL</span> แล้วเคาะผสมให้เข้ากัน</li>
+    <li>หยดบนสไลด์ ปิด coverslip</li>
+    <li>ดู <b>low power (10×)</b> ก่อน หา cast และดูภาพรวม แล้วเปลี่ยน <b>high power (40×)</b> เมื่อเจอสิ่งที่ต้องระบุ — อย่างน้อย <span class="hl">10 fields</span></li>
+  </ol>`],
+  report: ['หน่วยที่ใช้รายงาน (Lecture หน้า 28–30)', `
+  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>วิธีรายงาน</th><th>สิ่งที่ตรวจ</th></tr></thead><tbody>
+    <tr><td>ช่วงตัวเลข <b>/HPF</b> (40×)</td><td>WBC, RBC, epithelial cell, oval fat body, Trichomonas vaginalis</td></tr>
+    <tr><td>ช่วงตัวเลข <b>/LPF</b> (10×)</td><td>Cast, cylindroid</td></tr>
+    <tr><td>ระดับ (negative → numerous)</td><td>Crystal, amorphous, mucous thread, spermatozoa, yeast, bacteria, fat globules</td></tr>
+  </tbody></table></div>
+  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>ระดับ</th><th>ความหมาย</th></tr></thead><tbody>
+    <tr><td>Negative</td><td>ไม่พบ</td></tr><tr><td>Rare</td><td>พบน้อยกว่า 4 cells/slide</td></tr>
+    <tr><td>Few</td><td>พบเล็กน้อย กระจายประปราย</td></tr><tr><td>Moderate</td><td>กระจายปานกลาง บางครั้งจับกลุ่มเล็ก ๆ</td></tr>
+    <tr><td>Many</td><td>กระจายมากขึ้น จับกลุ่มใหญ่ขึ้น</td></tr><tr><td>Numerous</td><td>พบหนาทึบ บังตะกอนชนิดอื่น</td></tr>
+  </tbody></table></div>
+  <p class="small muted">ช่วงตัวเลข: Neg, rare, 0–1, 1–2, 2–3, 3–5, 5–10, 10–20, 20–30, 30–50, 50–100, &gt; 100</p>`],
+  cell: ['ตารางสรุปเซลล์', `
+  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>เซลล์</th><th>ลักษณะ</th><th>ความสำคัญ</th></tr></thead><tbody>
+    <tr><td>RBC</td><td>กลม ขอบเรียบ คล้ายโดนัท ไม่มี nucleus · crenated (เข้มข้น) · ghost (เจือจาง) · dysmorphic</td><td>ปกติ 0–2/HPF · dysmorphic/acanthocyte → glomerular</td></tr>
+    <tr><td>WBC</td><td>~12 µm มีเม็ด nucleus แบ่ง lobe · glitter cell ในปัสสาวะเจือจาง</td><td>ปกติ &lt; 5/HPF · มากกว่า → UTI</td></tr>
+    <tr><td>Squamous</td><td>ใหญ่ที่สุด แบน cytoplasm มากไม่เรียบ nucleus ≈ RBC</td><td>ปนเปื้อนจาก vagina/urethra · clue cell → Gardnerella</td></tr>
+    <tr><td>Transitional</td><td>Spherical, polyhedral, caudate · N:C 1:4–1:5</td><td>รูปร่างผิดปกติ → malignancy/viral → cytology</td></tr>
+    <tr><td>RTE</td><td>ใหญ่กว่า WBC เล็กน้อย nucleus eccentric · N:C ≈ 1:1</td><td><b>&gt; 2/HPF = tubular injury</b></td></tr>
+    <tr><td>Oval fat body</td><td>RTE อมหยดไขมัน · Maltese cross ใต้ polarizer</td><td>Lipiduria: nephrotic, severe ATN, DM, trauma</td></tr>
+  </tbody></table></div>`],
+  cast: ['ตารางสรุป cast', `
+  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Cast</th><th>ลักษณะ</th><th>บ่งชี้</th></tr></thead><tbody>
+    <tr><td>Hyaline</td><td>ใส ไม่มีสี ขอบขนาน ปลายมน · cylindroid ปลายเรียว</td><td>ปกติ 0–2/LPF; ออกกำลังกาย, dehydration, ร้อน, stress; AGN, pyelonephritis, CKD, CHF</td></tr>
+    <tr><td>RBC</td><td>RBC อัดแน่น</td><td><b>Glomerulonephritis</b> (+ proteinuria, dysmorphic RBC); กีฬาปะทะ</td></tr>
+    <tr><td>WBC</td><td>Neutrophil nucleus แบ่ง lobe (ยืนยันที่ HPF)</td><td><b>Pyelonephritis</b>, acute interstitial nephritis</td></tr>
+    <tr><td>Epithelial (RTE)</td><td>RTE cells เรียงใน cast</td><td>Advanced tubular destruction: heavy metal, drug/chemical, viral, allograft rejection</td></tr>
+    <tr><td>Fatty</td><td>หยดไขมันสะท้อนแสงสูง</td><td>Lipiduria (nephrotic syndrome)</td></tr>
+    <tr><td>Mixed cellular</td><td>RBC + WBC · WBC + RTE · WBC + bacteria</td><td>GN · pyelonephritis</td></tr>
+    <tr><td>Granular (coarse/fine)</td><td>เซลล์สลายหรือ serum protein ใน Tamm–Horsfall · muddy brown</td><td>ATN (muddy brown) · coarse/fine ไม่ต่างทางคลินิก</td></tr>
+    <tr><td>Waxy</td><td>สะท้อนแสงสูง เรียบ ปลายทู่/หัก ขอบแตก</td><td>Granular cast เสื่อม → urine stasis, CKD</td></tr>
+  </tbody></table></div>`],
+  crystal: ['ตารางสรุปผลึก (Lecture หน้า 62–77)', `
   <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Crystal</th><th>pH</th><th>รูปร่างที่ใช้จำ</th><th>ความสำคัญ</th></tr></thead><tbody>
     <tr class="grp"><td colspan="4">Normal — acid urine</td></tr>
-    <tr><td>Uric acid</td><td>กรด</td><td>แผ่น rhomboid/whetstone/rosette สีเหลือง–น้ำตาล หลายรูปแบบ</td><td>Gout, cell turnover สูง (leukemia, tumor lysis)</td></tr>
-    <tr><td>Amorphous urates</td><td>กรด</td><td>เม็ดละเอียดสีเหลืองน้ำตาล ตะกอนสีชมพู "brick dust"</td><td>ปกติ, เก็บในตู้เย็น</td></tr>
-    <tr><td>Calcium oxalate</td><td>กรด/กลาง</td><td>Dihydrate: สี่เหลี่ยมมีกากบาท <b>"envelope"</b> · Monohydrate: รูปไข่/ดัมเบล</td><td>ปกติ (อาหาร oxalate, vit C), hypercalciuria, <b>ethylene glycol</b></td></tr>
+    <tr><td>Amorphous urates</td><td>กรด</td><td>เม็ดสีชมพูส้ม–น้ำตาลแดง "brick dust"</td><td>ปกติ</td></tr>
+    <tr><td>Uric acid</td><td>กรด</td><td>Rhombic plates, prisms, lemon-shaped, wedges, rosettes · สีเหลือง–น้ำตาล</td><td>Gout, tumor lysis</td></tr>
+    <tr><td>Calcium oxalate</td><td>กรด</td><td>Dihydrate: octahedron <b>"envelope"</b> · monohydrate: oval/biscuit</td><td>ปกติ; ethylene glycol (monohydrate)</td></tr>
     <tr class="grp"><td colspan="4">Normal — alkaline urine</td></tr>
-    <tr><td>Triple phosphate (struvite)</td><td>ด่าง</td><td>Prism ใสปลายเฉียง <b>"coffin lid"</b>; รูปขนนกเมื่อกำลังละลาย</td><td>UTI จากเชื้อสร้าง urease (Proteus) → staghorn stone</td></tr>
-    <tr><td>Amorphous phosphate</td><td>ด่าง</td><td>เม็ดใสละเอียด ตะกอนสีขาว</td><td>ปกติ</td></tr>
-    <tr><td>Calcium carbonate</td><td>ด่าง</td><td>ทรงกลม/ดัมเบลเล็ก ๆ</td><td>ปกติ</td></tr>
-    <tr><td>Ammonium biurate</td><td>ด่าง</td><td>ทรงกลมสีน้ำตาลเหลืองมีหนาม <b>"thorny apple"</b></td><td>ตัวอย่างตั้งทิ้งไว้นาน (old specimen)</td></tr>
+    <tr><td>Amorphous phosphate</td><td>ด่าง</td><td>เม็ดใสละเอียด (Ca, Mg) ตะกอนขาว</td><td>ปกติ</td></tr>
+    <tr><td>Triple phosphate</td><td>ด่าง</td><td>Prism ใส 3–6 ด้านปลายเฉียง <b>"coffin lid"</b></td><td>UTI (urease) → struvite stone</td></tr>
+    <tr><td>Calcium phosphate</td><td>ด่าง</td><td>Prism เรียว ปลายแหลมข้างเดียว เรียงเป็น rosette</td><td>ปกติ</td></tr>
+    <tr><td>Calcium carbonate</td><td>ด่าง</td><td>ทรงกลม/ดัมเบลเล็ก</td><td>ปกติ</td></tr>
+    <tr><td>Ammonium biurate</td><td>ด่าง</td><td>ทรงกลมเหลืองน้ำตาลมีหนาม <b>"thorn apple"</b></td><td>ตัวอย่างเก่า</td></tr>
     <tr class="grp"><td colspan="4">Abnormal</td></tr>
-    <tr><td>Cystine</td><td>กรด</td><td>แผ่น<b>หกเหลี่ยม</b>ใส ซ้อนกันได้</td><td>Cystinuria → นิ่ว</td></tr>
-    <tr><td>Cholesterol</td><td>กรด</td><td>แผ่นสี่เหลี่ยมใสบาง มี<b>รอยบากที่มุม</b> ซ้อนเป็นขั้นบันได</td><td>Nephrotic syndrome</td></tr>
-    <tr><td>Tyrosine</td><td>กรด</td><td>เข็มเล็กละเอียดเป็นมัด สีเหลือง</td><td>โรคตับรุนแรง, tyrosinemia</td></tr>
-    <tr><td>Leucine</td><td>กรด</td><td>ทรงกลมสีเหลืองน้ำตาล วงซ้อน + ลายรัศมี</td><td>โรคตับรุนแรง</td></tr>
-    <tr><td>Bilirubin</td><td>กรด</td><td>เข็ม/เม็ดสีเหลือง</td><td>โรคตับ</td></tr>
-    <tr><td>Sulfonamide และยาอื่น</td><td>กรด</td><td>มัดเข็ม รูปพัด</td><td>ได้ยาร่วมกับ dehydration</td></tr>
-  </tbody></table></div>`,
-  cast: `
-  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Cast</th><th>ลักษณะ</th><th>บ่งชี้</th></tr></thead><tbody>
-    <tr><td>Hyaline</td><td>ใสจาง มีแต่ Tamm-Horsfall protein ต้องลดแสง</td><td>คนปกติ 0–2/LPF, ออกกำลังกาย, dehydration, ไข้, diuretics</td></tr>
-    <tr><td>RBC cast</td><td>อัดแน่นด้วย RBC สีส้มแดง</td><td><b>Glomerulonephritis</b> (nephritic)</td></tr>
-    <tr><td>WBC cast</td><td>มี neutrophils nucleus เป็น lobe</td><td><b>Pyelonephritis</b>, acute interstitial nephritis</td></tr>
-    <tr><td>Renal tubular epithelial cast</td><td>มี RTE cells nucleus กลม</td><td>ATN, toxin, viral, rejection</td></tr>
-    <tr><td>Granular (fine/coarse)</td><td>เม็ดจากเซลล์สลาย/โปรตีน · แบบ muddy brown</td><td><b>ATN</b>; จำนวนน้อยหลังออกกำลังกาย</td></tr>
-    <tr><td>Waxy</td><td>หนา สะท้อนแสง ขอบคม มีรอยแตก/บาก ปลายทู่</td><td><b>Advanced CKD</b>, urine stasis</td></tr>
-    <tr><td>Fatty</td><td>มีหยดไขมันสะท้อนแสง (Maltese cross ใต้ polarizer)</td><td><b>Nephrotic syndrome</b></td></tr>
-    <tr><td>Broad</td><td>กว้างมาก เกิดใน tubule/collecting duct ที่ขยาย</td><td>ESRD ("renal failure cast")</td></tr>
-  </tbody></table></div>`,
-  cell: `
-  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>เซลล์/เชื้อ</th><th>ลักษณะ</th><th>ความสำคัญ</th></tr></thead><tbody>
-    <tr><td>RBC</td><td>แผ่นกลมใส ~7 µm ไม่มี nucleus · crenated ในปัสสาวะเข้มข้น · ghost cell ในปัสสาวะเจือจาง</td><td>&gt; 2/HPF = hematuria · <b>dysmorphic RBC/acanthocyte</b> = glomerular</td></tr>
-    <tr><td>WBC</td><td>~10–12 µm cytoplasm เป็นเม็ด nucleus แบ่ง lobe · glitter cell ในปัสสาวะเจือจาง</td><td>&gt; 5/HPF = pyuria → <b>UTI</b></td></tr>
-    <tr><td>Squamous epithelial</td><td>ใหญ่สุด แบน เหลี่ยม nucleus เล็กตรงกลาง</td><td>ปนเปื้อนจาก vagina/distal urethra · clue cell (Gardnerella)</td></tr>
-    <tr><td>Transitional (urothelial)</td><td>กลม/รูปลูกแพร์มีหาง (caudate) nucleus กลางเซลล์ อาจมี 2 nuclei</td><td>ปกติพบน้อย · หลังใส่สายสวน · จำนวนมาก/atypia → malignancy</td></tr>
-    <tr><td>Renal tubular epithelial</td><td>ใหญ่กว่า WBC เล็กน้อย เหลี่ยม nucleus กลมค่อนไปข้างหนึ่ง</td><td><b>สำคัญที่สุด</b>: tubular injury (ATN, pyelonephritis, rejection)</td></tr>
-    <tr><td>Oval fat body</td><td>RTE cell/macrophage อมหยดไขมัน · Maltese cross ใต้ polarized light · Sudan III/Oil red O +</td><td><b>Nephrotic syndrome</b></td></tr>
-    <tr><td>Yeast</td><td>รูปไข่แตกหน่อ ± pseudohyphae</td><td>DM, ภูมิคุ้มกันต่ำ, ปนเปื้อนจากช่องคลอด</td></tr>
-    <tr><td>Trichomonas vaginalis</td><td>รูปลูกแพร์ flagella 4 เส้นด้านหน้า undulating membrane เคลื่อนที่กระตุก</td><td>Trichomoniasis (ต้องดูในปัสสาวะสด)</td></tr>
-    <tr><td>Bacteria</td><td>แท่ง/กลมเล็กมาก</td><td>UTI เมื่อพบมากร่วมกับ WBC ในตัวอย่างสด</td></tr>
-  </tbody></table></div>`,
+    <tr><td>Cystine</td><td>กรด</td><td>แผ่น<b>หกเหลี่ยม</b>ใส</td><td>Cystinuria → cystine calculi</td></tr>
+    <tr><td>Leucine</td><td>กรด</td><td>ทรงกลมเหลืองดูมัน วงซ้อน + ลาย radial</td><td>Severe liver disease</td></tr>
+    <tr><td>Tyrosine</td><td>กรด</td><td>เข็มละเอียดเป็นมัด (sheaves)</td><td>Severe liver disease</td></tr>
+    <tr><td>Sulfonamide</td><td>กรด</td><td>เหลืองน้ำตาล "sheaves of wheat"</td><td>ยาซัลฟา</td></tr>
+    <tr><td>Ampicillin/amoxicillin</td><td>กรด</td><td>เข็มยาวบางใส</td><td>ยาขนาดสูง</td></tr>
+    <tr><td>Cholesterol</td><td>กรด</td><td>แผ่นสี่เหลี่ยมมี<b>รอยบาก</b>ที่มุม</td><td>Nephrotic syndrome</td></tr>
+  </tbody></table></div>`],
 };
+const UA_SHARED = new Set(['strip', 'cell', 'cast', 'crystal']);
 
 function renderAtlas() {
-  if (!TOP[S.atlas]) S.atlas = TOPICS[0].id;
-  const t = TOP[S.atlas];
-  const idx = TOPICS.indexOf(t);
-  const prev = TOPICS[idx - 1], next = TOPICS[idx + 1];
-  const nav = GROUPS.map(g => `<div><h4>${esc(g.name)}</h4>` + TOPICS.filter(x => x.g === g.id).map(x =>
+  const L = LABS[S.lab];
+  let id = S.atlasBy[S.lab];
+  if (!TOP[id] || TOP[id].lab !== S.lab) id = L.defAtlas;
+  const t = TOP[id];
+  const list = TOPICS.filter(x => x.lab === S.lab);
+  const groups = GROUPS.filter(g => g.lab === S.lab);
+  const idx = list.indexOf(t);
+  const prev = list[idx - 1], next = list[idx + 1];
+  const nav = groups.map(g => `<div><h4>${esc(g.name)}</h4>` + list.filter(x => x.g === g.id).map(x =>
     `<button type="button" data-atlas="${x.id}" class="${x.id === t.id ? 'on' : ''}"><span>${esc(x.en)}</span><span class="dots">${x.exam ? '<span class="mark-old"></span>' : ''}${x.vs ? '<span class="mark-vs"></span>' : ''}</span></button>`).join('') + `</div>`).join('');
-  const opts = GROUPS.map(g => `<optgroup label="${esc(g.name)}">` + TOPICS.filter(x => x.g === g.id).map(x => `<option value="${x.id}"${x.id === t.id ? ' selected' : ''}>${esc(x.en)}</option>`).join('') + `</optgroup>`).join('');
+  const opts = groups.map(g => `<optgroup label="${esc(g.name)}">` + list.filter(x => x.g === g.id).map(x => `<option value="${x.id}"${x.id === t.id ? ' selected' : ''}>${esc(x.en)}</option>`).join('') + `</optgroup>`).join('');
   const nSt = STATIONS.filter(s => s.t === t.id).length;
   const badges = [
     `<span class="chip">${esc(GRP[t.g].name)}</span>`,
-    `<span class="chip">Lecture หน้า ${esc(t.pages)}</span>`,
+    `<span class="chip">${/\d/.test(t.pages) ? 'Lecture หน้า ' : ''}${esc(t.pages)}</span>`,
     ...(t.exam || []).map(e => `<span class="chip old">ข้อสอบ ${esc(e)}</span>`),
     t.vs ? `<span class="chip vs">Virtual slide</span>` : '',
     stars(t.star),
   ].join(' ');
+  const tables = (t.html || []).map((k, i) => `<details class="sum"${i === 0 && !UA_SHARED.has(k) ? ' open' : ''}><summary>${esc(UA[k][0])}</summary><div class="sum-body">${UA[k][1]}</div></details>`).join('');
 
   $('#v-atlas').innerHTML = `
   <div class="atlas">
     <nav class="atlas-nav" aria-label="หัวข้อ">${nav}</nav>
     <div class="topic">
-      <div class="atlas-mobile field"><label for="atlasSel">หัวข้อ</label><select id="atlasSel">${opts}</select></div>
+      <div class="atlas-mobile field"><label for="atlasSel">หัวข้อใน ${esc(L.name)}</label><select id="atlasSel">${opts}</select></div>
       <div class="topic-h">
-        <div class="eyebrow">Atlas · ${idx + 1}/${TOPICS.length}</div>
+        <div class="eyebrow">Atlas · ${esc(L.name)} · ${idx + 1}/${list.length}</div>
         <h2>${esc(t.en)}</h2>
         <div class="th">${esc(t.th)}</div>
         <div class="row">${badges}</div>
@@ -2506,7 +3404,7 @@ function renderAtlas() {
         <div class="panel stack"><div class="eyebrow">จากสไลด์ Lecture</div><ul class="list">${t.lec.map(x => `<li>${x}</li>`).join('')}</ul></div>
         <div class="panel stack"><div class="eyebrow" style="color:var(--eosin)">อาจารย์เสริม — ต้องรู้เพิ่ม</div><ul class="list add">${t.add.map(x => `<li>${x}</li>`).join('')}</ul></div>
       </div>
-      ${t.html ? UA_HTML[t.html] : ''}
+      ${tables ? `<div class="stack">${tables}</div>` : ''}
       <div class="ospe-box"><div class="eyebrow">เขียนตอบใน OSPE แบบนี้</div><p>${t.ospe}</p></div>
       <div class="topic-nav">
         <button class="btn primary" type="button" data-practice-topic="${t.id}">ฝึกหัวข้อนี้ (${nSt} สถานี)</button>
@@ -2517,11 +3415,11 @@ function renderAtlas() {
       </div>
     </div>
   </div>`;
-  $('#atlasSel').addEventListener('change', e => { S.atlas = e.target.value; save(); renderAtlas(); window.scrollTo(0, 0); });
+  $('#atlasSel').addEventListener('change', e => { S.atlasBy[S.lab] = e.target.value; save(); renderAtlas(); window.scrollTo(0, 0); });
 }
 document.addEventListener('click', e => {
   const a = e.target.closest('[data-atlas]');
-  if (a) { S.atlas = a.dataset.atlas; save(); renderAtlas(); window.scrollTo(0, 0); return; }
+  if (a) { S.atlasBy[S.lab] = a.dataset.atlas; save(); renderAtlas(); window.scrollTo(0, 0); return; }
   const p = e.target.closest('[data-practice-topic]');
   if (p) { P.f = { g: 'all', src: 'all', topic: p.dataset.practiceTopic, order: 'seq' }; P.queue = null; go('practice'); }
 });
@@ -2562,7 +3460,7 @@ function resHTML(p, r, showKey) {
     + (r.hits.length < r.need ? r.miss.slice(0, Math.max(2, r.need - r.hits.length)).map(m => `<span class="chip miss">✗ ${esc(m)}</span>`).join('') : '');
   return `<div class="res ${cls}">
     ${showKey ? `<div><span class="lbl">เฉลย</span> <span class="key">${esc(p.a)}</span></div>` : ''}
-    ${r.empty ? `<div class="small muted">ไม่ได้ตอบ</div>` : `<div class="row between"><span class="lbl">ตรวจอัตโนมัติ ${r.hits.length >= r.need ? r.need : r.hits.length}/${r.need} จุด</span><span class="mono small"><b>${pct(r.score)}%</b></span></div><div class="chips">${chips}</div>`}
+    ${r.empty ? `<div class="small muted">ไม่ได้ตอบ</div>` : `<div class="row between"><span class="lbl">ตรวจอัตโนมัติ ${Math.min(r.hits.length, r.need)}/${r.need} จุด</span><span class="mono small"><b>${pct(r.score)}%</b></span></div><div class="chips">${chips}</div>`}
   </div>`;
 }
 function explainHTML(s) {
@@ -2571,7 +3469,7 @@ function explainHTML(s) {
     <div class="eyebrow">อาจารย์อธิบาย</div>
     <p>${s.x || ''}</p>
     ${s.am ? `<div class="ans-figs">${s.am.map(r => fig(r, '', 'ภาพเฉลย (มี label)')).join('')}</div>` : ''}
-    <div class="row small muted"><span>${esc(s.ref)}</span>·<a href="#atlas" data-go="atlas" data-topic="${t.id}">Atlas: ${esc(t.en)}</a></div>
+    <div class="row small muted"><span>${esc(s.ref)}</span>·<a href="${labHash('atlas', t.lab)}" data-go="atlas" data-topic="${t.id}">Atlas: ${esc(t.en)}</a></div>
   </div>`;
 }
 function wireInputs(onLastEnter) {
@@ -2593,6 +3491,7 @@ const P = { f: { g: 'all', src: 'all', topic: '', order: 'shuffle' }, queue: nul
 function practicePool() {
   const f = P.f;
   return STATIONS.filter(s => {
+    if (s.lab !== S.lab) return false;
     if (f.topic) return s.t === f.topic;
     if (f.g !== 'all' && s.g !== f.g) return false;
     if (f.src === 'old' && !OLD_IDS.has(s.id)) return false;
@@ -2603,23 +3502,26 @@ function practicePool() {
   });
 }
 function buildQueue() {
+  if (P.f.topic && (!TOP[P.f.topic] || TOP[P.f.topic].lab !== S.lab)) P.f.topic = '';
+  if (P.f.g !== 'all' && (!GRP[P.f.g] || GRP[P.f.g].lab !== S.lab)) P.f.g = 'all';
   const pool = practicePool().map(s => s.id);
   P.queue = P.f.order === 'shuffle' ? shuffle(pool) : pool;
   P.i = 0; P.revealed = false;
 }
 function renderPractice() {
   if (!P.queue) buildQueue();
-  const f = P.f;
+  const f = P.f, L = LABS[S.lab];
   const segBtns = (name, items, cur) => items.map(([v, l]) => `<button type="button" data-pf="${name}" data-v="${v}" class="${cur === v ? 'on' : ''}">${l}</button>`).join('');
-  const wrongN = STATIONS.filter(s => S.marks[s.id] && S.marks[s.id].last === 'w').length;
+  const wrongN = STATIONS.filter(s => s.lab === S.lab && S.marks[s.id] && S.marks[s.id].last === 'w').length;
+  const srcName = { all: 'ทุกแหล่ง', old: 'ข้อสอบเก่า', lec: 'Lecture + คาดการณ์', new: 'ยังไม่เคยทำ', wrong: 'ยังไม่แม่น' }[f.src];
   const bar = `
   <div class="panel stack">
-    <div class="sec-h"><h2>โหมดทบทวน</h2><span class="muted small">พิมพ์คำตอบ → ดูเฉลย → ให้คะแนนตัวเอง<span class="kbd"> · <span class="mono">Enter</span> ไปข้อย่อยถัดไป</span></span></div>
+    <div class="sec-h"><h2>โหมดทบทวน · ${esc(L.name)}</h2><span class="muted small">พิมพ์คำตอบ → ดูเฉลย → ให้คะแนนตัวเอง<span class="kbd"> · <span class="mono">Enter</span> ไปข้อย่อยถัดไป</span></span></div>
     ${f.topic ? `<div class="row"><span class="chip vs">เฉพาะหัวข้อ: ${esc(TOP[f.topic].en)}</span><button class="btn ghost" type="button" id="clearTopic">ดูทุกหัวข้อ</button></div>` : ''}
     <details class="pf" id="pf"${P.fOpen ? ' open' : ''}>
-      <summary>ตัวกรอง · <span class="muted">${esc(f.topic ? TOP[f.topic].en : f.g === 'all' ? 'ทุกหมวด' : GRP[f.g].name)} · ${{ all: 'ทุกแหล่ง', old: 'ข้อสอบเก่า', lec: 'Lecture + คาดการณ์', new: 'ยังไม่เคยทำ', wrong: 'ยังไม่แม่น' }[f.src]} · ${f.order === 'shuffle' ? 'สุ่มลำดับ' : 'เรียงตามเนื้อหา'} · ${P.queue.length} สถานี</span></summary>
+      <summary>ตัวกรอง · <span class="muted">${esc(f.topic ? TOP[f.topic].en : f.g === 'all' ? 'ทุกหมวด' : GRP[f.g].name)} · ${srcName} · ${f.order === 'shuffle' ? 'สุ่มลำดับ' : 'เรียงตามเนื้อหา'} · ${P.queue.length} สถานี</span></summary>
       <div class="stack" style="margin-top:10px">
-      ${f.topic ? '' : `<div class="seg" aria-label="หมวด">${segBtns('g', [['all', 'ทุกหมวด'], ...GROUPS.map(g => [g.id, g.name])], f.g)}</div>
+      ${f.topic ? '' : `<div class="seg" aria-label="หมวด">${segBtns('g', [['all', 'ทุกหมวด'], ...GROUPS.filter(g => g.lab === S.lab).map(g => [g.id, g.name])], f.g)}</div>
       <div class="seg" aria-label="แหล่งข้อสอบ">${segBtns('src', [['all', 'ทุกแหล่ง'], ['old', 'ข้อสอบเก่า'], ['lec', 'Lecture + คาดการณ์'], ['new', 'ยังไม่เคยทำ'], ['wrong', `ยังไม่แม่น (${wrongN})`]], f.src)}</div>`}
       <div class="seg" aria-label="ลำดับ">${segBtns('order', [['shuffle', 'สุ่มลำดับ'], ['seq', 'เรียงตามเนื้อหา']], f.order)}</div>
       </div>
@@ -2627,11 +3529,11 @@ function renderPractice() {
   </div>`;
   const q = P.queue;
   if (!q.length) {
-    $('#v-practice').innerHTML = bar + `<div class="panel"><p>ไม่มีสถานีที่ตรงกับตัวกรองนี้${f.src === 'wrong' ? ' — ยังไม่มีข้อที่ตอบผิด' : ''}</p></div>`;
+    $('#v-practice').innerHTML = bar + `<div class="panel"><p>ไม่มีสถานีที่ตรงกับตัวกรองนี้${f.src === 'wrong' ? ' — ยังไม่มีข้อที่ตอบผิดใน LAB นี้' : ''}</p></div>`;
     wirePracticeBar(); return;
   }
   if (P.i >= q.length) {
-    $('#v-practice').innerHTML = bar + `<div class="panel stack"><h2>ครบ ${q.length} สถานีแล้ว</h2><p class="muted">ลองโหมด Exam จับเวลา หรือเลือก "ยังไม่แม่น" เพื่อทวนเฉพาะข้อที่พลาด</p><div class="row"><button class="btn primary" type="button" id="pAgain">เริ่มรอบใหม่</button><a class="btn" href="#exam" data-go="exam">ไป Exam</a></div></div>`;
+    $('#v-practice').innerHTML = bar + `<div class="panel stack"><h2>ครบ ${q.length} สถานีแล้ว</h2><p class="muted">ลองโหมด Exam จับเวลา หรือเลือก "ยังไม่แม่น" เพื่อทวนเฉพาะข้อที่พลาด</p><div class="row"><button class="btn primary" type="button" id="pAgain">เริ่มรอบใหม่</button><a class="btn" href="${labHash('exam')}" data-go="exam">ไป Exam</a></div></div>`;
     wirePracticeBar(); $('#pAgain').addEventListener('click', () => { buildQueue(); renderPractice(); }); return;
   }
   const s = STA[q[P.i]];
@@ -2644,11 +3546,11 @@ function renderPractice() {
       actions: `<button class="btn primary" type="button" id="pReveal">ดูเฉลย <span class="k kbd">Ctrl+Enter</span></button><button class="btn ghost" type="button" id="pSkip">ข้าม →</button>`,
     });
   wirePracticeBar();
-  const ins = wireInputs(() => { P.revealed ? practiceNext() : practiceReveal(); });
+  const ins = wireInputs(() => { if (P.revealed) { mark(s.id, !!P.auto); P.i++; P.revealed = false; renderPractice(); } else practiceReveal(); });
   $('#pReveal').addEventListener('click', practiceReveal);
-  $('#pSkip').addEventListener('click', practiceNext);
+  $('#pSkip').addEventListener('click', () => { P.i++; P.revealed = false; renderPractice(); });
   P.revealed = false;
-  if (window.matchMedia && matchMedia('(pointer: fine)').matches) ins[0] && ins[0].focus({ preventScroll: true });
+  if (window.matchMedia && matchMedia('(pointer: fine)').matches && ins[0]) ins[0].focus({ preventScroll: true });
 }
 function wirePracticeBar() {
   const d = $('#pf');
@@ -2663,25 +3565,18 @@ function practiceReveal() {
   const s = STA[P.queue[P.i]];
   let tot = 0, any = false;
   s.p.forEach((p, i) => {
-    const v = $('#ans-' + i).value;
-    const r = grade(p, v); tot += r.score; any = any || !r.empty;
+    const r = grade(p, $('#ans-' + i).value); tot += r.score; any = any || !r.empty;
     $('#res-' + i).innerHTML = resHTML(p, r, true);
   });
   const avg = tot / s.p.length;
+  P.auto = any && avg >= .8;
   $('#stActions').innerHTML = `<span class="small muted">${any ? `ตรวจอัตโนมัติได้ <b class="mono">${pct(avg)}%</b> · ` : ''}ให้คะแนนตัวเอง:</span>
     <button class="btn good" type="button" id="pRight">✓ ตอบได้</button>
     <button class="btn bad" type="button" id="pWrong">✗ ยังไม่แม่น</button>
-    <span class="spacer"></span><span class="small muted mono kbd">Ctrl+Enter = ${any && avg >= .8 ? 'ตอบได้' : 'ยังไม่แม่น'} แล้วไปต่อ</span>`;
+    <span class="spacer"></span><span class="small muted mono kbd">Ctrl+Enter = ${P.auto ? 'ตอบได้' : 'ยังไม่แม่น'} แล้วไปต่อ</span>`;
   $('#stExplain').innerHTML = explainHTML(s);
-  P.auto = any && avg >= .8;
-  $('#pRight').addEventListener('click', () => { mark(s.id, true); practiceNext(); });
-  $('#pWrong').addEventListener('click', () => { mark(s.id, false); practiceNext(); });
-}
-function practiceNext() {
-  if (P.revealed && document.activeElement && document.activeElement.tagName === 'INPUT') {
-    const s = STA[P.queue[P.i]]; mark(s.id, !!P.auto);
-  }
-  P.i++; P.revealed = false; renderPractice();
+  $('#pRight').addEventListener('click', () => { mark(s.id, true); P.i++; P.revealed = false; renderPractice(); });
+  $('#pWrong').addEventListener('click', () => { mark(s.id, false); P.i++; P.revealed = false; renderPractice(); });
 }
 document.addEventListener('keydown', e => {
   if (view === 'practice' && (e.ctrlKey || e.metaKey) && e.key === 'Enter' && document.activeElement.tagName !== 'INPUT') {
@@ -2694,7 +3589,7 @@ document.addEventListener('keydown', e => {
 /* ======================================================================
  * EXAM
  * ==================================================================== */
-const EX = { running: false, ids: [], i: 0, ans: [], secs: 60, end: 0, raf: 0, label: '', report: null, ctx: null };
+const EX = { running: false, ids: [], i: 0, ans: [], secs: 60, end: 0, raf: 0, label: '', lab: '', report: null, ctx: null };
 
 function pickBalanced(pool, n) {
   const byTopic = {};
@@ -2709,17 +3604,16 @@ function pickBalanced(pool, n) {
   return out;
 }
 function buildExam(count, src) {
-  let pool = STATIONS.slice();
+  let pool = STATIONS.filter(s => src === 'both' || s.lab === S.lab);
   if (src === 'old') pool = pool.filter(s => OLD_IDS.has(s.id));
-  if (src === 'lec') pool = pool.filter(s => !OLD_IDS.has(s.id) && s.g !== 'ua');
-  if (src === 'ua') pool = pool.filter(s => s.g === 'ua');
+  if (src === 'lec') pool = pool.filter(s => !OLD_IDS.has(s.id));
   if (src === 'wrong') pool = pool.filter(s => S.marks[s.id] && S.marks[s.id].last === 'w');
   if (count === 'all') return shuffle(pool).map(s => s.id);
   count = +count;
-  if (src === 'mix') {
+  if (src === 'both') {
     const nu = Math.round(count / 3);
-    const ua = pickBalanced(pool.filter(s => s.g === 'ua'), nu);
-    const pa = pickBalanced(pool.filter(s => s.g !== 'ua'), count - ua.length);
+    const ua = pickBalanced(pool.filter(inLab('urine')), nu);
+    const pa = pickBalanced(pool.filter(inLab('patho')), count - ua.length);
     return pa.concat(ua).map(s => s.id);
   }
   return pickBalanced(pool, count).map(s => s.id);
@@ -2727,24 +3621,26 @@ function buildExam(count, src) {
 function renderExam() {
   if (EX.running) { renderExamStation(); return; }
   if (EX.report) { renderReport(); return; }
-  const wrongN = STATIONS.filter(s => S.marks[s.id] && S.marks[s.id].last === 'w').length;
+  const L = LABS[S.lab];
+  const wrongN = STATIONS.filter(s => s.lab === S.lab && S.marks[s.id] && S.marks[s.id].last === 'w').length;
+  const nLab = STATIONS.filter(inLab(S.lab)).length;
   $('#v-exam').innerHTML = `
   <div class="ex-setup">
     <div class="panel stack">
-      <div class="eyebrow">Exam simulation</div>
+      <div class="eyebrow">Exam simulation · ${esc(L.name)}</div>
       <h2 style="font-size:1.5rem">จับเวลาสถานีละ ${S.secs} วินาที</h2>
       <p class="muted">เหมือนห้องสอบจริง: ย้อนกลับไม่ได้ หมดเวลาแล้วเลื่อนสถานีเองพร้อมเสียงสัญญาณ ตรวจคะแนนตอนจบ และแก้คะแนนเองได้ถ้าระบบตรวจพลาด</p>
       <form class="ex-form" id="exForm">
         <div class="field"><label for="exSrc">ชุดข้อสอบ</label>
           <select id="exSrc">
-            <option value="mix">ผสมแบบสอบจริง (pathology 2 : urinalysis 1)</option>
-            <option value="old">ข้อสอบเก่าเท่านั้น</option>
-            <option value="lec">Lecture + คาดการณ์ (pathology)</option>
-            <option value="ua">Urinalysis เท่านั้น</option>
-            <option value="wrong">ข้อที่ยังไม่แม่น (${wrongN})</option>
+            <option value="all">${esc(L.name)}: ทุกแหล่ง (${nLab} สถานี)</option>
+            <option value="old">${esc(L.name)}: ข้อสอบเก่าเท่านั้น</option>
+            <option value="lec">${esc(L.name)}: Lecture + คาดการณ์</option>
+            <option value="wrong">${esc(L.name)}: ข้อที่ยังไม่แม่น (${wrongN})</option>
+            <option value="both">รวม 2 LAB แบบสอบจริง (Patho 2 : Urine 1)</option>
           </select></div>
         <div class="field"><label for="exCount">จำนวนสถานี</label>
-          <select id="exCount"><option value="15">15 สถานี (เท่าปี 2563)</option><option value="10">10 สถานี</option><option value="20">20 สถานี</option><option value="30">30 สถานี</option><option value="all">ทั้งหมดในชุด</option></select></div>
+          <select id="exCount"><option value="10">10 สถานี</option><option value="15" selected>15 สถานี (เท่าปี 2563)</option><option value="20">20 สถานี</option><option value="30">30 สถานี</option><option value="all">ทั้งหมดในชุด</option></select></div>
         <div class="field"><label for="exSecs">เวลาต่อสถานี</label>
           <select id="exSecs">${[45, 60, 90, 120].map(v => `<option value="${v}"${v === S.secs ? ' selected' : ''}>${v} วินาที${v === 60 ? ' (มาตรฐาน)' : ''}</option>`).join('')}</select></div>
         <div class="row"><button class="btn primary" type="submit">เริ่มสอบ</button><span class="small muted">เปิดเสียงเพื่อได้ยินสัญญาณเปลี่ยนสถานี</span></div>
@@ -2752,7 +3648,10 @@ function renderExam() {
     </div>
     <div class="panel stack">
       <h3>ข้อสอบเก่าแบบเต็มชุด</h3>
-      ${PAPERS.map(p => `<div class="stack" style="gap:6px"><b>${esc(p.title)}</b><span class="small muted">${esc(p.summary)} · ${p.items.length} ข้อ</span><div><button class="btn" type="button" data-paper-exam="${p.id}">สอบชุดนี้</button></div></div>`).join('<hr style="border:0;border-top:1px solid var(--line);margin:4px 0">')}
+      ${PAPERS.map(p => {
+        const mine = p.items.filter(i => STA[i.st].lab === S.lab).length;
+        return `<div class="stack" style="gap:6px"><b>${esc(p.title)}</b><span class="small muted">${esc(p.summary)} · ${p.items.length} ข้อ (ส่วน ${esc(L.short)} ${mine} ข้อ)</span><div class="row"><button class="btn" type="button" data-paper-exam="${p.id}" data-scope="lab"${mine ? '' : ' disabled'}>สอบส่วน ${esc(L.short)}</button><button class="btn ghost" type="button" data-paper-exam="${p.id}" data-scope="all">ทั้งชุด 2 LAB</button></div></div>`;
+      }).join('<hr style="border:0;border-top:1px solid var(--line);margin:4px 0">')}
       <p class="small muted">ตรวจคำตอบจากคำสำคัญ (keyword) ยอมรับคำพ้องและสะกดผิดเล็กน้อย เขียนเป็นภาษาอังกฤษจะตรวจได้แม่นที่สุด</p>
     </div>
   </div>`;
@@ -2762,17 +3661,24 @@ function renderExam() {
     const src = $('#exSrc').value;
     const ids = buildExam($('#exCount').value, src);
     if (!ids.length) { toast('ชุดนี้ยังไม่มีสถานี'); return; }
-    startExam(ids, $('#exSrc').selectedOptions[0].textContent.replace(/\s*\(.*\)$/, ''));
+    startExam(ids, src === 'both' ? 'รวม 2 LAB' : `${L.short} · ${$('#exSrc').selectedOptions[0].textContent.split(': ')[1].replace(/\s*\(.*\)$/, '')}`, src === 'both' ? 'both' : S.lab);
   });
 }
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-paper-exam]');
-  if (!b) return;
+  if (!b || b.disabled) return;
   const p = PAPERS.find(x => x.id === b.dataset.paperExam);
-  const ids = p.items.map(i => i.st).filter((v, i, a) => a.indexOf(v) === i);
+  const all = b.dataset.scope === 'all';
+  const ids = p.items.map(i => i.st).filter((v, i, a) => a.indexOf(v) === i).filter(id => all || STA[id].lab === S.lab);
   EX.report = null;
-  if (view !== 'exam') { location.hash = 'exam'; }
-  startExam(ids, p.by);
+  if (view !== 'exam') {
+    /* switch the visible view first so the exam renders into a live, unique DOM */
+    view = 'exam';
+    VIEWS.forEach(n => { const el = $('#v-' + n); el.hidden = n !== 'exam'; if (n !== 'exam') el.innerHTML = ''; });
+    $$('#tabs a').forEach(a => a.classList.toggle('on', a.dataset.v === 'exam'));
+    history.replaceState(null, '', labHash('exam'));
+  }
+  startExam(ids, all ? `${p.by} · ทั้งชุด` : `${p.by} · ส่วน ${LABS[S.lab].short}`, all ? 'both' : S.lab);
 });
 function beep(freq, dur) {
   try {
@@ -2785,10 +3691,10 @@ function beep(freq, dur) {
     o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime + dur + .05);
   } catch (e) { /* audio unavailable */ }
 }
-function startExam(ids, label) {
-  try { EX.ctx = EX.ctx || new (window.AudioContext || window.webkitAudioContext)(); EX.ctx.resume && EX.ctx.resume(); } catch (e) { EX.ctx = null; }
-  Object.assign(EX, { running: true, ids, i: 0, ans: ids.map(id => STA[id].p.map(() => '')), secs: S.secs, label, report: null });
-  $('#tabs').hidden = true; $('#examLive').hidden = false;
+function startExam(ids, label, lab) {
+  try { EX.ctx = EX.ctx || new (window.AudioContext || window.webkitAudioContext)(); if (EX.ctx.resume) EX.ctx.resume(); } catch (e) { EX.ctx = null; }
+  Object.assign(EX, { running: true, ids, i: 0, ans: ids.map(id => STA[id].p.map(() => '')), secs: S.secs, label, lab, report: null });
+  $('#tabs').hidden = true; $('#labSw').hidden = true; $('#examLive').hidden = false;
   renderExamStation();
 }
 function renderExamStation() {
@@ -2801,7 +3707,7 @@ function renderExamStation() {
   </div>`
   + stationHTML(s, {
     title: `Station <span class="mono">${EX.i + 1}</span>`,
-    chips: kindChip(s),
+    chips: (EX.lab === 'both' ? labChip(s.lab) : '') + kindChip(s),
     actions: `<button class="btn primary" type="button" id="exNext">${EX.i + 1 < EX.ids.length ? 'ส่งและไปสถานีถัดไป →' : 'ส่งข้อสุดท้าย'}</button><span class="small muted">หมดเวลาจะส่งให้อัตโนมัติ</span>`,
   });
   const ins = wireInputs(() => {
@@ -2835,15 +3741,14 @@ function examAdvance() {
   if (EX.i < EX.ids.length) { renderExamStation(); window.scrollTo(0, 0); return; }
   finishExam();
 }
-function finishExam() {
+function endExamUI() {
   EX.running = false;
-  $('#tabs').hidden = false; $('#examLive').hidden = true;
-  const items = EX.ids.map((id, k) => {
-    const s = STA[id];
-    const parts = s.p.map((p, i) => { const r = grade(p, EX.ans[k][i]); return { r, ov: null }; });
-    return { id, parts };
-  });
-  const rec = { t: Date.now(), n: items.length, label: EX.label, pct: 0 };
+  $('#tabs').hidden = false; $('#labSw').hidden = false; $('#examLive').hidden = true;
+}
+function finishExam() {
+  endExamUI();
+  const items = EX.ids.map((id, k) => ({ id, parts: STA[id].p.map((p, i) => ({ r: grade(p, EX.ans[k][i]), ov: null })) }));
+  const rec = { t: Date.now(), n: items.length, label: EX.label, lab: EX.lab, pct: 0 };
   S.exams.push(rec);
   EX.report = { items, rec };
   items.forEach(it => { mark(it.id, stationScore(it) >= .6); });
@@ -2868,22 +3773,22 @@ function renderReport() {
     const its = R.items.filter(it => STA[it.id].g === g.id);
     return its.length ? { g, n: its.length, v: its.reduce((a, it) => a + stationScore(it), 0) / its.length } : null;
   }).filter(Boolean);
+  const mixed = new Set(R.items.map(it => STA[it.id].lab)).size > 1;
   const list = R.items.map((it, k) => {
     const s = STA[it.id], sc = stationScore(it), t = TOP[s.t];
     const thumbRef = (s.im || [])[0];
     const thumb = !thumbRef ? `<span class="tx">TEXT</span>` : thumbRef.startsWith('svg:') ? URINE.draw(thumbRef.slice(4)) : `<img src="img/${thumbRef}.jpg" alt="" loading="lazy">`;
     const parts = s.p.map((p, i) => {
-      const pt = it.parts[i];
-      const v = partScore(pt);
+      const pt = it.parts[i], v = partScore(pt);
       return `<div class="rep-part">
         <div class="part-q"><span class="pn">${i + 1}.</span>${esc(p.q)}</div>
-        <div class="yours"><span class="lbl">คุณตอบ</span>${pt.r.empty ? '<span class="muted">— ไม่ได้ตอบ —</span>' : esc(EX_ANS(k, i))}</div>
+        <div class="yours"><span class="lbl">คุณตอบ</span>${pt.r.empty ? '<span class="muted">— ไม่ได้ตอบ —</span>' : esc(EX.ans[k][i])}</div>
         ${resHTML(p, pt.r, true)}
         <div class="ovr"><span class="small muted">ให้คะแนนเอง:</span>${[[1, 'เต็ม'], [.5, 'ครึ่ง'], [0, 'ศูนย์']].map(([val, l]) => `<button type="button" data-ovr="${k}:${i}:${val}" class="${pt.ov === val ? 'on' : ''}">${l}</button>`).join('')}${pt.ov != null ? `<button type="button" data-ovr="${k}:${i}:auto">ใช้คะแนนระบบ</button>` : ''}<span class="mono small" style="margin-left:auto">${pct(v)}%</span></div>
       </div>`;
     }).join('');
     return `<details class="rep-item"${sc < .6 ? ' open' : ''}>
-      <summary><span class="rep-thumb">${thumb}</span><span><b>${k + 1}. ${esc(t.en)}</b><br><span class="small muted">${esc(s.kind)} · ${esc(s.ref)}</span></span><span class="rep-score ${band(sc)}">${pct(sc)}%</span></summary>
+      <summary><span class="rep-thumb">${thumb}</span><span><b>${k + 1}. ${esc(t.en)}</b><br><span class="small muted">${mixed ? esc(LABS[s.lab].short) + ' · ' : ''}${esc(s.kind)} · ${esc(s.ref)}</span></span><span class="rep-score ${band(sc)}">${pct(sc)}%</span></summary>
       <div class="rep-body">
         ${(s.im || []).length ? `<div class="ans-figs">${s.im.map((r, i) => fig(r, s.im.length > 1 ? 'ABCD'[i] : '', '')).join('')}</div>` : ''}
         ${parts}
@@ -2902,22 +3807,21 @@ function renderReport() {
       </div>
     </div>
     <div class="bygroup">${byG.map(x => `<div class="bg-row"><span>${esc(x.g.name)} <span class="muted small">(${x.n})</span></span><span class="bg-bar"><i style="width:${pct(x.v)}%"></i></span><span class="mono small">${pct(x.v)}%</span></div>`).join('')}</div>
-    <div class="row"><button class="btn primary" type="button" id="exAgain">สอบใหม่</button><a class="btn" href="#practice" data-go="practice" id="exPractice">ทวนข้อที่ยังไม่แม่น</a></div>
+    <div class="row"><button class="btn primary" type="button" id="exAgain">สอบใหม่</button><a class="btn" href="${labHash('practice')}" data-go="practice" id="exPractice">ทวนข้อที่ยังไม่แม่น (${esc(LABS[S.lab].short)})</a></div>
     <p class="small muted">ระบบตรวจจากคำสำคัญ ถ้าคำตอบถูกแต่ใช้คำต่างไป ให้กด "เต็ม" หรือ "ครึ่ง" เพื่อแก้คะแนน — คะแนนรวมและประวัติจะอัปเดตทันที</p>
   </div>
   <div class="stack">${list}</div>`;
   $('#exAgain').addEventListener('click', () => { EX.report = null; renderExam(); window.scrollTo(0, 0); });
   $('#exPractice').addEventListener('click', () => { P.f = { g: 'all', src: 'wrong', topic: '', order: 'shuffle' }; P.queue = null; });
 }
-function EX_ANS(k, i) { return EX.ans[k][i]; }
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-ovr]');
   if (!b || !EX.report) return;
   const [k, i, v] = b.dataset.ovr.split(':');
   const it = EX.report.items[+k];
   it.parts[+i].ov = v === 'auto' ? null : +v;
-  const s = STA[it.id], m = S.marks[s.id];
-  if (m) { m.last = stationScore(it) >= .6 ? 'r' : 'w'; }
+  const m = S.marks[it.id];
+  if (m) m.last = stationScore(it) >= .6 ? 'r' : 'w';
   updateRecord();
   const open = $$('.rep-item').map(d => d.open);
   const y = window.scrollY;
@@ -2929,8 +3833,7 @@ let quitArm = 0;
 $('#examQuit').addEventListener('click', () => {
   if (Date.now() - quitArm > 3000) { quitArm = Date.now(); $('#examQuit').textContent = 'กดอีกครั้งเพื่อยืนยัน'; setTimeout(() => { $('#examQuit').textContent = 'ออกจากการสอบ'; }, 3000); return; }
   cancelAnimationFrame(EX.raf);
-  EX.running = false; EX.report = null;
-  $('#tabs').hidden = false; $('#examLive').hidden = true;
+  endExamUI(); EX.report = null;
   $('#examQuit').textContent = 'ออกจากการสอบ';
   toast('ยกเลิกการสอบแล้ว ไม่บันทึกคะแนน');
   renderExam();
@@ -2940,18 +3843,22 @@ $('#examQuit').addEventListener('click', () => {
  * PAPERS
  * ==================================================================== */
 function renderPapers() {
+  const L = LABS[S.lab];
   $('#v-papers').innerHTML = `
   <div class="panel stack">
-    <div class="sec-h"><h2>ข้อสอบเก่า</h2><span class="muted small">ภาพที่มี label ถูกบังคำตอบไว้ เปิดเฉลยจะเห็นภาพต้นฉบับ</span></div>
+    <div class="sec-h"><h2>ข้อสอบเก่า · ส่วน ${esc(L.name)}</h2><span class="muted small">ภาพที่มี label ถูกบังคำตอบไว้ เปิดเฉลยจะเห็นภาพต้นฉบับ</span></div>
     <div class="row"><button class="btn" type="button" id="openAll">เปิดเฉลยทั้งหมด</button><button class="btn ghost" type="button" id="closeAll">ซ่อนเฉลยทั้งหมด</button></div>
   </div>
-  ${PAPERS.map(p => `
+  ${PAPERS.map(p => {
+    const items = p.items.filter(it => STA[it.st].lab === S.lab);
+    return `
   <section class="paper">
     <div class="paper-h">
-      <div class="stack" style="gap:4px"><div class="eyebrow">${esc(p.by)}</div><h2>${esc(p.title)}</h2><span class="small muted">${esc(p.summary)}</span></div>
-      <button class="btn primary" type="button" data-paper-exam="${p.id}">สอบชุดนี้ · ${S.secs} วินาที/ข้อ</button>
+      <div class="stack" style="gap:4px"><div class="eyebrow">${esc(p.by)}</div><h2>${esc(p.title)}</h2><span class="small muted">${esc(p.summary)} · แสดงส่วน ${esc(L.short)} ${items.length} จาก ${p.items.length} ข้อ</span></div>
+      <div class="row"><button class="btn primary" type="button" data-paper-exam="${p.id}" data-scope="lab"${items.length ? '' : ' disabled'}>สอบส่วนนี้ · ${S.secs} วินาที/ข้อ</button><button class="btn ghost" type="button" data-paper-exam="${p.id}" data-scope="all">ทั้งชุด 2 LAB</button></div>
     </div>
-    ${p.items.map(it => {
+    ${items.length ? '' : '<p class="muted">ชุดนี้ไม่มีข้อในส่วนนี้</p>'}
+    ${items.map(it => {
       const s = STA[it.st];
       return (it.sec ? `<div class="q-sec">${esc(it.sec)}</div>` : '') + `
       <div class="q-item">
@@ -2971,12 +3878,14 @@ function renderPapers() {
         </div>
       </div>`;
     }).join('')}
-  </section>`).join('')}`;
+  </section>`;
+  }).join('')}`;
   $('#openAll').addEventListener('click', () => $$('#v-papers details.ans').forEach(d => { d.open = true; }));
   $('#closeAll').addEventListener('click', () => $$('#v-papers details.ans').forEach(d => { d.open = false; }));
 }
 
 const RENDER = { home: renderHome, atlas: renderAtlas, practice: renderPractice, exam: renderExam, papers: renderPapers };
+applyLab();
 route();
 
 /* expose the checker for quick console tests */

@@ -1,7 +1,7 @@
 <!--HEAD-->
-<title>KUB II Patho OSPE</title>
+<title>KUB II Lab OSPE</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="ฝึก OSPE pathology บล็อก KUB II: ภาพจาก Lab urinary system, ข้อสอบเก่า 2563 และ MED NU23/NT15, โหมดทบทวนและโหมด Exam จับเวลาสถานีละ 1 นาที">
+<meta name="description" content="ฝึก OSPE บล็อก KUB II แยก 2 LAB: Patho (Lab urinary system) และ Urine (Routine urinalysis) พร้อมข้อสอบเก่า 2563 และ MED NU23/NT15 โหมดทบทวนและ Exam จับเวลาสถานีละ 1 นาที">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600&family=Bai+Jamjuree:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
@@ -11,13 +11,17 @@
 <!--BODY-->
 <header class="top">
   <div class="top-in">
-    <a class="brand" href="#home"><span class="brand-mark">KUB <i>II</i></span><span class="brand-sub">Patho OSPE</span></a>
+    <a class="brand" href="#patho-home"><span class="brand-mark">KUB <i>II</i></span><span class="brand-sub">Lab OSPE</span></a>
+    <div class="labsw" id="labSw" role="group" aria-label="เลือก LAB">
+      <button type="button" data-lab="patho" aria-pressed="true"><span class="sw-dot"></span>Patho</button>
+      <button type="button" data-lab="urine" aria-pressed="false"><span class="sw-dot"></span>Urine</button>
+    </div>
     <nav class="tabs" id="tabs" aria-label="เมนูหลัก">
-      <a href="#home" data-v="home">หน้าแรก</a>
-      <a href="#atlas" data-v="atlas">Atlas</a>
-      <a href="#practice" data-v="practice">ทบทวน</a>
-      <a href="#exam" data-v="exam">Exam</a>
-      <a href="#papers" data-v="papers">ข้อสอบเก่า</a>
+      <a href="#patho-home" data-v="home">หน้าแรก</a>
+      <a href="#patho-atlas" data-v="atlas">Atlas</a>
+      <a href="#patho-practice" data-v="practice">ทบทวน</a>
+      <a href="#patho-exam" data-v="exam">Exam</a>
+      <a href="#patho-papers" data-v="papers">ข้อสอบเก่า</a>
     </nav>
     <div class="exam-live" id="examLive" hidden><span class="dot"></span><span>กำลังสอบ</span><button class="btn ghost" type="button" id="examQuit">ออกจากการสอบ</button></div>
     <button class="icon-btn" id="themeBtn" type="button" aria-label="สลับธีมสว่างและมืด"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
@@ -31,8 +35,8 @@
   <section id="v-papers" class="view" hidden></section>
 </main>
 <footer class="foot">
-  เนื้อหาจาก Lab urinary system (Department of Pathology) และข้อสอบเก่า LAB 499316 ปี 2563 (MED24 ST16) กับ Lab KUB2 MED NU23 &amp; NT15 ·
-  ภาพที่ติดป้าย "ภาพวาดจำลอง" วาดขึ้นเพื่อฝึกแยกรูปร่าง ไม่ใช่ภาพถ่ายจริง · ความคืบหน้าเก็บในเบราว์เซอร์นี้เท่านั้น
+  เนื้อหาจาก Lecture LAB Patho (Lab urinary system) และ LAB Urine (Routine urinalysis) กับข้อสอบเก่า LAB 499316 ปี 2563 (MED24 ST16) และ Lab KUB2 MED NU23 &amp; NT15 ·
+  ภาพที่ติดป้าย "ภาพวาดจำลอง" วาดขึ้นแทนภาพที่ไม่มีในเอกสาร · ความคืบหน้าเก็บในเบราว์เซอร์นี้เท่านั้น
 </footer>
 <div class="lb" id="lb" hidden role="dialog" aria-label="ภาพขยาย">
   <div class="lb-bar">

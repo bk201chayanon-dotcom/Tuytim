@@ -19,14 +19,14 @@ const [, afterHead] = shell.split('<!--HEAD-->');
 let [head, body] = afterHead.split('<!--BODY-->');
 
 const css = read('style.css');
-const js = ['data.js', 'urine.js', 'app.js'].map(read).join('\n');
+const js = ['data.js', 'data-urine.js', 'urine.js', 'app.js'].map(read).join('\n');
 
 head = head.replace('/*STYLE*/', () => css).trim();
 body = body.replace('/*SCRIPTS*/', () => js).trim();
 
 // sanity: every image the data refers to must exist
 const sandbox = { window: {} };
-require('vm').runInNewContext(read('data.js'), sandbox);
+require('vm').runInNewContext(read('data.js') + '\n' + read('data-urine.js'), sandbox);
 const K = sandbox.window.KUB;
 const refs = new Set();
 K.TOPICS.forEach(t => t.imgs.forEach(([r]) => refs.add(r)));

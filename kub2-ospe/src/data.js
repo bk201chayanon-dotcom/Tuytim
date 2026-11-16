@@ -10,6 +10,7 @@
  *         'N23-06' = ข้อสอบ MED NU23/NT15, 'svg:triple' = ภาพวาดจำลองตะกอนปัสสาวะ
  * คีย์ตรวจ k: อาร์เรย์ของ "กลุ่มคำ" — ตอบตรงคำใดคำหนึ่งในกลุ่มนับเป็น 1 จุด
  *         n = จำนวนจุดที่ต้องได้เพื่อได้คะแนนเต็มของคำถามย่อยนั้น (ค่าเริ่มต้น = ทุกกลุ่ม)
+ * ไฟล์นี้คือ LAB Patho — ส่วน LAB Urine อยู่ใน data-urine.js (เติมเข้า KUB ต่อท้าย)
  * ------------------------------------------------------------------ */
 (function () {
 'use strict';
@@ -37,13 +38,12 @@ const DX = {
 };
 
 const GROUPS = [
-  { id: 'cyst', name: 'Congenital & cystic', th: 'ความผิดปกติแต่กำเนิดและถุงน้ำ' },
-  { id: 'vasc', name: 'Vascular & tubular', th: 'หลอดเลือดและท่อไต' },
-  { id: 'obs',  name: 'Obstruction & infection', th: 'การอุดกั้นและการติดเชื้อ' },
-  { id: 'glom', name: 'Glomerular disease', th: 'โรคของโกลเมอรูลัส' },
-  { id: 'blad', name: 'Urinary bladder', th: 'กระเพาะปัสสาวะ' },
-  { id: 'tum',  name: 'Tumors', th: 'เนื้องอก' },
-  { id: 'ua',   name: 'Urinalysis', th: 'การตรวจปัสสาวะ' },
+  { id: 'cyst', lab: 'patho', name: 'Congenital & cystic', th: 'ความผิดปกติแต่กำเนิดและถุงน้ำ' },
+  { id: 'vasc', lab: 'patho', name: 'Vascular & tubular', th: 'หลอดเลือดและท่อไต' },
+  { id: 'obs',  lab: 'patho', name: 'Obstruction & infection', th: 'การอุดกั้นและการติดเชื้อ' },
+  { id: 'glom', lab: 'patho', name: 'Glomerular disease', th: 'โรคของโกลเมอรูลัส' },
+  { id: 'blad', lab: 'patho', name: 'Urinary bladder', th: 'กระเพาะปัสสาวะ' },
+  { id: 'tum',  lab: 'patho', name: 'Tumors', th: 'เนื้องอก' },
 ];
 
 /* ======================================================================
@@ -501,81 +501,6 @@ const TOPICS = [
   ],
   ospe: 'Gross: exophytic papillary grey-tan mass with hemorrhage in the bladder/renal pelvis/ureter. Micro: complex papillae with fibrovascular cores lined by thickened atypical urothelium with increased mitoses → <b>Urothelial (transitional cell) carcinoma</b>. Risks: smoking, aniline dye',
 },
-/* ---------------- Urinalysis ---------------- */
-{
-  id: 'ua-proc', g: 'ua', en: 'Urine sediment & dipstick', th: 'ขั้นตอนเตรียมตะกอนและแถบตรวจ', pages: 'ข้อสอบเก่า', star: 3,
-  exam: ['2563 ข้อ 11', 'NU23 ข้อ 14', 'NU23 ข้อ 15.2'],
-  imgs: [],
-  lec: ['ไม่อยู่ในสไลด์ pathology ชุดนี้ แต่ออกสอบ LAB ทั้งสองปี (ส่วน Urine analysis)'],
-  add: [
-    'ข้อสอบถามซ้ำทั้ง 2 ปี: centrifuge <b>5 นาที</b>, เหลือตะกอน <b>0.5–1 mL</b>',
-    'Urobilinogen สูง: <b>hemolysis</b> และ <b>hepatocellular damage</b> (ข้อสอบ NU23)',
-  ],
-  html: 'proc',
-  ospe: 'Urine sediment: centrifuge ~10–12 mL fresh urine at 1,500–2,000 rpm for <b>5 minutes</b>, decant leaving <b>0.5–1 mL</b>, resuspend and examine under LPF and HPF',
-},
-{
-  id: 'ua-crystal', g: 'ua', en: 'Urine crystals', th: 'ผลึกในปัสสาวะ', pages: 'ข้อสอบเก่า', star: 3,
-  exam: ['2563 ข้อ 12, 15', 'NU23 ข้อ 12'],
-  imgs: [
-    ['X63-12', 'Ammonium biurate ("thorny apple") — ข้อสอบ 2563 ข้อ 12'],
-    ['X63-15', 'Uric acid crystals — ข้อสอบ 2563 ข้อ 15'],
-    ['svg:caox_d', 'ภาพวาดจำลอง: calcium oxalate dihydrate (envelope)'],
-    ['svg:caox_m', 'ภาพวาดจำลอง: calcium oxalate monohydrate (oval/dumbbell)'],
-    ['svg:triple', 'ภาพวาดจำลอง: triple phosphate (coffin lid)'],
-    ['svg:uric', 'ภาพวาดจำลอง: uric acid (whetstone, rosette)'],
-    ['svg:cystine', 'ภาพวาดจำลอง: cystine (hexagonal plates)'],
-    ['svg:cholesterol', 'ภาพวาดจำลอง: cholesterol (notched plates)'],
-    ['svg:tyrosine', 'ภาพวาดจำลอง: tyrosine (needles in sheaves)'],
-    ['svg:leucine', 'ภาพวาดจำลอง: leucine (concentric spheres)'],
-    ['svg:biurate', 'ภาพวาดจำลอง: ammonium biurate (thorny apple)'],
-  ],
-  lec: ['ไม่อยู่ในสไลด์ pathology ชุดนี้ — ออกสอบ LAB ทั้งสองปี'],
-  add: ['จำให้ได้ 3 อย่าง: <b>รูปร่าง → ชื่อ → pH ของปัสสาวะ → ความสำคัญทางคลินิก</b>'],
-  html: 'crystal',
-  ospe: 'Identify the crystal by shape and color, then state urine pH and clinical significance',
-},
-{
-  id: 'ua-cast', g: 'ua', en: 'Urine casts', th: 'Casts ในปัสสาวะ', pages: 'ข้อสอบเก่า', star: 3,
-  exam: ['2563 ข้อ 14', 'NU23 ข้อ 11'],
-  imgs: [
-    ['X63-14', 'Granular cast — ข้อสอบ 2563 ข้อ 14'],
-    ['svg:hyaline', 'ภาพวาดจำลอง: hyaline cast'],
-    ['svg:rbccast', 'ภาพวาดจำลอง: RBC cast'],
-    ['svg:wbccast', 'ภาพวาดจำลอง: WBC cast'],
-    ['svg:granular', 'ภาพวาดจำลอง: granular cast'],
-    ['svg:waxy', 'ภาพวาดจำลอง: waxy cast'],
-    ['svg:fatty', 'ภาพวาดจำลอง: fatty cast'],
-  ],
-  lec: ['ไม่อยู่ในสไลด์ pathology ชุดนี้ — ออกสอบ LAB ทั้งสองปี'],
-  add: [
-    'Cast เกิดใน distal tubule และ collecting duct; matrix คือ <b>Tamm-Horsfall protein (uromodulin)</b>',
-    'Cast บอกว่าพยาธิสภาพอยู่<b>ในไต</b> (renal origin) — ดูด้วย LPF และรายงานเป็น /LPF',
-  ],
-  html: 'cast',
-  ospe: 'Identify the cast and link it to the renal lesion (e.g., RBC cast → glomerulonephritis)',
-},
-{
-  id: 'ua-cell', g: 'ua', en: 'Cells & organisms in urine', th: 'เซลล์และเชื้อในปัสสาวะ', pages: 'ข้อสอบเก่า', star: 3,
-  exam: ['2563 ข้อ 13', 'NU23 ข้อ 11, 15'],
-  imgs: [
-    ['X63-13', 'White blood cells — ข้อสอบ 2563 ข้อ 13'],
-    ['svg:rbc', 'ภาพวาดจำลอง: RBC'],
-    ['svg:dysrbc', 'ภาพวาดจำลอง: dysmorphic RBC (acanthocytes)'],
-    ['svg:wbc', 'ภาพวาดจำลอง: WBC'],
-    ['svg:squamous', 'ภาพวาดจำลอง: squamous epithelial cells'],
-    ['svg:transitional', 'ภาพวาดจำลอง: transitional epithelial cells'],
-    ['svg:rte', 'ภาพวาดจำลอง: renal tubular epithelial cells'],
-    ['svg:ofb', 'ภาพวาดจำลอง: oval fat body'],
-    ['svg:maltese', 'ภาพวาดจำลอง: oval fat body ใต้ polarized light (Maltese cross)'],
-    ['svg:yeast', 'ภาพวาดจำลอง: yeast (budding)'],
-    ['svg:trich', 'ภาพวาดจำลอง: Trichomonas vaginalis'],
-  ],
-  lec: ['ไม่อยู่ในสไลด์ pathology ชุดนี้ — ออกสอบ LAB ทั้งสองปี'],
-  add: ['เซลล์ที่สำคัญทางคลินิกที่สุดคือ <b>renal tubular epithelial cell</b> (บอก tubular injury)'],
-  html: 'cell',
-  ospe: 'Identify the cell, then give the probable diagnosis (e.g., WBC → UTI; oval fat body → nephrotic syndrome)',
-},
 ];
 
 /* ======================================================================
@@ -651,34 +576,6 @@ const STATIONS = [
     { q: 'จงให้การวินิจฉัย', a: 'Goodpasture syndrome (anti-GBM disease)', k: [DX.goodp] },
   ],
   x: 'IgG ติดเป็นเส้นเรียบต่อเนื่องตาม GBM = <b>linear</b> → anti-GBM antibody · ถ้าเป็นจุด ๆ ก้อน ๆ = granular (immune complex) · ถ้าแทบไม่ติด = pauci-immune (ANCA)' },
-{ id: 'X63-11', t: 'ua-proc', src: 'old', ref: 'ข้อสอบ 2563 ข้อ 11 · NU23 ข้อ 14', kind: 'Theory',
-  p: [
-    { q: 'Urine sedimentation ต้อง centrifuge นานกี่นาที', a: '5 นาที', k: [['5 minutes', '5', 'five', 'ห้า']] },
-    { q: 'หลังปั่นเทส่วนใสทิ้ง เหลือตะกอนไว้กี่ mL', a: '0.5–1 mL', k: [['0.5–1 mL', '0.5-1', '0.5 to 1', '0.5 ถึง 1', '0.5 1']] },
-  ],
-  x: 'ออกซ้ำทั้ง 2 ปีแบบคำต่อคำ — แจกคะแนนฟรี: ปั่น 1,500–2,000 rpm นาน <b>5 นาที</b> เทส่วนใสทิ้ง เหลือ <b>0.5–1 mL</b> แล้ว resuspend' },
-{ id: 'X63-12', t: 'ua-crystal', src: 'old', ref: 'ข้อสอบ 2563 ข้อ 12', kind: 'Urine', im: ['X63-12'],
-  p: [{ q: 'What is it?', a: 'Ammonium biurate crystal', k: [['Ammonium biurate', 'ammonium biurate', 'ammonium urate', 'thorny apple']] }],
-  x: 'ทรงกลมสีน้ำตาลเหลืองมีหนามยื่น = "thorny apple" · พบใน<b>ปัสสาวะด่าง</b> มักเป็นตัวอย่างที่ตั้งทิ้งไว้นาน (old specimen)' },
-{ id: 'X63-13', t: 'ua-cell', src: 'old', ref: 'ข้อสอบ 2563 ข้อ 13', kind: 'Urine', im: ['X63-13'],
-  p: [
-    { q: 'What is it?', a: 'White blood cell', k: [['White blood cell', 'white blood cell', 'WBC', 'WBCs', 'leukocyte', 'leucocyte', 'neutrophil', 'pus cell', 'เม็ดเลือดขาว']] },
-    { q: 'Probable diagnosis', a: 'Urinary tract infection', k: [['Urinary tract infection', 'urinary tract infection', 'UTI', 'cystitis', 'pyelonephritis', 'infection']] },
-  ],
-  x: 'เซลล์กลม cytoplasm เป็นเม็ด nucleus แบ่ง 2–3 lobes = neutrophil · WBC > 5/HPF = pyuria → UTI' },
-{ id: 'X63-14', t: 'ua-cast', src: 'old', ref: 'ข้อสอบ 2563 ข้อ 14 · NU23 ข้อ 11', kind: 'Urine', im: ['X63-14'],
-  p: [
-    { q: 'What is it?', a: 'Granular cast', k: [['Granular cast', 'granular cast']] },
-    { q: 'สัมพันธ์กับพยาธิสภาพใดในไต', a: 'Acute tubular necrosis (เซลล์ท่อไตที่สลาย) — muddy brown granular cast', k: [['Acute tubular necrosis', 'ATN', 'acute tubular necrosis', 'tubular necrosis', 'tubular injury', 'tubular damage', 'renal parenchymal disease']] },
-  ],
-  x: 'รูปทรงกระบอกขอบขนาน (cast) ภายในเต็มไปด้วยเม็ดละเอียด = granular cast · เกิดจากเซลล์ที่สลายหรือ protein aggregates · แบบ muddy brown พบใน ATN' },
-{ id: 'X63-15', t: 'ua-crystal', src: 'old', ref: 'ข้อสอบ 2563 ข้อ 15', kind: 'Urine', im: ['X63-15'],
-  p: [
-    { q: 'What is it?', a: 'Uric acid crystal', k: [['Uric acid', 'uric acid']] },
-    { q: 'พบในปัสสาวะ pH แบบใด', a: 'Acid urine', k: [['Acid', 'acid', 'acidic', 'กรด']] },
-  ],
-  x: 'ผลึกแผ่นรูป rhomboid/whetstone รวมเป็น rosette สีเหลือง–น้ำตาล = uric acid · พบใน acid urine; จำนวนมากใน gout, cell turnover สูง (leukemia, tumor lysis)' },
-
 /* ---------------- ข้อสอบเก่า MED NU23 & NT15 ---------------- */
 { id: 'N23-1', t: 'adpkd', src: 'old', ref: 'ข้อสอบ NU23 ข้อ 1', kind: 'Museum', im: ['L07'], stem: 'Museum specimen',
   p: [
@@ -697,26 +594,6 @@ const STATIONS = [
 { id: 'N23-9', t: 'fsgs', src: 'old', ref: 'ข้อสอบ NU23 ข้อ 9', kind: 'Micro', im: ['N23-09'],
   p: [{ q: 'จงวินิจฉัย', a: 'Focal segmental glomerulosclerosis (FSGS)', k: [['Focal segmental glomerulosclerosis', 'focal segmental glomerulosclerosis', 'FSGS', 'focal segmental']] }],
   x: 'บาง segment ของ tuft ถูกแทนที่ด้วย matrix (sclerosis) ส่วนอื่นยังปกติ · ระวัง: เฉลยเก่าเขียน "glomerulonephritis" — ที่ถูกคือ glomerulo<b>sclerosis</b>' },
-{ id: 'N23-11', t: 'ua-cell', src: 'old', ref: 'ข้อสอบ NU23 ข้อ 11', kind: 'Urine', im: ['svg:squamous', 'X63-14'], stem: 'Please identify cell as shown in urine',
-  p: [
-    { q: 'ภาพ A คืออะไร', a: 'Squamous epithelial cell', k: [['Squamous epithelial cell', 'squamous']] },
-    { q: 'ภาพ B คืออะไร', a: 'Granular cast', k: [['Granular cast', 'granular cast']] },
-  ],
-  x: 'A: เซลล์ใหญ่ที่สุดในตะกอน แบน เหลี่ยม nucleus เล็กตรงกลาง = squamous (ปนเปื้อนจาก vagina/distal urethra) · B: granular cast · เฉลยเก่าแนะนำให้ตอบชื่อเดียว ไม่ต้องเขียนหลายคำตอบ' },
-{ id: 'N23-12', t: 'ua-crystal', src: 'old', ref: 'ข้อสอบ NU23 ข้อ 12', kind: 'Urine', im: ['svg:triple', 'svg:caox_d'],
-  p: [
-    { q: 'ภาพ A คือ crystal อะไร', a: 'Triple phosphate (struvite)', k: [['Triple phosphate', 'triple phosphate', 'struvite', 'magnesium ammonium phosphate']] },
-    { q: 'ภาพ B คือ crystal อะไร', a: 'Calcium oxalate (dihydrate)', k: [['Calcium oxalate', 'calcium oxalate']] },
-  ],
-  x: 'A: prism ใสปลายตัดเฉียง "coffin lid" = triple phosphate (ปัสสาวะด่าง, UTI urease) · B: สี่เหลี่ยมมีกากบาท "envelope" = calcium oxalate dihydrate (acid/neutral)' },
-{ id: 'N23-15', t: 'ua-cell', src: 'old', ref: 'ข้อสอบ NU23 ข้อ 15', kind: 'Urine', im: ['svg:ofb'],
-  p: [
-    { q: '15.1 ภาพนี้คืออะไร', a: 'Oval fat body', k: [['Oval fat body', 'oval fat']] },
-    { q: 'พบในโรคใด', a: 'Nephrotic syndrome', k: [['Nephrotic syndrome', 'nephrotic']] },
-    { q: '15.2 Urobilinogen สูง พบในภาวะใด', a: 'Hemolysis (หรือ hepatocellular damage)', k: [['Hemolysis', 'hemoly', 'haemoly', 'hepatocellular', 'hepatitis', 'liver disease', 'liver damage', 'cirrhosis']] },
-  ],
-  x: 'Oval fat body = tubular cell/macrophage อมหยดไขมัน (Maltese cross ใต้ polarized light) → nephrotic syndrome · Urobilinogen สูงใน hemolysis (bilirubin สร้างมาก) และ hepatocellular damage (ตับเก็บกลับไม่ได้)' },
-
 /* ---------------- Lecture: congenital & cystic ---------------- */
 { id: 'L-04', t: 'horseshoe', src: 'lec', ref: 'Lecture หน้า 4', kind: 'Gross', im: ['L04'],
   p: [
@@ -1094,7 +971,7 @@ const STATIONS = [
     { q: 'เซลล์ใสใน B คือเซลล์อะไร', a: 'Foamy (lipid-laden) macrophages', k: [['Foamy macrophages', 'foamy', 'macrophage', 'histiocyte', 'foam cell']] },
   ],
   x: 'A: เซลล์ใสเรียงเป็น nests มีเส้นเลือดละเอียดคั่น (epithelial tumor) · B: foamy histiocytes ปน lymphocytes ไม่มีรูปแบบ nest (inflammation)' },
-{ id: 'P-3', t: 'staghorn', src: 'pred', ref: 'คาดการณ์ (บูรณาการ patho + urinalysis)', kind: 'Gross + Urine', im: ['L24', 'svg:triple'],
+{ id: 'P-3', t: 'staghorn', src: 'pred', ref: 'คาดการณ์ (บูรณาการ patho + urinalysis)', kind: 'Gross + Urine', im: ['L24', 'U69a'],
   p: [
     { q: 'ภาพ A คืออะไร', a: 'Staghorn (struvite) stone', k: [['Staghorn stone', 'staghorn', 'struvite']] },
     { q: 'ภาพ B (ตะกอนปัสสาวะผู้ป่วยรายเดียวกัน) คือ crystal อะไร', a: 'Triple phosphate', k: [['Triple phosphate', 'triple phosphate', 'struvite', 'magnesium ammonium phosphate']] },
@@ -1116,113 +993,6 @@ const STATIONS = [
   ],
   x: 'ไตฝ่อทั้งสองโรค: BNS = สมมาตร fine granular (ปัญหาหลอดเลือด) · CPN = แผลเป็นใหญ่ไม่สมมาตร calyx ผิดรูป (ปัญหาจาก pelvis)' },
 
-/* ---------------- Urinalysis (ภาพวาดจำลอง + ทฤษฎี) ---------------- */
-{ id: 'U-1', t: 'ua-proc', src: 'pred', ref: 'Urinalysis (ขั้นตอนเตรียมตะกอน)', kind: 'Theory',
-  p: [
-    { q: 'ปริมาตรปัสสาวะที่ใช้ปั่นตะกอน', a: '10–12 mL (ตัวอย่างสด)', k: [['10–12 mL', '10', '12', '15', '10-12', '10-15']] },
-    { q: 'ดู cast และ crystal ด้วยกำลังขยายใดและรายงานหน่วยใด', a: 'Low power field (10×), รายงาน /LPF', k: [['Low power (LPF)', 'LPF', 'low power', '10x', '10 x']] },
-    { q: 'ดูและนับ RBC/WBC ด้วยกำลังขยายใด', a: 'High power field (40×), รายงาน /HPF', k: [['High power (HPF)', 'HPF', 'high power', '40x', '40 x']] },
-  ],
-  x: 'ปั่น 1,500–2,000 rpm 5 นาที → เหลือ 0.5–1 mL → resuspend → LPF หา cast/crystal (ลดแสง) → HPF ระบุเซลล์ · ค่าปกติ RBC 0–2/HPF, WBC 0–5/HPF, hyaline cast 0–2/LPF' },
-{ id: 'U-2', t: 'ua-proc', src: 'pred', ref: 'Urinalysis (dipstick)', kind: 'Theory',
-  p: [
-    { q: 'Urobilinogen สูง พบในภาวะใด (2)', a: 'Hemolysis, hepatocellular damage', n: 2, k: [['Hemolysis', 'hemoly', 'haemoly'], ['Hepatocellular damage', 'hepatocellular', 'hepatitis', 'liver disease', 'liver damage', 'cirrhosis']] },
-    { q: 'Urine bilirubin บวก แต่ urobilinogen ไม่พบ บ่งชี้ภาวะใด', a: 'Obstructive (post-hepatic) jaundice', k: [['Obstructive jaundice', 'obstruct', 'cholesta', 'post hepatic', 'posthepatic', 'biliary']] },
-    { q: 'Nitrite บวก บ่งชี้อะไร', a: 'Gram-negative bacteriuria (UTI) ที่ reduce nitrate เป็น nitrite', k: [['Gram-negative bacteria (UTI)', 'gram negative', 'bacteri', 'e coli', 'UTI', 'infection']] },
-  ],
-  x: 'Hemolysis: bilirubin ในปัสสาวะลบ (unconjugated ไม่ผ่านไต) แต่ urobilinogen สูง · Obstructive: bilirubin บวก urobilinogen ต่ำ/ไม่พบ' },
-{ id: 'U-3', t: 'ua-crystal', src: 'pred', ref: 'Urinalysis (crystal)', kind: 'Urine', im: ['svg:caox_d', 'svg:caox_m'], stem: 'ภาพวาดจำลองตะกอนปัสสาวะ (HPF)',
-  p: [
-    { q: 'ภาพ A และ B เป็น crystal ชนิดเดียวกัน คืออะไร', a: 'Calcium oxalate (A: dihydrate "envelope", B: monohydrate oval/dumbbell)', k: [['Calcium oxalate', 'calcium oxalate']] },
-    { q: 'มักพบใน urine pH ใด', a: 'Acid หรือ neutral', k: [['Acid/neutral', 'acid', 'neutral', 'กรด']] },
-    { q: 'แบบ monohydrate จำนวนมากชวนนึกถึงพิษจากสารใด', a: 'Ethylene glycol', k: [['Ethylene glycol', 'ethylene glycol', 'antifreeze']] },
-  ],
-  x: 'Dihydrate = สี่เหลี่ยมมีกากบาท (envelope) · monohydrate = รูปไข่/ดัมเบล · พบได้ในคนปกติ (อาหาร oxalate สูง vit C) แต่จำนวนมาก + AKI คิดถึง ethylene glycol' },
-{ id: 'U-4', t: 'ua-crystal', src: 'pred', ref: 'Urinalysis (crystal)', kind: 'Urine', im: ['svg:triple'], stem: 'ภาพวาดจำลองตะกอนปัสสาวะ',
-  p: [
-    { q: 'What is it?', a: 'Triple phosphate (struvite) crystal — "coffin lid"', k: [['Triple phosphate', 'triple phosphate', 'struvite', 'magnesium ammonium phosphate']] },
-    { q: 'Urine pH', a: 'Alkaline', k: [['Alkaline', 'alkal', 'basic', 'ด่าง']] },
-    { q: 'ความสำคัญทางคลินิก', a: 'UTI with urease-producing bacteria (Proteus) → struvite/staghorn stone', k: [['UTI (urease) / struvite stone', 'UTI', 'urease', 'proteus', 'infection', 'staghorn', 'struvite']] },
-  ],
-  x: 'Prism ใสปลายตัดเฉียงเหมือนฝาโลง (coffin lid) — คู่กับ staghorn stone ใน Lecture' },
-{ id: 'U-5', t: 'ua-crystal', src: 'pred', ref: 'Urinalysis (crystal)', kind: 'Urine', im: ['svg:uric'], stem: 'ภาพวาดจำลอง ผู้ป่วย leukemia หลังได้ chemotherapy',
-  p: [
-    { q: 'What is it?', a: 'Uric acid crystals', k: [['Uric acid', 'uric acid']] },
-    { q: 'Urine pH', a: 'Acid', k: [['Acid', 'acid', 'กรด']] },
-    { q: 'ภาวะที่ทำให้พบมาก', a: 'Tumor lysis / high cell turnover (leukemia, chemotherapy), gout', k: [['Cell turnover / gout', 'tumor lysis', 'tumour lysis', 'turnover', 'leukemia', 'chemotherapy', 'gout', 'lesch']] },
-  ],
-  x: 'ผลึกสีเหลืองอำพันรูป whetstone/rhomboid รวมเป็น rosette · tumor lysis syndrome → uric acid nephropathy' },
-{ id: 'U-6', t: 'ua-crystal', src: 'pred', ref: 'Urinalysis (abnormal crystal)', kind: 'Urine', im: ['svg:cystine'], stem: 'ภาพวาดจำลอง เด็กชายมีนิ่วไตซ้ำ',
-  p: [
-    { q: 'What is it?', a: 'Cystine crystals (colorless hexagonal plates)', k: [['Cystine', 'cystine']] },
-    { q: 'โรคที่เกี่ยวข้อง', a: 'Cystinuria', k: [['Cystinuria', 'cystinuria']] },
-  ],
-  x: 'แผ่นหกเหลี่ยมด้านเท่าใส ซ้อนกันได้ = cystine (acid urine) · cystinuria เป็น AR defect การดูดกลับ COLA (cystine, ornithine, lysine, arginine) → นิ่ว' },
-{ id: 'U-7', t: 'ua-crystal', src: 'pred', ref: 'Urinalysis (abnormal crystal)', kind: 'Urine', im: ['svg:cholesterol', 'svg:maltese'], stem: 'ภาพวาดจำลอง ผู้ป่วยบวมทั้งตัว proteinuria 4+ (B = polarized light)',
-  p: [
-    { q: 'ภาพ A คือ crystal อะไร', a: 'Cholesterol crystals (flat plates with notched corners)', k: [['Cholesterol', 'cholesterol']] },
-    { q: 'ภาพ B (polarized light) เห็นลักษณะอะไร', a: 'Maltese cross (cholesterol ester droplets in oval fat body/fatty cast)', k: [['Maltese cross', 'maltese']] },
-    { q: 'ภาวะที่สัมพันธ์', a: 'Nephrotic syndrome', k: [['Nephrotic syndrome', 'nephrotic']] },
-  ],
-  x: 'Lipiduria ของ nephrotic syndrome: cholesterol plates, oval fat bodies, fatty casts — ไขมันกลุ่ม cholesterol ester ให้ Maltese cross ใต้ polarizer' },
-{ id: 'U-8', t: 'ua-crystal', src: 'pred', ref: 'Urinalysis (abnormal crystal)', kind: 'Urine', im: ['svg:tyrosine', 'svg:leucine'], stem: 'ภาพวาดจำลอง ผู้ป่วย fulminant hepatic failure',
-  p: [
-    { q: 'ภาพ A คืออะไร', a: 'Tyrosine crystals (fine needles in sheaves)', k: [['Tyrosine', 'tyrosine']] },
-    { q: 'ภาพ B คืออะไร', a: 'Leucine crystals (spheres with concentric rings)', k: [['Leucine', 'leucine']] },
-    { q: 'สองชนิดนี้บ่งชี้ภาวะใด', a: 'Severe liver disease', k: [['Severe liver disease', 'liver', 'hepat']] },
-  ],
-  x: 'Tyrosine = เข็มเล็กละเอียดเป็นมัด · leucine = ทรงกลมเหลืองมีวงซ้อนและลายรัศมี — ทั้งคู่บอกโรคตับรุนแรง' },
-{ id: 'U-9', t: 'ua-cast', src: 'pred', ref: 'Urinalysis (cast)', kind: 'Urine', im: ['svg:hyaline'], stem: 'ภาพวาดจำลอง (LPF, ลดแสง) หลังวิ่งมาราธอน',
-  p: [
-    { q: 'What is it?', a: 'Hyaline cast', k: [['Hyaline cast', 'hyaline']] },
-    { q: 'Protein ที่เป็น matrix ของ cast', a: 'Tamm-Horsfall protein (uromodulin)', k: [['Tamm-Horsfall protein', 'tamm', 'horsfall', 'uromodulin']] },
-    { q: 'พบได้ในคนปกติหรือไม่', a: 'ได้ (0–2/LPF) โดยเฉพาะหลังออกกำลัง, dehydration, ไข้', k: [['Yes (normal/exercise)', 'ได้', 'normal', 'yes', 'exercise', 'dehydrat', 'ปกติ']] },
-  ],
-  x: 'Cast ใสจางมาก ต้องลดแสงจึงเห็น · เป็น cast ชนิดเดียวที่พบในคนปกติได้' },
-{ id: 'U-10', t: 'ua-cast', src: 'pred', ref: 'Urinalysis (cast)', kind: 'Urine', im: ['svg:rbccast'], stem: 'ภาพวาดจำลอง เด็ก 8 ปี บวม ความดันสูง ปัสสาวะสีน้ำล้างเนื้อ หลังเจ็บคอ 2 สัปดาห์',
-  p: [
-    { q: 'What is it?', a: 'RBC cast', k: [['RBC cast', 'RBC cast', 'red cell cast', 'red blood cell cast', 'erythrocyte cast']] },
-    { q: 'บ่งชี้พยาธิสภาพที่ใด', a: 'Glomerulus — glomerulonephritis (nephritic syndrome)', k: [['Glomerulonephritis', 'glomerul', 'nephritic', 'GN', 'PSGN']] },
-  ],
-  x: 'RBC cast = เลือดออกจาก glomerulus → glomerulonephritis (ในเคสนี้ post-streptococcal GN)' },
-{ id: 'U-11', t: 'ua-cast', src: 'pred', ref: 'Urinalysis (cast)', kind: 'Urine', im: ['svg:wbccast'], stem: 'ภาพวาดจำลอง หญิง 25 ปี ไข้สูง ปวดหลัง (CVA tenderness)',
-  p: [
-    { q: 'What is it?', a: 'WBC cast', k: [['WBC cast', 'WBC cast', 'white cell cast', 'white blood cell cast', 'leukocyte cast', 'pus cast']] },
-    { q: 'วินิจฉัยโรค', a: 'Acute pyelonephritis (หรือ acute interstitial nephritis)', k: [['Pyelonephritis / interstitial nephritis', 'pyelonephritis', 'interstitial nephritis']] },
-  ],
-  x: 'WBC cast บอกว่าการอักเสบอยู่ในไต — แยก pyelonephritis ออกจาก cystitis ได้ · เชื่อมกับข้อสอบปี 2563 ข้อ 7 (WBC casts ใน tubules)' },
-{ id: 'U-12', t: 'ua-cast', src: 'pred', ref: 'Urinalysis (cast)', kind: 'Urine', im: ['svg:waxy'], stem: 'ภาพวาดจำลอง ผู้ป่วย CKD stage 5',
-  p: [
-    { q: 'What is it?', a: 'Waxy cast', k: [['Waxy cast', 'waxy']] },
-    { q: 'บ่งชี้ภาวะใด', a: 'Advanced chronic kidney disease (urine stasis)', k: [['Advanced CKD', 'CKD', 'chronic kidney', 'chronic renal', 'renal failure', 'ESRD', 'stasis', 'advanced']] },
-  ],
-  x: 'Cast หนาสะท้อนแสง ขอบคม มีรอยแตก/รอยบากด้านข้าง ปลายตัดทู่ = waxy cast (ระยะสุดท้ายของ granular cast จาก stasis)' },
-{ id: 'U-13', t: 'ua-cast', src: 'pred', ref: 'Urinalysis (cast)', kind: 'Urine', im: ['svg:fatty'], stem: 'ภาพวาดจำลอง ผู้ป่วย membranous nephropathy',
-  p: [
-    { q: 'What is it?', a: 'Fatty cast', k: [['Fatty cast', 'fatty cast', 'fat cast', 'lipid cast']] },
-    { q: 'กลุ่มอาการที่สัมพันธ์', a: 'Nephrotic syndrome', k: [['Nephrotic syndrome', 'nephrotic']] },
-  ],
-  x: 'Cast ที่มีหยดไขมันสะท้อนแสงฝังอยู่ (Maltese cross ใต้ polarizer) → nephrotic syndrome · เชื่อมกับ membranous nephropathy ใน Lecture' },
-{ id: 'U-14', t: 'ua-cell', src: 'pred', ref: 'Urinalysis (cells)', kind: 'Urine', im: ['svg:squamous', 'svg:transitional', 'svg:rte'], stem: 'ภาพวาดจำลอง epithelial cells 3 ชนิด (HPF)',
-  p: [
-    { q: 'ภาพ A', a: 'Squamous epithelial cell', k: [['Squamous', 'squamous']] },
-    { q: 'ภาพ B', a: 'Transitional (urothelial) epithelial cell', k: [['Transitional / urothelial', 'transitional', 'urotheli']] },
-    { q: 'ภาพ C', a: 'Renal tubular epithelial cell', k: [['Renal tubular epithelial cell', 'renal tubular', 'RTE', 'tubular epitheli']] },
-  ],
-  x: 'A ใหญ่สุด แบน nucleus เล็ก (contamination) · B กลม/รูปลูกแพร์มีหาง nucleus กลางเซลล์ · C เล็กกว่า เหลี่ยม nucleus กลมค่อนไปด้านหนึ่ง — C สำคัญที่สุด (tubular injury)' },
-{ id: 'U-15', t: 'ua-cell', src: 'pred', ref: 'Urinalysis (cells)', kind: 'Urine', im: ['svg:dysrbc'], stem: 'ภาพวาดจำลอง (phase contrast) ผู้ป่วย IgA nephropathy',
-  p: [
-    { q: 'What is it?', a: 'Dysmorphic RBCs (acanthocytes)', k: [['Dysmorphic RBC / acanthocyte', 'dysmorphic', 'acanthocyte']] },
-    { q: 'บ่งชี้แหล่งเลือดออกที่ใด', a: 'Glomerular origin', k: [['Glomerular', 'glomerul']] },
-  ],
-  x: 'RBC รูปร่างผิดปกติมีปุ่ม (blebs) = ผ่าน GBM ที่เสียหาย → glomerular hematuria · RBC ปกติรูปร่างเรียบ = non-glomerular (นิ่ว เนื้องอก)' },
-{ id: 'U-16', t: 'ua-cell', src: 'pred', ref: 'Urinalysis (organisms)', kind: 'Urine', im: ['svg:trich', 'svg:yeast'], stem: 'ภาพวาดจำลอง (HPF)',
-  p: [
-    { q: 'ภาพ A คืออะไร', a: 'Trichomonas vaginalis', k: [['Trichomonas vaginalis', 'trichomonas']] },
-    { q: 'ภาพ B คืออะไร', a: 'Yeast (Candida) — budding', k: [['Yeast / Candida', 'yeast', 'candida', 'budding', 'fung']] },
-    { q: 'ภาวะที่ทำให้พบ B บ่อย', a: 'Diabetes mellitus (glucosuria), immunosuppression, antibiotics', n: 1, k: [['DM', 'diabet', 'DM', 'glucosuria'], ['Immunosuppression', 'immuno'], ['Antibiotics', 'antibiotic']] },
-  ],
-  x: 'A: รูปลูกแพร์ มี flagella ด้านหน้าและ undulating membrane เคลื่อนที่กระตุก (ต้องดูในปัสสาวะสด) · B: รูปไข่แตกหน่อ พบบ่อยใน DM' },
 ];
 
 /* ======================================================================
@@ -1250,14 +1020,14 @@ const PAPERS = [
       { no: '2', st: 'N23-2', note: 'ใช้ภาพ museum hydronephrosis จาก Lecture หน้า 19' },
       { no: '6', st: 'X63-4' }, { no: '8', st: 'X63-2', note: 'เฉลยรุ่นพี่: tubular atrophy, thyroidization, sclerotic glomeruli, interstitial edema' },
       { no: '9', st: 'N23-9', note: 'เฉลยเดิมเขียน "Focal segmental glomerulonephritis" — ชื่อที่ถูกคือ glomerulosclerosis' },
-      { no: '11', st: 'N23-11', sec: 'Urine analysis', note: 'ไม่มีภาพในเอกสาร — ภาพ A เป็นภาพวาดจำลอง ภาพ B ใช้ granular cast จากข้อสอบปี 2563' },
-      { no: '12', st: 'N23-12', note: 'ไม่มีภาพในเอกสาร — ใช้ภาพวาดจำลอง' },
+      { no: '11', st: 'N23-11', sec: 'Urine analysis', note: 'เอกสารไม่มีภาพ — ภาพ A ใช้ squamous cell จาก Lecture LAB Urine ภาพ B ใช้ granular cast จากข้อสอบปี 2563' },
+      { no: '12', st: 'N23-12', note: 'เอกสารไม่มีภาพ — ใช้ภาพจาก Lecture LAB Urine หน้า 69 และ 67' },
       { no: '14', st: 'X63-11' },
-      { no: '15', st: 'N23-15', note: 'ภาพเป็นภาพวาดจำลอง · แลปปุ: เจอ cell นี้ในโรค nephrotic syndrome; urobilinogen สูงพบใน hepatocellular damage ด้วย' },
+      { no: '15', st: 'N23-15', note: 'ภาพจาก Lecture LAB Urine หน้า 46 · เฉลยรุ่นพี่: เจอ cell นี้ในโรค nephrotic syndrome; urobilinogen สูงพบใน hepatocellular damage ด้วย' },
       { no: '–', st: 'X63-10', note: 'ข้อ Goodpasture (ไม่ระบุเลขข้อ) ภาพ IF linear เหมือนปี 2563' },
     ],
   },
 ];
 
-window.KUB = { GROUPS, TOPICS, STATIONS, PAPERS };
+window.KUB = { GROUPS, TOPICS, STATIONS, PAPERS, DX };
 })();
