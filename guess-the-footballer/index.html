@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>แข้งปริศนา</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="เกมทายชื่อนักเตะจากคำใบ้ 5 ข้อ ยิ่งใช้คำใบ้น้อย ยิ่งได้ยิงจากไกลและได้แต้มมาก">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,500;0,700;1,800&family=Sarabun:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Doto:wght@900&display=swap">
+<style>
+/* Layout: one narrow matchday column laid on the turf — LED scoreboard, a to-scale strip of pitch
+   that works as the points meter, then the player's registration sheet whose five rows are the
+   clues and whose name field is the answer box. Light theme is a day game, dark is a night game. */
+:root{
+  --turf:#1f6a3e; --turf-2:#1b6138; --turf-ink:#0d3520;      /* page ground and its mowing stripe */
+  --pitch:#2f8f52; --pitch-2:#2a8349;                        /* the strip of pitch in play */
+  --chalk:#f5faf2; --chalk-dim:#cfe3d3;                      /* line markings, type on turf */
+  --paper:#fbfcf6; --paper-2:#edf1e4; --rule:#c9d3c2;        /* registration sheet */
+  --ink:#13251a; --ink-soft:#4f6356;
+  --board:#0b140f; --board-2:#1a2a20; --led:#ffb627; --led-dim:#7a5a1c;   /* scoreboard */
+  --yellow:#ffd60a; --red:#d7263d;                           /* the referee's cards */
+  --good:#0f7a3d; --alert:#b3152b;
+  --ball:#ffffff; --ball-ink:#101613;
+  --shade:rgba(4,20,10,.55);
+  --f-display:"Kanit","Sarabun",system-ui,sans-serif;
+  --f-body:"Sarabun","Kanit",system-ui,sans-serif;
+  --f-led:"Doto","Kanit",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --turf:#0e2a1b; --turf-2:#0c2417; --turf-ink:#0a2014;
+  --pitch:#1d6238; --pitch-2:#195731;
+  --chalk:#eef5ec; --chalk-dim:#a9c2b0;
+  --paper:#16241c; --paper-2:#203228; --rule:#35493d;
+  --ink:#e9f1ea; --ink-soft:#a0b4a6;
+  --board:#050a07; --board-2:#142018; --led:#ffb627; --led-dim:#6b4f18;
+  --yellow:#ffd60a; --red:#ff4d5e;
+  --good:#63d38e; --alert:#ff8a96;
+  --ball:#ffffff; --ball-ink:#0b100d;
+  --shade:rgba(0,0,0,.6);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --turf:#0e2a1b; --turf-2:#0c2417; --turf-ink:#0a2014;
+  --pitch:#1d6238; --pitch-2:#195731;
+  --chalk:#eef5ec; --chalk-dim:#a9c2b0;
+  --paper:#16241c; --paper-2:#203228; --rule:#35493d;
+  --ink:#e9f1ea; --ink-soft:#a0b4a6;
+  --board:#050a07; --board-2:#142018; --led:#ffb627; --led-dim:#6b4f18;
+  --yellow:#ffd60a; --red:#ff4d5e;
+  --good:#63d38e; --alert:#ff8a96;
+  --ball:#ffffff; --ball-ink:#0b100d;
+  --shade:rgba(0,0,0,.6);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:repeating-linear-gradient(90deg,transparent 0 64px,var(--turf-2) 64px 128px) var(--turf);
+  color:var(--chalk);font-family:var(--f-body);font-size:1.0625rem;line-height:1.6;-webkit-text-size-adjust:100%}
+.app{max-width:36rem;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:20px 40px;display:grid;gap:14px}
+h1,h2,p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--chalk);outline-offset:2px}
+.sheet :focus-visible{outline-color:var(--ink)}
+
+/* Masthead */
+.mast{display:grid;gap:6px}
+.eyebrow{font:500 .8rem/1.3 var(--f-display);letter-spacing:.08em;color:var(--chalk-dim)}
+.mast h1{font:italic 800 clamp(2.3rem,10vw,3.1rem)/1.15 var(--f-display);letter-spacing:.01em;text-wrap:balance}
+.lede{color:var(--chalk-dim);font-size:1rem;max-width:34em}
+.decks{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.deck{font:500 .92rem/1.3 var(--f-display);padding:.35rem .8rem;border-radius:999px;border:1.5px solid var(--chalk-dim);
+  background:transparent;color:var(--chalk);cursor:pointer}
+.deck:hover{border-color:var(--chalk)}
+.deck[aria-checked="true"]{background:var(--chalk);border-color:var(--chalk);color:var(--turf-ink);font-weight:700}
+.confirm{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-top:4px;padding:10px 12px;border:1.5px solid var(--chalk);border-radius:6px}
+.confirm p{flex:1 1 14em;min-width:0;font-size:1rem}
+.confirm div{display:flex;gap:8px}
+.confirm .deck.yes{background:var(--chalk);color:var(--turf-ink);border-color:var(--chalk);font-weight:700}
+
+/* Scoreboard */
+.board{background:var(--board);border-radius:8px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:10px 12px;
+  align-items:end;box-shadow:inset 0 0 0 1px var(--board-2)}
+.b-cell{display:grid;gap:4px}
+.b-right{justify-items:end}
+.b-label{font:500 .72rem/1 var(--f-display);letter-spacing:.1em;color:var(--chalk-dim)}
+.b-num{font:900 2rem/1 var(--f-led);color:var(--led);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.b-num small{font-size:.55em;color:var(--led-dim)}
+.b-lamps{grid-column:1/-1;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
+.b-lamps li{height:1.6rem;border-radius:3px;background:var(--board-2);display:grid;place-items:center;font:900 1rem/1 var(--f-led);color:var(--board)}
+.b-lamps .goal{background:var(--led)}
+.b-lamps .red{background:var(--red)}
+.b-lamps .skip{background:var(--led-dim)}
+.b-lamps .now{box-shadow:inset 0 0 0 2px var(--led);animation:blink 1.2s steps(2,jump-none) infinite}
+@keyframes blink{50%{box-shadow:inset 0 0 0 2px var(--led-dim)}}
+
+/* Pitch strip: 10 units = 1 metre, halfway line at x=0, goal line at x=525 */
+.play{display:grid;gap:14px}
+.pitch-wrap{display:grid;gap:4px}
+.pitch{display:block;width:100%;height:auto}
+.pitch .g1{fill:var(--pitch)}
+.pitch .g2{fill:var(--pitch-2)}
+.pitch .lines{fill:none;stroke:var(--chalk);stroke-width:2.5;opacity:.9}
+.pitch .spot{fill:var(--chalk)}
+.pitch .net{fill:none;stroke:var(--chalk);stroke-width:1;opacity:.7;transform-origin:525px 120px}
+.pitch .frame{fill:none;stroke:var(--chalk);stroke-width:4;stroke-linejoin:round}
+.pitch .shot{stroke:var(--chalk);stroke-width:2.5;stroke-dasharray:2 10;stroke-linecap:round;opacity:.8}
+.pitch .ball{transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.pitch .ball circle{fill:var(--ball);stroke:var(--ball-ink);stroke-width:2}
+.pitch .ball path{fill:var(--ball-ink)}
+.pitch .mk line{stroke:var(--chalk-dim);stroke-width:2}
+.pitch .mk circle{fill:none;stroke:var(--chalk-dim);stroke-width:2}
+.pitch .mk text{fill:var(--chalk-dim);font:700 17px var(--f-display);text-anchor:middle}
+.pitch .mk.on circle{fill:var(--chalk);stroke:var(--chalk)}
+.pitch .mk.on text{fill:var(--turf-ink)}
+.pitch .mk.past{opacity:.4}
+.pitch-wrap[data-outcome="goal"] .ball{transition:transform .45s cubic-bezier(.5,0,.9,.4)}
+.pitch-wrap[data-outcome="goal"] .net{animation:bulge .5s .4s ease-out both}
+@keyframes bulge{40%{transform:scaleX(1.35)}}
+.range{text-align:center;font:500 1rem/1.4 var(--f-display);color:var(--chalk)}
+.range b{font-weight:700}
+
+/* Registration sheet */
+.sheet{background:var(--paper);color:var(--ink);border-radius:6px;padding:16px;display:grid;gap:12px;box-shadow:0 12px 26px -14px var(--shade)}
+.sheet-head{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.sheet-head h2{font:700 1.1rem/1.3 var(--f-display)}
+.stamp{font:700 .8rem/1 var(--f-display);letter-spacing:.06em;color:var(--alert);border:2px solid var(--alert);border-radius:3px;padding:.3rem .5rem;transform:rotate(-3deg)}
+.stamp.done{color:var(--ink-soft);border-color:var(--ink-soft);transform:none}
+.sheet-side{font:500 .9rem/1.3 var(--f-display);color:var(--ink-soft)}
+
+.clues{list-style:none;margin:0;padding:0;display:grid}
+.clue{display:grid;gap:3px;padding:10px 0;border-bottom:1px dashed var(--rule)}
+.clue-k{font:500 .82rem/1.4 var(--f-display);letter-spacing:.03em;color:var(--ink-soft);display:flex;gap:.5em;align-items:baseline}
+.clue-k b{font-weight:700;color:var(--ink)}
+.clue-k em{font-style:normal;font-size:.75rem;border:1px solid var(--rule);border-radius:3px;padding:0 .35em}
+.clue-v{min-width:0;text-wrap:pretty}
+.clue.locked .clue-k{opacity:.6}
+.bar{display:block;height:.85rem;margin-block:.35rem;border-radius:2px;
+  background:repeating-linear-gradient(-45deg,var(--paper-2) 0 6px,var(--rule) 6px 12px)}
+.clue-open{width:100%;display:flex;align-items:center;gap:10px;font:500 1rem/1.3 var(--f-display);padding:.55rem .75rem;
+  border:1.5px dashed var(--ink);border-radius:4px;background:var(--paper-2);color:var(--ink);cursor:pointer;text-align:left}
+.clue-open::before{content:"+";font-weight:700;font-size:1.25rem;line-height:1}
+.clue-open span:first-child{flex:1}
+.clue-open .cost{font-size:.85rem;color:var(--ink-soft);white-space:nowrap}
+.clue-open:hover{border-style:solid;background:var(--paper)}
+@media (min-width:34rem){.clue{grid-template-columns:8rem 1fr;gap:12px;align-items:baseline}}
+
+.facts{display:flex;flex-wrap:wrap;gap:2px 18px;margin:0}
+.facts div{display:flex;gap:.45em;align-items:baseline}
+.facts dt{font:500 .8rem/1.4 var(--f-display);color:var(--ink-soft)}
+.facts dd{margin:0;font-weight:600}
+.path{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 6px}
+.path li{display:flex;align-items:center;gap:6px}
+.path li:not(:last-child)::after{content:"";width:0;height:0;border-block:4px solid transparent;border-left:6px solid var(--ink-soft)}
+.path span{background:var(--paper-2);border-radius:3px;padding:.05em .5em;font-weight:500}
+.kit{display:flex;align-items:center;gap:14px}
+.kit-svg{width:128px;height:auto;flex:none;color:var(--ink);background:var(--paper-2);border-radius:6px;padding:8px}
+.kit-cap small{display:block;color:var(--ink-soft);font-size:.9rem}
+.kit-cap .mask{font:700 1.05rem/1.4 var(--f-display);letter-spacing:.16em;color:var(--ink);white-space:nowrap}
+
+/* Answer */
+.answer{display:grid;gap:8px;padding-top:2px}
+.answer label{font:500 .82rem/1.4 var(--f-display);letter-spacing:.03em;color:var(--ink-soft)}
+.answer-row{display:flex;gap:8px;align-items:stretch}
+.combo{position:relative;flex:1;min-width:0}
+#guess{width:100%;height:100%;font:500 1.1rem/1.4 var(--f-body);padding:.6rem .7rem;border:1.5px solid var(--ink);border-radius:4px;background:var(--paper);color:var(--ink)}
+#guess::placeholder{color:var(--ink-soft);opacity:.8;font-weight:400}
+.suggest{position:absolute;left:0;right:0;bottom:calc(100% + 6px);z-index:5;list-style:none;margin:0;padding:4px;max-height:16rem;overflow:auto;
+  background:var(--paper);border:1.5px solid var(--ink);border-radius:4px;box-shadow:0 -10px 24px -12px var(--shade)}
+.suggest li{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 .6em;padding:.45rem .6rem;border-radius:3px;cursor:pointer}
+.suggest li b{font-weight:600}
+.suggest li span{font-size:.9rem;color:var(--ink-soft)}
+.suggest li[aria-selected="true"],.suggest li:hover{background:var(--paper-2)}
+.suggest li.used{opacity:.5;cursor:default;text-decoration:line-through}
+.btn{font:700 1.05rem/1.3 var(--f-display);border-radius:4px;border:1.5px solid var(--ink);padding:.6rem 1.15rem;cursor:pointer}
+.btn.solid{background:var(--ink);color:var(--paper)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn:active{transform:translateY(1px)}
+.btn.wide{width:100%}
+.hint{font-size:.95rem;color:var(--alert)}
+.hint:empty{display:none}
+.hint.ok{color:var(--good)}
+.bookings{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 14px}
+.cards{display:flex;align-items:center;gap:7px;font-size:.92rem;color:var(--ink-soft)}
+.card{width:15px;height:22px;border-radius:2.5px;border:1.5px dashed var(--rule);flex:none}
+.card.y{background:var(--yellow);border:0;transform:rotate(-7deg);animation:book .3s ease-out}
+.card.r{background:var(--red);border:0;transform:rotate(6deg)}
+@keyframes book{from{transform:translateY(10px) rotate(0);opacity:0}}
+.link{background:none;border:0;padding:.3rem 0;font:500 .92rem/1.3 var(--f-display);color:var(--ink-soft);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.link:hover{color:var(--ink)}
+
+/* Verdict after each player */
+.verdict{display:grid;gap:8px;padding-top:4px}
+.v-call{font:italic 800 clamp(2.5rem,12vw,3.5rem)/1.15 var(--f-display);display:flex;align-items:center;gap:.3em}
+.verdict[data-outcome="goal"] .v-call{color:var(--good);animation:slam .4s .3s cubic-bezier(.2,1.5,.4,1) both;transform-origin:left center}
+.verdict[data-outcome="red"] .v-call{color:var(--alert)}
+.verdict[data-outcome="skip"] .v-call{color:var(--ink-soft)}
+.v-call .card{width:.5em;height:.72em;border-radius:.06em}
+@keyframes slam{from{transform:scale(1.7) rotate(-4deg);opacity:0}}
+.v-name{font:700 1.5rem/1.3 var(--f-display);text-wrap:balance}
+.v-en{font:400 1rem/1.3 var(--f-body);color:var(--ink-soft);white-space:nowrap}
+.v-note{color:var(--ink-soft)}
+.verdict .btn{margin-top:6px}
+
+/* Full time */
+.f-score{display:flex;align-items:baseline;gap:.4em}
+.f-num{font:italic 800 clamp(3.4rem,18vw,5rem)/1 var(--f-display)}
+.f-max{font:500 1.1rem/1 var(--f-display);color:var(--ink-soft)}
+.f-rank{font:700 1.45rem/1.3 var(--f-display)}
+.f-line{color:var(--ink-soft)}
+.f-list{list-style:none;margin:0;padding:0;display:grid;border-top:1px dashed var(--rule)}
+.f-list li{display:grid;grid-template-columns:1.3rem 1fr auto 1.4rem;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--rule)}
+.f-list .n{font:500 .85rem/1.4 var(--f-display);color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.f-list .who{min-width:0;font-weight:600}
+.f-list .who small{display:block;font-weight:400;font-size:.88rem;color:var(--ink-soft)}
+.f-list .how{font-size:.9rem;color:var(--ink-soft);white-space:nowrap}
+.f-list .red .how{color:var(--alert)}
+.f-list .pts{font:700 1.1rem/1.4 var(--f-display);text-align:right;font-variant-numeric:tabular-nums}
+.f-actions{display:flex;flex-wrap:wrap;gap:8px}
+.f-actions .btn{flex:1 1 9em}
+.share{width:100%;font:400 .95rem/1.5 var(--f-body);padding:.6rem;border:1.5px solid var(--ink);border-radius:4px;background:var(--paper-2);color:var(--ink);resize:none}
+
+.foot{font-size:.88rem;color:var(--chalk-dim);text-align:center;padding-top:4px}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="mast">
+    <p class="eyebrow">เกมทายนักเตะ · เกมละ 10 คน</p>
+    <h1>แข้งปริศนา</h1>
+    <p class="lede">ใช้คำใบ้ให้น้อยที่สุดแล้วทายชื่อนักเตะ ทายผิดครั้งแรกโดนใบเหลือง ผิดซ้ำเป็นใบแดง</p>
+    <div class="decks" id="decks" role="radiogroup" aria-label="ชุดนักเตะ"></div>
+    <div class="confirm" id="deckConfirm" hidden>
+      <p id="confirmText"></p>
+      <div>
+        <button type="button" class="deck yes" id="confirmYes">เริ่มเกมใหม่</button>
+        <button type="button" class="deck" id="confirmNo">เล่นต่อ</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="board" id="board" aria-label="สกอร์บอร์ด">
+    <div class="b-cell"><span class="b-label">คนที่</span><span class="b-num"><span id="bRound">01</span><small>/10</small></span></div>
+    <div class="b-cell b-right"><span class="b-label">แต้มรวม</span><span class="b-num" id="bScore">00</span></div>
+    <ol class="b-lamps" id="bLamps" aria-label="ผลของแต่ละคน"></ol>
+  </section>
+
+  <div class="play" id="play">
+    <section class="pitch-wrap" id="pitchWrap" aria-label="ระยะยิง">
+      <svg class="pitch" viewBox="-22 0 584 284" role="img" aria-label="แผนผังครึ่งสนาม ลูกบอลยิ่งอยู่ไกลประตูยิ่งได้แต้มมาก">
+        <defs>
+          <clipPath id="pitchClip"><rect x="-22" y="0" width="584" height="240" rx="8"/></clipPath>
+        </defs>
+        <g clip-path="url(#pitchClip)">
+          <rect class="g1" x="-22" y="0" width="584" height="240"/>
+          <path class="g2" d="M33 0h55v240h-55zM143 0h55v240h-55zM253 0h55v240h-55zM363 0h55v240h-55zM473 0h52v240h-52z"/>
+          <g class="lines">
+            <line x1="0" y1="0" x2="0" y2="240"/>
+            <circle cx="0" cy="120" r="91.5"/>
+            <line x1="360" y1="0" x2="360" y2="240"/>
+            <path d="M360 46.8A91.5 91.5 0 0 0 360 193.2"/>
+            <rect x="470" y="28.4" width="55" height="183.2"/>
+            <line x1="525" y1="0" x2="525" y2="240"/>
+          </g>
+          <circle class="spot" cx="0" cy="120" r="3.5"/>
+          <circle class="spot" cx="415" cy="120" r="3.5"/>
+          <path class="net" d="M525 92h26M525 101h26M525 110h26M525 120h26M525 130h26M525 139h26M525 148h26M533 83.4v73.2M542 83.4v73.2"/>
+          <path class="frame" d="M525 83.4h26v73.2h-26"/>
+          <line class="shot" id="shot" x1="14" y1="120" x2="520" y2="120"/>
+          <g class="ball" id="ball" style="transform:translate(0px,120px)">
+            <circle r="10"/>
+            <path d="M0-4.6 4.4-1.4 2.7 3.7H-2.7L-4.4-1.4Z"/>
+          </g>
+        </g>
+        <g id="marks"></g>
+      </svg>
+      <p class="range" id="range" aria-live="polite"></p>
+    </section>
+
+    <section class="sheet" aria-label="ใบทะเบียนนักเตะ">
+      <header class="sheet-head">
+        <h2>ใบทะเบียนนักเตะ</h2>
+        <span class="stamp" id="stamp">ปกปิดชื่อ</span>
+      </header>
+      <ol class="clues" id="clues"></ol>
+
+      <form class="answer" id="answer" autocomplete="off">
+        <label for="guess">ชื่อ–นามสกุล</label>
+        <div class="answer-row">
+          <div class="combo">
+            <ul class="suggest" id="suggest" role="listbox" aria-label="รายชื่อนักเตะ" hidden></ul>
+            <input id="guess" name="guess" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="go"
+              placeholder="พิมพ์ชื่อ เช่น ซาลาห์ หรือ Salah" role="combobox" aria-expanded="false" aria-controls="suggest" aria-autocomplete="list">
+          </div>
+          <button class="btn solid" id="shoot" type="submit">ยิง!</button>
+        </div>
+        <p class="hint" id="hint" aria-live="polite"></p>
+        <div class="bookings">
+          <div class="cards" id="cards"></div>
+          <button class="link" id="giveUp" type="button">ยอมแพ้ ดูเฉลย</button>
+        </div>
+      </form>
+
+      <div class="verdict" id="verdict" hidden>
+        <p class="v-call" id="vCall"></p>
+        <p class="v-name"><span id="vTh"></span> <span class="v-en" id="vEn"></span></p>
+        <p class="v-note" id="vNote"></p>
+        <button class="btn solid wide" id="next" type="button"></button>
+      </div>
+    </section>
+  </div>
+
+  <section class="sheet" id="final" hidden aria-label="ผลการแข่งขัน">
+    <header class="sheet-head">
+      <h2>จบเกม</h2>
+      <span class="sheet-side" id="fDeck"></span>
+    </header>
+    <div class="f-score"><span class="f-num" id="fScore"></span><span class="f-max" id="fMax"></span></div>
+    <p class="f-rank" id="fRank"></p>
+    <p class="f-line" id="fLine"></p>
+    <ol class="f-list" id="fList"></ol>
+    <div class="f-actions">
+      <button class="btn solid" id="again" type="button">เล่นอีกเกม</button>
+      <button class="btn ghost" id="copy" type="button">คัดลอกผล</button>
+    </div>
+    <p class="hint ok" id="copied" aria-live="polite"></p>
+    <textarea class="share" id="shareBox" rows="4" readonly hidden aria-label="ข้อความผลการแข่งขัน"></textarea>
+  </section>
+
+  <footer class="foot" id="foot"></footer>
+</div>
+
+<script>
+(function () {
+'use strict';
+document.documentElement.lang = 'th';
+
+/* ------------------------------------------------------------------
+ * ชุดแข่ง: p = ลาย (plain | stripes | check | sleeves | band)
+ * a = สีหลัก, b = สีรอง, ink = สีชื่อและเบอร์, edge = สีขอบตัวอักษร (ถ้ามี)
+ * ------------------------------------------------------------------ */
+const KITS = {
+  arg:{t:'ทีมชาติอาร์เจนตินา',p:'stripes',a:'#75aadb',b:'#ffffff',ink:'#14213d',edge:'#ffffff'},
+  por:{t:'ทีมชาติโปรตุเกส',p:'plain',a:'#c1121f',b:'#0b6e3a',ink:'#ffd166'},
+  fra:{t:'ทีมชาติฝรั่งเศส',p:'plain',a:'#1e3a8a',b:'#ffffff',ink:'#ffffff'},
+  eng:{t:'ทีมชาติอังกฤษ',p:'plain',a:'#f7f7f5',b:'#1d2a5b',ink:'#1d2a5b'},
+  bra:{t:'ทีมชาติบราซิล',p:'plain',a:'#ffdc02',b:'#009739',ink:'#00702c'},
+  esp:{t:'ทีมชาติสเปน',p:'plain',a:'#c60b1e',b:'#ffc400',ink:'#ffc400'},
+  cro:{t:'ทีมชาติโครเอเชีย',p:'check',a:'#e30613',b:'#ffffff',ink:'#12307a',edge:'#ffffff'},
+  mar:{t:'ทีมชาติโมร็อกโก',p:'plain',a:'#c1272d',b:'#006233',ink:'#ffffff'},
+  ned:{t:'ทีมชาติเนเธอร์แลนด์',p:'plain',a:'#f36c21',b:'#111111',ink:'#111111'},
+  ita:{t:'ทีมชาติอิตาลี',p:'plain',a:'#0d6ebd',b:'#ffffff',ink:'#ffffff'},
+  ger:{t:'ทีมชาติเยอรมนี',p:'plain',a:'#f7f7f5',b:'#111111',ink:'#111111'},
+  swe:{t:'ทีมชาติสวีเดน',p:'plain',a:'#fecc02',b:'#006aa7',ink:'#005b99'},
+  tha:{t:'ทีมชาติไทย',p:'plain',a:'#1d3fa3',b:'#ffffff',ink:'#ffffff'},
+  mci:{t:'แมนเชสเตอร์ ซิตี้',p:'plain',a:'#6cabdd',b:'#ffffff',ink:'#1c2c5b'},
+  liv:{t:'ลิเวอร์พูล',p:'plain',a:'#c8102e',b:'#ffffff',ink:'#ffffff'},
+  mun:{t:'แมนเชสเตอร์ ยูไนเต็ด',p:'plain',a:'#da291c',b:'#111111',ink:'#ffffff'},
+  ars:{t:'อาร์เซนอล',p:'sleeves',a:'#ef0107',b:'#ffffff',ink:'#ffffff'},
+  che:{t:'เชลซี',p:'plain',a:'#034694',b:'#ffffff',ink:'#ffffff'},
+  tot:{t:'ท็อตแน่ม ฮ็อทสเปอร์',p:'plain',a:'#f7f7f5',b:'#132257',ink:'#132257'},
+  new:{t:'นิวคาสเซิ่ล ยูไนเต็ด',p:'stripes',a:'#111111',b:'#ffffff',ink:'#d7263d',edge:'#ffffff'},
+  rma:{t:'เรอัล มาดริด',p:'plain',a:'#f9f9f6',b:'#c9a227',ink:'#1b1f3b'},
+  bar:{t:'บาร์เซโลน่า',p:'stripes',a:'#004d98',b:'#a50044',ink:'#edbb00',edge:'#0b1b3a'},
+  atm:{t:'แอตเลติโก มาดริด',p:'stripes',a:'#cb3524',b:'#ffffff',ink:'#1c2b5a',edge:'#ffffff'},
+  bay:{t:'บาเยิร์น มิวนิค',p:'plain',a:'#dc052d',b:'#ffffff',ink:'#ffffff'},
+  lev:{t:'ไบเออร์ เลเวอร์คูเซ่น',p:'plain',a:'#151515',b:'#e32221',ink:'#ffffff'},
+  psg:{t:'ปารีส แซงต์-แชร์กแมง',p:'band',a:'#0a1f44',b:'#da291c',ink:'#ffffff',edge:'#0a1f44'},
+  int:{t:'อินเตอร์ มิลาน',p:'stripes',a:'#0b63b0',b:'#111111',ink:'#ffffff',edge:'#111111'},
+  mil:{t:'เอซี มิลาน',p:'stripes',a:'#e3131b',b:'#111111',ink:'#ffffff',edge:'#111111'},
+  rom:{t:'โรม่า',p:'plain',a:'#8e1f2f',b:'#f0bc42',ink:'#f0bc42'},
+  gkg:{t:'ผู้รักษาประตู ลิเวอร์พูล',p:'plain',a:'#1fa35b',b:'#0c5c33',ink:'#ffffff'},
+  gkb:{t:'ผู้รักษาประตู ทีมชาติเยอรมนี',p:'plain',a:'#38b6e8',b:'#0f5f85',ink:'#0b2b40'},
+  gks:{t:'ผู้รักษาประตู ทีมชาติอิตาลี',p:'plain',a:'#9aa5ad',b:'#3d474d',ink:'#1c2226'}
+};
+
+/* ------------------------------------------------------------------
+ * รายชื่อนักเตะ — เพิ่มหรือแก้ได้ที่นี่ที่เดียว
+ * era: 'now' | 'legend'   pl: 1 ถ้าเคยเล่นพรีเมียร์ลีก
+ * fact = คำใบ้ข้อ 1 (ยากสุด)   feat = คำใบ้ข้อ 4   ห้ามมีชื่อเจ้าตัวในคำใบ้
+ * back = ชื่อหลังเสื้อ (อักษรอังกฤษตัวใหญ่)   aka = คำค้นเพิ่มเติม
+ * ------------------------------------------------------------------ */
+const PLAYERS = [
+  {id:'messi',th:'ลิโอเนล เมสซี่',en:'Lionel Messi',aka:['leo messi'],era:'now',pl:0,pos:'กองหน้า',nat:'อาร์เจนตินา',born:1987,
+   clubs:['บาร์เซโลน่า','ปารีส แซงต์-แชร์กแมง','อินเตอร์ ไมอามี่'],
+   fact:'สัญญาฉบับแรกกับสโมสรถูกเขียนลงบนกระดาษเช็ดปากในร้านอาหาร ตอนเขาอายุ 13 ปี',
+   feat:'แชมป์โลก 2022 และบัลลงดอร์ 8 สมัย มากที่สุดตลอดกาล',kit:'arg',no:10,back:'MESSI'},
+  {id:'cr7',th:'คริสเตียโน่ โรนัลโด้',en:'Cristiano Ronaldo',aka:['cr7'],era:'now',pl:1,pos:'กองหน้า',nat:'โปรตุเกส',born:1985,
+   clubs:['สปอร์ติ้ง ลิสบอน','แมนเชสเตอร์ ยูไนเต็ด','เรอัล มาดริด','ยูเวนตุส','แมนเชสเตอร์ ยูไนเต็ด','อัล นาสเซอร์'],
+   fact:'ชื่อกลางของเขาตั้งตามอดีตประธานาธิบดีสหรัฐฯ ที่พ่อชื่นชอบ',
+   feat:'แชมเปี้ยนส์ลีก 5 สมัย แชมป์ยูโร 2016 และยิงประตูในนามทีมชาติมากที่สุดในประวัติศาสตร์ฟุตบอลชาย',kit:'por',no:7,back:'RONALDO'},
+  {id:'mbappe',th:'คีลิยัน เอ็มบัปเป้',en:'Kylian Mbappé',aka:['เอ็มบาปเป้','เอมบัปเป้'],era:'now',pl:0,pos:'กองหน้า',nat:'ฝรั่งเศส',born:1998,
+   clubs:['โมนาโก','ปารีส แซงต์-แชร์กแมง','เรอัล มาดริด'],
+   fact:'ยิงแฮตทริกในนัดชิงชนะเลิศฟุตบอลโลก แต่ทีมกลับแพ้ในการดวลจุดโทษ',
+   feat:'แชมป์โลก 2018 ตั้งแต่อายุ 19 และดาวซัลโวฟุตบอลโลก 2022',kit:'fra',no:10,back:'MBAPPE'},
+  {id:'haaland',th:'เออร์ลิง ฮาลันด์',en:'Erling Haaland',aka:['ฮาแลนด์','ฮอลันด์'],era:'now',pl:1,pos:'กองหน้า',nat:'นอร์เวย์',born:2000,
+   clubs:['โมลด์','เร้ดบูลล์ ซัลซ์บวร์ก','โบรุสเซีย ดอร์ทมุนด์','แมนเชสเตอร์ ซิตี้'],
+   fact:'เกิดที่เมืองลีดส์ ประเทศอังกฤษ และเคยยิงคนเดียว 9 ประตูในนัดเดียวของฟุตบอลโลก U-20',
+   feat:'ยิง 36 ประตูในพรีเมียร์ลีกตั้งแต่ฤดูกาลแรก ทำลายสถิติของลีก และคว้าทริปเปิลแชมป์ 2023',kit:'mci',no:9,back:'HAALAND'},
+  {id:'salah',th:'โมฮาเหม็ด ซาลาห์',en:'Mohamed Salah',aka:['โม ซาลาห์','mo salah'],era:'now',pl:1,pos:'ปีก',nat:'อียิปต์',born:1992,
+   clubs:['อัล โมคาวลูน','บาเซิ่ล','เชลซี','ฟิออเรนติน่า','โรม่า','ลิเวอร์พูล'],
+   fact:'ยิงจุดโทษในช่วงทดเวลาเจ็บ พาชาติไปฟุตบอลโลกครั้งแรกในรอบ 28 ปี จนได้ฉายา “ฟาโรห์”',
+   feat:'รองเท้าทองคำพรีเมียร์ลีก 4 สมัย แชมเปี้ยนส์ลีก 2019 และแชมป์ลีก 2 สมัย',kit:'liv',no:11,back:'M. SALAH'},
+  {id:'kdb',th:'เควิน เดอ บรอยน์',en:'Kevin De Bruyne',aka:['เดอบรอยน์','เดอ บรอยน่า','kdb'],era:'now',pl:1,pos:'กองกลาง',nat:'เบลเยียม',born:1991,
+   clubs:['เกงค์','เชลซี','แวร์เดอร์ เบรเมน','โวล์ฟสบวร์ก','แมนเชสเตอร์ ซิตี้','นาโปลี'],
+   fact:'ทำ 20 แอสซิสต์ในพรีเมียร์ลีกฤดูกาลเดียว เท่ากับสถิติสูงสุดของลีก',
+   feat:'แชมป์พรีเมียร์ลีก 6 สมัย และทริปเปิลแชมป์ 2023',kit:'mci',no:17,back:'DE BRUYNE'},
+  {id:'modric',th:'ลูก้า โมดริช',en:'Luka Modrić',aka:['โมดริซ'],era:'now',pl:1,pos:'กองกลาง',nat:'โครเอเชีย',born:1985,
+   clubs:['ดินาโม ซาเกร็บ','ท็อตแน่ม ฮ็อทสเปอร์','เรอัล มาดริด','เอซี มิลาน'],
+   fact:'วัยเด็กต้องหนีภัยสงครามไปอาศัยในโรงแรมสำหรับผู้ลี้ภัย และฝึกเลี้ยงบอลอยู่ที่ลานจอดรถ',
+   feat:'บัลลงดอร์ 2018 แชมเปี้ยนส์ลีก 6 สมัย และรองแชมป์โลก 2018 พร้อมรางวัลลูกบอลทองคำ',kit:'cro',no:10,back:'MODRIC'},
+  {id:'lewandowski',th:'โรเบิร์ต เลวานดอฟสกี้',en:'Robert Lewandowski',aka:['เลวานโดวสกี้','เลวี่'],era:'now',pl:0,pos:'กองหน้า',nat:'โปแลนด์',born:1988,
+   clubs:['เลช พอซนาน','โบรุสเซีย ดอร์ทมุนด์','บาเยิร์น มิวนิค','บาร์เซโลน่า'],
+   fact:'ลงสนามเป็นตัวสำรองแล้วยิง 5 ประตูภายในเวลาเพียง 9 นาที',
+   feat:'ยิง 41 ประตูในบุนเดสลีกาฤดูกาลเดียว ทำลายสถิติที่ยืนมา 49 ปี และแชมเปี้ยนส์ลีก 2020',kit:'bay',no:9,back:'LEWANDOWSKI'},
+  {id:'kane',th:'แฮร์รี่ เคน',en:'Harry Kane',aka:['แฮรี่ เคน'],era:'now',pl:1,pos:'กองหน้า',nat:'อังกฤษ',born:1993,
+   clubs:['ท็อตแน่ม ฮ็อทสเปอร์','บาเยิร์น มิวนิค'],
+   fact:'ตอนเด็กเคยอยู่อะคาเดมีของคู่ปรับร่วมเมือง และถูกปล่อยยืมไปถึง 4 สโมสรก่อนแจ้งเกิด',
+   feat:'ดาวซัลโวสูงสุดตลอดกาลของทีมชาติอังกฤษ และรองเท้าทองคำฟุตบอลโลก 2018',kit:'eng',no:9,back:'KANE'},
+  {id:'neymar',th:'เนย์มาร์',en:'Neymar',aka:['neymar jr','เนย์มาร์ จูเนียร์'],era:'now',pl:0,pos:'กองหน้า',nat:'บราซิล',born:1992,
+   clubs:['ซานโต๊ส','บาร์เซโลน่า','ปารีส แซงต์-แชร์กแมง','อัล ฮิลาล','ซานโต๊ส'],
+   fact:'ค่าตัว 222 ล้านยูโรของเขาเป็นสถิติแพงที่สุดในโลก',
+   feat:'เหรียญทองโอลิมปิก 2016 แชมเปี้ยนส์ลีก 2015 และดาวซัลโวสูงสุดตลอดกาลของทีมชาติ',kit:'bra',no:10,back:'NEYMAR JR'},
+  {id:'vvd',th:'เฟอร์จิล ฟาน ไดค์',en:'Virgil van Dijk',aka:['ฟานไดค์','เวอร์จิล ฟาน ไดค์','vvd'],era:'now',pl:1,pos:'กองหลัง',nat:'เนเธอร์แลนด์',born:1991,
+   clubs:['โกรนิงเก้น','เซลติก','เซาแธมป์ตัน','ลิเวอร์พูล'],
+   fact:'สมัยวัยรุ่นเคยทำงานล้างจานในร้านอาหาร และบนหลังเสื้อใช้ชื่อต้นแทนนามสกุล',
+   feat:'อันดับ 2 บัลลงดอร์ 2019 แชมเปี้ยนส์ลีก 2019 และแชมป์พรีเมียร์ลีก 2 สมัย',kit:'liv',no:4,back:'VIRGIL'},
+  {id:'son',th:'ซน ฮึงมิน',en:'Son Heung-min',aka:['ซอน ฮึงมิน','ซนฮึงมิน','sonny','heung min son'],era:'now',pl:1,pos:'กองหน้า',nat:'เกาหลีใต้',born:1992,
+   clubs:['ฮัมบูร์ก','ไบเออร์ เลเวอร์คูเซ่น','ท็อตแน่ม ฮ็อทสเปอร์','ลอสแอนเจลิส เอฟซี'],
+   fact:'คว้ารางวัลปุสกัสจากการลากเดี่ยวตั้งแต่หน้ากรอบเขตโทษตัวเองไปยิงประตู',
+   feat:'นักเตะเอเชียคนแรกที่ได้รองเท้าทองคำพรีเมียร์ลีก และกัปตันทีมชูถ้วยยูโรปาลีก 2025',kit:'tot',no:7,back:'SON'},
+  {id:'bellingham',th:'จู๊ด เบลลิงแฮม',en:'Jude Bellingham',aka:['จูด เบลลิงแฮม'],era:'now',pl:0,pos:'กองกลาง',nat:'อังกฤษ',born:2003,
+   clubs:['เบอร์มิงแฮม ซิตี้','โบรุสเซีย ดอร์ทมุนด์','เรอัล มาดริด'],
+   fact:'สโมสรแรกประกาศรีไทร์เสื้อเบอร์ 22 ให้ ทั้งที่ตอนนั้นเขาอายุแค่ 17',
+   feat:'คว้าแชมเปี้ยนส์ลีกและลาลีกาตั้งแต่ฤดูกาลแรกในสเปน และยิงจักรยานอากาศตีเสมอนาที 95 ในยูโร 2024',kit:'rma',no:5,back:'BELLINGHAM'},
+  {id:'vinicius',th:'วินิซิอุส จูเนียร์',en:'Vinícius Júnior',aka:['vini jr','วินี่'],era:'now',pl:0,pos:'ปีก',nat:'บราซิล',born:2000,
+   clubs:['ฟลาเมงโก้','เรอัล มาดริด'],
+   fact:'ยิงประตูในนัดชิงแชมเปี้ยนส์ลีกได้ถึง 2 ครั้ง ก่อนอายุครบ 24',
+   feat:'นักเตะยอดเยี่ยม FIFA The Best 2024 และอันดับ 2 บัลลงดอร์ปีเดียวกัน',kit:'rma',no:7,back:'VINI JR'},
+  {id:'yamal',th:'ลามีน ยามาล',en:'Lamine Yamal',aka:['ยามัล','ลามิน ยามาล'],era:'now',pl:0,pos:'ปีก',nat:'สเปน',born:2007,
+   clubs:['บาร์เซโลน่า'],
+   fact:'ตอนเป็นทารกเคยถ่ายภาพปฏิทินการกุศลคู่กับเมสซี่ ซึ่งกำลังอาบน้ำให้เขา',
+   feat:'แชมป์ยูโร 2024 และเป็นผู้ทำประตูอายุน้อยที่สุดในประวัติศาสตร์ยูโร ตอนอายุ 16',kit:'esp',no:19,back:'LAMINE YAMAL'},
+  {id:'rodri',th:'โรดรี้',en:'Rodri',aka:['rodrigo hernandez','โรดรีโก้'],era:'now',pl:1,pos:'กองกลาง',nat:'สเปน',born:1996,
+   clubs:['บียาร์เรอัล','แอตเลติโก มาดริด','แมนเชสเตอร์ ซิตี้'],
+   fact:'เรียนมหาวิทยาลัยสาขาบริหารธุรกิจควบคู่กับการค้าแข้ง และเคยอยู่หอพักนักศึกษาทั้งที่เป็นนักเตะอาชีพแล้ว',
+   feat:'บัลลงดอร์ 2024 ยิงประตูชัยนัดชิงแชมเปี้ยนส์ลีก 2023 และนักเตะยอดเยี่ยมยูโร 2024',kit:'mci',no:16,back:'RODRIGO'},
+  {id:'dembele',th:'อุสมาน เดมเบเล่',en:'Ousmane Dembélé',aka:['เด็มเบเล่'],era:'now',pl:0,pos:'กองหน้า',nat:'ฝรั่งเศส',born:1997,
+   clubs:['แรนส์','โบรุสเซีย ดอร์ทมุนด์','บาร์เซโลน่า','ปารีส แซงต์-แชร์กแมง'],
+   fact:'ถนัดสองเท้าจนเตะมุมและยิงประตูได้ทั้งซ้ายและขวา คู่แข่งเดาทางไม่ถูก',
+   feat:'บัลลงดอร์ 2025 แชมเปี้ยนส์ลีก 2025 และแชมป์โลก 2018',kit:'psg',no:10,back:'DEMBELE'},
+  {id:'alisson',th:'อลิสซง เบ็คเกอร์',en:'Alisson Becker',aka:['อลิสซอน'],era:'now',pl:1,pos:'ผู้รักษาประตู',nat:'บราซิล',born:1992,
+   clubs:['อินเตอร์นาซิอองนาล','โรม่า','ลิเวอร์พูล'],
+   fact:'ขึ้นไปโหม่งประตูชัยในนาทีสุดท้ายของเกมลีก ทั้งที่เป็นผู้รักษาประตู',
+   feat:'แชมเปี้ยนส์ลีก 2019 โคปา อเมริกา 2019 และเป็นเจ้าของรางวัลยาชิน โทรฟี่คนแรก',kit:'gkg',no:1,back:'A. BECKER'},
+  {id:'neuer',th:'มานูเอล นอยเออร์',en:'Manuel Neuer',aka:['นอยเออ'],era:'now',pl:0,pos:'ผู้รักษาประตู',nat:'เยอรมนี',born:1986,
+   clubs:['ชาลเก้ 04','บาเยิร์น มิวนิค'],
+   fact:'ทำให้คำว่า “สวีปเปอร์คีปเปอร์” ติดปากแฟนบอล เพราะชอบออกมาเล่นนอกกรอบเหมือนกองหลังตัวสุดท้าย',
+   feat:'แชมป์โลก 2014 พร้อมรางวัลถุงมือทองคำ และแชมเปี้ยนส์ลีก 2 สมัย',kit:'gkb',no:1,back:'NEUER'},
+  {id:'griezmann',th:'อองตวน กรีซมันน์',en:'Antoine Griezmann',aka:['กรีซมาน','เกรียซมันน์'],era:'now',pl:0,pos:'กองหน้า',nat:'ฝรั่งเศส',born:1991,
+   clubs:['เรอัล โซเซียดาด','แอตเลติโก มาดริด','บาร์เซโลน่า','แอตเลติโก มาดริด'],
+   fact:'ถูกอะคาเดมีในบ้านเกิดปฏิเสธเพราะตัวเล็ก จึงย้ายไปฝึกฟุตบอลต่างประเทศตั้งแต่อายุ 14',
+   feat:'แชมป์โลก 2018 และคว้าทั้งดาวซัลโวกับนักเตะยอดเยี่ยมยูโร 2016',kit:'atm',no:7,back:'GRIEZMANN'},
+  {id:'saka',th:'บูกาโย่ ซาก้า',en:'Bukayo Saka',aka:['บูคาโย ซาก้า'],era:'now',pl:1,pos:'ปีก',nat:'อังกฤษ',born:2001,
+   clubs:['อาร์เซนอล'],
+   fact:'ชื่อต้นของเขาเป็นภาษาโยรูบา มีความหมายว่า “เพิ่มพูนความสุข”',
+   feat:'รองแชมป์ยูโร 2 สมัยติด และนักเตะยอดเยี่ยมแห่งปีของทีมชาติอังกฤษ 2 ปีซ้อน',kit:'ars',no:7,back:'SAKA'},
+  {id:'bruno',th:'บรูโน่ แฟร์นันด์ส',en:'Bruno Fernandes',aka:['บรูโน แฟร์นันเดส','บรูโน่ เฟอร์นันเดส'],era:'now',pl:1,pos:'กองกลาง',nat:'โปรตุเกส',born:1994,
+   clubs:['โนวาร่า','อูดิเนเซ่','ซามพ์โดเรีย','สปอร์ติ้ง ลิสบอน','แมนเชสเตอร์ ยูไนเต็ด'],
+   fact:'เริ่มค้าแข้งอาชีพที่อิตาลีตั้งแต่อายุ 17 กับสโมสรในเซเรีย บี ก่อนกลับไปดังที่บ้านเกิด',
+   feat:'แชมป์เอฟเอ คัพ 2024 คาราบาว คัพ 2023 และยูฟ่า เนชันส์ลีกกับทีมชาติ',kit:'mun',no:8,back:'B. FERNANDES'},
+  {id:'chanathip',th:'ชนาธิป สรงกระสินธ์',en:'Chanathip Songkrasin',aka:['เจ ชนาธิป','เมสซี่เจ'],era:'now',pl:0,pos:'กองกลาง',nat:'ไทย',born:1993,
+   clubs:['บีอีซี เทโรศาสน','เมืองทอง ยูไนเต็ด','คอนซาโดเล่ ซัปโปโร','คาวาซากิ ฟรอนตาเล่','บีจี ปทุม ยูไนเต็ด'],
+   fact:'สูงเพียง 158 ซม. แต่ติดทีมยอดเยี่ยมแห่งปีของเจลีกในปี 2018',
+   feat:'แชมป์อาเซียน 3 สมัย และคว้ารางวัลผู้เล่นทรงคุณค่าของรายการถึง 3 ครั้ง',kit:'tha',no:18,back:'CHANATHIP'},
+  {id:'teerasil',th:'ธีรศิลป์ แดงดา',en:'Teerasil Dangda',aka:['มุ้ย ธีรศิลป์','มุ้ย'],era:'now',pl:0,pos:'กองหน้า',nat:'ไทย',born:1988,
+   clubs:['เมืองทอง ยูไนเต็ด','อัลเมเรีย','ซานเฟรชเช่ ฮิโรชิม่า','ชิมิสุ เอส-พัลส์','บีจี ปทุม ยูไนเต็ด'],
+   fact:'นักเตะไทยคนแรกที่ได้ลงเล่นในลาลีกา สเปน',
+   feat:'ดาวซัลโวสูงสุดตลอดกาลของศึกชิงแชมป์อาเซียน',kit:'tha',no:10,back:'TEERASIL'},
+  {id:'taa',th:'เทรนต์ อเล็กซานเดอร์-อาร์โนลด์',en:'Trent Alexander-Arnold',aka:['เทรนท์','taa'],era:'now',pl:1,pos:'กองหลัง',nat:'อังกฤษ',born:1998,
+   clubs:['ลิเวอร์พูล','เรอัล มาดริด'],
+   fact:'เปิดเตะมุมเร็วตอนคู่แข่งเผลอ จนกลายเป็นประตูประวัติศาสตร์ในรอบรองชนะเลิศแชมเปี้ยนส์ลีก',
+   feat:'แชมเปี้ยนส์ลีก 2019 และแชมป์พรีเมียร์ลีก 2 สมัยกับสโมสรบ้านเกิด',kit:'liv',no:66,back:'ALEXANDER-ARNOLD'},
+  {id:'rice',th:'ดีแคลน ไรซ์',en:'Declan Rice',aka:['เดแคลน ไรซ์'],era:'now',pl:1,pos:'กองกลาง',nat:'อังกฤษ',born:1999,
+   clubs:['เวสต์แฮม ยูไนเต็ด','อาร์เซนอล'],
+   fact:'เคยลงเล่นทีมชาติชุดใหญ่ให้ไอร์แลนด์ 3 นัด ก่อนเปลี่ยนมาเล่นให้ชาติปัจจุบัน',
+   feat:'กัปตันทีมชูถ้วยยูโรปา คอนเฟอเรนซ์ ลีก 2023 และยิงฟรีคิก 2 ลูกในนัดเดียวใส่เรอัล มาดริด',kit:'ars',no:41,back:'RICE'},
+  {id:'palmer',th:'โคล พาลเมอร์',en:'Cole Palmer',aka:['ปาลเมอร์'],era:'now',pl:1,pos:'กองกลาง',nat:'อังกฤษ',born:2002,
+   clubs:['แมนเชสเตอร์ ซิตี้','เชลซี'],
+   fact:'ยิง 4 ประตูในครึ่งแรกครึ่งเดียวของเกมพรีเมียร์ลีก เป็นคนแรกในประวัติศาสตร์ลีก',
+   feat:'ยิงประตูในนัดชิงยูโร 2024 และยิง 2 ประตูในนัดชิงสโมสรโลก 2025 ฉลองด้วยท่ากอดอกหนาวสั่น',kit:'che',no:20,back:'PALMER'},
+  {id:'pedri',th:'เปดรี้',en:'Pedri',aka:['pedro gonzalez'],era:'now',pl:0,pos:'กองกลาง',nat:'สเปน',born:2002,
+   clubs:['ลาส พัลมาส','บาร์เซโลน่า'],
+   fact:'ลงเล่นรวม 73 นัดในฤดูกาลเดียว ทั้งสโมสร ยูโร และโอลิมปิก ตอนอายุ 18',
+   feat:'รางวัลโกลเด้นบอยและโคปา โทรฟี่ 2021 และดาวรุ่งยอดเยี่ยมยูโร 2020',kit:'bar',no:8,back:'PEDRI'},
+  {id:'hakimi',th:'อัชราฟ ฮาคิมี่',en:'Achraf Hakimi',aka:['ฮากิมี่'],era:'now',pl:0,pos:'กองหลัง',nat:'โมร็อกโก',born:1998,
+   clubs:['เรอัล มาดริด','โบรุสเซีย ดอร์ทมุนด์','อินเตอร์ มิลาน','ปารีส แซงต์-แชร์กแมง'],
+   fact:'เกิดและโตที่กรุงมาดริด แต่เลือกเล่นให้ชาติของพ่อแม่ แล้วยิงจุดโทษแบบปาเนนก้าส่งสเปนตกรอบฟุตบอลโลก 2022',
+   feat:'พาทีมชาติเป็นชาติแรกจากแอฟริกาที่เข้ารอบรองชนะเลิศฟุตบอลโลก และแชมเปี้ยนส์ลีก 2025',kit:'mar',no:2,back:'HAKIMI'},
+  {id:'wirtz',th:'ฟลอเรียน เวียร์ตซ์',en:'Florian Wirtz',aka:['เวียร์ทซ์','เวิร์ตซ์','วีร์ตซ์'],era:'now',pl:1,pos:'กองกลาง',nat:'เยอรมนี',born:2003,
+   clubs:['ไบเออร์ เลเวอร์คูเซ่น','ลิเวอร์พูล'],
+   fact:'ยิงประตูแรกในบุนเดสลีกาตอนอายุ 17 ปี 34 วัน เป็นสถิติอายุน้อยที่สุดของลีกในตอนนั้น',
+   feat:'แชมป์บุนเดสลีกาแบบไร้พ่าย 2023/24 พร้อมรางวัลนักเตะยอดเยี่ยมของลีก',kit:'lev',no:10,back:'WIRTZ'},
+  {id:'lautaro',th:'เลาตาโร่ มาร์ติเนซ',en:'Lautaro Martínez',aka:['เลาตาโร'],era:'now',pl:0,pos:'กองหน้า',nat:'อาร์เจนตินา',born:1997,
+   clubs:['ราซิ่ง คลับ','อินเตอร์ มิลาน'],
+   fact:'ได้ฉายา “เอล โตโร่” หรือเจ้ากระทิง ตั้งแต่สมัยเล่นอยู่ในบ้านเกิด',
+   feat:'แชมป์โลก 2022 และยิงประตูชัยนัดชิงโคปา อเมริกา 2024 พร้อมคว้าดาวซัลโวรายการ',kit:'int',no:10,back:'LAUTARO'},
+  {id:'odegaard',th:'มาร์ติน โอเดการ์ด',en:'Martin Ødegaard',aka:['odegaard','เออเดอการ์ด'],era:'now',pl:1,pos:'กองกลาง',nat:'นอร์เวย์',born:1998,
+   clubs:['สตรอมส์ก็อดเซ็ต','เรอัล มาดริด','เรอัล โซเซียดาด','อาร์เซนอล'],
+   fact:'ติดทีมชาติชุดใหญ่ครั้งแรกตอนอายุ 15 ปี',
+   feat:'ย้ายไปเรอัล มาดริดตั้งแต่อายุ 16 และต่อมาได้เป็นกัปตันทีมในพรีเมียร์ลีก',kit:'ars',no:8,back:'ODEGAARD'},
+
+  {id:'pele',th:'เปเล่',en:'Pelé',aka:[],era:'legend',pl:0,pos:'กองหน้า',nat:'บราซิล',born:1940,
+   clubs:['ซานโต๊ส','นิวยอร์ก คอสมอส'],
+   fact:'ชื่อจริงของเขาตั้งตามนักประดิษฐ์หลอดไฟ โธมัส เอดิสัน',
+   feat:'แชมป์โลก 3 สมัย (1958, 1962, 1970) เป็นนักเตะคนเดียวในประวัติศาสตร์',kit:'bra',no:10,back:'PELE'},
+  {id:'maradona',th:'ดีเอโก้ มาราโดน่า',en:'Diego Maradona',aka:['ดิเอโก มาราโดนา'],era:'legend',pl:0,pos:'กองกลาง',nat:'อาร์เจนตินา',born:1960,
+   clubs:['อาร์เจนติโนส จูเนียร์ส','โบคา จูเนียร์ส','บาร์เซโลน่า','นาโปลี','เซบีย่า','นีเวลล์ส โอลด์ บอยส์','โบคา จูเนียร์ส'],
+   fact:'สนามเหย้าของสโมสรในอิตาลีที่เขาพาคว้าแชมป์ลีก ถูกเปลี่ยนชื่อเป็นชื่อของเขา',
+   feat:'แชมป์โลก 1986 กับประตู “หัตถ์พระเจ้า” และประตูแห่งศตวรรษในเกมเดียวกัน',kit:'arg',no:10,back:'MARADONA'},
+  {id:'cruyff',th:'โยฮัน ครัฟฟ์',en:'Johan Cruyff',aka:['ครอยฟ์','cruijff'],era:'legend',pl:0,pos:'กองหน้า',nat:'เนเธอร์แลนด์',born:1947,
+   clubs:['อาแจ็กซ์','บาร์เซโลน่า','ลอสแอนเจลิส แอซเท็กส์','วอชิงตัน ดิโพลแมตส์','อาแจ็กซ์','เฟเยนูร์ด'],
+   fact:'มีท่าพลิกบอลหลอกกลับตัวที่คนทั้งโลกเรียกด้วยชื่อของเขา',
+   feat:'บัลลงดอร์ 3 สมัย ยูโรเปี้ยน คัพ 3 สมัยติด และหัวใจของ “โททัลฟุตบอล” ชุดรองแชมป์โลก 1974',kit:'ned',no:14,back:'CRUYFF'},
+  {id:'zidane',th:'ซีเนอดีน ซีดาน',en:'Zinedine Zidane',aka:['ซีเนดีน ซีดาน','zizou'],era:'legend',pl:0,pos:'กองกลาง',nat:'ฝรั่งเศส',born:1972,
+   clubs:['คานส์','บอร์กโดซ์','ยูเวนตุส','เรอัล มาดริด'],
+   fact:'เกมสุดท้ายในอาชีพนักเตะจบลงด้วยใบแดงในนัดชิงชนะเลิศฟุตบอลโลก',
+   feat:'โหม่ง 2 ประตูในนัดชิงฟุตบอลโลก 1998 และวอลเลย์เท้าซ้ายในนัดชิงแชมเปี้ยนส์ลีก 2002',kit:'fra',no:10,back:'ZIDANE'},
+  {id:'r9',th:'โรนัลโด้ นาซาริโอ',en:'Ronaldo Nazário',aka:['r9','โรนัลโด้ r9'],era:'legend',pl:0,pos:'กองหน้า',nat:'บราซิล',born:1976,
+   clubs:['ครูไซโร่','พีเอสวี','บาร์เซโลน่า','อินเตอร์ มิลาน','เรอัล มาดริด','เอซี มิลาน','โครินเธียนส์'],
+   fact:'เคยเล่นให้ทั้งสองฝั่งของศึกมิลานดาร์บี้ และทั้งสองฝั่งของเอล กลาซิโก้',
+   feat:'ยิง 2 ประตูในนัดชิงฟุตบอลโลก 2002 คว้าดาวซัลโว 8 ประตู และบัลลงดอร์ 2 สมัย',kit:'bra',no:9,back:'RONALDO'},
+  {id:'ronaldinho',th:'โรนัลดินโญ่',en:'Ronaldinho',aka:['โรนัลดินโย่'],era:'legend',pl:0,pos:'กองกลาง',nat:'บราซิล',born:1980,
+   clubs:['เกรมิโอ','ปารีส แซงต์-แชร์กแมง','บาร์เซโลน่า','เอซี มิลาน','ฟลาเมงโก้','แอตเลติโก มิไนโร่'],
+   fact:'แฟนบอลคู่ปรับตลอดกาลยืนปรบมือให้ถึงในสนามของตัวเอง หลังเขายิง 2 ประตูในเอล กลาซิโก้',
+   feat:'แชมป์โลก 2002 บัลลงดอร์ 2005 และแชมเปี้ยนส์ลีก 2006',kit:'bar',no:10,back:'RONALDINHO'},
+  {id:'henry',th:'เธียร์รี่ อองรี',en:'Thierry Henry',aka:['เธียรี่ อองรี','ติติ'],era:'legend',pl:1,pos:'กองหน้า',nat:'ฝรั่งเศส',born:1977,
+   clubs:['โมนาโก','ยูเวนตุส','อาร์เซนอล','บาร์เซโลน่า','นิวยอร์ก เร้ดบูลล์ส'],
+   fact:'มีรูปปั้นท่าคุกเข่าฉลองประตูของตัวเองตั้งอยู่หน้าสนามของสโมสร',
+   feat:'รองเท้าทองคำพรีเมียร์ลีก 4 สมัย แชมป์ลีกไร้พ่าย 2003/04 และแชมป์โลก 1998',kit:'ars',no:14,back:'HENRY'},
+  {id:'beckham',th:'เดวิด เบ็คแฮม',en:'David Beckham',aka:['เบคแฮม','becks'],era:'legend',pl:1,pos:'กองกลาง',nat:'อังกฤษ',born:1975,
+   clubs:['แมนเชสเตอร์ ยูไนเต็ด','เรอัล มาดริด','แอลเอ แกแล็กซี่','เอซี มิลาน','ปารีส แซงต์-แชร์กแมง'],
+   fact:'ยิงประตูจากเส้นกลางสนามข้ามหัวผู้รักษาประตูตอนอายุ 21',
+   feat:'ทริปเปิลแชมป์ 1999 และคว้าแชมป์ลีกได้ใน 4 ประเทศ',kit:'mun',no:7,back:'BECKHAM'},
+  {id:'gerrard',th:'สตีเว่น เจอร์ราร์ด',en:'Steven Gerrard',aka:['สตีเวน เจอร์ราร์ด','สตีวี่ จี'],era:'legend',pl:1,pos:'กองกลาง',nat:'อังกฤษ',born:1980,
+   clubs:['ลิเวอร์พูล','แอลเอ แกแล็กซี่'],
+   fact:'เป็นคนเดียวที่ยิงประตูได้ทั้งในนัดชิงเอฟเอ คัพ ลีก คัพ ยูฟ่า คัพ และแชมเปี้ยนส์ลีก',
+   feat:'กัปตันทีมในค่ำคืนที่อิสตันบูล 2005 พลิกจากตามหลัง 0–3 มาคว้าแชมป์ยุโรป',kit:'liv',no:8,back:'GERRARD'},
+  {id:'rooney',th:'เวย์น รูนี่ย์',en:'Wayne Rooney',aka:['รูนีย์','wazza'],era:'legend',pl:1,pos:'กองหน้า',nat:'อังกฤษ',born:1985,
+   clubs:['เอฟเวอร์ตัน','แมนเชสเตอร์ ยูไนเต็ด','เอฟเวอร์ตัน','ดีซี ยูไนเต็ด','ดาร์บี้ เคาน์ตี้'],
+   fact:'ยิงประตูแรกในพรีเมียร์ลีกตอนอายุ 16 หยุดสถิติไร้พ่าย 30 นัดของอาร์เซนอล',
+   feat:'ดาวซัลโวสูงสุดตลอดกาลของแมนเชสเตอร์ ยูไนเต็ด 253 ประตู และแชมป์พรีเมียร์ลีก 5 สมัย',kit:'mun',no:10,back:'ROONEY'},
+  {id:'maldini',th:'เปาโล มัลดินี่',en:'Paolo Maldini',aka:['มัลดีนี่'],era:'legend',pl:0,pos:'กองหลัง',nat:'อิตาลี',born:1968,
+   clubs:['เอซี มิลาน'],
+   fact:'พ่อของเขาเคยเป็นกัปตันทีมชูถ้วยยุโรปให้สโมสรเดียวกัน และลูกชายก็ได้ลงเล่นให้ทีมนี้เช่นกัน',
+   feat:'แชมป์ยุโรป 5 สมัย ค้าแข้งกับสโมสรเดียว 25 ฤดูกาล และเสื้อเบอร์ 3 ถูกรีไทร์',kit:'mil',no:3,back:'MALDINI'},
+  {id:'pirlo',th:'อันเดรีย ปีร์โล่',en:'Andrea Pirlo',aka:['เปียร์โล่'],era:'legend',pl:0,pos:'กองกลาง',nat:'อิตาลี',born:1979,
+   clubs:['เบรสชา','อินเตอร์ มิลาน','เอซี มิลาน','ยูเวนตุส','นิวยอร์ก ซิตี้'],
+   fact:'เล่าในหนังสือของตัวเองว่า บ่ายวันนัดชิงฟุตบอลโลกเขานอนกลางวันและเล่นเพลย์สเตชัน',
+   feat:'แชมป์โลก 2006 แชมเปี้ยนส์ลีก 2 สมัย และจุดโทษปาเนนก้าใส่อังกฤษในยูโร 2012',kit:'ita',no:21,back:'PIRLO'},
+  {id:'buffon',th:'จานลุยจิ บุฟฟ่อน',en:'Gianluigi Buffon',aka:['จีจี้ บุฟฟ่อน','gigi'],era:'legend',pl:0,pos:'ผู้รักษาประตู',nat:'อิตาลี',born:1978,
+   clubs:['ปาร์ม่า','ยูเวนตุส','ปารีส แซงต์-แชร์กแมง','ยูเวนตุส','ปาร์ม่า'],
+   fact:'ค่าตัวตอนย้ายทีมปี 2001 เป็นสถิติโลกของตำแหน่งนี้อยู่นานถึง 17 ปี',
+   feat:'แชมป์โลก 2006 และแชมป์เซเรีย อา 10 สมัย',kit:'gks',no:1,back:'BUFFON'},
+  {id:'xavi',th:'ชาบี เอร์นานเดซ',en:'Xavi Hernández',aka:['ซาบี'],era:'legend',pl:0,pos:'กองกลาง',nat:'สเปน',born:1980,
+   clubs:['บาร์เซโลน่า','อัล ซาดด์'],
+   fact:'ได้รางวัลนักเตะยอดเยี่ยมยูโร 2008 และภายหลังกลับมาคุมทีมสโมสรเก่าจนได้แชมป์ลีก',
+   feat:'แชมป์โลก 2010 แชมป์ยูโร 2 สมัย และแชมเปี้ยนส์ลีก 4 สมัย',kit:'bar',no:6,back:'XAVI'},
+  {id:'iniesta',th:'อันเดรส อิเนียสต้า',en:'Andrés Iniesta',aka:[],era:'legend',pl:0,pos:'กองกลาง',nat:'สเปน',born:1984,
+   clubs:['บาร์เซโลน่า','วิสเซล โกเบ','เอมิเรตส์ คลับ'],
+   fact:'ถอดเสื้อฉลองประตูสำคัญที่สุดในชีวิต เผยข้อความรำลึกถึงเพื่อนนักเตะผู้ล่วงลับ',
+   feat:'ยิงประตูชัยนัดชิงฟุตบอลโลก 2010 ในช่วงต่อเวลาพิเศษ',kit:'esp',no:6,back:'A. INIESTA'},
+  {id:'beckenbauer',th:'ฟรานซ์ เบ็คเค่นบาวเออร์',en:'Franz Beckenbauer',aka:['เบคเคนบาวเออร์','ไกเซอร์'],era:'legend',pl:0,pos:'กองหลัง',nat:'เยอรมนี',born:1945,
+   clubs:['บาเยิร์น มิวนิค','นิวยอร์ก คอสมอส','ฮัมบูร์ก','นิวยอร์ก คอสมอส'],
+   fact:'ลงเล่นรอบรองชนะเลิศฟุตบอลโลก 1970 ทั้งที่ไหล่หลุด ต้องพันแขนแนบลำตัว',
+   feat:'แชมป์โลกทั้งในฐานะกัปตันทีม (1974) และผู้จัดการทีม (1990) เจ้าของฉายา “แดร์ ไกเซอร์”',kit:'ger',no:5,back:'BECKENBAUER'},
+  {id:'baggio',th:'โรแบร์โต้ บาจโจ้',en:'Roberto Baggio',aka:['บักโจ้'],era:'legend',pl:0,pos:'กองหน้า',nat:'อิตาลี',born:1967,
+   clubs:['วิเชนซ่า','ฟิออเรนติน่า','ยูเวนตุส','เอซี มิลาน','โบโลญญ่า','อินเตอร์ มิลาน','เบรสชา'],
+   fact:'นับถือศาสนาพุทธ และได้ฉายาจากทรงผมหางม้าของตัวเอง',
+   feat:'บัลลงดอร์ 1993 และเป็นคนยิงจุดโทษข้ามคานในนัดชิงฟุตบอลโลก 1994',kit:'ita',no:10,back:'R. BAGGIO'},
+  {id:'totti',th:'ฟรานเชสโก้ ต็อตติ',en:'Francesco Totti',aka:['ตอตติ'],era:'legend',pl:0,pos:'กองหน้า',nat:'อิตาลี',born:1976,
+   clubs:['โรม่า'],
+   fact:'ค้าแข้งกับสโมสรบ้านเกิดสโมสรเดียว 25 ฤดูกาล และปฏิเสธข้อเสนอจากเรอัล มาดริด',
+   feat:'แชมป์โลก 2006 สคูเด็ตโต้ 2001 และรองเท้าทองคำยุโรป 2007',kit:'rom',no:10,back:'TOTTI'},
+  {id:'cantona',th:'เอริค คันโตน่า',en:'Eric Cantona',aka:['ก็องโตน่า'],era:'legend',pl:1,pos:'กองหน้า',nat:'ฝรั่งเศส',born:1966,
+   clubs:['โอแซร์','มาร์กเซย','นีมส์','ลีดส์ ยูไนเต็ด','แมนเชสเตอร์ ยูไนเต็ด'],
+   fact:'ชอบตั้งปกเสื้อขึ้นเวลาลงสนาม และเลิกเล่นตอนอายุ 30 เพื่อไปเป็นนักแสดง',
+   feat:'แชมป์ลีกสูงสุดอังกฤษ 5 สมัยในรอบ 6 ปี กับ 2 สโมสร เจ้าของฉายา “เดอะ คิง”',kit:'mun',no:7,back:'CANTONA'},
+  {id:'bergkamp',th:'เดนนิส เบิร์กแคมป์',en:'Dennis Bergkamp',aka:['เบิร์กคัมป์'],era:'legend',pl:1,pos:'กองหน้า',nat:'เนเธอร์แลนด์',born:1969,
+   clubs:['อาแจ็กซ์','อินเตอร์ มิลาน','อาร์เซนอล'],
+   fact:'กลัวการขึ้นเครื่องบิน จนต้องเดินทางไปเกมเยือนในยุโรปด้วยรถยนต์หรือรถไฟ',
+   feat:'แชมป์พรีเมียร์ลีก 3 สมัย รวมฤดูกาลไร้พ่าย และประตูจับบอลสามจังหวะใส่อาร์เจนตินาในฟุตบอลโลก 1998',kit:'ars',no:10,back:'BERGKAMP'},
+  {id:'lampard',th:'แฟร้งค์ แลมพาร์ด',en:'Frank Lampard',aka:['แฟรงค์ แลมพาร์ด','แลมปาร์ด'],era:'legend',pl:1,pos:'กองกลาง',nat:'อังกฤษ',born:1978,
+   clubs:['เวสต์แฮม ยูไนเต็ด','เชลซี','แมนเชสเตอร์ ซิตี้','นิวยอร์ก ซิตี้'],
+   fact:'ลงเล่นพรีเมียร์ลีกติดต่อกัน 164 นัด เป็นสถิติของผู้เล่นที่ไม่ใช่ผู้รักษาประตู',
+   feat:'ดาวซัลโวสูงสุดตลอดกาลของเชลซี 211 ประตู ทั้งที่เป็นกองกลาง และแชมเปี้ยนส์ลีก 2012',kit:'che',no:8,back:'LAMPARD'},
+  {id:'drogba',th:'ดิดิเย่ร์ ดร็อกบา',en:'Didier Drogba',aka:['ดรอกบา'],era:'legend',pl:1,pos:'กองหน้า',nat:'ไอวอรี่โคสต์',born:1978,
+   clubs:['เลอ ม็องส์','แก็งก็อง','มาร์กเซย','เชลซี','เซี่ยงไฮ้ เสิ่นหัว','กาลาตาซาราย','เชลซี','มอนทรีออล อิมแพ็ค'],
+   fact:'เคยออกโทรทัศน์วิงวอนให้คู่ขัดแย้งวางอาวุธ จนช่วยให้เกิดการหยุดยิงในสงครามกลางเมืองบ้านเกิด',
+   feat:'โหม่งตีเสมอนาที 88 แล้วยิงจุดโทษลูกตัดสิน คว้าแชมเปี้ยนส์ลีก 2012',kit:'che',no:11,back:'DROGBA'},
+  {id:'park',th:'ปาร์ค จีซอง',en:'Park Ji-sung',aka:['พัค จีซอง','ปาร์ค จี ซอง','ji sung park'],era:'legend',pl:1,pos:'กองกลาง',nat:'เกาหลีใต้',born:1981,
+   clubs:['เกียวโต เพอร์เพิล ซังกะ','พีเอสวี','แมนเชสเตอร์ ยูไนเต็ด','ควีนส์ปาร์ค เรนเจอร์ส'],
+   fact:'แฟนบอลตั้งฉายาว่า “สามปอด” เพราะวิ่งไม่มีหมดตลอด 90 นาที',
+   feat:'นักเตะเอเชียคนแรกที่ได้ลงเล่นนัดชิงแชมเปี้ยนส์ลีก และแชมป์พรีเมียร์ลีก 4 สมัย',kit:'mun',no:13,back:'PARK'},
+  {id:'zlatan',th:'ซลาตัน อิบราฮิโมวิช',en:'Zlatan Ibrahimović',aka:['อิบรา','ibra'],era:'legend',pl:1,pos:'กองหน้า',nat:'สวีเดน',born:1981,
+   clubs:['มัลโม่','อาแจ็กซ์','ยูเวนตุส','อินเตอร์ มิลาน','บาร์เซโลน่า','เอซี มิลาน','ปารีส แซงต์-แชร์กแมง','แมนเชสเตอร์ ยูไนเต็ด','แอลเอ แกแล็กซี่','เอซี มิลาน'],
+   fact:'ได้สายดำเทควันโดตั้งแต่วัยรุ่น และเคยยิงจักรยานอากาศจากระยะราว 30 หลาใส่อังกฤษ',
+   feat:'คว้าแชมป์ลีกใน 4 ประเทศ แต่ไม่เคยได้แชมเปี้ยนส์ลีก',kit:'swe',no:10,back:'IBRAHIMOVIC'},
+  {id:'kaka',th:'กาก้า',en:'Kaká',aka:['ริคาร์โด้ กาก้า'],era:'legend',pl:0,pos:'กองกลาง',nat:'บราซิล',born:1982,
+   clubs:['เซาเปาโล','เอซี มิลาน','เรอัล มาดริด','เอซี มิลาน','ออร์แลนโด ซิตี้'],
+   fact:'ตอนอายุ 18 ประสบอุบัติเหตุที่สระว่ายน้ำจนกระดูกสันหลังร้าว เกือบเดินไม่ได้',
+   feat:'บัลลงดอร์ 2007 คนสุดท้ายก่อนยุคเมสซี่–โรนัลโด้ และแชมเปี้ยนส์ลีก 2007',kit:'mil',no:22,back:'KAKA'},
+  {id:'torres',th:'เฟร์นานโด้ ตอร์เรส',en:'Fernando Torres',aka:['เฟอร์นานโด ตอร์เรส','เอลนินโญ่'],era:'legend',pl:1,pos:'กองหน้า',nat:'สเปน',born:1984,
+   clubs:['แอตเลติโก มาดริด','ลิเวอร์พูล','เชลซี','เอซี มิลาน','แอตเลติโก มาดริด','ซางัน โทสุ'],
+   fact:'ได้ฉายา “เอล นินโญ่” (เจ้าหนู) และเป็นกัปตันทีมสโมสรบ้านเกิดตั้งแต่อายุ 19',
+   feat:'ยิงประตูชัยนัดชิงยูโร 2008 แชมป์โลก 2010 และแชมเปี้ยนส์ลีก 2012',kit:'liv',no:9,back:'TORRES'},
+  {id:'shearer',th:'อลัน เชียเรอร์',en:'Alan Shearer',aka:['อลัน เชียร์เรอร์'],era:'legend',pl:1,pos:'กองหน้า',nat:'อังกฤษ',born:1970,
+   clubs:['เซาแธมป์ตัน','แบล็คเบิร์น โรเวอร์ส','นิวคาสเซิ่ล ยูไนเต็ด'],
+   fact:'ยิงแฮตทริกในเกมลีกนัดแรกที่ได้ออกสตาร์ต ตอนอายุ 17',
+   feat:'ดาวซัลโวสูงสุดตลอดกาลของพรีเมียร์ลีก 260 ประตู และแชมป์ลีก 1995',kit:'new',no:9,back:'SHEARER'},
+  {id:'rcarlos',th:'โรแบร์โต้ คาร์ลอส',en:'Roberto Carlos',aka:['โรแบร์โต คาร์ลอส'],era:'legend',pl:0,pos:'กองหลัง',nat:'บราซิล',born:1973,
+   clubs:['พัลไมรัส','อินเตอร์ มิลาน','เรอัล มาดริด','เฟเนร์บาห์เช่','โครินเธียนส์','อันจี้ มาคัชคาล่า'],
+   fact:'ฟรีคิกโค้งหักศอกใส่ฝรั่งเศสปี 1997 ของเขา ทำให้นักฟิสิกส์ถึงกับเขียนงานวิจัยอธิบาย',
+   feat:'แชมป์โลก 2002 และแชมเปี้ยนส์ลีก 3 สมัย',kit:'bra',no:6,back:'R. CARLOS'},
+  {id:'kiatisuk',th:'เกียรติศักดิ์ เสนาเมือง',en:'Kiatisuk Senamuang',aka:['ซิโก้','โก้ เกียรติศักดิ์','zico'],era:'legend',pl:0,pos:'กองหน้า',nat:'ไทย',born:1973,
+   clubs:['ธนาคารกรุงไทย','เปอร์ลิส','ฮัดเดอร์สฟิลด์ ทาวน์','สิงคโปร์ อาร์มฟอร์ซ','ฮองอันห์ ยาลาย'],
+   fact:'ฉลองประตูด้วยการตีลังกาจนเป็นท่าประจำตัว และมีฉายาเดียวกับตำนานชาวบราซิล',
+   feat:'ดาวซัลโวสูงสุดตลอดกาลของทีมชาติไทย และต่อมาคุมทีมชาติคว้าแชมป์อาเซียน 2 สมัย',kit:'tha',no:13,back:'KIATISUK'},
+  {id:'aguero',th:'เซร์คิโอ อเกวโร่',en:'Sergio Agüero',aka:['อเกโร่','กุน อเกวโร่'],era:'legend',pl:1,pos:'กองหน้า',nat:'อาร์เจนตินา',born:1988,
+   clubs:['อินดิเพนเดียนเต้','แอตเลติโก มาดริด','แมนเชสเตอร์ ซิตี้','บาร์เซโลน่า'],
+   fact:'ฉายา “กุน” มาจากตัวการ์ตูนญี่ปุ่นที่เขาชอบดูตอนเด็ก',
+   feat:'ยิงประตูนาที 93:20 ในนัดสุดท้ายของฤดูกาล คว้าแชมป์พรีเมียร์ลีก 2012',kit:'mci',no:10,back:'KUN AGUERO'},
+  {id:'bale',th:'แกเร็ธ เบล',en:'Gareth Bale',aka:['กาเร็ธ เบล'],era:'legend',pl:1,pos:'ปีก',nat:'เวลส์',born:1989,
+   clubs:['เซาแธมป์ตัน','ท็อตแน่ม ฮ็อทสเปอร์','เรอัล มาดริด','ลอสแอนเจลิส เอฟซี'],
+   fact:'ลงมาเป็นตัวสำรองไม่กี่นาทีก็ยิงจักรยานอากาศในนัดชิงแชมเปี้ยนส์ลีก',
+   feat:'แชมเปี้ยนส์ลีก 5 สมัย และพาทีมชาติเข้ารอบรองชนะเลิศยูโร 2016',kit:'rma',no:11,back:'BALE'},
+  {id:'kroos',th:'โทนี่ โครส',en:'Toni Kroos',aka:['โทนี โครส'],era:'legend',pl:0,pos:'กองกลาง',nat:'เยอรมนี',born:1990,
+   clubs:['บาเยิร์น มิวนิค','ไบเออร์ เลเวอร์คูเซ่น','เรอัล มาดริด'],
+   fact:'ใส่รองเท้าสตั๊ดสีขาวรุ่นเดิมแทบตลอดอาชีพ และเลิกเล่นหลังยูโร 2024 ทั้งที่ยังอยู่ในระดับสูงสุด',
+   feat:'แชมป์โลก 2014 และแชมเปี้ยนส์ลีก 6 สมัย',kit:'rma',no:8,back:'KROOS'}
+];
+
+const DECKS = [
+  {id:'all',    name:'ทั้งหมด',     test:() => true},
+  {id:'now',    name:'ยุคนี้',       test:p => p.era === 'now'},
+  {id:'legend', name:'ตำนาน',      test:p => p.era === 'legend'},
+  {id:'pl',     name:'พรีเมียร์ลีก', test:p => p.pl === 1}
+];
+const ROUNDS = 10;
+/* ระยะยิงตามจำนวนคำใบ้ที่เปิด: d = เมตรจากเส้นประตู, x = ตำแหน่งบนแผนผัง (525 − d×10) */
+const SPOTS = [
+  {pts:5, d:52, x:0,   name:'กลางสนาม'},
+  {pts:4, d:32, x:205, name:'ระยะไกล'},
+  {pts:3, d:18, x:345, name:'หัวกะโหลก'},
+  {pts:2, d:11, x:415, name:'จุดโทษ'},
+  {pts:1, d:4,  x:485, name:'หน้าปากประตู'}
+];
+const CLUE_NAMES = ['เกร็ด', 'โปรไฟล์', 'เส้นทางค้าแข้ง', 'ผลงานเด่น', 'เสื้อแข่ง'];
+const RANKS = [
+  [45, 'ตำนานลูกหนัง',   'รู้ลึกขนาดนี้ ไปนั่งวิเคราะห์บอลหน้าจอได้เลย'],
+  [36, 'ซูเปอร์สตาร์',     'ยิงไกลเข้ากรอบแทบทุกลูก'],
+  [26, 'ตัวจริงทีมชาติ',   'ฟอร์มนิ่ง ไว้ใจได้ในเกมใหญ่'],
+  [16, 'ตัวจริงสโมสร',    'มีของ แต่ยังต้องเก็บประสบการณ์อีกหน่อย'],
+  [6,  'ตัวสำรอง',        'อุ่นเครื่องอีกนิด เดี๋ยวก็ได้ลงสนาม'],
+  [0,  'เด็กเก็บบอล',     'เริ่มจากข้างสนามก่อน เกมหน้าเอาใหม่']
+];
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pad2 = n => String(n).padStart(2, '0');
+const reduceMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* ตัดวรรณยุกต์ ไม้ไต่คู้ การันต์ สำเนียงละติน ช่องว่าง และขีด เพื่อให้สะกดต่างกันเล็กน้อยก็ยังค้นเจอ */
+function norm(s) {
+  return String(s).toLowerCase().normalize('NFD')
+    .replace(/[̀-ͯ]/g, '').replace(/[็-๎]/g, '')
+    .replace(/ø/g, 'o').replace(/[\s.\-'’​]/g, '');
+}
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('khaeng.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem('khaeng.' + k, JSON.stringify(v)); } catch (e) { /* เล่นต่อได้แม้บันทึกไม่ได้ */ } }
+};
+
+const byId = new Map();
+PLAYERS.forEach(p => {
+  const names = [p.th, p.en, p.back].concat(p.aka || []);
+  p.keys = names.map(norm);
+  p.words = names.join(' ').split(/[\s\-]+/).map(norm).filter(Boolean);
+  byId.set(p.id, p);
+});
+
+function search(text) {
+  const q = norm(text);
+  if (!q) return [];
+  const hits = [];
+  for (const p of PLAYERS) {
+    let rank = -1;
+    if (p.keys.some(k => k.startsWith(q))) rank = 0;
+    else if (p.words.some(w => w.startsWith(q))) rank = 1;
+    else if (q.length >= 2 && p.keys.some(k => k.includes(q))) rank = 2;
+    if (rank >= 0) hits.push([rank, p]);
+  }
+  hits.sort((a, b) => a[0] - b[0] || a[1].th.localeCompare(b[1].th, 'th'));
+  return hits.slice(0, 6).map(h => h[1]);
+}
+
+/* ---------- เสื้อ ---------- */
+const SHIRT = 'M70 10Q100 22 130 10L176 28 198 80 164 94 154 70V196H46V70L36 94 2 80 24 28Z';
+let kitSeq = 0;
+const maskName = s => s.split(' ').map(w => w.replace(/[A-Z]/g, (c, i) => (i === 0 ? c : '•'))).join(' ');
+function shirtSVG(p, masked) {
+  const k = KITS[p.kit], cid = 'kit' + (++kitSeq);
+  let fill = `<rect width="200" height="204" fill="${k.a}"/>`;
+  if (k.p === 'stripes') {
+    for (let x = 10; x < 200; x += 36) fill += `<rect x="${x}" width="18" height="204" fill="${k.b}"/>`;
+  } else if (k.p === 'check') {
+    for (let r = 0; r < 10; r++) for (let c = 0; c < 10; c++) {
+      if ((r + c) % 2) fill += `<rect x="${c * 22 - 10}" y="${r * 22 - 6}" width="22" height="22" fill="${k.b}"/>`;
+    }
+  } else if (k.p === 'sleeves') {
+    fill += `<rect width="46" height="204" fill="${k.b}"/><rect x="154" width="46" height="204" fill="${k.b}"/>`;
+  } else if (k.p === 'band') {
+    fill += `<rect x="80" width="40" height="204" fill="#ffffff"/><rect x="85" width="30" height="204" fill="${k.b}"/>`;
+  }
+  if (k.p === 'plain' || k.p === 'sleeves') {
+    fill += `<path d="M66 6Q100 24 134 6" fill="none" stroke="${k.b}" stroke-width="9"/>` +
+            `<rect x="46" y="188" width="108" height="8" fill="${k.b}"/>`;
+  }
+  const label = masked ? maskName(p.back) : p.back;
+  const long = label.length > 8;
+  const edge = w => (k.edge ? ` stroke="${k.edge}" stroke-width="${w}" paint-order="stroke" stroke-linejoin="round"` : '');
+  const fit = long ? ' textLength="102" lengthAdjust="spacingAndGlyphs"' : ' letter-spacing="1.5"';
+  const alt = `เสื้อ${k.t} เบอร์ ${p.no} ชื่อหลังเสื้อ ${label}`;
+  return `<svg class="kit-svg" viewBox="0 0 200 204" role="img" aria-label="${esc(alt)}">` +
+    `<defs><clipPath id="${cid}"><path d="${SHIRT}"/></clipPath></defs>` +
+    `<g clip-path="url(#${cid})">${fill}</g>` +
+    `<path d="${SHIRT}" fill="none" stroke="currentColor" stroke-opacity=".4" stroke-width="2" stroke-linejoin="round"/>` +
+    `<text x="100" y="60" text-anchor="middle" font-family="Kanit,sans-serif" font-weight="700" font-size="${long ? 16 : 20}"${fit} fill="${k.ink}"${edge(3)}>${esc(label)}</text>` +
+    `<text x="100" y="152" text-anchor="middle" font-family="Kanit,sans-serif" font-weight="700" font-size="82" fill="${k.ink}"${edge(6)}>${p.no}</text>` +
+    `</svg>`;
+}
+
+/* ---------- สถานะเกม ---------- */
+let S = null;          // {deck, queue, idx, opened, wrong, phase, results, score}
+let pick = null;       // id ที่เลือกจากรายการ
+let options = [];      // รายการแนะนำที่แสดงอยู่
+let active = -1;
+let pendingDeck = null;
+let giveUpUntil = 0, giveUpTimer = 0;
+
+const current = () => byId.get(S.queue[S.idx]);
+const deckOf = id => DECKS.find(d => d.id === id) || DECKS[0];
+const total = () => S.queue.length;
+
+function newGame(deckId) {
+  const deck = deckOf(deckId);
+  const pool = PLAYERS.filter(deck.test).map(p => p.id);
+  const seen = store.get('seen', []).filter(id => byId.has(id));
+  const unseen = shuffle(pool.filter(id => !seen.includes(id)));
+  const rest = shuffle(pool.filter(id => seen.includes(id)));
+  if (unseen.length < ROUNDS) store.set('seen', seen.filter(id => !pool.includes(id)));
+  S = {deck: deck.id, queue: shuffle(unseen.concat(rest).slice(0, ROUNDS)), idx: 0, opened: 1, wrong: [], phase: 'play', results: [], score: 0};
+  store.set('deck', deck.id);
+  pendingDeck = null;
+  resetAnswer();
+  renderAll();
+}
+function markSeen(id) {
+  const seen = store.get('seen', []);
+  if (!seen.includes(id)) { seen.push(id); store.set('seen', seen); }
+}
+
+/* ---------- วาดหน้าจอ ---------- */
+function renderDecks() {
+  $('decks').innerHTML = DECKS.map(d => {
+    return `<button type="button" class="deck" role="radio" data-deck="${d.id}" aria-checked="${d.id === S.deck}">${d.name}</button>`;
+  }).join('');
+  const box = $('deckConfirm');
+  box.hidden = !pendingDeck;
+  if (pendingDeck) {
+    $('confirmText').textContent = pendingDeck === S.deck
+      ? 'เริ่มเกมใหม่ตั้งแต่คนแรก? แต้มของเกมนี้จะหายไป'
+      : `เปลี่ยนเป็นชุด “${deckOf(pendingDeck).name}” แล้วเริ่มเกมใหม่? แต้มของเกมนี้จะหายไป`;
+  }
+}
+
+function renderBoard() {
+  $('bRound').textContent = pad2(Math.min(S.idx + 1, total()));
+  $('bScore').textContent = pad2(S.score);
+  const lamps = $('bLamps').children;
+  for (let i = 0; i < lamps.length; i++) {
+    const r = S.results[i], li = lamps[i];
+    li.className = r ? r.outcome : (i === S.idx && S.phase === 'play' ? 'now' : '');
+    li.textContent = r ? (r.outcome === 'goal' ? r.pts : r.outcome === 'red' ? 'X' : '-') : '';
+    li.title = r ? `คนที่ ${i + 1}: ${r.outcome === 'goal' ? r.pts + ' แต้ม' : r.outcome === 'red' ? 'ใบแดง' : 'ยอมแพ้'}` : `คนที่ ${i + 1}`;
+  }
+}
+
+function renderPitch() {
+  const spot = SPOTS[S.opened - 1];
+  const res = S.phase === 'reveal' ? S.results[S.idx] : null;
+  const scored = !!res && res.outcome === 'goal';
+  $('pitchWrap').dataset.outcome = res ? res.outcome : '';
+  $('ball').style.transform = `translate(${scored ? 538 : spot.x}px,120px)`;
+  const shot = $('shot');
+  shot.setAttribute('x1', spot.x + 14);
+  shot.style.visibility = res ? 'hidden' : 'visible';
+  const marks = $('marks').children;
+  for (let i = 0; i < marks.length; i++) {
+    marks[i].setAttribute('class', 'mk' + (i === S.opened - 1 ? ' on' : i < S.opened - 1 ? ' past' : ''));
+  }
+  let line;
+  if (!res) line = `ยิงจาก${spot.name} ${spot.d} ม. · เข้าแล้วได้ <b>${spot.pts} แต้ม</b>`;
+  else if (scored) line = `เข้าไปแล้ว! ยิงจาก${spot.name} ${spot.d} ม. ได้ <b>${res.pts} แต้ม</b>`;
+  else if (res.outcome === 'red') line = 'โดนใบแดง หมดสิทธิ์ยิงลูกนี้';
+  else line = 'ปล่อยบอลออกหลังไป ไม่ได้แต้ม';
+  $('range').innerHTML = line;
+}
+
+function clueHTML(p, i, reveal) {
+  if (i === 0) return esc(p.fact);
+  if (i === 1) return `<dl class="facts"><div><dt>ตำแหน่ง</dt><dd>${esc(p.pos)}</dd></div><div><dt>สัญชาติ</dt><dd>${esc(p.nat)}</dd></div><div><dt>เกิดปี</dt><dd>${p.born}</dd></div></dl>`;
+  if (i === 2) return `<ol class="path">${p.clubs.map(c => `<li><span>${esc(c)}</span></li>`).join('')}</ol>`;
+  if (i === 3) return esc(p.feat);
+  const k = KITS[p.kit];
+  return `<div class="kit">${shirtSVG(p, !reveal)}<p class="kit-cap">เสื้อ${esc(k.t)} เบอร์ ${p.no}` +
+    `<small>ชื่อหลังเสื้อ ${reveal ? esc(p.back) : '<b class="mask">' + esc(maskName(p.back)) + '</b>'}</small></p></div>`;
+}
+function renderClues() {
+  const p = current(), reveal = S.phase === 'reveal';
+  const widths = [0, 58, 86, 72, 44];
+  $('clues').innerHTML = CLUE_NAMES.map((name, i) => {
+    const open = reveal || i < S.opened;
+    const next = !reveal && i === S.opened;
+    let v;
+    if (open) v = clueHTML(p, i, reveal);
+    else if (next) v = `<button type="button" class="clue-open" data-open><span>เปิดคำใบ้นี้</span><span class="cost">เหลือ ${SPOTS[i].pts} แต้ม</span></button>`;
+    else v = `<span class="bar" style="width:${widths[i]}%"></span>`;
+    const late = reveal && i >= S.opened ? '<em>ไม่ได้เปิด</em>' : '';
+    return `<li class="clue ${open ? 'open' : next ? 'next' : 'locked'}"><div class="clue-k"><b>${i + 1}</b>${name}${late}</div><div class="clue-v">${v}</div></li>`;
+  }).join('');
+}
+
+function renderAnswer() {
+  const reveal = S.phase === 'reveal';
+  $('answer').hidden = reveal;
+  $('verdict').hidden = !reveal;
+  const stamp = $('stamp');
+  stamp.textContent = reveal ? 'เฉลยแล้ว' : 'ปกปิดชื่อ';
+  stamp.classList.toggle('done', reveal);
+  const booked = S.wrong.length > 0;
+  $('cards').innerHTML = `<span class="card${booked ? ' y' : ''}"></span><span class="card"></span>` +
+    `<span>${booked ? 'โดนใบเหลืองแล้ว ผิดอีกครั้งคือใบแดง' : 'ยังไม่โดนใบเหลือง'}</span>`;
+  if (!reveal) return;
+  const p = current(), res = S.results[S.idx], spot = SPOTS[res.opened - 1];
+  $('verdict').dataset.outcome = res.outcome;
+  $('vCall').innerHTML = res.outcome === 'goal' ? 'โกล!' : res.outcome === 'red' ? '<span class="card r"></span>ใบแดง' : 'ปล่อยผ่าน';
+  $('vTh').textContent = p.th;
+  $('vEn').textContent = p.en;
+  $('vNote').textContent = res.outcome === 'goal'
+    ? `ได้ ${res.pts} แต้ม จากการยิงที่${spot.name} ใช้คำใบ้ ${res.opened} ข้อ`
+    : res.outcome === 'red' ? 'ตอบผิดสองครั้ง ไม่ได้แต้มจากคนนี้' : 'ไม่ได้แต้มจากคนนี้';
+  $('next').textContent = S.idx >= total() - 1 ? 'ดูผลการแข่งขัน' : 'คนถัดไป';
+}
+
+function rankOf(score) {
+  const scaled = score * 50 / (total() * 5);
+  return RANKS.find(r => scaled >= r[0]);
+}
+function renderFinal() {
+  const fin = S.phase === 'final';
+  $('play').hidden = fin;
+  $('final').hidden = !fin;
+  if (!fin) return;
+  const deck = deckOf(S.deck), rank = rankOf(S.score), best = store.get('best', {});
+  const goals = S.results.filter(r => r.outcome === 'goal').length;
+  $('fDeck').textContent = 'ชุด' + deck.name;
+  $('fScore').textContent = S.score;
+  $('fMax').textContent = `/ ${total() * 5} แต้ม`;
+  $('fRank').textContent = 'ระดับ: ' + rank[1];
+  $('fLine').textContent = `${rank[2]} · ยิงเข้า ${goals} จาก ${total()} คน · สถิติดีที่สุดของชุดนี้ ${Math.max(best[S.deck] || 0, S.score)} แต้ม`;
+  $('fList').innerHTML = S.results.map((r, i) => {
+    const p = byId.get(r.id);
+    const how = r.outcome === 'goal' ? 'ยิงจาก' + SPOTS[r.opened - 1].name : r.outcome === 'red' ? 'ใบแดง' : 'ยอมแพ้';
+    return `<li class="${r.outcome}"><span class="n">${i + 1}</span><span class="who">${esc(p.th)}<small>${esc(p.en)}</small></span>` +
+      `<span class="how">${how}</span><span class="pts">${r.pts}</span></li>`;
+  }).join('');
+  $('copied').textContent = '';
+  $('shareBox').hidden = true;
+}
+
+function renderAll() {
+  renderDecks();
+  renderBoard();
+  renderFinal();
+  if (S.phase !== 'final') { renderPitch(); renderClues(); renderAnswer(); }
+}
+
+/* ---------- ช่องตอบและรายการแนะนำ ---------- */
+function setHint(text) { $('hint').textContent = text || ''; }
+function closeList() {
+  options = []; active = -1;
+  const ul = $('suggest'), input = $('guess');
+  ul.hidden = true; ul.innerHTML = '';
+  input.setAttribute('aria-expanded', 'false');
+  input.removeAttribute('aria-activedescendant');
+}
+function openList(list) {
+  options = list;
+  if (!list.length) { closeList(); return; }
+  active = list.findIndex(p => !S.wrong.includes(p.id));
+  const ul = $('suggest'), input = $('guess');
+  ul.innerHTML = list.map((p, i) => {
+    const used = S.wrong.includes(p.id);
+    return `<li role="option" id="opt${i}" data-i="${i}" class="${used ? 'used' : ''}" aria-selected="${i === active}" aria-disabled="${used}"><b>${esc(p.th)}</b><span>${esc(p.en)}</span></li>`;
+  }).join('');
+  ul.hidden = false;
+  input.setAttribute('aria-expanded', 'true');
+  if (active >= 0) input.setAttribute('aria-activedescendant', 'opt' + active);
+}
+function moveActive(step) {
+  if (!options.length) return;
+  let i = active;
+  for (let n = 0; n < options.length; n++) {
+    i = (i + step + options.length) % options.length;
+    if (!S.wrong.includes(options[i].id)) break;
+  }
+  active = i;
+  Array.from($('suggest').children).forEach((li, n) => li.setAttribute('aria-selected', n === active));
+  $('guess').setAttribute('aria-activedescendant', 'opt' + active);
+  const li = $('opt' + active);
+  if (li) li.scrollIntoView({block: 'nearest'});
+}
+function choose(i) {
+  const p = options[i];
+  if (!p || S.wrong.includes(p.id)) return;
+  pick = p.id;
+  $('guess').value = p.th;
+  setHint('');
+  closeList();
+}
+function resetAnswer() {
+  pick = null;
+  $('guess').value = '';
+  setHint('');
+  closeList();
+  clearTimeout(giveUpTimer);
+  giveUpUntil = 0;
+  $('giveUp').textContent = 'ยอมแพ้ ดูเฉลย';
+}
+
+/* ---------- การเล่น ---------- */
+function openClue() {
+  if (S.phase !== 'play' || S.opened >= CLUE_NAMES.length) return;
+  S.opened++;
+  renderPitch();
+  renderClues();
+  const nextBtn = document.querySelector('.clue-open');
+  if (nextBtn) nextBtn.focus({preventScroll: true});
+}
+function endRound(outcome) {
+  const p = current();
+  const pts = outcome === 'goal' ? SPOTS[S.opened - 1].pts : 0;
+  S.results[S.idx] = {id: p.id, outcome, pts, opened: S.opened};
+  S.score += pts;
+  S.phase = 'reveal';
+  markSeen(p.id);
+  if (S.idx >= total() - 1) {
+    const best = store.get('best', {});
+    if (S.score > (best[S.deck] || 0)) { best[S.deck] = S.score; store.set('best', best); }
+  }
+  resetAnswer();
+  renderAll();
+  $('guess').blur();
+  $('next').focus({preventScroll: true});
+  $('verdict').scrollIntoView({block: 'nearest', behavior: reduceMotion() ? 'auto' : 'smooth'});
+}
+function shoot() {
+  if (S.phase !== 'play') return;
+  const input = $('guess');
+  let id = pick;
+  if (!id) {
+    const q = norm(input.value);
+    if (!q) { setHint('พิมพ์ชื่อนักเตะก่อน แล้วเลือกจากรายการ'); input.focus(); return; }
+    const found = search(input.value);
+    const exact = found.find(p => p.keys.includes(q));
+    if (exact) id = exact.id;
+    else if (found.length === 1) id = found[0].id;
+    else {
+      setHint(found.length ? 'เลือกชื่อจากรายการก่อนยิง' : 'ไม่พบชื่อนี้ ลองสะกดแบบอื่นหรือพิมพ์เป็นภาษาอังกฤษ');
+      openList(found);
+      return;
+    }
+  }
+  if (S.wrong.includes(id)) { setHint('ชื่อนี้ตอบไปแล้ว'); return; }
+  if (id === current().id) { endRound('goal'); return; }
+  S.wrong.push(id);
+  if (S.wrong.length >= 2) { endRound('red'); return; }
+  const wrongName = byId.get(id).th;
+  resetAnswer();
+  renderAnswer();
+  setHint(`ไม่ใช่ ${wrongName}`);
+}
+function nextRound() {
+  if (S.phase !== 'reveal') return;
+  if (S.idx >= total() - 1) S.phase = 'final';
+  else { S.idx++; S.opened = 1; S.wrong = []; S.phase = 'play'; }
+  resetAnswer();
+  renderAll();
+  $('board').scrollIntoView({block: 'start', behavior: reduceMotion() ? 'auto' : 'smooth'});
+}
+function chooseDeck(id) {
+  const untouched = S.phase === 'final' || (S.idx === 0 && S.opened === 1 && !S.wrong.length && S.phase === 'play');
+  if (untouched) { if (id !== S.deck || S.phase === 'final') newGame(id); return; }
+  pendingDeck = id;
+  renderDecks();
+  $('confirmYes').focus({preventScroll: true});
+}
+
+function shareText() {
+  const row = S.results.map(r => (r.outcome === 'goal' ? '⚽' + r.pts : r.outcome === 'red' ? '🟥' : '➖')).join(' ');
+  return `แข้งปริศนา · ชุด${deckOf(S.deck).name}\n${S.score}/${total() * 5} แต้ม · ${rankOf(S.score)[1]}\n${row}`;
+}
+function copyResult() {
+  const text = shareText(), box = $('shareBox');
+  const fallback = () => {
+    box.value = text; box.hidden = false; box.focus(); box.select();
+    $('copied').textContent = 'คัดลอกอัตโนมัติไม่ได้ เลือกข้อความด้านล่างแล้วคัดลอกเอง';
+  };
+  try {
+    navigator.clipboard.writeText(text).then(() => { $('copied').textContent = 'คัดลอกผลแล้ว นำไปวางอวดเพื่อนได้เลย'; }, fallback);
+  } catch (e) { fallback(); }
+}
+
+/* ---------- เตรียมหน้าและผูกเหตุการณ์ ---------- */
+function build() {
+  $('bLamps').innerHTML = '<li></li>'.repeat(ROUNDS);
+  $('marks').innerHTML = SPOTS.map(s =>
+    `<g class="mk"><line x1="${s.x}" y1="240" x2="${s.x}" y2="249"/><circle cx="${s.x}" cy="264" r="14"/><text x="${s.x}" y="270">${s.pts}</text></g>`
+  ).join('');
+  $('foot').textContent = `นักเตะ ${PLAYERS.length} คน · ข้อมูลถึงฤดูกาล 2025/26 · สีเสื้อเป็นภาพประกอบโดยประมาณ`;
+
+  $('decks').addEventListener('click', e => {
+    const b = e.target.closest('[data-deck]');
+    if (b) chooseDeck(b.dataset.deck);
+  });
+  $('confirmYes').addEventListener('click', () => { const id = pendingDeck || S.deck; newGame(id); });
+  $('confirmNo').addEventListener('click', () => { pendingDeck = null; renderDecks(); });
+
+  $('clues').addEventListener('click', e => { if (e.target.closest('[data-open]')) openClue(); });
+
+  const input = $('guess'), ul = $('suggest');
+  input.addEventListener('input', () => {
+    pick = null;
+    setHint('');
+    openList(search(input.value));
+  });
+  input.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); if (options.length) moveActive(1); else openList(search(input.value)); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); moveActive(-1); }
+    else if (e.key === 'Escape') { closeList(); }
+    else if (e.key === 'Enter' && options.length && active >= 0) { e.preventDefault(); choose(active); }
+  });
+  ul.addEventListener('pointerdown', e => e.preventDefault());   // ไม่ให้ช่องพิมพ์เสียโฟกัส แป้นพิมพ์จะได้ไม่หุบ
+  ul.addEventListener('mousedown', e => e.preventDefault());
+  ul.addEventListener('click', e => {
+    const li = e.target.closest('li');
+    if (li) choose(+li.dataset.i);
+  });
+  document.addEventListener('pointerdown', e => { if (!e.target.closest('.combo')) closeList(); });
+
+  $('answer').addEventListener('submit', e => { e.preventDefault(); shoot(); });
+  $('giveUp').addEventListener('click', () => {
+    if (S.phase !== 'play') return;
+    if (Date.now() < giveUpUntil) { endRound('skip'); return; }
+    giveUpUntil = Date.now() + 3500;
+    $('giveUp').textContent = 'แตะอีกครั้งเพื่อยืนยันว่ายอมแพ้';
+    clearTimeout(giveUpTimer);
+    giveUpTimer = setTimeout(() => { giveUpUntil = 0; $('giveUp').textContent = 'ยอมแพ้ ดูเฉลย'; }, 3500);
+  });
+  $('next').addEventListener('click', nextRound);
+  $('again').addEventListener('click', () => {
+    newGame(S.deck);
+    $('board').scrollIntoView({block: 'start'});
+  });
+  $('copy').addEventListener('click', copyResult);
+}
+
+function validState(s) {
+  return s && Array.isArray(s.queue) && s.queue.length > 0 && s.queue.every(id => byId.has(id)) &&
+    Array.isArray(s.results) && Array.isArray(s.wrong) && s.idx >= 0 && s.idx < s.queue.length &&
+    s.opened >= 1 && s.opened <= CLUE_NAMES.length && ['play', 'reveal', 'final'].includes(s.phase);
+}
+function start(data) {
+  if (data && validState(data.S)) { S = data.S; resetAnswer(); renderAll(); }
+  else newGame(store.get('deck', 'all'));
+}
+
+build();
+/* ถ้าหน้านี้ถูกอัปเดตระหว่างที่มีคนเล่นอยู่ ให้เกมเดินต่อจากจุดเดิม */
+const hot = window.claude && window.claude.hot;
+if (hot && typeof hot.snapshot === 'function') { try { hot.snapshot(() => ({S})); } catch (e) { /* ไม่มีผลกับการเล่น */ } }
+if (hot && typeof hot.ready === 'function') hot.ready(start);
+else start((hot && hot.data) || {});
+})();
+</script>
+</body>
+</html>
